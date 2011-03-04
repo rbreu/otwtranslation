@@ -17,6 +17,8 @@ Gem::Specification.new do |s|
     "README.rdoc"
   ]
   s.files = [
+    "app/controllers/translation/home_controller.rb",
+    "app/views/translation/home/index.html.erb",
     "config/routes.rb",
     "lib/otwtranslation.rb",
     "lib/otwtranslation/engine.rb"

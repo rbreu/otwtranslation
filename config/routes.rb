@@ -1,3 +1,6 @@
 Rails.application.routes.draw do
-  match '/translation' => 'translation#home'
+  mount_at = Otwtranslation::Engine.config.mount_at
+
+  match mount_at => 'otwtranslation/home#index'
+
 end
