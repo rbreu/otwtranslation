@@ -4,3 +4,4 @@ Rails.application.routes.draw do
   match mount_at => 'otwtranslation/home#index'
 
 end
+

@@ -1,7 +1,9 @@
 module Otwtranslation
-  class Engine < Rails::Engine
+  require "otwtranslation"
+  require "rails"
 
+  class Engine < Rails::Engine
     config.mount_at = '/translation/'
-    
   end
 end
+

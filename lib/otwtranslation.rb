@@ -1,3 +1,5 @@
+require 'otwtranslation/engine' if defined?(Rails)
 module Otwtranslation
-  require 'otwtranslation/engine' if defined?(Rails)
+  # Your code goes here...
 end
+

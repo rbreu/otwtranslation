@@ -1,3 +1,0 @@
-= Otwtranslation
-
-Translation plugin for the otwarchive software.
