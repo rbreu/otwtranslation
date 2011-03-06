@@ -2,3 +2,4 @@
 .bundle
 pkg/*
 test_app/log/*
+test_app/tmp/

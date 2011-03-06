@@ -88,6 +88,7 @@ GEM
       activesupport (= 3.0.5)
       bundler (~> 1.0)
       railties (= 3.0.5)
+    rails_helpers_fix (0.1.1)
     railties (3.0.5)
       actionpack (= 3.0.5)
       activesupport (= 3.0.5)
@@ -127,5 +128,6 @@ DEPENDENCIES
   cucumber-rails (~> 0.3.2)
   otwtranslation!
   rails (= 3.0.5)
+  rails_helpers_fix
   rspec-rails (~> 2.1.0)
   sqlite3
