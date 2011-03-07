@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe Otwtranslation::TranslationKeys do
+describe Otwtranslation::TranslationKey do
   pending "add some examples to (or delete) #{__FILE__}"
 end
