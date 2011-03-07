@@ -3,7 +3,9 @@ module Otwtranslation
   require "rails"
 
   class Engine < Rails::Engine
-    config.mount_at = '/translation/'
+    p config.autoload_paths
+    config.autoload_paths += ["#{config.root}/app/models/otwtranslation"]
+    p config.autoload_paths
   end
 end
 
