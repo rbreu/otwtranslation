@@ -1,3 +1,13 @@
 
+# Where to access the tools pages, e.g. /translation/phrases
 MOUNT_AT: 'translation'
+
+# The language the phrases are provided in
 DEFAULT_LOCALE: 'en_US'
+
+# We want to keep track when phrases have been used, but we do not
+# want to save the date every time (caching!). Hence only update the
+# date every PHRASE_UPDATE_INTERVAL.
+#
+# Examples: '30 seconds', '5 minutes', '3 hours', '1 day', '1 week'
+PHRASE_UPDATE_INTERVAL: '1 day'

@@ -1,4 +1,5 @@
 require 'digest/md5'
+require 'date'
 
 class Otwtranslation::Phrase < ActiveRecord::Base
 
@@ -8,6 +9,14 @@ class Otwtranslation::Phrase < ActiveRecord::Base
                                         :label => label, 
                                         :description => description,
                                         :locale => OtwtranslationConfig.DEFAULT_LOCALE)
+
+    # If the phrase hasn't been updated for PHRASE_UPDATE_INTERVAL,
+    # touch it 
+    t, unit = OtwtranslationConfig.PHRASE_UPDATE_INTERVAL.split
+    if phrase.updated_at < t.to_i.send(unit).ago
+      phrase.touch
+    end
+    
     return phrase
   end
 
