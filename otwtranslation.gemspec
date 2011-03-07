@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "otwtranslation"
 
-  s.files         = `git ls-files -- {app,lib,config}/*`.split("\n")
+  s.files         = `git ls-files -- {app,lib,config,db}/*`.split("\n")
   s.files        += ["Rakefile", "Gemfile", "README.rst"]
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", "~> 3.0.5"
   s.add_dependency "rails_helpers_fix"
 
-  s.add_development_dependency "rspec-rails", "~> 2.1.0"
+  s.add_development_dependency "rspec-rails", "~> 2.5.0"
   s.add_development_dependency "cucumber-rails", "~> 0.3.2"
   s.add_development_dependency "capybara", "~> 0.4.1.2"
 end
