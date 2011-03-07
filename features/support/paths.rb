@@ -10,8 +10,12 @@ module NavigationHelpers
 
     when /the home\s?page/
       '/'
-    when "/translation"
-      '/translation'
+    when /the translation home\s?page/
+      "/#{OtwtranslationConfig.MOUNT_AT}"
+
+    when 'the phrases list'
+      "/#{OtwtranslationConfig.MOUNT_AT}/phrases"
+      
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

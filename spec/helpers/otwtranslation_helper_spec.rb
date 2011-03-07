@@ -1,5 +1,5 @@
 require 'spec_helper'
-include OtwtranslationHelper
+#include OtwtranslationHelper
 
 describe OtwtranslationHelper do
 

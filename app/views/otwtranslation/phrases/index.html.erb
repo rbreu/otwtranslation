@@ -1,0 +1,20 @@
+<h1><%= ts("Phrases List") %></h1>
+
+<table>
+  <tr>
+    <th><%= ts("Label") %></th>
+    <th><%= ts("Description") %></th>
+    <th><%= ts("Locale") %></th>
+    <th><%= ts("Last Used") %></th>
+  </tr>
+
+<% @phrases.each do |phrase| %>
+  <tr>
+    <td><%= phrase.label %></td>
+    <td><%= phrase.description %></td>
+    <td><%= phrase.locale %></td>
+    <td><%= phrase.updated_at %></td>
+  </tr>
+<% end %>
+</table>
+

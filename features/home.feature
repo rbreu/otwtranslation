@@ -5,6 +5,6 @@ Feature: Translation home page
 
   Scenario: View the translation home page
     Given I am a translator
-    When I go to /translation
-    Then I should see "Translation home"
+    When I go to the translation home page
+    Then I should see "Translation Home"
 

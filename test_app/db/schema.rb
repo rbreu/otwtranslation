@@ -12,12 +12,11 @@
 
 ActiveRecord::Schema.define(:version => 20110307102244) do
 
-  create_table "translation_keys", :force => true do |t|
+  create_table "phrases", :force => true do |t|
     t.string   "key"
     t.string   "label"
     t.string   "description"
     t.string   "locale"
-    t.datetime "last_used"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
