@@ -22,10 +22,23 @@ to your gemfile.
 Usage
 -----
 
-
-As of version 0.0.1, the gem only provides to dummy helper methods::
+The translation helper can be used like this::
 
   ts("Hello!")
+
+You can also pass an additional description. Note that equal phrases
+with different descriptions will result in two different translatable
+phrases in the system
+
+::
+
+  ts("Hello!", "Front page greeting.")
+
+The t helper is currently just a dummy and is maintained for
+transitioning reasons.
+
+::
+
   t(".id", default => "Hello!")
 
-Note that the t method is deprecated.
+
