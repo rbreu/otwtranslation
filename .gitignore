@@ -3,3 +3,4 @@
 pkg/*
 test_app/log/*
 test_app/tmp/
+*.sqlite3
