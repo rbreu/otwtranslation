@@ -5,7 +5,7 @@ class Otwtranslation::PhrasesController < ApplicationController
   end
 
   def show
-    @phrase = Phrase.find_by_key(params[:key])
+    @phrase = Otwtranslation::Phrase.find_by_key(params[:key])
   end
 
 end
