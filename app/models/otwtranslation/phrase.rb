@@ -7,19 +7,23 @@ class Otwtranslation::Phrase < ActiveRecord::Base
   
   def self.find_or_create(label, description="")
     key = generate_key(label, description)
-    phrase = find_by_key(key) || create(:key => key, 
-                                        :label => label, 
-                                        :description => description,
-                                        :locale => OtwtranslationConfig.DEFAULT_LOCALE)
+    
+    phrase = Rails.cache.read(key)
+    return phrase if phrase
 
-    # If the phrase hasn't been updated for PHRASE_UPDATE_INTERVAL,
-    # touch it 
-    t, unit = OtwtranslationConfig.PHRASE_UPDATE_INTERVAL.split
-    if phrase.updated_at < t.to_i.send(unit).ago
+    phrase = find_by_key(key)
+    if phrase
       phrase.touch
+    else
+      phrase = create(:key => key, 
+                      :label => label, 
+                      :description => description,
+                      :locale => OtwtranslationConfig.DEFAULT_LOCALE)
     end
     
-    return phrase
+    t, unit = OtwtranslationConfig.PHRASE_UPDATE_INTERVAL.split
+    Rails.cache.write(key, phrase, :expires_in => t.to_i.send(unit))
+    return phrase.freeze
   end
 
 
