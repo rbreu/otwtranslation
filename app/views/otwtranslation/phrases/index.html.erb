@@ -6,6 +6,7 @@
     <th><%= ts("Description") %></th>
     <th><%= ts("Locale") %></th>
     <th><%= ts("Last Used") %></th>
+    <th><%= ts("Expired?") %></th>
   </tr>
 
 <% @phrases.each do |phrase| %>
@@ -14,6 +15,7 @@
     <td><%= phrase.description %></td>
     <td><%= phrase.locale %></td>
     <td><%= phrase.updated_at %></td>
+    <td><%= ts(phrase.is_expired?.to_s) %></td>
   </tr>
 <% end %>
 </table>

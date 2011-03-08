@@ -22,6 +22,12 @@ class Otwtranslation::Phrase < ActiveRecord::Base
     return phrase
   end
 
+
+  def is_expired?
+    t, unit = OtwtranslationConfig.PHRASE_EXPIRY_INTERVAL.split
+    return updated_at < t.to_i.send(unit).ago
+  end
+  
   
   def self.generate_key(label, description="")
     Digest::MD5.hexdigest("#{label};;;#{description}")

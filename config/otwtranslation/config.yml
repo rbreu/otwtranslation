@@ -10,4 +10,14 @@ DEFAULT_LOCALE: 'en_US'
 # date every PHRASE_UPDATE_INTERVAL.
 #
 # Examples: '30 seconds', '5 minutes', '3 hours', '1 day', '1 week'
+#           '2 months', '1 year'
 PHRASE_UPDATE_INTERVAL: '1 day'
+
+
+# If a phrase hasn't been used for PHRASE_EXPIRY_INTERVAL, assume it
+# can be removed.
+#
+# Examples: '30 seconds', '5 minutes', '3 hours', '1 day', '1 week'
+#           '2 months', '1 year'
+PHRASE_EXPIRY_INTERVAL: '1 month'
+
