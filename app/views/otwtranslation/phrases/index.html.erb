@@ -10,7 +10,7 @@
 
 <% @phrases.each do |phrase| %>
   <tr>
-    <td><%= phrase.label %></td>
+    <td><%= link_to phrase.label, otwtranslation_phrase_path(:key => phrase.key) %></td>
     <td><%= phrase.description %></td>
     <td><%= phrase.locale %></td>
     <td><%= phrase.updated_at %></td>

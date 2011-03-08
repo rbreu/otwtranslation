@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(:version => 20110307102244) do
 
-  create_table "phrases", :force => true do |t|
+  create_table "otwtranslation_phrases", :force => true do |t|
     t.string   "key"
     t.string   "label"
     t.string   "description"

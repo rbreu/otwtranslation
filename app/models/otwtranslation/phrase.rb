@@ -3,6 +3,8 @@ require 'date'
 
 class Otwtranslation::Phrase < ActiveRecord::Base
 
+  set_table_name :otwtranslation_phrases
+  
   def self.find_or_create(label, description="")
     key = generate_key(label, description)
     phrase = find_by_key(key) || create(:key => key, 

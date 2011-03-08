@@ -11,6 +11,12 @@ module OtwtranslationHelper
     # return ts(phrase % params) # bad, might generate gazillions of phrases...
     return phrase % params
   end
+
+
+  # def otwtranslation_phrase_path(phrase)
+  #   question_path(answer.question, :anchor => "answer-#{answer.id}")
+  # end
+
   
 end
 
