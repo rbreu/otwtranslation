@@ -1,0 +1,25 @@
+<h1><%= ts("Show Phrase") %></h1>
+
+<p>
+  <b><%= ts("Label") %>:</b>
+  <%= @phrase.label %>
+</p>
+
+<p>
+  <b><%= ts("Description") %>:</b>
+  <%= @phrase.description %>
+</p>
+
+<p>
+  <b><%= ts("Locale") %>:</b>
+  <%= @phrase.locale %>
+</p>
+
+<p>
+  <b><%= ts("Last Used") %>:</b>
+  <%= @phrase.updated_at %>
+</p>
+
+<p style="color: red;">Here be place for all translations made for this phrase.</p>
+
+<%= link_to ts('Back'), otwtranslation_phrases_path %>
