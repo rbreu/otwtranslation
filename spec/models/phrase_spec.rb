@@ -32,15 +32,14 @@ end
 describe Otwtranslation::Phrase, "expiration" do
   before(:each) do
     Rails.cache.clear
-    @phrase = Otwtranslation::Phrase
-      .create(:label => "foo",
-              :key => Otwtranslation::Phrase.generate_key("foo"))
+    @key, @cache_key = Otwtranslation::Phrase.generate_keys("foo")
+    @phrase = Otwtranslation::Phrase.create(:label => "foo", :key => @key)
   end
 
   it "should not update a phrase that's cached" do
     @phrase.updated_at = 2.minutes.ago
     @phrase.save
-    Rails.cache.write(@phrase.key, @phrase)
+    Rails.cache.write(@cache_key, @phrase)
     phrase2 = Otwtranslation::Phrase.find_or_create("foo")
     phrase2.updated_at.should < 1.minutes.ago
   end
@@ -49,7 +48,7 @@ describe Otwtranslation::Phrase, "expiration" do
     @phrase.updated_at = 2.years.ago
     @phrase.save
     OtwtranslationConfig.PHRASE_UPDATE_INTERVAL = '1 second'
-    Rails.cache.write(@phrase.key, @phrase)
+    Rails.cache.write(@cache_key, @phrase)
     sleep(2)
     phrase2 = Otwtranslation::Phrase.find_or_create("foo")
     phrase2.updated_at.should < 1.seconds.ago

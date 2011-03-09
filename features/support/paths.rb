@@ -10,11 +10,15 @@ module NavigationHelpers
 
     when /the home\s?page/
       '/'
+      
     when /the translation home\s?page/
       "/#{OtwtranslationConfig.MOUNT_AT}"
 
     when 'the phrases list'
       "/#{OtwtranslationConfig.MOUNT_AT}/phrases"
+      
+    when 'the hello world page'
+      "/hello/world"
       
 
     # Add more mappings here.

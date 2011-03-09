@@ -1,5 +1,4 @@
 require 'digest/md5'
-require 'date'
 
 class Otwtranslation::Phrase < ActiveRecord::Base
 

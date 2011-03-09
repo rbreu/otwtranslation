@@ -10,13 +10,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110307102244) do
+ActiveRecord::Schema.define(:version => 20110309113015) do
 
   create_table "otwtranslation_phrases", :force => true do |t|
     t.string   "key"
     t.string   "label"
     t.string   "description"
     t.string   "locale"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "otwtranslation_sources", :force => true do |t|
+    t.string   "controller"
+    t.string   "uri"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
