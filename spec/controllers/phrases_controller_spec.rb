@@ -10,6 +10,6 @@ end
 describe Otwtranslation::PhrasesController, "GET show" do
   it "should return a phrase" do
     Otwtranslation::Phrase.should_receive(:find_by_key).with("somekey")
-    get :show, :key => "somekey"
+    get :show, :id => "somekey"
   end
 end

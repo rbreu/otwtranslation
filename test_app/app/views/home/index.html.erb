@@ -1,3 +1,10 @@
 <p><%= ts("This is ts!") %></p>
 <p><%= t(".home", :default => "This is t!") %></p>
 <p><%= t('.tags', :default =>"The answer is %{answer}.", :answer => 42) %></p>
+
+<p>
+<ul>
+<li><%= link_to ts("Translation Home"), otwtranslation_home_path %></li>
+<li><%= link_to ts("Phrases"), otwtranslation_phrases_path %></li>
+</ul>
+</p>

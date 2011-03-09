@@ -2,6 +2,11 @@ module OtwtranslationHelper
 
   def ts(phrase, description="")
     Otwtranslation::Phrase.find_or_create(phrase, description)
+
+    
+    #puts request.url
+    #puts "#{controller.class.name.underscore.gsub("_controller", "")}##{controller.action_name}"
+    
     return phrase
   end
   
@@ -12,11 +17,5 @@ module OtwtranslationHelper
     return phrase % params
   end
 
-
-  # def otwtranslation_phrase_path(phrase)
-  #   question_path(answer.question, :anchor => "answer-#{answer.id}")
-  # end
-
-  
 end
 
