@@ -24,7 +24,7 @@
   <b><%= ts("Sources:") %></b>
   <ul>
     <% @phrase.sources.each do |source| %>
-      <li><%= source.controller %> (<%= link_to(source.uri, source.uri) %>)</li>
+      <li><%= "#{source.controller}##{source.action}" %> (<%= link_to(source.url, source.url) %>)</li>
     <% end %>
   </ul>
 </p>

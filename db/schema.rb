@@ -28,7 +28,8 @@ ActiveRecord::Schema.define(:version => 20110309123015) do
 
   create_table "otwtranslation_sources", :force => true do |t|
     t.string   "controller"
-    t.string   "uri"
+    t.string   "action"
+    t.string   "url"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

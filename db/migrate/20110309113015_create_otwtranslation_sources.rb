@@ -2,7 +2,8 @@ class CreateOtwtranslationSources < ActiveRecord::Migration
   def self.up
     create_table :otwtranslation_sources do |t|
       t.string :controller
-      t.string :uri
+      t.string :action
+      t.string :url
     
       t.timestamps
     end

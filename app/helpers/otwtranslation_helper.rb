@@ -2,16 +2,14 @@ module OtwtranslationHelper
 
   def ts(phrase, description="")
 
-    ctrl = controller.class.name.underscore.gsub("_controller", "")
-    action = controller.action_name
+    source = {
+      :controller => controller.class.name.underscore.gsub("_controller", ""),
+      :action => controller.action_name,
+      :url => request.url
+    }
     
-    Otwtranslation::Phrase.find_or_create(phrase, description,
-                                          "#{ctrl}##{action}", request.url)
-                    
-    #puts Rails.application.routes.recognize_path('/', :method => :get )
-    #puts request.url
-    #puts "#{controller.class.name.underscore.gsub("_controller", "")}##{controller.action_name}"
-    
+    Otwtranslation::Phrase.find_or_create(phrase, description, source)
+                        
     return phrase
   end
   

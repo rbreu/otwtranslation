@@ -9,5 +9,11 @@ Rails.application.routes.draw do
   match "#{mount_at}/phrases" => 'otwtranslation/phrases#index',
   :as => 'otwtranslation_phrases'
 
+  match "#{mount_at}/sources/:id" => 'otwtranslation/sources#show',
+  :as => 'otwtranslation_source'
+  
+  match "#{mount_at}/sources" => 'otwtranslation/sources#index',
+  :as => 'otwtranslation_sources'
+
 end
 

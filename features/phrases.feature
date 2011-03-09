@@ -14,5 +14,5 @@ Feature: Translation phrases
     And I should see "Hello World!"
     And I should see "hello/world"
     And I should see "hello#world"
-    Then show me the page
+
 

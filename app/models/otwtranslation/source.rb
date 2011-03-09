@@ -4,9 +4,10 @@ class Otwtranslation::Source < ActiveRecord::Base
   
   has_and_belongs_to_many :phrases, :join_table => :otwtranslation_phrases_sources
   
-  def self.find_or_create(controller, uri="")
-    find_by_controller(controller) || create(:controller => controller, 
-                                             :uri => uri)
+  def self.find_or_create(controller, action, url="")
+    find_by_controller(controller) || create(:controller => controller,
+                                             :action => action,
+                                             :url => url)
   end
 
 

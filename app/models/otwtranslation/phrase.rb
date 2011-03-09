@@ -7,7 +7,7 @@ class Otwtranslation::Phrase < ActiveRecord::Base
                           :join_table => :otwtranslation_phrases_sources)
   before_destroy :remove_sources
 
-  def self.find_or_create(label, description="", controller="", uri="")
+  def self.find_or_create(label, description="", source={})
     key, cache_key = generate_keys(label, description)
 
     phrase = Rails.cache.read(cache_key)
@@ -23,7 +23,9 @@ class Otwtranslation::Phrase < ActiveRecord::Base
                       :locale => OtwtranslationConfig.DEFAULT_LOCALE)
     end
 
-    phrase.add_source(controller, uri) unless controller == ""
+    if source
+      phrase.add_source(source[:controller], source[:action], source[:url]) 
+    end
     
     t, unit = OtwtranslationConfig.PHRASE_UPDATE_INTERVAL.split
     Rails.cache.write(cache_key, phrase,
@@ -49,8 +51,8 @@ class Otwtranslation::Phrase < ActiveRecord::Base
   end
 
   
-  def add_source(controller, uri="")
-    source = Otwtranslation::Source.find_or_create(controller, uri)
+  def add_source(controller, action, url="")
+    source = Otwtranslation::Source.find_or_create(controller, action, url)
     sources << source
     
     if sources.all.count > OtwtranslationConfig.MAX_SOURCES_PER_PHRASE.to_i

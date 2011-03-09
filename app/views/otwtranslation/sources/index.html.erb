@@ -1,0 +1,17 @@
+<h1><%= ts("Sources List") %></h1>
+
+<table>
+  <tr>
+    <th><%= ts("Controller") %></th>
+    <th><%= ts("URL") %></th>
+  </tr>
+
+<% @sources.each do |source| %>
+  <tr>
+    <td><%= link_to("#{source.controller}##{source.action}", 
+                    otwtranslation_source_path(source)) %></td>
+    <td><%= link_to(source.url, source.url) %></td>
+  </tr>
+<% end %>
+</table>
+
