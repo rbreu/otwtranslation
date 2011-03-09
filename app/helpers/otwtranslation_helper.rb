@@ -7,7 +7,7 @@ module OtwtranslationHelper
       :action => controller.action_name,
       :url => request.url
     }
-    
+
     Otwtranslation::Phrase.find_or_create(phrase, description, source)
                         
     return phrase

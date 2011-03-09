@@ -8,9 +8,12 @@ class CreateOtwtranslationPhrases < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_index(:otwtranslation_phrases, :key, :unique => true)
   end
 
   def self.down
     drop_table :otwtranslation_phrases
+    drop_index :otwtranslation_phrases
   end
 end

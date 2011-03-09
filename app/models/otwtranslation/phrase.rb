@@ -69,7 +69,6 @@ class Otwtranslation::Phrase < ActiveRecord::Base
 
 
   def remove_sources
-    # Efficiency? It's only small numbers, though
     sources.each do |s| 
       sources.delete(s)
       Otwtranslation::Source.destroy_if_orphaned(s)

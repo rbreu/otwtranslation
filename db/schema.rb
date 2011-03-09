@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(:version => 20110309123015) do
     t.datetime "updated_at"
   end
 
+  add_index "otwtranslation_phrases", ["key"], :name => "index_otwtranslation_phrases_on_key", :unique => true
+
   create_table "otwtranslation_phrases_sources", :id => false, :force => true do |t|
     t.integer "phrase_id"
     t.integer "source_id"
@@ -33,5 +35,7 @@ ActiveRecord::Schema.define(:version => 20110309123015) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "otwtranslation_sources", ["controller"], :name => "index_otwtranslation_sources_on_controller"
 
 end

@@ -7,9 +7,12 @@ class CreateOtwtranslationSources < ActiveRecord::Migration
     
       t.timestamps
     end
+
+    add_index :otwtranslation_sources, :controller
   end
 
   def self.down
     drop_table :otwtranslation_sources
+    add_index :otwtranslation_sources
   end
 end
