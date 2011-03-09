@@ -69,5 +69,63 @@ describe Otwtranslation::Phrase, "expiration" do
     @phrase.save
     @phrase.is_expired?.should equal true
   end
+end
+
+describe Otwtranslation::Phrase, "sources" do
+  before(:each) do
+    key, cache_key = Otwtranslation::Phrase.generate_keys("foo")
+    @phrase = Otwtranslation::Phrase.create(:label => "foo", :key => key)
+  end
+  
+  it "should add a source" do
+    @phrase.add_source("home#index", "/home/index")
+    source = @phrase.sources.find_by_controller("home#index")
+    source.controller == "home#index"
+    source.uri.should == "/home/index"
+  end
+
+  it "should add a source only once" do
+    @phrase.add_source("home#index", "/home/index/1")
+    @phrase.add_source("home#index", "/home/index/2")
+    @phrase.sources.count.should == 1
+  end
+
+  it "should only keep MAX_SOURCES_PER_PHRASE latest sources" do
+    max = OtwtranslationConfig.MAX_SOURCES_PER_PHRASE.to_i
+    (max + 2).times do |i|
+      @phrase.add_source("home#{i}#index", "/home#{i}/index")
+    end
+    
+    @phrase.sources.all.count.should == max
+    @phrase.sources.find_by_controller("home0#index").should equal nil
+    @phrase.sources.find_by_controller("home1#index").should equal nil
+  end
+end
+  
+describe Otwtranslation::Phrase, "deletion" do
+  
+  it "should remove orphaned sources" do
+    key, cache_key = Otwtranslation::Phrase.generate_keys("foo")
+    phrase = Otwtranslation::Phrase.create(:label => "foo", :key => key)
+    phrase.add_source("home#index", "/home/index")
+    phrase.destroy
+    source = Otwtranslation::Source.find_by_controller("home#index")
+    source.should equal nil
+  end
+
+  it "should not remove used sources" do
+    key, cache_key = Otwtranslation::Phrase.generate_keys("foo")
+    phrase1 = Otwtranslation::Phrase.create(:label => "foo", :key => key)
+    phrase1.add_source("home#index", "/home/index")
+    
+    key, cache_key = Otwtranslation::Phrase.generate_keys("bar")
+    phrase2 = Otwtranslation::Phrase.create(:label => "bar", :key => key)
+    phrase2.add_source("home#index", "/home/index")
+
+    phrase1.destroy
+    source = Otwtranslation::Source.find_by_controller("home#index")
+    source.should_not equal nil
+  end
 
 end
+

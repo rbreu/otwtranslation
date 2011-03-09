@@ -1,23 +1,32 @@
 <h1><%= ts("Show Phrase") %></h1>
 
 <p>
-  <b><%= ts("Label") %>:</b>
+  <b><%= ts("Label:") %></b>
   <%= @phrase.label %>
 </p>
 
 <p>
-  <b><%= ts("Description") %>:</b>
+  <b><%= ts("Description:") %></b>
   <%= @phrase.description %>
 </p>
 
 <p>
-  <b><%= ts("Locale") %>:</b>
+  <b><%= ts("Locale:") %></b>
   <%= @phrase.locale %>
 </p>
 
 <p>
-  <b><%= ts("Last Used") %>:</b>
+  <b><%= ts("Last Used:") %></b>
   <%= @phrase.updated_at %>
+</p>
+
+<p>
+  <b><%= ts("Sources:") %></b>
+  <ul>
+    <% @phrase.sources.each do |source| %>
+      <li><%= source.controller %> (<%= link_to(source.uri, source.uri) %>)</li>
+    <% end %>
+  </ul>
 </p>
 
 <p style="color: red;">Here be place for all translations made for this phrase.</p>

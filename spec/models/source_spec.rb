@@ -7,5 +7,11 @@ describe Otwtranslation::Source do
     source.uri.should == "www.bla/home"
   end
 
+  it "should not create the same controller twice" do
+    source1 = Otwtranslation::Source.find_or_create("home#index")
+    source2 = Otwtranslation::Source.find_or_create("home#index")
+    source1.id.should == source2.id
+  end
+
 
 end
