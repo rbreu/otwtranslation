@@ -21,12 +21,9 @@
 </p>
 
 <p>
-  <b><%= ts("Sources:") %></b>
-  <ul>
-    <% @phrase.sources.each do |source| %>
-      <li><%= "#{source.controller}##{source.action}" %> (<%= link_to(source.url, source.url) %>)</li>
-    <% end %>
-  </ul>
+  <b><%= ts("Source:") %></b>
+  <%= @phrase.source.controller_action %> 
+  (<%= link_to(@phrase.source.url, @phrase.source.url) unless @phrase.source.url.blank?%>)</li>
 </p>
 
 <p style="color: red;">Here be place for all translations made for this phrase.</p>

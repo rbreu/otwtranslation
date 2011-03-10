@@ -8,9 +8,9 @@
 
 <% @sources.each do |source| %>
   <tr>
-    <td><%= link_to("#{source.controller}##{source.action}", 
+    <td><%= link_to(source.controller_action, 
                     otwtranslation_source_path(source)) %></td>
-    <td><%= link_to(source.url, source.url) %></td>
+    <td><%= link_to(truncate(source.url), source.url) unless source.url.blank? %></td>
   </tr>
 <% end %>
 </table>

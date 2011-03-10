@@ -2,17 +2,20 @@ class Otwtranslation::Source < ActiveRecord::Base
   
   set_table_name :otwtranslation_sources
   
-  has_and_belongs_to_many :phrases, :join_table => :otwtranslation_phrases_sources
+  has_many :phrases, :class_name => "Otwtranslation::Phrase"
   
-  def self.find_or_create(controller, action, url="")
-    source = where(:controller => controller, :action => action).first
-    source || create(:controller => controller,
-                     :action => action, :url => url)
+  def self.find_or_create(params={})
+    ca = "#{params[:controller]}##{params[:action]}"
+    find_or_create_by_controller_action(:controller_action => ca,
+                                        :url => params[:url])
   end
 
-
-  def self.destroy_if_orphaned(source)
-    source.destroy if source.phrases.count == 0
+  def controller
+    controller_action.split("#")[0]
   end
-  
+
+  def action
+    controller_action.split("#")[1]
+  end
+
 end
