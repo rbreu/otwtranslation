@@ -5,8 +5,7 @@
     <th><%= ts("Label") %></th>
     <th><%= ts("Description") %></th>
     <th><%= ts("Locale") %></th>
-    <th><%= ts("Last Used") %></th>
-    <th><%= ts("Expired?") %></th>
+    <th><%= ts("Version") %></th>
   </tr>
 
 <% @phrases.each do |phrase| %>
@@ -14,8 +13,7 @@
     <td><%= link_to phrase.label, otwtranslation_phrase_path(phrase) %></td>
     <td><%= phrase.description %></td>
     <td><%= phrase.locale %></td>
-    <td><%= phrase.updated_at %></td>
-    <td><%= ts(phrase.is_expired?.to_s) %></td>
+    <td><%= phrase.version %></td>
   </tr>
 <% end %>
 </table>

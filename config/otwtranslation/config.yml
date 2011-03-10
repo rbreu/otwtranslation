@@ -5,22 +5,9 @@ MOUNT_AT: 'translation'
 # The language the phrases are provided in
 DEFAULT_LOCALE: 'en_US'
 
-# We want to keep track when phrases have been used and from which
-# source, but we do not want to save the date every time
-# (caching!). Hence only update the date every PHRASE_UPDATE_INTERVAL.
-#
-# Examples: '30 seconds', '5 minutes', '3 hours', '1 day', '1 week'
-#           '2 months', '1 year'
-PHRASE_UPDATE_INTERVAL: '1 day'
-
-
-# If a phrase hasn't been used for PHRASE_EXPIRY_INTERVAL, assume it
-# can be removed.
-#
-# Examples: '30 seconds', '5 minutes', '3 hours', '1 day', '1 week'
-#           '2 months', '1 year'
-PHRASE_EXPIRY_INTERVAL: '1 month'
-
+# The version of the host application. Change this if you deploy code
+# so that you can spot unused phrases
+VERSION: '0.8'
 
 # We do not want to save all sources forever for a given phrase, limit to:
 MAX_SOURCES_PER_PHRASE: 5

@@ -4,7 +4,8 @@ Feature: Translation phrases
   I want to view the phrases list and single phrases
 
   Scenario: View phrases
-    Given someone has visited the hello world page
+    Given I'm on revision "0.8"
+    And someone has visited the hello world page
     And I am a translator
     When I go to the phrases list
     Then I should see "Phrases List" within "h1"
@@ -14,5 +15,6 @@ Feature: Translation phrases
     And I should see "Hello World!"
     And I should see "hello/world"
     And I should see "hello#world"
+    And I should see "0.8"
 
 

@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(:version => 20110309123015) do
     t.string   "label"
     t.string   "description"
     t.string   "locale"
+    t.string   "version"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

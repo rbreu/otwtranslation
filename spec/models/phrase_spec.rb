@@ -10,8 +10,7 @@ describe Otwtranslation::Phrase, "creation" do
     phrase.label.should == "foo"
     phrase.description.should == ""
     phrase.locale.should == OtwtranslationConfig.DEFAULT_LOCALE
-    phrase.updated_at.should be > 2.seconds.ago
-    phrase.is_expired?.should equal false
+    phrase.version.should == OtwtranslationConfig.VERSION
   end
 
   it "should create the same phrase only once" do
@@ -27,47 +26,13 @@ describe Otwtranslation::Phrase, "creation" do
     phrase1.description.should == "bar"
     phrase2.description.should == "baz"
   end
-end
 
-describe Otwtranslation::Phrase, "expiration" do
-  before(:each) do
-    Rails.cache.clear
-    @key, @cache_key = Otwtranslation::Phrase.generate_keys("foo")
-    @phrase = Otwtranslation::Phrase.create(:label => "foo", :key => @key)
-  end
-
-  it "should not update a phrase that's cached" do
-    @phrase.updated_at = 2.minutes.ago
-    @phrase.save
-    Rails.cache.write(@cache_key, @phrase)
-    phrase2 = Otwtranslation::Phrase.find_or_create("foo")
-    phrase2.updated_at.should < 1.minutes.ago
-  end
-
-  it "should expire cache" do
-    @phrase.updated_at = 2.years.ago
-    @phrase.save
-    OtwtranslationConfig.PHRASE_UPDATE_INTERVAL = '1 second'
-    Rails.cache.write(@cache_key, @phrase)
-    sleep(2)
-    phrase2 = Otwtranslation::Phrase.find_or_create("foo")
-    phrase2.updated_at.should < 1.seconds.ago
-  end
-
-   it "should update old phrase in DB" do
-    @phrase.updated_at = 2.years.ago
-    @phrase.save
-    OtwtranslationConfig.PHRASE_UPDATE_INTERVAL = '1 second'
-    phrase2 = Otwtranslation::Phrase.find_or_create("foo")
-    phrase2.updated_at.should > 2.seconds.ago
-  end
-
-  it "should expire old phrase" do
-    OtwtranslationConfig.PHRASE_EXPIRY_INTERVAL = '1 month'
-    @phrase.is_expired?.should equal false
-    @phrase.updated_at = 10.years.ago
-    @phrase.save
-    @phrase.is_expired?.should equal true
+  it "should update version" do
+    OtwtranslationConfig.VERSION = "1.0"
+    Otwtranslation::Phrase.find_or_create("foo")
+    OtwtranslationConfig.VERSION = "1.1"
+    phrase = Otwtranslation::Phrase.find_or_create("foo")
+    phrase.version.should == "1.1"
   end
 end
 
