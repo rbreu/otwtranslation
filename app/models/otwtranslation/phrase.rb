@@ -11,6 +11,7 @@ class Otwtranslation::Phrase < ActiveRecord::Base
     key, cache_key = generate_keys(label, description)
 
     phrase = Rails.cache.read(cache_key)
+    
     return phrase if phrase && phrase.version == OtwtranslationConfig.VERSION
 
     phrase = find_by_key(key) || create(:key => key, 
@@ -19,7 +20,8 @@ class Otwtranslation::Phrase < ActiveRecord::Base
                                         :locale => OtwtranslationConfig.DEFAULT_LOCALE)
 
     phrase.version = OtwtranslationConfig.VERSION
-    phrase.add_source(source[:controller], source[:action], source[:url]) 
+    phrase.save
+    #phrase.add_source(source[:controller], source[:action], source[:url]) 
     Rails.cache.write(cache_key, phrase)
     return phrase.freeze
   end

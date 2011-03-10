@@ -33,6 +33,7 @@ describe Otwtranslation::Phrase, "creation" do
     OtwtranslationConfig.VERSION = "1.1"
     phrase = Otwtranslation::Phrase.find_or_create("foo")
     phrase.version.should == "1.1"
+    Otwtranslation::Phrase.find(phrase.id).version.should == "1.1"
   end
 end
 
