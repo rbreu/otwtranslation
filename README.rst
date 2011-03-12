@@ -17,6 +17,15 @@ Add
 
 to your gemfile.
 
+Add 
+
+::
+
+  include OtwtranslationHelper
+
+to your ``application_controller.rb`` to access the helpers from
+within your views and controllers.
+
 
 
 Usage

@@ -29,7 +29,7 @@ class UserSessionsController < ApplicationController
       when :success
         user = User.where(:identity_url => openid.display_identifier).first
         if user
-          flash[:notice] = "Successfully logged in."
+          flash[:notice] = ts("Successfully logged in.")
           @current_user = UserSession.create(user, params[:remember_me]).record
           redirect_to(@current_user) and return
         else
@@ -63,7 +63,7 @@ class UserSessionsController < ApplicationController
     elsif params[:user_session]
       @user_session = UserSession.new(params[:user_session])  
       if @user_session.save  
-        flash[:notice] = "Successfully logged in."
+        flash[:notice] = ts("Successfully logged in.")
         @current_user = @user_session.record
         redirect_back_or_default("/")
       else
@@ -78,7 +78,7 @@ class UserSessionsController < ApplicationController
     @user_session = UserSession.find  
     if @user_session
       @user_session.destroy 
-      flash[:notice] = "Successfully logged out."
+      flash[:notice] = ts("Successfully logged out.")
     end
     redirect_back_or_default root_url
   end

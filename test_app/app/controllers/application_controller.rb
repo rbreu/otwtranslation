@@ -8,6 +8,8 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
   helper_method :logged_in?
 
+  include OtwtranslationHelper
+
 protected
 
   def current_user_session
