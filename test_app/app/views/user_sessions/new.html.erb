@@ -1,0 +1,34 @@
+<!-- loginform floated right -->
+<% if params[:restricted] %>
+  <h3><%= ts('Sorry!') %></h3>
+  <p>
+    <%= ts('This story is only available to registered users of the Archive.') %>
+    <%= ts('If you already have an Archive of Our Own account, log in now.') %>
+  </p>
+<% elsif params[:high_load] %>
+  <h3><%= ts('We are very sorry.') %></h3>
+  <p>
+    <%= ts('Due to current high load, downloads are currently available to registered users of the Archive only.') %>
+    <%= ts('If you already have an Archive of Our Own account, log in now.') %>
+  </p>
+<% else %>
+  <h3><%= ts('Log in') %></h3>
+  <p>
+    <strong><%= ts('Reminder:') %></strong>
+    <%= ts("This site is in beta. Things may break or crash without notice.") %>
+    <%= ts("Please report any pesky bugs and") %>
+    <%= link_to ts('give us your feedback'), "" %>!
+  </p>
+<% end %>
+
+<div id="loginform">
+  <%- if params[:use_openid] -%>
+    <%= render :partial => "user_sessions/openid" %>
+  <%- else -%>
+    <%= render :partial => "user_sessions/passwd" %>
+  <% end %>
+</div>
+
+<p>
+  <%= ts("Forgot your password or user name?") %> <%= link_to ts("Reset password"), "/home" %>
+</p>

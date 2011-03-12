@@ -12,8 +12,8 @@
     <li>&#8212; <%= link_to 'Support and Feedback', "" %></li>
     <li>&#8212; <%= link_to 'Archive FAQ', "" %></li>
     <li>&#8212; <%= link_to 'Known Issues', "" %></li>
-    <% if Rails.env.development? && ArchiveConfig.DEVELOPMENT_PROFILING_ENABLED %>
-      <li><%= link_to 'Devmode', devmode_path %></li>
+    <% if logged_in? && current_user.is_translation_admin? %>
+      <li>&#8212; <%= otwtranslation_tool_toggler %></li>
     <% end %>
     <li>&#8212; <a href="http://creativecommons.org/licenses/GPL/2.0/" title="View License">GPL/CC</a> <%=h t('.layout.footer.by_the_otw', :default => 'by the') %> <a href="http://transformativeworks.org/" title="The Organization for Transformative Works">OTW</a></li>
     <% unless ArchiveConfig.REVISION.blank? %>

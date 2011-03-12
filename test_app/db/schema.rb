@@ -40,8 +40,11 @@ ActiveRecord::Schema.define(:version => 20110312171615) do
     t.string   "crypted_password"
     t.string   "salt"
     t.string   "persistence_token"
+    t.boolean  "translation_admin", :default => true, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "users", ["login"], :name => "index_users_on_login", :unique => true
 
 end

@@ -18,3 +18,19 @@
   <%= submit_tag(ts('Create')) %>
 <% end %>
 </p>
+
+<hr>
+<p>
+<%= ts("Translation admin rights for current user:")%>
+<% if current_user && current_user.is_translation_admin? %>
+  <%= form_tag("/home/set_translation_admin", :method => "put") do %>
+    <%= submit_tag(ts('Remove')) %>
+  <% end %>
+  <% elsif  current_user && !current_user.is_translation_admin? %>
+  <%= form_tag("/home/set_translation_admin", :method => "put") do %>
+    <%= submit_tag(ts('Add')) %>
+  <% end %>
+<% else %>
+  <%= ts('Login first.') %>
+<% end %>
+</p>

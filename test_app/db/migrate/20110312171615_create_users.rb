@@ -6,13 +6,17 @@ class CreateUsers < ActiveRecord::Migration
       t.string :crypted_password
       t.string :salt
       t.string :persistence_token
+      t.boolean :translation_admin, :default => false, :null => false
     
       t.timestamps
     end
+
+    add_index("users", :login, :unique => true)
 
   end
 
   def self.down
     drop_table :users
+    drop_index :users
   end
 end

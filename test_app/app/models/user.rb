@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
   end
 
   def is_translation_admin?
-    true
+    translation_admin
   end
 
 end
