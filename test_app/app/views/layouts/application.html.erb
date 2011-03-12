@@ -1,14 +1,35 @@
-<!DOCTYPE html>
-<html>
-<head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= I18n.locale %>" lang="<%= I18n.locale %>">
+  <head>
   <title>TestApp</title>
-  <%= stylesheet_link_tag :all %>
-  <%= javascript_include_tag :defaults %>
-  <%= csrf_meta_tag %>
-</head>
-<body>
 
-<%= yield %>
+  <%= render :partial => 'layouts/includes' %>
 
-</body>
+  </head>
+
+  <body onload="hideLogin();">
+  <ul id="skiplinks"><li><a href="#main"><%=h ts('Main Content') %></a></li></ul>
+  <%= render :partial => 'layouts/header' %>
+
+    <!-- BEGIN sidebar -->
+    <% if @admin_posts %>
+      <%= render :partial => 'admin_posts/sidebar' %>
+    <% elsif @user && !@hide_dashboard %>
+      <%= render :partial => 'users/sidebar' %>
+    <% elsif @collection && !@hide_dashboard %>
+      <%= render :partial => 'collections/sidebar' %>
+    <% end %>
+    <!-- END sidebar -->
+
+    <!-- BEGIN main -->
+    <div id="main" class="<%= classes_for_main %>" role="main">
+      <%= flash_div :error, :warning, :notice %>
+      <%= yield  %>
+    <div class="clear"><!--presentational--></div>
+  </div>
+    <!-- END main -->
+
+    <%= render :partial => 'layouts/footer' %>
+
+  </body>
 </html>

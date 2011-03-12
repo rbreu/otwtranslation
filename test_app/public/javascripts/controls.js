@@ -210,16 +210,35 @@ Autocompleter.Base = Class.create({
     }
   },
 
+  // EDITED TO PUT IN FIX FOR ARROW KEYS CAUSING JUMPING IN AUTOCOMPLETE
+  // http://www.gilluminate.com/2009/01/20/scriptaculous-autocomplete-page-jump-using-arrow-keys/
   markPrevious: function() {
-    if(this.index > 0) this.index--;
-      else this.index = this.entryCount-1;
-    this.getEntry(this.index).scrollIntoView(true);
+    if(this.index > 0) {this.index--;}
+    else {
+      this.index = this.entryCount-1;
+      this.update.scrollTop = this.update.scrollHeight;
+    }
+    selection = this.getEntry(this.index);
+    selection_top = selection.offsetTop;
+    if(selection_top < this.update.scrollTop) {
+      this.update.scrollTop = this.update.scrollTop-selection.offsetHeight;
+    }
   },
 
+  // EDITED TO PUT IN FIX FOR ARROW KEYS CAUSING JUMPING IN AUTOCOMPLETE
+  // http://www.gilluminate.com/2009/01/20/scriptaculous-autocomplete-page-jump-using-arrow-keys/
+  
   markNext: function() {
-    if(this.index < this.entryCount-1) this.index++;
-      else this.index = 0;
-    this.getEntry(this.index).scrollIntoView(false);
+    if(this.index < this.entryCount-1) {this.index++;}
+    else {
+      this.index = 0;
+      this.update.scrollTop = 0;
+    }
+    selection = this.getEntry(this.index);
+    selection_bottom = selection.offsetTop+selection.offsetHeight;
+    if(selection_bottom > this.update.scrollTop+this.update.offsetHeight){
+      this.update.scrollTop = this.update.scrollTop+selection.offsetHeight;
+    }
   },
 
   getEntry: function(index) {
@@ -283,6 +302,9 @@ Autocompleter.Base = Class.create({
       }
 
       this.stopIndicator();
+      // EDIT TO FIX ARROW KEYS CAUSING JUMPING - NN
+      // http://www.gilluminate.com/2009/01/20/scriptaculous-autocomplete-page-jump-using-arrow-keys/
+      this.update.scrollTop = 0;
       this.index = 0;
 
       if(this.entryCount==1 && this.options.autoSelect) {
@@ -348,6 +370,8 @@ Ajax.Autocompleter = Class.create(Autocompleter.Base, {
     this.options.asynchronous  = true;
     this.options.onComplete    = this.onComplete.bind(this);
     this.options.defaultParams = this.options.parameters || null;
+    /* autoParams option added per http://dev.rubyonrails.org/ticket/5978 */
+    this.options.autoParams    = this.options.autoParams || null;
     this.url                   = url;
   },
 
@@ -361,7 +385,16 @@ Ajax.Autocompleter = Class.create(Autocompleter.Base, {
       this.options.callback(this.element, entry) : entry;
 
     if(this.options.defaultParams)
-      this.options.parameters += '&' + this.options.defaultParams;
+        this.options.parameters += '&' + this.options.defaultParams;
+
+    if(this.options.autoParams) {
+        autoParams = '';
+        this.options.autoParams.each(function(item) {
+        if((item = $(item)) && (serialized = Form.Element.serialize(item)))
+            autoParams += '&' + serialized;
+        });
+        this.options.parameters += autoParams;
+    }
 
     new Ajax.Request(this.url, this.options);
   },

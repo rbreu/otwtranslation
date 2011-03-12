@@ -9,3 +9,12 @@
 <li><%= link_to ts("Sources"), otwtranslation_sources_path %></li>
 </ul>
 </p>
+
+<hr>
+<p><%= ts("Create a user (password will be 'test123'):")%>
+<%= form_tag("/home/new_user", :method => "post") do %>
+  <%= label_tag(:name, ts('Name:')) %>
+  <%= text_field_tag(:name) %>
+  <%= submit_tag(ts('Create')) %>
+<% end %>
+</p>

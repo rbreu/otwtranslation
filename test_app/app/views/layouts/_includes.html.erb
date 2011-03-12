@@ -1,0 +1,23 @@
+<%= stylesheet_link_tag 'archive_core', :media => 'all' %>
+<%= stylesheet_link_tag 'system-messages',
+                        'site-chrome',
+                        'forms',
+                        'live_validation',
+                        'auto_complete',
+                        :cache => 'cached_for_screen',
+                        :media => 'screen' %>
+<%= stylesheet_link_tag 'userstuff', :media => 'all' %>
+<% if controller.controller_name == 'home' && controller.action_name == 'index' %>
+  <%= stylesheet_link_tag 'home', :media => 'screen' %>
+<% end %>
+
+<%= javascript_include_tag 'jquery-1.3.2.min.js' %>
+<%= javascript_include_tag 'visualize.jQuery.js' %>
+<%= javascript_include_tag :defaults %>
+<%= javascript_include_tag 'live_validation' %>
+<%= javascript_include_tag 'accessible' %>
+
+<%= csrf_meta_tag %>
+
+<%# iboxify_page %>
+
