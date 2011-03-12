@@ -2,8 +2,9 @@
 
 <table>
   <tr>
-    <th><%= ts("Controller") %></th>
+    <th><%= ts("Controller#Action") %></th>
     <th><%= ts("URL") %></th>
+    <th><%= ts("Has phrases with current version?") %>
   </tr>
 
 <% @sources.each do |source| %>
@@ -11,7 +12,9 @@
     <td><%= link_to(source.controller_action, 
                     otwtranslation_source_path(source)) %></td>
     <td><%= link_to(truncate(source.url), source.url) unless source.url.blank? %></td>
+    <td><%= ts(source.has_phrases_with_current_verion?.to_s) %></td>
   </tr>
 <% end %>
 </table>
 
+<p style="color: red;">Maybe we can base assignments on this.</p>

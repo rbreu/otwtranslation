@@ -1,0 +1,18 @@
+<h1><%= ts("Show Source") %></h1>
+
+<p>
+  <b><%= ts("Controller#Action:") %></b>
+  <%= @source.controller_action %>
+</p>
+
+<p>
+  <b><%= ts("URL:") %></b>
+  <%= @source.url %>
+</p>
+
+<p>
+  <b><%= ts("Has phrases with current version?") %></b>
+  <%= ts(@source.has_phrases_with_current_verion?.to_s) %>
+</p>
+
+<%= link_to ts('Back'), otwtranslation_sources_path %>

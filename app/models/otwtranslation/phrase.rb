@@ -45,4 +45,5 @@ class Otwtranslation::Phrase < ActiveRecord::Base
     Rails.cache.delete(cache_key)
   end
 
+
 end

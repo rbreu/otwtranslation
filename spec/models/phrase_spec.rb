@@ -46,6 +46,7 @@ describe Otwtranslation::Phrase, "update" do
     phrase.version.should == "1.1"
     Otwtranslation::Phrase.find(phrase.id).version.should == "1.1"
   end
+
 end
 
 
