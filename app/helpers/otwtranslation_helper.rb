@@ -30,5 +30,23 @@ module OtwtranslationHelper
     return phrase % params
   end
 
+
+  def otwtranslation_tool_toggler
+    if logged_in? && current_user.is_translation_admin?
+      label = session[:otwtranslation_tools] ? 'Disable Translation Tools' :
+        'Enable Translation Tools'
+      return link_to(ts(label),
+                       :controller => otwtranslation_toggle_tools_path)
+    else
+      return ""
+    end
+  end
+
+  def otwtranslation_tool_header
+    if logged_in? && current_user.is_translation_admin? && session[:otwtranslation_tools]
+      render :partial => 'otwtranslation/home/tools'
+    end
+  end
+  
 end
 

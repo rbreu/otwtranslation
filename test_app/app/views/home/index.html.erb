@@ -2,14 +2,6 @@
 <p><%= t(".home", :default => "This is t!") %></p>
 <p><%= t('.tags', :default =>"The answer is %{answer}.", :answer => 42) %></p>
 
-<p>
-<ul>
-<li><%= link_to ts("Translation Home"), otwtranslation_home_path %></li>
-<li><%= link_to ts("Phrases"), otwtranslation_phrases_path %></li>
-<li><%= link_to ts("Sources"), otwtranslation_sources_path %></li>
-</ul>
-</p>
-
 <hr>
 <p><%= ts("Create a user (password will be 'test123'):")%>
 <%= form_tag("/home/new_user", :method => "post") do %>
@@ -23,11 +15,11 @@
 <p>
 <%= ts("Translation admin rights for current user:")%>
 <% if current_user && current_user.is_translation_admin? %>
-  <%= form_tag("/home/set_translation_admin", :method => "put") do %>
+  <%= form_tag("/home/set_translation_admin", :method => "get") do %>
     <%= submit_tag(ts('Remove')) %>
   <% end %>
   <% elsif  current_user && !current_user.is_translation_admin? %>
-  <%= form_tag("/home/set_translation_admin", :method => "put") do %>
+  <%= form_tag("/home/set_translation_admin", :method => "get") do %>
     <%= submit_tag(ts('Add')) %>
   <% end %>
 <% else %>

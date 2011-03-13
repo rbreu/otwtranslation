@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   mount_at = OtwtranslationConfig.MOUNT_AT
   
   match mount_at => 'otwtranslation/home#index', :as => 'otwtranslation_home'
+  match "#{mount_at}/toggle_tools" => 'otwtranslation/home#toggle_tools',
+  :as => 'otwtranslation_toggle_tools'
 
   match "#{mount_at}/phrases/:id" => 'otwtranslation/phrases#show',
   :as => 'otwtranslation_phrase'

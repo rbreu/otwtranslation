@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
   end
 
   def has_no_credentials?
-    self.crypted_password.blank? && self.identity_url.blank?
+    self.crypted_password.blank?
   end
 
   # Authorization plugin

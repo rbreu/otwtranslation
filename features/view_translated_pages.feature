@@ -10,5 +10,5 @@ Feature: View translated pages
     Then I should see "This is ts!"
     And I should see "This is t!"
     And I should see "The answer is 42."
-    But I should not see "FIXME"
+
 

@@ -1,0 +1,11 @@
+#header ul.otwtranslation { 
+    margin-top: 2.375em;
+    position: absolute;
+    right: 1em;
+    z-index: 50 
+}
+
+#header ul.otwtranslation a,#header ul.otwtranslation .current {
+    border-bottom: 3px solid #111;
+    float: right;
+}

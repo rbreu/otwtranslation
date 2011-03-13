@@ -26,6 +26,16 @@ Add
 to your ``application_controller.rb`` to access the helpers from
 within your views and controllers.
 
+Add
+
+::
+
+  <%= stylesheet_link_tag 'otwtranslation' %>
+
+to your stylesheet includes.
+
+
+TODO: db migrations; stylesheets
 
 
 Usage
