@@ -10,7 +10,7 @@ class HomeController < ApplicationController
     user.password = 'test123'
     user.
     flash[:error] = ts('Ooops.') unless user.save
-    redirect_to_back_or_default
+    redirect_to :back
   end
   
   def set_translation_admin
@@ -21,7 +21,7 @@ class HomeController < ApplicationController
       current_user.translation_admin = true
       current_user.save
     end
-    redirect_back_or_default
+    redirect_to :back
   end
   
 
