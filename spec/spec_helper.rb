@@ -3,6 +3,8 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../test_app/config/environment", __FILE__)
 require 'rspec/rails'
 
+require File.expand_path('../../features/support/factories.rb', __FILE__)
+
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[File.join(File.expand_path("../../", __FILE__ ), "spec", "support", "**", "*.rb")].each {|f| require f}

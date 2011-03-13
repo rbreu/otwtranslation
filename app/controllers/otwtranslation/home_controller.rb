@@ -1,4 +1,6 @@
 class Otwtranslation::HomeController < ApplicationController
+  include Otwtranslation::CommonMethods
+  before_filter :otwtranslation_only
 
   def index
   end
