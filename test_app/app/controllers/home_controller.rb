@@ -6,9 +6,8 @@ class HomeController < ApplicationController
   def new_user
     user = User.new
     user.login = params['name']
-    user.email = 'test@example.org'
+    user.email = "#{params['name']}@example.org"
     user.password = 'test123'
-    user.
     flash[:error] = ts('Ooops.') unless user.save
     redirect_to :back
   end
@@ -21,7 +20,7 @@ class HomeController < ApplicationController
       current_user.translation_admin = true
       current_user.save
     end
-    redirect_to :back
+    redirect
   end
   
 
