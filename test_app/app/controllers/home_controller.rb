@@ -20,7 +20,7 @@ class HomeController < ApplicationController
       current_user.translation_admin = true
       current_user.save
     end
-    redirect
+    redirect_to :back
   end
   
 
