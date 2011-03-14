@@ -21,9 +21,13 @@
 </p>
 
 <p>
-  <b><%= ts("Source:") %></b>
-  <%= @phrase.source.controller_action %> 
-  (<%= link_to(@phrase.source.url, @phrase.source.url) unless @phrase.source.url.blank?%>)</li>
+  <b><%= ts("Sources:") %></b>
+  <ul>
+    <% @phrase.sources.each do |source| %>
+      <li><%= source.controller_action %> 
+      (<%= link_to(source.url, source.url) unless source.url.blank?%>)</li>
+    <% end %>
+  </ul> 
 </p>
 
 <p style="color: red;">Here be place for all translations made for this phrase.</p>

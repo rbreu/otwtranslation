@@ -3,17 +3,30 @@ require 'digest/md5'
 class Otwtranslation::Phrase < ActiveRecord::Base
 
   set_table_name :otwtranslation_phrases
-  belongs_to :source, :class_name => "Otwtranslation::Source"
+  has_and_belongs_to_many(:sources, 
+                          :join_table => :otwtranslation_phrases_sources)
 
-  after_destroy :remove_from_cache
-  after_save :remove_from_cache
+  #after_destroy :remove_from_cache
+  #after_save :remove_from_cache
 
   def self.find_or_create(label, description="", source={})
     key, cache_key = generate_keys(label, description)
 
+    puts cache_key
+
     phrase = Rails.cache.read(cache_key)
+    source = Otwtranslation::Source.find_or_create(source)
+
+    if phrase
+      puts phrase.sources
+    else
+      puts "nil nil nil"
+    end
     
-    return phrase if phrase && phrase.version == OtwtranslationConfig.VERSION
+    if phrase && phrase.version == OtwtranslationConfig.VERSION && phrase.sources.exists?(source.id)
+      puts "return"
+      return phrase
+    end
 
     phrase = find_by_key(key) || create(:key => key, 
                                         :label => label, 
@@ -21,10 +34,16 @@ class Otwtranslation::Phrase < ActiveRecord::Base
                                         :locale => OtwtranslationConfig.DEFAULT_LOCALE)
 
     phrase.version = OtwtranslationConfig.VERSION
-    phrase.source = Otwtranslation::Source.find_or_create(source) 
+    puts "1========="
+
+    unless phrase.sources.exists?(source.id)
+      phrase.sources << source
+    end
+    puts "2========="
     phrase.save
+    phrase.freeze
     Rails.cache.write(cache_key, phrase)
-    return phrase.freeze
+    return phrase #.freeze
   end
 
   def cache_key
