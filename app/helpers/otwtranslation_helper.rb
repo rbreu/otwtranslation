@@ -14,7 +14,7 @@ module OtwtranslationHelper
       source = {
         :controller => self.class.name.underscore.gsub("_controller", ""),
         :action => action_name,
-        :url => ""
+        :url => request.url
       }
     end
 

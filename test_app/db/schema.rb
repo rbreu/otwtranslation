@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(:version => 20110312171615) do
     t.string   "crypted_password"
     t.string   "salt"
     t.string   "persistence_token"
-    t.boolean  "translation_admin", :default => true, :null => false
+    t.boolean  "translation_admin", :default => false, :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
