@@ -23,7 +23,7 @@ class Otwtranslation::Source < ActiveRecord::Base
 
   
   def has_phrases_with_current_verion?
-    return phrases.where(:version => OtwtranslationConfig.VERSION).count > 0
+    return !!phrases.find_by_version(OtwtranslationConfig.VERSION)
   end
 
 end

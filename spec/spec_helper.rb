@@ -2,8 +2,8 @@
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../test_app/config/environment", __FILE__)
 require 'rspec/rails'
-
 require File.expand_path('../../features/support/factories.rb', __FILE__)
+
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -26,5 +26,25 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = true
+
+  config.before(:each) do
+    Rails.cache.clear
+  end
+
 end
+
+
+require 'authlogic/test_case'
+include Authlogic::TestCase
+
+#class ActionController::TestCase
+#  setup :activate_authlogic
+#end
+
+def admin_login()
+  activate_authlogic
+  user = Factory.create(:user, {:translation_admin => true})
+  UserSession.create user
+end
+
 

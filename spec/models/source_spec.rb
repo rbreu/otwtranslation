@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Otwtranslation::Source do
+
   it "should create a new source" do
     source = Otwtranslation::Source.find_or_create(:controller => "home",
                                                    :action => "index",
@@ -30,7 +31,7 @@ describe Otwtranslation::Source do
     OtwtranslationConfig.VERSION = '1.0'
     source = {:controller => "test", :action => "me"}
     phrase = Otwtranslation::Phrase.find_or_create("Hello", "", source)
-    
+
     OtwtranslationConfig.VERSION = '1.1'
     phrase = Otwtranslation::Phrase.find_or_create("Hi hi", "", source)
     phrase.source.has_phrases_with_current_verion?.should equal true

@@ -1,19 +1,16 @@
 require 'spec_helper'
 
 describe Otwtranslation::Phrase, "creation" do
-  before(:each) do
-    Rails.cache.clear
-  end
   
   it "should create a new phrase" do
-    source = {:controller => "user", :action => "show", :url => "user/1"}
+    source = {:controller => "works", :action => "show", :url => "works/1"}
     phrase = Otwtranslation::Phrase.find_or_create("foo", "bar", source)
     phrase = Otwtranslation::Phrase.find(phrase.id)
     phrase.label.should == "foo"
     phrase.description.should == "bar"
-    phrase.source.controller.should == "user"
+    phrase.source.controller.should == "works"
     phrase.source.action.should == "show"
-    phrase.source.url.should == "user/1"
+    phrase.source.url.should == "works/1"
     phrase.locale.should == OtwtranslationConfig.DEFAULT_LOCALE
     phrase.version.should == OtwtranslationConfig.VERSION
   end
@@ -34,9 +31,6 @@ describe Otwtranslation::Phrase, "creation" do
 end
 
 describe Otwtranslation::Phrase, "update" do
-  before(:each) do
-    Rails.cache.clear
-  end
   
   it "should update version" do
     OtwtranslationConfig.VERSION = "1.0"
