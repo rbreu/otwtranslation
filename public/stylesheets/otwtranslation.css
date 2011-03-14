@@ -2,10 +2,20 @@
     margin-top: 2.375em;
     position: absolute;
     right: 1em;
-    z-index: 50 
+    z-index: 50;
 }
 
 #header ul.otwtranslation a,#header ul.otwtranslation .current {
     border-bottom: 3px solid #111;
     float: right;
+}
+
+dl#otwtranslation_phrase dt, dl#otwtranslation_source dt{
+    font-size: 0.875em; 
+    font-weight: 100; 
+    width: 10.5em;
+}
+
+dl#otwtranslation_phrase dd, dl#otwtranslation_source dd {
+    margin: -1.3em 0 .7em 13em; 
 }

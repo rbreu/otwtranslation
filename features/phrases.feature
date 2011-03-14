@@ -9,12 +9,12 @@ Feature: Translation phrases
     And I am a translator
     When I go to the phrases list
     Then I should see "Phrases List" within "h1"
-    And I should see "Hello World!" within "table"
+    And I should see "Hello World!" within "td.phrase"
     When I follow "Hello World!"
     Then I should see "Show Phrase" within "h1"
-    And I should see "Hello World!"
-    And I should see "hello/world"
-    And I should see "hello#world"
-    And I should see "0.8"
+    And I should see "Hello World!" within "dd.label"
+    And I should see "hello/world" within "dd.source"
+    And I should see "hello#world" within "dd.source"
+    And I should see "0.8" within "dd.version"
 
 
