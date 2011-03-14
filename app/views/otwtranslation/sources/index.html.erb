@@ -1,6 +1,6 @@
 <h1><%= ts("Sources List") %></h1>
 
-<table>
+<table id="otwtranslation_sources">
   <tr>
     <th><%= ts("Controller#Action") %></th>
     <th><%= ts("URL") %></th>
@@ -9,10 +9,15 @@
 
 <% @sources.each do |source| %>
   <tr>
-    <td><%= link_to(source.controller_action, 
-                    otwtranslation_source_path(source)) %></td>
-    <td><%= link_to(truncate(source.url), source.url) unless source.url.blank? %></td>
-    <td><%= ts(source.has_phrases_with_current_verion?.to_s) %></td>
+    <td class="controller_action">
+      <%= link_to(source.controller_action, otwtranslation_source_path(source)) %>
+    </td>
+    <td class="url">
+      <%= link_to(truncate(source.url), source.url) %>
+    </td>
+    <td class="version">
+      <%= source.has_phrases_with_current_verion? ? ts("yes") : ts("no") %>
+    </td>
   </tr>
 <% end %>
 </table>

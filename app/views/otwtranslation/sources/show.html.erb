@@ -1,18 +1,17 @@
 <h1><%= ts("Show Source") %></h1>
 
-<p>
-  <b><%= ts("Controller#Action:") %></b>
-  <%= @source.controller_action %>
-</p>
+<dl id="otwtranslation_source">
 
-<p>
-  <b><%= ts("URL:") %></b>
-  <%= @source.url %>
-</p>
+  <dt class="controller_action"><%= ts("Controller#Action:") %></dt>
+  <dd class="controller_action"><%= @source.controller_action %></dd>
 
-<p>
-  <b><%= ts("Has phrases with current version?") %></b>
-  <%= ts(@source.has_phrases_with_current_verion?.to_s) %>
-</p>
+  <dt class="url"><%= ts("URL:") %></dt>
+  <dd class="url"><%= link_to(@source.url, @source.url) %></dd>
+
+  <dt class="version"><%= ts("Has phrases with current version?") %></dt>
+  <dd class="version">
+    <%= @source.has_phrases_with_current_verion? ? ts("yes") : ts("no") %>
+  </dd>
+</dl>
 
 <%= link_to ts('Back'), otwtranslation_sources_path %>
