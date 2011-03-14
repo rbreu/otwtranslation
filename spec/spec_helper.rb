@@ -1,8 +1,10 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../test_app/config/environment", __FILE__)
-require 'rspec/rails'
 require File.expand_path('../../features/support/factories.rb', __FILE__)
+
+require 'rspec/rails'
+require 'authlogic/test_case'
 
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -27,6 +29,8 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
 
+  config.include Authlogic::TestCase, :type => :controller
+
   config.before(:each) do
     Rails.cache.clear
   end
@@ -34,12 +38,8 @@ RSpec.configure do |config|
 end
 
 
-require 'authlogic/test_case'
-include Authlogic::TestCase
 
-#class ActionController::TestCase
-#  setup :activate_authlogic
-#end
+# For use within controllers:
 
 def admin_login()
   activate_authlogic
