@@ -18,6 +18,6 @@ dl#otwtranslation_language dt {
 }
 
 dl#otwtranslation_phrase dd, dl#otwtranslation_source dd, 
-dl#otwtranslation_language dt {
+dl#otwtranslation_language dd {
     margin: -1.3em 0 .7em 13em; 
 }
