@@ -23,9 +23,9 @@ Feature: Translation phrases
     Then I should see "Add Language" within "h1"
 
     When I fill in the following:
-      | short | de      |
-      | name  | Deutsch |
-    And I uncheck "Left to right?"
+      | Short: | de      |
+      | Name:  | Deutsch |
+    And I uncheck "Right to left?"
     And I check "Translation viewable?"
     And I press "Add language"
     Then I should see "Show Language" within "h1"

@@ -1,0 +1,21 @@
+<h1>Add Language</h1>
+
+<% form_for(@language, :url => otwtranslation_post_language_path) do |f| %>
+
+  <dl>
+    <dt><%= f.label(:short, ts("Short:"))%></dt>
+    <dd><%= f.text_field :short %></dd>
+
+    <dt><%= f.label(:name, ts("Name:"))%></dt>
+    <dd><%= f.text_field :name %></dd>
+
+    <dt><%= f.label(:right_to_left, ts("Right to left?"))%></dt>
+    <dd><%= f.check_box :right_to_left %></dd>
+
+    <dt><%= f.label(:translation_viewable, ts("Translation viewable?"))%></dt>
+    <dd><%= f.check_box :translation_viewable %></dd>
+  </dl>
+  <p class="submit"><%= f.submit ts("Add language") %></p>
+
+<% end %>
+    
