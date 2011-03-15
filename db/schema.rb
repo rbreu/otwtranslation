@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110309113015) do
+ActiveRecord::Schema.define(:version => 201103013212500) do
 
   create_table "otwtranslation_phrases", :force => true do |t|
     t.string   "key"
@@ -18,12 +18,16 @@ ActiveRecord::Schema.define(:version => 20110309113015) do
     t.string   "description"
     t.string   "locale"
     t.string   "version"
-    t.integer  "source_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "otwtranslation_phrases", ["key"], :name => "index_otwtranslation_phrases_on_key", :unique => true
+
+  create_table "otwtranslation_phrases_sources", :id => false, :force => true do |t|
+    t.integer "phrase_id"
+    t.integer "source_id"
+  end
 
   create_table "otwtranslation_sources", :force => true do |t|
     t.string   "controller_action"
@@ -33,5 +37,18 @@ ActiveRecord::Schema.define(:version => 20110309113015) do
   end
 
   add_index "otwtranslation_sources", ["controller_action"], :name => "index_otwtranslation_sources_on_controller_action", :unique => true
+
+  create_table "users", :force => true do |t|
+    t.string   "email"
+    t.string   "login"
+    t.string   "crypted_password"
+    t.string   "salt"
+    t.string   "persistence_token"
+    t.boolean  "translation_admin", :default => false, :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "users", ["login"], :name => "index_users_on_login", :unique => true
 
 end

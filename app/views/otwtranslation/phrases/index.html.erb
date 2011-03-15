@@ -6,21 +6,16 @@
     <th><%= ts("Description") %></th>
     <th><%= ts("Locale") %></th>
     <th><%= ts("Version") %></th>
-    <th><%= ts("Source") %></th>
   </tr>
 
 <% @phrases.each do |phrase| %>
   <tr>
     <td class="phrase">
-      <%= link_to(truncate(phrase.label), otwtranslation_phrase_path(phrase)) %>
+      <%= link_to(phrase.label, otwtranslation_phrase_path(phrase)) %>
     </td>
-    <td class="description"><%= truncate(phrase.description) %></td>
+    <td class="description"><%= phrase.description %></td>
     <td class="locale"><%= phrase.locale %></td>
     <td class="version"><%= phrase.version %></td>
-    <td class="controller_action">
-      <%= link_to(truncate(phrase.source.url), phrase.source.url)%>
-      (<%= phrase.source.controller_action %>)
-    </td>
   </tr>
 <% end %>
 </table>

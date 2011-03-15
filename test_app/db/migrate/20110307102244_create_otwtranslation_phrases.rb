@@ -6,7 +6,6 @@ class CreateOtwtranslationPhrases < ActiveRecord::Migration
       t.string :description
       t.string :locale
       t.string :version
-      t.integer :source_id
 
       t.timestamps
     end
@@ -16,6 +15,6 @@ class CreateOtwtranslationPhrases < ActiveRecord::Migration
 
   def self.down
     drop_table :otwtranslation_phrases
-    drop_index :otwtranslation_phrases
+    remove_index :otwtranslation_phrases
   end
 end
