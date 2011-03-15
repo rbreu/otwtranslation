@@ -13,8 +13,8 @@ Feature: Translation phrases
     When I follow "Hello World!"
     Then I should see "Show Phrase" within "h1"
     And I should see "Hello World!" within "dd.label"
-    And I should see "hello/world" within "dd.source"
-    And I should see "hello#world" within "dd.source"
+    And I should see "hello/world" within "dd.sources"
+    And I should see "hello#world" within "dd.sources"
     And I should see "0.8" within "dd.version"
 
 

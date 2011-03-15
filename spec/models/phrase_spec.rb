@@ -8,13 +8,29 @@ describe Otwtranslation::Phrase, "creation" do
     phrase = Otwtranslation::Phrase.find(phrase.id)
     phrase.label.should == "foo"
     phrase.description.should == "bar"
-    phrase.source.controller.should == "works"
-    phrase.source.action.should == "show"
-    phrase.source.url.should == "works/1"
+    phrase.sources.first.controller.should == "works"
+    phrase.sources.first.action.should == "show"
+    phrase.sources.first.url.should == "works/1"
     phrase.locale.should == OtwtranslationConfig.DEFAULT_LOCALE
     phrase.version.should == OtwtranslationConfig.VERSION
   end
 
+  it "should add a second source" do
+    source = {:controller => "works", :action => "show", :url => "works/1"}
+    phrase = Otwtranslation::Phrase.find_or_create("foo", "bar", source)
+    source = {:controller => "works", :action => "index", :url => "works/"}
+    phrase = Otwtranslation::Phrase.find_or_create("foo", "bar", source)
+    phrase.sources.count.should == 2
+  end
+
+  it "should cache" do
+    source = {:controller => "works", :action => "show", :url => "works/1"}
+    phrase = Otwtranslation::Phrase.find_or_create("foo", "bar", source)
+    Otwtranslation::Phrase.should_not_receive(:find_or_create_by_key)
+    source = {:controller => "works", :action => "show", :url => "works/2"}
+    phrase = Otwtranslation::Phrase.find_or_create("foo", "bar", source)
+  end
+    
   it "should create the same phrase only once" do
     phrase1 = Otwtranslation::Phrase.find_or_create("foo")
     phrase2 = Otwtranslation::Phrase.find_or_create("foo")
