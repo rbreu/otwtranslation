@@ -1,0 +1,22 @@
+<h1><%= ts("Show Language") %></h1>
+
+<dl id="otwtranslation_language">
+
+  <dt class="short"><%= ts("Short:") %></dt>
+  <dd class="short"><%= @language.short %></dd>
+
+  <dt class="name"><%= ts("Name:") %></dt>
+  <dd class="name"><%= @language.name %></dd>
+
+  <dt class="right_to_left"><%= ts("Right to left?") %></dt>
+  <dd class="right_to_left">
+    <%= @language.right_to_left? ? ts("yes") : ts("no") %>
+  </dd>
+
+  <dt class="translation_viewable"><%= ts("Translation viewable?") %></dt>
+  <dd class="translation_viewable">
+    <%= @language.translation_viewable? ? ts("yes") : ts("no") %>
+  </dd>
+</dl>
+
+<%= link_to ts('Back'), otwtranslation_languages_path %>

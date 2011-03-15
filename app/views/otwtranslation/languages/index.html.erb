@@ -1,0 +1,35 @@
+<h1><%= ts("Language List") %></h1>
+
+<ul class="otwtranslation navigation">
+  <li id="add_language">
+    <%= link_to(ts("Add language"), otwtranslation_new_language_path) %>
+  </li>
+</ul>
+
+<table id="otwtranslation_language">
+  <tr>
+    <th><%= ts("Short") %></th>
+    <th><%= ts("Name") %></th>
+    <th><%= ts("Right to left?") %>
+    <th><%= ts("Translation viewable?") %>
+  </tr>
+
+<% @languages.each do |language| %>
+  <tr>
+    <td class="short"><%= language.short %></td>
+    <td class="name">
+      <%= link_to(language.name, otwtranslation_language_path(language)) %>
+    </td>
+    <td class="right_to_left">
+      <%= language.right_to_left? ? ts("yes") : ts("no") %>
+    </td>
+    <td class="translation_viewable">
+      <%= language.translation_viewable? ? ts("yes") : ts("no") %>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+
+
+

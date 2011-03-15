@@ -61,3 +61,19 @@ transitioning reasons.
   t(".id", default => "Hello!")
 
 
+Additional helpers: 
+
+* ``otwtranslation_tool_toggler`` adds a link for translators and
+  translation admins to toggle the translation tools
+
+* ``otwtranslation_tool_header``: adds a toolbar for translators and
+  translation admins when they have translation tools enabled
+
+
+Notes
+-----
+
+Everything the Gem provides is properly namespaced, except for:
+
+* The t and ts helpers
+* A few extra columns that are added to the languages table

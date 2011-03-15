@@ -20,6 +20,9 @@ module NavigationHelpers
     when 'the sources list'
       "/#{OtwtranslationConfig.MOUNT_AT}/sources"
       
+    when 'the languages list'
+      "/#{OtwtranslationConfig.MOUNT_AT}/languages"
+      
     when 'the hello world page'
       "/hello/world"
       

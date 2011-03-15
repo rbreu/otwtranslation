@@ -6,3 +6,10 @@ Factory.define(:user) do |user|
   user.translation_admin 'false'
   user.password 'test123'
 end
+
+Factory.define(:language) do |language|
+  language.short 'de'
+  language.name 'Deutsch'
+  language.right_to_left false
+  language.translation_viewable true
+end
