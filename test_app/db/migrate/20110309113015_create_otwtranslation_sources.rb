@@ -12,6 +12,6 @@ class CreateOtwtranslationSources < ActiveRecord::Migration
 
   def self.down
     drop_table :otwtranslation_sources
-    drop_index :otwtranslation_sources
+    remove_index :otwtranslation_sources
   end
 end

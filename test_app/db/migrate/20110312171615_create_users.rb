@@ -17,6 +17,6 @@ class CreateUsers < ActiveRecord::Migration
 
   def self.down
     drop_table :users
-    drop_index :users
+    remove_index :users
   end
 end

@@ -14,13 +14,15 @@
   <dt class="version"><%= ts("Version:") %></dt>
   <dd class="version"><%= @phrase.version %></dd>
 
-  <dt class="source"><%= ts("Source:") %></dt>
-  <dd class="source">
-    <%= link_to(@phrase.source.url, @phrase.source.url) %>
-    (<%= @phrase.source.controller_action %>)
+  <dt class="sources"><%= ts("Sources:") %></dt>
+  <dd class="sources">
+    <ul>
+      <% @phrase.sources.each do |source| %>
+        <li><%= link_to(source.url, source.url) %> (<%= source.controller_action %>)</li>
+      <% end %>	
+    </ul>
   </dd>
 </dl>
-
 
 <p style="color: red;">Here be place for all translations made for this phrase.</p>
 
