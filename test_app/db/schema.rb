@@ -18,7 +18,6 @@ ActiveRecord::Schema.define(:version => 201103013212500) do
     t.string   "description"
     t.string   "locale"
     t.string   "version"
-    t.integer  "source_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
