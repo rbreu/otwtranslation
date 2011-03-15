@@ -18,11 +18,10 @@ class Otwtranslation::LanguagesController < ApplicationController
     @language = Language.new(params[:language])
 
     if @language.save
-      puts "yes=============================================================="
       redirect_to(otwtranslation_language_path(@language),
                   :notice => ts('Language successfully created.'))
     else
-      puts "no============================================================="
+      flash[:error] = ts("There was a problem saving the language.")
       render :action => "new"
     end
   end
