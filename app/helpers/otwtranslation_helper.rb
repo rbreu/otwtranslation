@@ -31,6 +31,11 @@ module OtwtranslationHelper
   end
 
 
+  def otwtranslation_language_selector
+    render :partial => 'otwtranslation/languages/selector'
+  end
+  
+
   def otwtranslation_tool_toggler
     if logged_in? && current_user.is_translation_admin?
       label = session[:otwtranslation_tools] ? 'Disable Translation Tools' :

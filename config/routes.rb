@@ -24,6 +24,9 @@ Rails.application.routes.draw do
   get "#{mount_at}/languages/new" => 'otwtranslation/languages#new',
   :as => 'otwtranslation_new_language'
 
+  get "#{mount_at}/languages/select" => 'otwtranslation/languages#select',
+  :as => 'otwtranslation_select_language'
+
   match "#{mount_at}/languages/" => 'otwtranslation/languages#create',
   :as => 'otwtranslation_post_language', :via => [:post]
   

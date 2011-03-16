@@ -1,5 +1,7 @@
 <p><%= ts("Welcome to the translation engine!") %></p>
 
+<%= otwtranslation_language_selector %>
+
 <hr>
 <p><%= ts("Create a user (password will be 'test123'):")%>
 <%= form_tag("/home/new_user", :method => "post") do %>

@@ -1,6 +1,7 @@
 class Otwtranslation::LanguagesController < ApplicationController
   include Otwtranslation::CommonMethods
-  before_filter :otwtranslation_only
+  before_filter :otwtranslation_only, :except => :select
+
 
   def index
     @languages = Language.all
@@ -23,6 +24,12 @@ class Otwtranslation::LanguagesController < ApplicationController
       flash[:error] = ts('There was a problem saving the language.')
       render :action => "new"
     end
+  end
+
+  
+  def select
+    session[:otwtranslation_language] = params[:otwtranslation_language]
+    redirect_to :back
   end
   
 end

@@ -48,7 +48,11 @@ describe Otwtranslation::HomeController, "GET toggle_tools" do
       get :toggle_tools
       session[:otwtranslation_tools].should equal false
     end
-    
+
+    it "should redirect back" do
+      get :toggle_tools
+      response.should redirect_to request.env["HTTP_REFERER"]
+    end
   end
 
 end
