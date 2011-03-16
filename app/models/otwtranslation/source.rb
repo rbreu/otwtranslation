@@ -4,6 +4,9 @@ class Otwtranslation::Source < ActiveRecord::Base
   has_and_belongs_to_many(:phrases,
                           :join_table => :otwtranslation_phrases_sources)
 
+  validates_presence_of :controller_action
+  validates_uniqueness_of :controller_action
+
   def self.find_or_create(params)
     find_or_create_by_controller_action(:controller_action => key(params),
                                         :url => params[:url])

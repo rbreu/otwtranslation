@@ -10,6 +10,9 @@ class Otwtranslation::Phrase < ActiveRecord::Base
   after_destroy :remove_from_cache
   after_save :remove_from_cache
 
+  validates_presence_of :key
+  validates_uniqueness_of :key
+  
 
   # We want to cache the phrase but can't put it into the cache as is
   # because we would lose some of the foreign key info about the
