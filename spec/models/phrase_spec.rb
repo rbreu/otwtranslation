@@ -23,14 +23,6 @@ describe Otwtranslation::Phrase, "creation" do
     phrase.sources.count.should == 2
   end
 
-  it "should cache" do
-    source = {:controller => "works", :action => "show", :url => "works/1"}
-    phrase = Otwtranslation::Phrase.find_or_create("foo", "bar", source)
-    Otwtranslation::Phrase.should_not_receive(:find_or_create_by_key)
-    source = {:controller => "works", :action => "show", :url => "works/2"}
-    phrase = Otwtranslation::Phrase.find_or_create("foo", "bar", source)
-  end
-    
   it "should create the same phrase only once" do
     phrase1 = Otwtranslation::Phrase.find_or_create("foo")
     phrase2 = Otwtranslation::Phrase.find_or_create("foo")
@@ -57,6 +49,14 @@ describe Otwtranslation::Phrase, "update" do
     Otwtranslation::Phrase.find(phrase.id).version.should == "1.1"
   end
 
+  it "should cache" do
+    source = {:controller => "works", :action => "show", :url => "works/1"}
+    phrase = Otwtranslation::Phrase.find_or_create("foo", "bar", source)
+    Otwtranslation::Phrase.should_not_receive(:find_or_create_by_key)
+    source = {:controller => "works", :action => "show", :url => "works/2"}
+    phrase = Otwtranslation::Phrase.find_or_create("foo", "bar", source)
+  end
+    
 end
 
 
