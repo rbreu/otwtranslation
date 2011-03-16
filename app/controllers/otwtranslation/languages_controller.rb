@@ -4,19 +4,19 @@ class Otwtranslation::LanguagesController < ApplicationController
 
 
   def index
-    @languages = Language.all
+    @languages = Otwtranslation::Language.all
   end
 
   def show
-    @language = Language.find_by_short(params[:id])
+    @language = Otwtranslation::Language.find_by_short(params[:id])
   end
 
   def new
-    @language = Language.new
+    @language = Otwtranslation::Language.new
   end
 
   def create
-    @language = Language.new(params[:language])
+    @language = Otwtranslation::Language.new(params[:otwtranslation_language])
     if @language.save
       flash[:notice] =  ts('Language successfully created.')
       redirect_to otwtranslation_language_path(@language)

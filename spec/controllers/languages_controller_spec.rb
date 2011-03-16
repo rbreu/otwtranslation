@@ -10,7 +10,7 @@ describe Otwtranslation::LanguagesController, "GET index" do
   it "should return list of languages" do
     admin_login()
     languages = mock(Array)
-    Language.should_receive(:all).and_return(languages)
+    Otwtranslation::Language.should_receive(:all).and_return(languages)
     get :index
     assigns[:languages].should == languages
   end
@@ -48,8 +48,8 @@ describe Otwtranslation::LanguagesController, "GET show" do
 
   it "should return a language" do
     admin_login()
-    language = mock_model(Language)
-    Language.should_receive(:find_by_short).with(1).and_return(language)
+    language = mock_model(Otwtranslation::Language)
+    Otwtranslation::Language.should_receive(:find_by_short).with(1).and_return(language)
     get :show, :id => 1
     assigns[:language].should == language
    end
@@ -66,7 +66,7 @@ describe Otwtranslation::LanguagesController, "GET new" do
 
   it "should create a language" do
     admin_login()
-    Language.should_receive(:new)
+    Otwtranslation::Language.should_receive(:new)
     get :new
   end
 end
@@ -90,13 +90,13 @@ describe Otwtranslation::LanguagesController, "POST create" do
       before(:each) do
         @language_params = {"short" => "de", "name" => "Deutsch",
           "right_to_left" => false, "translation_viewable" => true}
-        @language = mock_model(Language, :save => nil)
-        Language.stub(:new).and_return(@language)
+        @language = mock_model(Otwtranslation::Language, :save => nil)
+        Otwtranslation::Language.stub(:new).and_return(@language)
       end
     
       it "should create a language" do
-        Language.should_receive(:new).with(@language_params).and_return(@language)
-        post :create, :language => @language_params
+        Otwtranslation::Language.should_receive(:new).with(@language_params).and_return(@language)
+        post :create, :otwtranslation_language => @language_params
       end
       
       it "should save a language" do

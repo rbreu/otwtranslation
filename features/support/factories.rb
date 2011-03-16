@@ -7,9 +7,9 @@ Factory.define(:user) do |user|
   user.password 'test123'
 end
 
-Factory.define(:language) do |language|
-  language.short 'de'
-  language.name 'Deutsch'
+Factory.define(:language, :class => Otwtranslation::Language) do |language|
+  language.short 'en'
+  language.name 'English'
   language.right_to_left false
   language.translation_viewable true
 end
