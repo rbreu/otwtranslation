@@ -26,4 +26,4 @@ Feature: Translation home page
   Scenario: View the translation home page
     Given I am a translation admin
     When I go to the translation home page
-    Then I should see "Translation Home" within "h1"
+    Then I should see "Translation Home" within "h2"
