@@ -3,7 +3,7 @@
 MOUNT_AT: 'translation'
 
 # The language the phrases are provided in
-DEFAULT_LOCALE: 'en_US'
+DEFAULT_LANGUAGE: 'en'
 
 # The version of the host application. Change this if you deploy code
 # so that you can spot unused phrases

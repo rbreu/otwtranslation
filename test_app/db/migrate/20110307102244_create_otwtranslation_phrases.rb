@@ -4,7 +4,7 @@ class CreateOtwtranslationPhrases < ActiveRecord::Migration
       t.string :key
       t.string :label
       t.string :description
-      t.string :locale
+      t.string :language
       t.string :version
 
       t.timestamps

@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(:version => 20110315173000) do
     t.string   "key"
     t.string   "label"
     t.string   "description"
-    t.string   "locale"
+    t.string   "language"
     t.string   "version"
     t.datetime "created_at"
     t.datetime "updated_at"

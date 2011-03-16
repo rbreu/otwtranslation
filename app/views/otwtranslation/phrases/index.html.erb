@@ -4,7 +4,7 @@
   <tr>
     <th><%= ts("Label") %></th>
     <th><%= ts("Description") %></th>
-    <th><%= ts("Locale") %></th>
+    <th><%= ts("Language") %></th>
     <th><%= ts("Version") %></th>
   </tr>
 
@@ -14,7 +14,7 @@
       <%= link_to(phrase.label, otwtranslation_phrase_path(phrase)) %>
     </td>
     <td class="description"><%= phrase.description %></td>
-    <td class="locale"><%= phrase.locale %></td>
+    <td class="language"><%= phrase.language %></td>
     <td class="version"><%= phrase.version %></td>
   </tr>
 <% end %>
