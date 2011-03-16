@@ -8,8 +8,8 @@ Factory.define(:user) do |user|
 end
 
 Factory.define(:language) do |language|
-  language.short 'de'
-  language.name 'Deutsch'
+  language.short 'en'
+  language.name 'English'
   language.right_to_left false
   language.translation_viewable true
 end
