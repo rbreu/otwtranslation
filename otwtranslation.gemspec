@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "capybara", "~> 0.4.1.2"
   s.add_development_dependency "launchy"
   s.add_development_dependency "factory_girl"
+  s.add_development_dependency "webrat"
 
 end
 

@@ -21,5 +21,6 @@ group :development, :test do
   gem "capybara", "~> 0.4.1.2"
   gem "launchy"
   gem "factory_girl"
+  gem "webrat"
 end
 
