@@ -7,8 +7,6 @@ Feature: View translated pages
   Scenario: View the home page in the default language
     Given I am a user
     When I go to the homepage
-    Then I should see "This is ts!"
-    And I should see "This is t!"
-    And I should see "The answer is 42."
+    Then I should see "Welcome to the translation engine!"
 
 
