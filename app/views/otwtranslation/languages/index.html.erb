@@ -11,7 +11,7 @@
     <th><%= ts("Short") %></th>
     <th><%= ts("Name") %></th>
     <th><%= ts("Right to left?") %>
-    <th><%= ts("Translation viewable?") %>
+    <th><%= ts("Translation visible?") %>
   </tr>
 
 <% @languages.each do |language| %>
@@ -23,8 +23,8 @@
     <td class="right_to_left">
       <%= language.right_to_left? ? ts("yes") : ts("no") %>
     </td>
-    <td class="translation_viewable">
-      <%= language.translation_viewable? ? ts("yes") : ts("no") %>
+    <td class="translation_visible">
+      <%= language.translation_visible? ? ts("yes") : ts("no") %>
     </td>
   </tr>
 <% end %>

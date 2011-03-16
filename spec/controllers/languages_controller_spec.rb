@@ -89,7 +89,7 @@ describe Otwtranslation::LanguagesController, "POST create" do
 
       before(:each) do
         @language_params = {"short" => "de", "name" => "Deutsch",
-          "right_to_left" => false, "translation_viewable" => true}
+          "right_to_left" => false, "translation_visible" => true}
         @language = mock_model(Otwtranslation::Language, :save => nil)
         Otwtranslation::Language.stub(:new).and_return(@language)
       end

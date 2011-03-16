@@ -6,11 +6,11 @@ describe Language do
     language = Otwtranslation::Language.create(:short => "de",
                                                :name => "Deutsch", 
                                                :right_to_left => false,
-                                               :translation_viewable => true)
+                                               :translation_visible => true)
     language.short.should == "de"
     language.name.should == "Deutsch"
     language.right_to_left.should == false
-    language.translation_viewable.should == true
+    language.translation_visible.should == true
   end
 
 end

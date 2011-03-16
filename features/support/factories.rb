@@ -11,5 +11,5 @@ Factory.define(:language, :class => Otwtranslation::Language) do |language|
   language.short 'en'
   language.name 'English'
   language.right_to_left false
-  language.translation_viewable true
+  language.translation_visible true
 end

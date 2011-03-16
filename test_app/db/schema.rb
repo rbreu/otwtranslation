@@ -13,10 +13,10 @@
 ActiveRecord::Schema.define(:version => 20110315173000) do
 
   create_table "languages", :force => true do |t|
-    t.string  "short",                :limit => 4
+    t.string  "short",               :limit => 4
     t.string  "name"
-    t.boolean "right_to_left",                     :default => false
-    t.boolean "translation_viewable",              :default => false
+    t.boolean "right_to_left",                    :default => false
+    t.boolean "translation_visible",              :default => false
   end
 
   add_index "languages", ["short"], :name => "index_languages_on_short"
