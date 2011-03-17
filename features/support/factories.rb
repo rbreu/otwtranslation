@@ -8,10 +8,6 @@ Factory.sequence :english_label do |n|
   "This is number #{n}!"
 end
 
-Factory.sequence :german_label do |n|
-  "Dies ist Nummer #{n}!"
-end
-
 
 Factory.define(:user) do |user|
   user.login { Factory.next(:user_name) }
@@ -27,7 +23,7 @@ end
 
 
 Factory.define(:language, :class => Otwtranslation::Language) do |language|
-  language.name 'English'
+  language.name 'Deutsch'
   language.right_to_left false
   language.translation_visible true
 
@@ -43,5 +39,12 @@ Factory.define(:phrase, :class => Otwtranslation::Phrase) do |phrase|
   phrase.after_build do |p|
     p.key = Otwtranslation::Phrase.generate_keys(p.label, p.description)[0]
   end
+end
 
+
+Factory.define(:translation, :class => Otwtranslation::Translation) do |translation|
+  translation.association :language
+  translation.association :phrase
+  translation.label "some foreign text"
+  translation.approved false
 end

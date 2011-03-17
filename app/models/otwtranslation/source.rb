@@ -2,7 +2,8 @@ class Otwtranslation::Source < ActiveRecord::Base
   
   set_table_name :otwtranslation_sources
   has_and_belongs_to_many(:phrases,
-                          :join_table => :otwtranslation_phrases_sources)
+                          :join_table => :otwtranslation_phrases_sources,
+                          :class_name => 'Otwtranslation::Phrase')
 
   validates_presence_of :controller_action
   validates_uniqueness_of :controller_action

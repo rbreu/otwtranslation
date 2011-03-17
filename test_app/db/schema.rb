@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110315173000) do
+ActiveRecord::Schema.define(:version => 20110317134000) do
 
   create_table "languages", :force => true do |t|
     t.string  "short",               :limit => 4
@@ -46,6 +46,15 @@ ActiveRecord::Schema.define(:version => 20110315173000) do
   end
 
   add_index "otwtranslation_sources", ["controller_action"], :name => "index_otwtranslation_sources_on_controller_action", :unique => true
+
+  create_table "otwtranslation_translations", :force => true do |t|
+    t.string   "label"
+    t.boolean  "approved",    :default => false
+    t.integer  "phrase_id"
+    t.integer  "language_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email"

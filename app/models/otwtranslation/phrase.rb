@@ -5,7 +5,9 @@ class Otwtranslation::Phrase < ActiveRecord::Base
 
   set_table_name :otwtranslation_phrases
   has_and_belongs_to_many(:sources, 
-                          :join_table => :otwtranslation_phrases_sources)
+                          :join_table => :otwtranslation_phrases_sources,
+                          :class_name => 'Otwtranslation::Source')
+  has_many :translations, :class_name => 'Otwtranslation::Translation'
 
   after_destroy :remove_from_cache
   after_save :remove_from_cache

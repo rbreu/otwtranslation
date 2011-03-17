@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Language do
+describe Otwtranslation::Language do
 
   it "should create a new language" do
     language = Otwtranslation::Language.create(:short => "de",

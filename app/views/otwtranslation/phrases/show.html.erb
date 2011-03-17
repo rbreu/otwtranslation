@@ -24,6 +24,19 @@
   </dd>
 </dl>
 
-<p style="color: red;">Here be place for all translations made for this phrase.</p>
+<h3>Translations for this phrase:</h3>
+
+<% if @phrase.translations.empty? %>
+  <p><%= ts("There are no translations yet.") %></p>
+<% elsif %>
+  <ol id="otwtranslation_translations">
+  <% @phrase.translations.each do |translation| %>
+    <li id="translation<%= translation.id %>" 
+      <%= render :partial => "otwtranslation/translations/translation", 
+                 :locals => { :translation => translation } %>
+    </li>
+  <% end %>
+  </ol>
+<% end %>
 
 <%= link_to ts('Back'), otwtranslation_phrases_path %>
