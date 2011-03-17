@@ -3,7 +3,7 @@ end
 
 Given /^I am a translator$/ do
   warn "Change translation admin to translator!"
-  user = Factory.create(:user, {:translation_admin => true})
+  user = Factory.create(:translation_admin)
   visit "/"
   fill_in "User name", :with => user.login
   fill_in "Password", :with => user.password
@@ -12,7 +12,7 @@ Given /^I am a translator$/ do
 end
 
 Given /^I am a translation admin$/ do
-  user = Factory.create(:user, {:translation_admin => true})
+  user = Factory.create(:translation_admin)
   visit "/"
   fill_in "User name", :with => user.login
   fill_in "Password", :with => user.password
@@ -25,12 +25,11 @@ Given /^I'm on revision "([^"]*)"$/ do |version|
 end
 
 Given /^I have the phrase "([^"]*)"$/ do |phrase|
-  Otwtranslation::Phrase.find_or_create(phrase)
+  Factory.create(:phrase, {:label => phrase})
 end
 
 Given /^I have the language ([^"]*)$/ do |language|
-  Factory.create(:language,
-                 {:name => language, :short => language[0,2].downcase})
+  Factory.create(:language, {:name => language})
 end
 
 Given /^I have the translation "([^"]*)" for "([^"]*)" in ([^"]*)$/ do |translation, phrase, language|

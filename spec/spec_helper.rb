@@ -43,7 +43,7 @@ end
 
 def admin_login()
   activate_authlogic
-  user = Factory.create(:user, {:translation_admin => true})
+  user = Factory.create(:translation_admin)
   UserSession.create user
 end
 

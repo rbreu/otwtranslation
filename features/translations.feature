@@ -15,6 +15,7 @@ Feature: Translations
     Then I should see "Hallo Welt!"
     When I follow "Hallo Welt!"
     Then I should see "Translation" within "h2"
-    And I should see "Hallo Welt!"
+    And I should see "Hallo Welt!" within ".label"
+    And I should see "no" within "dd.approved"
 
 
