@@ -35,18 +35,19 @@ end
 Given /^I have the translation "([^"]*)" for "([^"]*)" in ([^"]*)$/ do |translation, phrase, language|
   lang = Otwtranslation::Language.find_by_name(language) ||
     Factory(:language, {:name => language})
-  Factory(:translation,
-          :label => translation,
-          :language => lang,
-          :phrase => p = Factory(:phrase, :label => phrase))
+  phrase = Otwtranslation::Phrase.find_by_label(phrase) ||
+    Factory(:phrase, {:label => phrase})
+
+  Factory(:translation, :label => translation,
+          :language => lang, :phrase => phrase)
 end
 
 Given /^I have selected the language ([^"]*)$/ do |language|
-  short = Otwtranslation::Language.find_by_name(language).short ||
-    Factory(:language, {:name => language}).short
-    
-  begin
-    visit "translation/languages/select?otwtranslation_language=#{short}"
-  rescue ActionController::RedirectBackError
-  end
+  lang = Otwtranslation::Language.find_by_name(language) ||
+    Factory(:language, {:name => language})
+  
+  visit "/"
+  select language, :from => 'otwtranslation_language'
+  click_button "Set language"
+  
 end

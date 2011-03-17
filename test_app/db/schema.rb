@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(:version => 20110317134000) do
     t.string   "label"
     t.boolean  "approved",    :default => false
     t.integer  "phrase_id"
-    t.integer  "language_id"
+    t.string   "language_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

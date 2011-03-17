@@ -52,6 +52,11 @@ module OtwtranslationHelper
       render :partial => 'otwtranslation/home/tools'
     end
   end
+
+
+  def otwtranslation_language
+    session[:otwtranslation_language] || OtwtranslationConfig.DEFAULT_LANGUAGE
+  end
   
 end
 

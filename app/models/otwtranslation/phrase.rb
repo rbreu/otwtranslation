@@ -80,4 +80,9 @@ class Otwtranslation::Phrase < ActiveRecord::Base
   end
 
 
+  def translations_for(language)
+    puts language
+    translations.where(:language_id => language)
+  end
+  
 end

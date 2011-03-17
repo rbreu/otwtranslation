@@ -30,4 +30,10 @@ describe Otwtranslation::PhrasesController, "GET show" do
     get :show, :id => "somekey"
     assigns[:phrase] = phrase
   end
+
+  def translations_for(language)
+    translations.where(:language_id => language)
+  end
+  
+
 end

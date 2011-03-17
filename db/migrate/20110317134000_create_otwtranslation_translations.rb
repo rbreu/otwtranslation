@@ -4,7 +4,7 @@ class CreateOtwtranslationTranslations < ActiveRecord::Migration
       t.string :label
       t.boolean :approved, :default => 0
       t.integer :phrase_id
-      t.integer :language_id
+      t.string :language_id
 
       t.timestamps
     end
