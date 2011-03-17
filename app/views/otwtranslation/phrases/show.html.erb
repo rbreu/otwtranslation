@@ -26,11 +26,11 @@
 
 <h3>Translations for this phrase:</h3>
 
-<% if @phrase.translations.empty? %>
+<% if @translations.empty? %>
   <p><%= ts("There are no translations for the selected language.") %></p>
 <% elsif %>
   <ol id="otwtranslation_translations">
-  <% @phrase.translations_for(otwtranslation_language).each do |translation| %>
+  <% @translations.each do |translation| %>
     <li id="translation<%= translation.id %>" 
       <%= render :partial => "otwtranslation/translations/translation", 
                  :locals => { :translation => translation } %>

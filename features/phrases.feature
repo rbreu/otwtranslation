@@ -16,5 +16,6 @@ Feature: Translation phrases
     And I should see "hello/world" within "dd.sources"
     And I should see "hello#world" within "dd.sources"
     And I should see "0.8" within "dd.version"
+    And I should see "There are no translations for the selected language."
 
 

@@ -28,12 +28,12 @@ Feature: Translation phrases
     And I uncheck "Right to left?"
     And I check "Translation visible?"
     And I press "Add language"
-    Then I should see "Show Language" within "h2"
+    Then I should see "Language successfully created."
+    And I should see "Show Language" within "h2"
     And I should see "de" within "dd.short"
     And I should see "Deutsch" within "dd.name"
     And I should see "no" within "dd.right_to_left"
     And I should see "yes" within "dd.translation_visible"
-
     When I go to the languages list
     Then I should see "Language List" within "h2"
     And I should see "Deutsch" within "td.name"
