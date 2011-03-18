@@ -2,12 +2,7 @@
 # Where to access the tools pages, e.g. /translation/phrases
 MOUNT_AT: 'translation'
 
-# The language the phrases are provided in
-DEFAULT_LANGUAGE: 'en'
-
 # The version of the host application. Change this if you deploy code
 # so that you can spot unused phrases
 VERSION: '0.8'
 
-# We do not want to save all sources forever for a given phrase, limit to:
-MAX_SOURCES_PER_PHRASE: 5

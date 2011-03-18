@@ -11,7 +11,6 @@ describe Otwtranslation::Phrase, "creation" do
     phrase.sources.first.controller.should == "works"
     phrase.sources.first.action.should == "show"
     phrase.sources.first.url.should == "works/1"
-    phrase.language.should == OtwtranslationConfig.DEFAULT_LANGUAGE
     phrase.version.should == OtwtranslationConfig.VERSION
   end
 

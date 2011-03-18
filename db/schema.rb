@@ -25,7 +25,6 @@ ActiveRecord::Schema.define(:version => 20110317134000) do
     t.string   "key"
     t.string   "label"
     t.string   "description"
-    t.string   "language"
     t.string   "version"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -49,9 +48,9 @@ ActiveRecord::Schema.define(:version => 20110317134000) do
 
   create_table "otwtranslation_translations", :force => true do |t|
     t.string   "label"
-    t.boolean  "approved",    :default => false
-    t.integer  "phrase_id"
-    t.string   "language_id"
+    t.boolean  "approved",       :default => false
+    t.string   "phrase_key"
+    t.string   "language_short"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

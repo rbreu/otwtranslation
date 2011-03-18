@@ -38,8 +38,7 @@ class Otwtranslation::Phrase < ActiveRecord::Base
 
     phrase = find_or_create_by_key(:key => key, 
                                    :label => label, 
-                                   :description => description,
-                                   :language => OtwtranslationConfig.DEFAULT_LANGUAGE)
+                                   :description => description)
 
     phrase.version = OtwtranslationConfig.VERSION
 
