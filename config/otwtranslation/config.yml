@@ -6,3 +6,4 @@ MOUNT_AT: 'translation'
 # so that you can spot unused phrases
 VERSION: '0.8'
 
+DEFAULT_LANGUAGE: 'en'
