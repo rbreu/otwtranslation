@@ -5,6 +5,8 @@
     <th><%= ts("Label") %></th>
     <th><%= ts("Description") %></th>
     <th><%= ts("Version") %></th>
+    <th><%= ts("Translations") %></th>
+    <th><%= ts("Approved translations") %></th>
   </tr>
 
 <% @phrases.each do |phrase| %>
@@ -14,6 +16,8 @@
     </td>
     <td class="description"><%= phrase.description %></td>
     <td class="version"><%= phrase.version %></td>
+    <td class="translations"><%= phrase.translations.count %></td>
+    <td class="approved_translations"><%= phrase.approved_translations.count %></td>
   </tr>
 <% end %>
 </table>

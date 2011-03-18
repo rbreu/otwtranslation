@@ -12,6 +12,8 @@
     <th><%= ts("Name") %></th>
     <th><%= ts("Right to left?") %>
     <th><%= ts("Translation visible?") %>
+    <th><%= ts("Translated") %>
+    <th><%= ts("Approved") %>
   </tr>
 
 <% @languages.each do |language| %>
@@ -25,6 +27,12 @@
     </td>
     <td class="translation_visible">
       <%= language.translation_visible? ? ts("yes") : ts("no") %>
+    </td>
+    <td class="translated">
+      <%= number_to_percentage language.percentage_translated, :precision => 2 %>
+    </td>
+    <td class="approved">
+      <%= number_to_percentage language.percentage_approved, :precision => 2 %>
     </td>
   </tr>
 <% end %>

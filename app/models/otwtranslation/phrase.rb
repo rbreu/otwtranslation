@@ -10,6 +10,10 @@ class Otwtranslation::Phrase < ActiveRecord::Base
   has_many(:translations, :class_name => 'Otwtranslation::Translation',
            :foreign_key => 'phrase_key', :primary_key => 'key')
   
+  has_many(:approved_translations, :class_name => 'Otwtranslation::Translation',
+           :foreign_key => 'phrase_key', :primary_key => 'key',
+           :conditions => {:approved => true})
+  
 
   after_destroy :remove_from_cache
   after_save :remove_from_cache
