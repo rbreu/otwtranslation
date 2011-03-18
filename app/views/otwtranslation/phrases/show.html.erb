@@ -24,7 +24,15 @@
   </dd>
 </dl>
 
+
+<ul class="otwtranslation navigation">
+  <li><%= link_to ts('Add translation'), otwtranslation_new_translation_path(@phrase) %></li>
+</ul>
+
 <h3>Translations for this phrase:</h3>
+
+
+
 
 <% if @translations.empty? %>
   <p><%= ts("There are no translations for the selected language.") %></p>

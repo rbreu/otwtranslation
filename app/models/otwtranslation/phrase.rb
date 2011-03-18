@@ -7,7 +7,9 @@ class Otwtranslation::Phrase < ActiveRecord::Base
   has_and_belongs_to_many(:sources, 
                           :join_table => :otwtranslation_phrases_sources,
                           :class_name => 'Otwtranslation::Source')
-  has_many :translations, :class_name => 'Otwtranslation::Translation'
+  has_many(:translations, :class_name => 'Otwtranslation::Translation',
+           :foreign_key => 'phrase_key', :primary_key => 'key')
+  
 
   after_destroy :remove_from_cache
   after_save :remove_from_cache
@@ -27,8 +29,8 @@ class Otwtranslation::Phrase < ActiveRecord::Base
   # get the phrase directly from the database.
   
   def self.find_or_create(label, description="", source={})
-    key, cache_key = generate_keys(label, description)
-    phrase = Rails.cache.read(cache_key)
+    key = generate_key(label, description)
+    phrase = Rails.cache.read(cache_key(key))
 
     return phrase if phrase &&
       phrase.version == OtwtranslationConfig.VERSION &&
@@ -48,19 +50,27 @@ class Otwtranslation::Phrase < ActiveRecord::Base
 
     phrase.save
     phrase = phrase.to_cachable
-    Rails.cache.write(cache_key, phrase)
+    Rails.cache.write(cache_key(key), phrase)
     return phrase
   end
 
   
-  def cache_key
+  def self.find_from_cache_or_db(key)
+    Rails.cache.fetch(cache_key(key)) do
+      phrase = find_by_key(key).to_cachable
+      Rails.cache.write(cache_key(key), phrase)
+      phrase
+    end
+  end
+  
+  
+  def self.cache_key(key)
     "otwtranslation_phrase_#{key}"
   end
 
   
-  def self.generate_keys(label, description="")
-    md5 = Digest::MD5.hexdigest("#{label};;;#{description}")
-    return md5, "otwtranslation_phrase_#{md5}"
+  def self.generate_key(label, description="")
+    Digest::MD5.hexdigest("#{label};;;#{description}")
   end
 
   
@@ -81,7 +91,7 @@ class Otwtranslation::Phrase < ActiveRecord::Base
 
 
   def translations_for(language)
-    translations.where(:language_id => language)
+    translations.where(:language_short => language)
   end
   
 end

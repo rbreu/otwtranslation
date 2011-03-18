@@ -6,17 +6,24 @@ Rails.application.routes.draw do
   get "#{mount_at}/toggle_tools" => 'otwtranslation/home#toggle_tools',
   :as => 'otwtranslation_toggle_tools'
 
+
+  # Phrases
+  
   get "#{mount_at}/phrases" => 'otwtranslation/phrases#index',
   :as => 'otwtranslation_phrases'
 
   get "#{mount_at}/phrases/:id" => 'otwtranslation/phrases#show',
   :as => 'otwtranslation_phrase'
+
+  # Sources
   
   get "#{mount_at}/sources" => 'otwtranslation/sources#index',
   :as => 'otwtranslation_sources'
 
   get "#{mount_at}/sources/:id" => 'otwtranslation/sources#show',
   :as => 'otwtranslation_source'
+
+  # Languages
   
   get "#{mount_at}/languages" => 'otwtranslation/languages#index',
   :as => 'otwtranslation_languages'
@@ -32,6 +39,15 @@ Rails.application.routes.draw do
   
   get "#{mount_at}/languages/:id" => 'otwtranslation/languages#show',
   :as => 'otwtranslation_language'
+
+  
+  # Translations
+  
+  get "#{mount_at}/phrases/:id/translations/new" => 'otwtranslation/translations#new',
+  :as => 'otwtranslation_new_translation'
+
+  match "#{mount_at}/phrases/:id/translations/" => 'otwtranslation/translations#create',
+  :as => 'otwtranslation_post_translation', :via => [:post]
   
 end
 

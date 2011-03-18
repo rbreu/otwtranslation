@@ -37,7 +37,7 @@ Factory.define(:phrase, :class => Otwtranslation::Phrase) do |phrase|
   phrase.version OtwtranslationConfig.DEFAULT_LANGUAGE
   
   phrase.after_build do |p|
-    p.key = Otwtranslation::Phrase.generate_keys(p.label, p.description)[0]
+    p.key = Otwtranslation::Phrase.generate_key(p.label, p.description)
   end
 end
 

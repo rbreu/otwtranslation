@@ -1,0 +1,17 @@
+<h2>Add Translation</h2>
+
+<dl>
+  <dt><%= ts("Translation for:")%></dt>
+  <dd><%= @phrase.label %></dd>
+</dl>
+
+<%= form_for(@translation, :url => otwtranslation_post_translation_path) do |f| %>
+  <dl>
+    <dt><%= f.label(:label, ts("Translation:"))%></dt>
+    <dd><%= f.text_field :label %></dd>
+
+  </dl>
+  <p class="submit"><%= f.submit ts("Add translation") %></p>
+
+<% end %>
+    

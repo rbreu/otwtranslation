@@ -3,8 +3,9 @@ class CreateOtwtranslationTranslations < ActiveRecord::Migration
     create_table :otwtranslation_translations do |t|
       t.string :label
       t.boolean :approved, :default => 0
-      t.integer :phrase_id
-      t.string :language_id
+      t.string :phrase_key
+      t.string :language_short
+      
 
       t.timestamps
     end

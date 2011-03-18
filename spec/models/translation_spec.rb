@@ -7,7 +7,7 @@ describe Otwtranslation::Translation do
                                                   :approved => false)
     language = mock_model(Otwtranslation::Language, :short => 'de')
     translation.language = language
-    translation.phrase  = mock_model(Otwtranslation::Phrase)
+    translation.phrase = mock_model(Otwtranslation::Phrase, :key => 'sdf')
     
     translation.save.should == true
 
