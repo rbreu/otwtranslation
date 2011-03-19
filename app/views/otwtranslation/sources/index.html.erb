@@ -5,7 +5,12 @@
     <th><%= ts("Controller#Action") %></th>
     <th><%= ts("URL") %></th>
     <th><%= ts("Has phrases with current version?") %>
+    <th><%= ts("Phrases") %>
+    <th><%= ts("Translated") %>
+    <th><%= ts("Approved") %>
   </tr>
+
+<p style="color: red;">Maybe we can base assignments on this.</p>
 
 <% @sources.each do |source| %>
   <tr>
@@ -18,8 +23,19 @@
     <td class="version">
       <%= source.has_phrases_with_current_verion? ? ts("yes") : ts("no") %>
     </td>
+    <td class="phrases">
+      <%= source.phrases.size %>
+    </td>
+    <td class="translated">
+      <%= number_to_percentage(
+          source.percentage_translated_for(otwtranslation_language), :precision => 2) %>
+    </td>
+    <td class="approved">
+      <%= number_to_percentage(
+          source.percentage_approved_for(otwtranslation_language), :precision => 2) %>
+    </td>
   </tr>
 <% end %>
 </table>
 
-<p style="color: red;">Maybe we can base assignments on this.</p>
+

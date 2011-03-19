@@ -11,16 +11,17 @@ class Otwtranslation::TranslationsController < ApplicationController
 
   def create
     @translation = Otwtranslation::Translation.new(params[:otwtranslation_translation])
-    @translation.phrase_key = params[:id]
+    @phrase = Otwtranslation::Phrase.find_by_key(params[:id])
+    @translation.phrase = @phrase
+    @translation.sources << @phrase.sources
     @translation.language_short = otwtranslation_language
-
     
     if @translation.save
       flash[:notice] =  ts('Translation successfully created.')
-      redirect_to otwtranslation_phrase_path(params[:id])
+      redirect_to otwtranslation_phrase_path(@phrase)
     else
       flash[:error] = ts('There was a problem saving the translation.')
-      redirect_to otwtranslation_new_translation_path(params[:id])
+      redirect_to otwtranslation_new_translation_path(@phrase)
     end
   end
 
