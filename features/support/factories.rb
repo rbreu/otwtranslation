@@ -1,13 +1,21 @@
 require 'factory_girl'
 
-Factory.sequence :user_name do |n|
-  "Abby#{n}"
+Factory.sequence :user_name do |i|
+  "Abby#{i}"
 end
 
-Factory.sequence :english_label do |n|
-  "This is number #{n}!"
+Factory.sequence :english_label do |i|
+  "This is number #{i}!"
 end
 
+Factory.sequence :controller_action do |i|
+  "home#{i}#index"
+end
+
+
+Factory.define(:source, :class => Otwtranslation::Source) do |source|
+  source.controller_action { Factory.next(:controller_action) }
+end
 
 Factory.define(:user) do |user|
   user.login { Factory.next(:user_name) }

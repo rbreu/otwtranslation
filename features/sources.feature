@@ -14,5 +14,6 @@ Feature: Translation sources
     And I should see "hello#world" within "dd.controller_action"
     And I should see "hello/world" within "dd.url"
     And I should see "yes" within "dd.version"
-
+    And I should see "0.00%" within "dd.translated"
+    And I should see "0.00%" within "dd.approved"
 

@@ -15,6 +15,8 @@ Feature: Translation phrases
     And I should see "Deutsch" within "dd.name"
     And I should see "no" within "dd.right_to_left"
     And I should see "yes" within "dd.translation_visible"
+    And I should see "0.00%" within "dd.translated"
+    And I should see "0.00%" within "dd.approved"
 
   Scenario: Add a language
     Given I am a translation admin

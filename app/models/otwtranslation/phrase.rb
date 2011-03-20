@@ -97,4 +97,9 @@ class Otwtranslation::Phrase < ActiveRecord::Base
     translations.where(:language_short => language)
   end
   
+
+  def approved_translations_for(language)
+    approved_translations.where(:language_short => language)
+  end
+  
 end

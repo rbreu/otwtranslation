@@ -10,14 +10,16 @@ class Otwtranslation::Language < Language
 
   def percentage_translated
     all = Otwtranslation::Phrase.count.to_f
+    return 0 if all == 0
     translated = translations.select("DISTINCT(phrase_key)").count.to_f
-    translated/all
+    translated/all * 100
   end
     
   def percentage_approved
     all = Otwtranslation::Phrase.count.to_f
+    return 0 if all == 0
     translated = approved_translations.size.to_f
-    translated/all
+    translated/all * 100
   end
     
   

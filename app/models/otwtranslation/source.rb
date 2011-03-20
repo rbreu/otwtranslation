@@ -6,22 +6,6 @@ class Otwtranslation::Source < ActiveRecord::Base
                           :join_table => :otwtranslation_phrases_sources,
                           :class_name => 'Otwtranslation::Phrase')
 
-  has_and_belongs_to_many(:translations,
-                          :join_table => :otwtranslation_sources_translations,
-                          :class_name => 'Otwtranslation::Translation')
-
-  has_and_belongs_to_many(:approved_translations,
-                          :join_table => :otwtranslation_sources_translations,
-                          :class_name => 'Otwtranslation::Translation',
-                          :conditions => {:approved => true})
-
-  # has_many(:sources_translations,
-  #          :class_name => 'Otwtranslation::SourceTranslation')
-  # has_many :translations, :through => :sources_translations
-  # has_many :approved_translations, :through => :sources_translations
-  
-  
-
   validates_presence_of :controller_action
   validates_uniqueness_of :controller_action
 
@@ -55,27 +39,29 @@ class Otwtranslation::Source < ActiveRecord::Base
   end
 
   
-  def translations_for(language)
-    translations.where(:language_short => language)
-  end
-
-  def approved_translations_for(language)
-    approved_translations.where(:language_short => language)
-  end
-
-
   def percentage_translated_for(language)
     all = phrases.count.to_f
-    translated = translations_for(language).count.to_f
-    puts "!!!!!!!!!!!!!!!!!!"
-    puts translated
-    translated/all
+    return 0 if all == 0
+
+    translated = 0
+    phrases.each do |t|
+      translated += 1 if t.translations_for(language).count > 0
+    end
+    
+    translated/all * 100
   end
+
   
   def percentage_approved_for(language)
     all = phrases.count.to_f
-    approved = approved_translations_for(language).count.to_f
-    approved/all
+    return 0 if all == 0
+
+    approved = 0
+    phrases.each do |t|
+      approved += 1 if t.approved_translations_for(language).count > 0
+    end
+
+    approved/all * 100
   end
   
 end

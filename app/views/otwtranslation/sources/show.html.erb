@@ -12,6 +12,18 @@
   <dd class="version">
     <%= @source.has_phrases_with_current_verion? ? ts("yes") : ts("no") %>
   </dd>
+
+  <dt class="translated">Translated:</dt>
+  <dd class="translated">
+    <%= number_to_percentage(
+          @source.percentage_translated_for(otwtranslation_language), :precision => 2) %>
+  </dd>
+
+  <dt class="approved">Approved:</dt>
+  <dd class="approved">
+    <%= number_to_percentage(
+          @source.percentage_approved_for(otwtranslation_language), :precision => 2) %>
+  </dd>
 </dl>
 
 <%= link_to ts('Back'), otwtranslation_sources_path %>

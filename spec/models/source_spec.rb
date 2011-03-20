@@ -48,4 +48,68 @@ describe Otwtranslation::Source do
     source.has_phrases_with_current_verion?.should equal false
   end
 
+  context "when there are languages, phrases and sources" do
+
+    before(:each) do
+      @german = Factory.create(:language, :name => "Deutsch")
+      @dutch = Factory.create(:language, :name => "Nederlands")
+      @source = Factory.create(:source)
+      @phrase = Factory.create(:phrase)
+      @phrase.sources << @source
+    end
+    
+    it "should return 0% for 0 translations" do
+      @source.percentage_translated_for(@german.short).should
+      be_within(0.00001).of(0)
+      @source.percentage_approved_for(@german.short).should 
+      be_within(0.00001).of(0)
+    end
+
+    it "should count translations in the current language" do
+      Factory.create(:translation, {:language => @german, :phrase => @phrase})
+      @source.percentage_translated_for(@german.short).should
+      be_within(0.00001).of(100)
+
+      @source.percentage_approved_for(@german.short).should
+      be_within(0.00001).of(0)
+    end
+    
+    it "should count approved translations in the current language" do
+      Factory.create(:translation,
+                     {:language => @german, :phrase => @phrase, :approved => true})
+      @source.percentage_translated_for(@german.short).should
+      be_within(0.00001).of(100)
+
+      @source.percentage_approved_for(@german.short).should
+      be_within(0.00001).of(100)
+    end
+
+    it "should not count translations for other languages" do
+      Factory.create(:translation,
+                     {:language => @german, :phrase => @phrase, :approved => true})
+      @source.percentage_translated_for(@dutch.short).should
+      be_within(0.00001).of(0)
+
+      @source.percentage_approved_for(@dutch.short).should
+      be_within(0.00001).of(0)
+    end
+
+    it "should not count multiple translations for a phrase" do
+       Factory.create(:translation,
+                      {:language => @german, :phrase => @phrase})
+       Factory.create(:translation,
+                      {:language => @german, :phrase => @phrase})
+     
+      @source.percentage_translated_for(@german.short).should
+      be_within(0.00001).of(100)
+
+      @source.percentage_approved_for(@german.short).should
+      be_within(0.00001).of(0)
+    end
+
+    it "should not count translations for other sources"
+
+    it "should count translations of multiple phrases"
+    
+  end
 end

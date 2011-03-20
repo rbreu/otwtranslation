@@ -17,6 +17,16 @@
   <dd class="translation_visible">
     <%= @language.translation_visible? ? ts("yes") : ts("no") %>
   </dd>
+
+  <dt class="translated"><%= ts("Translated:") %></dt>
+  <dd class="translated">
+    <%= number_to_percentage @language.percentage_translated, :precision => 2 %>
+  </dd>
+
+  <dt class="approved"><%= ts("Approved:") %></dt>
+  <dd class="approved">
+    <%= number_to_percentage @language.percentage_approved, :precision => 2 %>
+  </dd>
 </dl>
 
 <%= link_to ts('Back'), otwtranslation_languages_path %>
