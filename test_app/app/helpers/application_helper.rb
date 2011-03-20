@@ -9,7 +9,6 @@ module ApplicationHelper
   end
 
   def span_if_current(link_to_default_text, path)
-    translation_name = "layout.header." + link_to_default_text.gsub(/\s+/, "_")
     link = link_to_unless_current(ts(link_to_default_text), path)
     current_page?(path) ? "<span class=\"current\">#{link}</span>".html_safe : link
   end

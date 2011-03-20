@@ -18,10 +18,28 @@ module OtwtranslationHelper
       }
     end
 
-    Otwtranslation::Phrase.find_or_create(phrase, description, source)
-                        
-    return phrase
+    phrase = Otwtranslation::Phrase.find_or_create(phrase, description, source)
+    
+    if otwtranslation_tool_visible? && otwtranslation_language != OtwtranslationConfig.DEFAULT_LANGUAGE
+
+      # TODO: performance!!!!
+      phrase = Otwtranslation::Phrase.find_by_key(phrase.key)
+        
+
+      
+      if phrase.translations_for(otwtranslation_language).count == 0
+        display_phrase = "<span class=\"otwtranslation_mark_untranslated\">#{phrase.label}</span>".html_safe
+      elsif phrase.approved_translations_for(otwtranslation_language).count > 0
+        display_phrase = "<span class=\"otwtranslation_mark_approved\">#{phrase.label}</span>".html_safe
+      else
+        display_phrase = "<span class=\"otwtranslation_mark_translated\">#{phrase.label}</span>".html_safe
+      end
+    end
+      
+    return display_phrase || phrase.label
+
   end
+
   
   def t(id, params={})
     warn "[DEPRECATION WARNING] 't' is deprecated. Use 'ts' instead."
@@ -47,8 +65,12 @@ module OtwtranslationHelper
     end
   end
 
+  def otwtranslation_tool_visible?
+    logged_in? && current_user.is_translation_admin? && session[:otwtranslation_tools]
+  end
+
   def otwtranslation_tool_header
-    if logged_in? && current_user.is_translation_admin? && session[:otwtranslation_tools]
+    if otwtranslation_tool_visible?
       render :partial => 'otwtranslation/home/tools'
     end
   end
@@ -57,6 +79,6 @@ module OtwtranslationHelper
   def otwtranslation_language
     session[:otwtranslation_language] || OtwtranslationConfig.DEFAULT_LANGUAGE
   end
-  
+   
 end
 

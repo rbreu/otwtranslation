@@ -22,10 +22,15 @@ dl#otwtranslation_language dd {
     margin: -1.3em 0 .7em 13em; 
 }
 
-ol#otwtranslation_translations dl.stats { 
-    background: #eee; 
-    font-size: 0.8575em; 
-    text-align: right; 
-    padding: 0 0.3em 0.3em; 
-    margin-top: 0.1em;
+
+span.otwtranslation_mark_untranslated {
+    border-bottom: solid red;
+}
+
+span.otwtranslation_mark_translated {
+    border-bottom: solid magenta;
+}
+
+span.otwtranslation_mark_approved {
+    border-bottom: solid green;
 }

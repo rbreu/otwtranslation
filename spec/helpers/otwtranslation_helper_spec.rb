@@ -1,10 +1,10 @@
 require 'spec_helper'
-#include OtwtranslationHelper
 
 describe OtwtranslationHelper do
 
   describe "ts" do
     it "should return the original phrase" do
+      helper.stub(:logged_in?).and_return(false)
       helper.ts("Good day!").should == "Good day!"
     end
   end
