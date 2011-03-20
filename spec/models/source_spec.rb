@@ -53,40 +53,44 @@ describe Otwtranslation::Source do
     before(:each) do
       @german = Factory.create(:language, :name => "Deutsch")
       @dutch = Factory.create(:language, :name => "Nederlands")
+      
       @source = Factory.create(:source)
-      @phrase = Factory.create(:phrase)
-      @phrase.sources << @source
+      
+      @phrase1 = Factory.create(:phrase)
+      @phrase1.sources << @source
+      @phrase2 = Factory.create(:phrase)
+      @phrase2.sources << @source
     end
     
-    it "should return 0% for 0 translations" do
+    it "stats should return 0% for 0 translations" do
       @source.percentage_translated_for(@german.short).should
       be_within(0.00001).of(0)
       @source.percentage_approved_for(@german.short).should 
       be_within(0.00001).of(0)
     end
 
-    it "should count translations in the current language" do
-      Factory.create(:translation, {:language => @german, :phrase => @phrase})
+    it "stats should count translations in the current language" do
+      Factory.create(:translation, {:language => @german, :phrase => @phrase1})
       @source.percentage_translated_for(@german.short).should
-      be_within(0.00001).of(100)
+      be_within(0.00001).of(50)
 
       @source.percentage_approved_for(@german.short).should
       be_within(0.00001).of(0)
     end
     
-    it "should count approved translations in the current language" do
+    it "stats should count approved translations in the current language" do
       Factory.create(:translation,
-                     {:language => @german, :phrase => @phrase, :approved => true})
+                     {:language => @german, :phrase => @phrase1, :approved => true})
       @source.percentage_translated_for(@german.short).should
-      be_within(0.00001).of(100)
+      be_within(0.00001).of(50)
 
       @source.percentage_approved_for(@german.short).should
-      be_within(0.00001).of(100)
+      be_within(0.00001).of(50)
     end
 
-    it "should not count translations for other languages" do
+    it "stats should not count translations for other languages" do
       Factory.create(:translation,
-                     {:language => @german, :phrase => @phrase, :approved => true})
+                     {:language => @german, :phrase => @phrase1, :approved => true})
       @source.percentage_translated_for(@dutch.short).should
       be_within(0.00001).of(0)
 
@@ -94,22 +98,33 @@ describe Otwtranslation::Source do
       be_within(0.00001).of(0)
     end
 
-    it "should not count multiple translations for a phrase" do
+    it "stats should not count multiple translations for one phrase" do
        Factory.create(:translation,
-                      {:language => @german, :phrase => @phrase})
+                      {:language => @german, :phrase => @phrase1, :approved => true})
        Factory.create(:translation,
-                      {:language => @german, :phrase => @phrase})
+                      {:language => @german, :phrase => @phrase1, :approved => true})
      
       @source.percentage_translated_for(@german.short).should
-      be_within(0.00001).of(100)
+      be_within(0.00001).of(50)
 
       @source.percentage_approved_for(@german.short).should
-      be_within(0.00001).of(0)
+      be_within(0.00001).of(50)
     end
 
-    it "should not count translations for other sources"
 
-    it "should count translations of multiple phrases"
-    
+    it "stats should count translations of multiple phrases" do
+      Factory.create(:translation,
+                     {:language => @german, :phrase => @phrase1, :approved => true})
+   
+      Factory.create(:translation,
+                     {:language => @german, :phrase => @phrase2, :approved => true})
+      
+      @source.percentage_translated_for(@german.short).should
+      be_within(0.00001).of(100)
+      @source.percentage_approved_for(@german.short).should
+      be_within(0.00001).of(100)
+
+    end
+   
   end
 end
