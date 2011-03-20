@@ -7,3 +7,6 @@ MOUNT_AT: 'translation'
 VERSION: '0.8'
 
 DEFAULT_LANGUAGE: 'en'
+
+# After how many minutes to expire statistics on some of the index pages
+STATS_CACHE_EXPIRY: 5

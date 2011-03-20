@@ -12,7 +12,11 @@
 
 <p style="color: red;">Maybe we can base assignments on this.</p>
 
+<p><%= "(Statistics will update every #{OtwtranslationConfig.STATS_CACHE_EXPIRY} minutes.)" %></p>
+
 <% @sources.each do |source| %>
+<% cache("otwtranslation-source-index-#{otwtranslation_language}-#{source.id}",
+      :expires_in => OtwtranslationConfig.STATS_CACHE_EXPIRY.to_i.minutes) do %>
   <tr>
     <td class="controller_action">
       <%= link_to(source.controller_action, otwtranslation_source_path(source)) %>
@@ -21,7 +25,7 @@
       <%= link_to(truncate(source.url), source.url) %>
     </td>
     <td class="version">
-      <%= source.has_phrases_with_current_verion? ? ts("yes") : ts("no") %>
+      <%= source.has_phrases_with_current_verion? ? "&#x2713;".html_safe : "" %>
     </td>
     <td class="phrases">
       <%= source.phrases.size %>
@@ -35,6 +39,7 @@
           source.percentage_approved_for(otwtranslation_language), :precision => 2) %>
     </td>
   </tr>
+<% end %><!-- end of cache -->
 <% end %>
 </table>
 

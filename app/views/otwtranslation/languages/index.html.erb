@@ -6,7 +6,7 @@
   </li>
 </ul>
 
-<table id="otwtranslation_language">
+<table id="otwtranslation_languages">
   <tr>
     <th><%= ts("Short") %></th>
     <th><%= ts("Name") %></th>
@@ -16,17 +16,21 @@
     <th><%= ts("Approved") %>
   </tr>
 
+<p><%= "(Statistics will update every #{OtwtranslationConfig.STATS_CACHE_EXPIRY} minutes.)" %></p>
+
 <% @languages.each do |language| %>
+<% cache("otwtranslation-language-index-#{language.id}",
+      :expires_in => OtwtranslationConfig.STATS_CACHE_EXPIRY.to_i.minutes) do %>
   <tr>
     <td class="short"><%= language.short %></td>
     <td class="name">
       <%= link_to(language.name, otwtranslation_language_path(language)) %>
     </td>
     <td class="right_to_left">
-      <%= language.right_to_left? ? ts("yes") : ts("no") %>
+      <%= language.right_to_left? ? "&#x2713;".html_safe : "" %>
     </td>
     <td class="translation_visible">
-      <%= language.translation_visible? ? ts("yes") : ts("no") %>
+      <%= language.translation_visible? ? "&#x2713;".html_safe : "" %>
     </td>
     <td class="translated">
       <%= number_to_percentage language.percentage_translated, :precision => 2 %>
@@ -35,6 +39,7 @@
       <%= number_to_percentage language.percentage_approved, :precision => 2 %>
     </td>
   </tr>
+<% end %><!-- end of cache -->
 <% end %>
 </table>
 
