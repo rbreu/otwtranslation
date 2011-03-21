@@ -17,8 +17,12 @@
     </td>
     <td class="description"><%= phrase.description %></td>
     <td class="version"><%= phrase.version %></td>
-    <td class="translations"><%= phrase.translations.count %></td>
-    <td class="approved_translations"><%= phrase.approved_translations.count %></td>
+    <td class="translations">
+      <%= phrase.translations_for(otwtranslation_language).count %>
+    </td>
+    <td class="approved_translations">
+      <%= phrase.approved_translations_for(otwtranslation_language).count %>
+    </td>
   </tr>
 <% end %><!-- end of cache -->
 <% end %>
