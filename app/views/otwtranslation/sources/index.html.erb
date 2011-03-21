@@ -16,7 +16,7 @@
 
 <% @sources.each do |source| %>
 <% cache("otwtranslation-source-index-#{otwtranslation_language}-#{source.id}",
-      :expires_in => OtwtranslationConfig.STATS_CACHE_EXPIRY.to_i.minutes) do %>
+      :expires_in => OtwtranslationConfig.STATS_CACHE_EXPIRY.to_f.minutes) do %>
   <tr>
     <td class="controller_action">
       <%= link_to(source.controller_action, otwtranslation_source_path(source)) %>

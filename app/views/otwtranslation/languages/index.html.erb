@@ -20,7 +20,7 @@
 
 <% @languages.each do |language| %>
 <% cache("otwtranslation-language-index-#{language.id}",
-      :expires_in => OtwtranslationConfig.STATS_CACHE_EXPIRY.to_i.minutes) do %>
+      :expires_in => OtwtranslationConfig.STATS_CACHE_EXPIRY.to_f.minutes) do %>
   <tr>
     <td class="short"><%= language.short %></td>
     <td class="name">
