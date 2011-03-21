@@ -26,4 +26,9 @@
   </dd>
 </dl>
 
+<h3><%= ts("Phrases for this source:") %></h3>
+
+<%= render :partial => "otwtranslation/phrases/phrase_list",
+           :locals => { :phrases => @source.phrases } %>
+
 <%= link_to ts('Back'), otwtranslation_sources_path %>

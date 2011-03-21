@@ -16,4 +16,4 @@ Feature: Translation sources
     And I should see "yes" within "dd.version"
     And I should see "0.00%" within "dd.translated"
     And I should see "0.00%" within "dd.approved"
-
+    And I should see "Hello World!" within "td.phrase"

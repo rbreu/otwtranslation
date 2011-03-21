@@ -1,0 +1,25 @@
+<table id="otwtranslation_phrases">
+  <tr>
+    <th><%= ts("Label") %></th>
+    <th><%= ts("Description") %></th>
+    <th><%= ts("Version") %></th>
+    <th><%= ts("Translations") %></th>
+    <th><%= ts("Approved translations") %></th>
+  </tr>
+
+<p><%= "(Statistics will update every #{OtwtranslationConfig.STATS_CACHE_EXPIRY} minutes.)" %></p>
+
+<% phrases.each do |phrase| %>
+<% cache("otwtranslation-phrase-index-#{otwtranslation_language}-#{phrase.id}",
+      :expires_in => OtwtranslationConfig.STATS_CACHE_EXPIRY.to_f.minutes) do %>  <tr>
+    <td class="phrase">
+      <%= link_to(phrase.label, otwtranslation_phrase_path(phrase)) %>
+    </td>
+    <td class="description"><%= phrase.description %></td>
+    <td class="version"><%= phrase.version %></td>
+    <td class="translations"><%= phrase.translations.count %></td>
+    <td class="approved_translations"><%= phrase.approved_translations.count %></td>
+  </tr>
+<% end %><!-- end of cache -->
+<% end %>
+</table>
