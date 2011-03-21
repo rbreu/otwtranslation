@@ -43,11 +43,17 @@ class Otwtranslation::Source < ActiveRecord::Base
     all = phrases.count.to_f
     return 0 if all == 0
 
-    translated = 0
-    phrases.each do |t|
-      translated += 1 if t.translations_for(language).count > 0
-    end
-    
+    translated = connection.select_value("""
+    SELECT COUNT(DISTINCT(phrase_key))
+    FROM otwtranslation_translations
+    WHERE (otwtranslation_translations.language_short = #{connection.quote(language)}
+    AND otwtranslation_translations.phrase_key IN
+      (SELECT key FROM otwtranslation_phrases
+       INNER JOIN otwtranslation_phrases_sources
+       ON otwtranslation_phrases.id = otwtranslation_phrases_sources.phrase_id
+       WHERE (otwtranslation_phrases_sources.source_id = #{id} )))
+    """)
+
     translated/all * 100
   end
 
@@ -56,11 +62,19 @@ class Otwtranslation::Source < ActiveRecord::Base
     all = phrases.count.to_f
     return 0 if all == 0
 
-    approved = 0
-    phrases.each do |t|
-      approved += 1 if t.approved_translations_for(language).count > 0
-    end
-
+    approved = connection.select_value("""
+    SELECT COUNT(DISTINCT(phrase_key))
+    FROM otwtranslation_translations
+    WHERE (otwtranslation_translations.language_short = #{connection.quote(language)}
+    AND otwtranslation_translations.approved = #{connection.quoted_true}
+    AND otwtranslation_translations.phrase_key IN
+      (SELECT key FROM otwtranslation_phrases
+       INNER JOIN otwtranslation_phrases_sources
+       ON otwtranslation_phrases.id = otwtranslation_phrases_sources.phrase_id
+       WHERE (otwtranslation_phrases_sources.source_id = #{id} )))
+    """)
+    
+    
     approved/all * 100
   end
   
