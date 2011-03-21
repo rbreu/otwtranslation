@@ -63,38 +63,39 @@ describe Otwtranslation::Source do
     end
     
     it "stats should return 0% for 0 translations" do
-      @source.percentage_translated_for(@german.short).should
+      @source.percentage_translated_for(@german.short).should \
       be_within(0.00001).of(0)
-      @source.percentage_approved_for(@german.short).should 
+
+      @source.percentage_approved_for(@german.short).should \
       be_within(0.00001).of(0)
     end
 
     it "stats should count translations in the current language" do
       Factory.create(:translation, {:language => @german, :phrase => @phrase1})
-      @source.percentage_translated_for(@german.short).should
+      @source.percentage_translated_for(@german.short).should \
       be_within(0.00001).of(50)
 
-      @source.percentage_approved_for(@german.short).should
+      @source.percentage_approved_for(@german.short).should \
       be_within(0.00001).of(0)
     end
     
     it "stats should count approved translations in the current language" do
       Factory.create(:translation,
                      {:language => @german, :phrase => @phrase1, :approved => true})
-      @source.percentage_translated_for(@german.short).should
+      @source.percentage_translated_for(@german.short).should \
       be_within(0.00001).of(50)
 
-      @source.percentage_approved_for(@german.short).should
+      @source.percentage_approved_for(@german.short).should \
       be_within(0.00001).of(50)
     end
 
     it "stats should not count translations for other languages" do
       Factory.create(:translation,
                      {:language => @german, :phrase => @phrase1, :approved => true})
-      @source.percentage_translated_for(@dutch.short).should
+      @source.percentage_translated_for(@dutch.short).should \
       be_within(0.00001).of(0)
 
-      @source.percentage_approved_for(@dutch.short).should
+      @source.percentage_approved_for(@dutch.short).should \
       be_within(0.00001).of(0)
     end
 
@@ -104,10 +105,10 @@ describe Otwtranslation::Source do
        Factory.create(:translation,
                       {:language => @german, :phrase => @phrase1, :approved => true})
      
-      @source.percentage_translated_for(@german.short).should
+      @source.percentage_translated_for(@german.short).should \
       be_within(0.00001).of(50)
 
-      @source.percentage_approved_for(@german.short).should
+      @source.percentage_approved_for(@german.short).should \
       be_within(0.00001).of(50)
     end
 
@@ -119,9 +120,9 @@ describe Otwtranslation::Source do
       Factory.create(:translation,
                      {:language => @german, :phrase => @phrase2, :approved => true})
       
-      @source.percentage_translated_for(@german.short).should
+      @source.percentage_translated_for(@german.short).should \
       be_within(0.00001).of(100)
-      @source.percentage_approved_for(@german.short).should
+      @source.percentage_approved_for(@german.short).should \
       be_within(0.00001).of(100)
 
     end
