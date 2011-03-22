@@ -43,6 +43,30 @@ table#otwtranslation_languages td.approved {
     text-align: right
 }
 
+ol#otwtranslation_translations li
+{
+  padding: 0.8575em 0.25em;
+}
+
+ol#otwtranslation_translations li.even {
+  background: #eeeeee;
+}
+
+ol#otwtranslation_translations li.odd {
+  background: #f6f0f0;
+}
+
+ol#otwtranslation_translations li.approved {
+  background: #ccffcc;
+}
+
+ol#otwtranslation_translations dl.stats { 
+  font-size: 0.8575em;
+  text-align: right;
+  padding: 0 0.3em 0.3em;
+  margin-top: 0.1em;
+}
+
 span.otwtranslation_mark_untranslated {
     border-bottom: solid red;
 }
@@ -53,4 +77,9 @@ span.otwtranslation_mark_translated {
 
 span.otwtranslation_mark_approved {
     border-bottom: solid green;
+}
+
+
+#new_otwtranslation_translation input[type="text"] {
+    width: 49em;
 }

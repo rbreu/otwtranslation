@@ -1,47 +1,20 @@
 <h2><%= ts("Show Phrase") %></h2>
 
-<dl id="otwtranslation_phrase">
-
-  <dt class="label"><%= ts("Label:") %></dt>
-  <dd class="label"><%= @phrase.label %></dd>
-
-  <dt class="description"><%= ts("Description:") %></dt>
-  <dd class="description"><%= @phrase.description %>&nbsp;</dd>
-
-  <dt class="version"><%= ts("Version:") %></dt>
-  <dd class="version"><%= @phrase.version %></dd>
-
-  <dt class="sources"><%= ts("Sources:") %></dt>
-  <dd class="sources">
-    <ul>
-      <% @phrase.sources.each do |source| %>
-        <li><%= link_to(source.url, source.url) %> (<%= source.controller_action %>)</li>
-      <% end %>	
-    </ul>
-  </dd>
-</dl>
-
+<%= render :partial => "phrase", :locals => { :phrase => @phrase } %>
 
 <ul class="otwtranslation navigation">
   <li><%= link_to ts('Add translation'), otwtranslation_new_translation_path(@phrase) %></li>
 </ul>
 
+
 <h3>Translations for this phrase:</h3>
-
-
 
 
 <% if @translations.empty? %>
   <p><%= ts("There are no translations for the selected language.") %></p>
 <% elsif %>
-  <ol id="otwtranslation_translations">
-  <% @translations.each do |translation| %>
-    <li id="translation<%= translation.id %>" 
-      <%= render :partial => "otwtranslation/translations/translation", 
-                 :locals => { :translation => translation } %>
-    </li>
-  <% end %>
-  </ol>
+  <%= render :partial => "otwtranslation/translations/translations_list", 
+             :locals => { :translations => @translations } %>
 <% end %>
 
 <%= link_to ts('Back'), otwtranslation_phrases_path %>

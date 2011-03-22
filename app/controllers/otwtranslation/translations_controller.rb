@@ -5,7 +5,8 @@ class Otwtranslation::TranslationsController < ApplicationController
   before_filter :otwtranslation_only
 
   def new
-    @phrase = Otwtranslation::Phrase.find_from_cache_or_db(params[:id])
+    @phrase = Otwtranslation::Phrase.find_by_key(params[:id])
+    @existing_translations = @phrase.translations_for(otwtranslation_language)
     @translation = Otwtranslation::Translation.new(:phrase_key => params[:id])
   end
 

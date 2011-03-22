@@ -1,17 +1,25 @@
 <h2><%= ts("Add Translation") %></h2>
 
-<dl>
-  <dt><%= ts("Translation for:")%></dt>
-  <dd><%= @phrase.label %></dd>
-</dl>
+<%= render :partial => "/otwtranslation/phrases/phrase", 
+           :locals => { :phrase => @phrase } %>
 
 <%= form_for(@translation, :url => otwtranslation_post_translation_path) do |f| %>
   <dl>
     <dt><%= f.label(:label, ts("Translation:"))%></dt>
-    <dd><%= f.text_field :label %></dd>
+    <dd><%= f.text_area :label, :rows => 5 %></dd>
 
   </dl>
   <p class="submit"><%= f.submit ts("Add translation") %></p>
 
 <% end %>
-    
+
+<h3 class="landmark">Translations for this phrase</h3>
+
+<h3>Translations for this phrase:</h3>
+
+<% if @existing_translations.empty? %>
+  <p><%= ts("There are no translations for the selected language.") %></p>
+<% elsif %>
+  <%= render :partial => "otwtranslation/translations/translations_list", 
+             :locals => { :translations => @existing_translations } %>
+<% end %>

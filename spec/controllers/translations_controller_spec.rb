@@ -9,8 +9,11 @@ describe Otwtranslation::TranslationsController, "GET new" do
 
   it "should create a translation" do
     admin_login()
+    phrase = mock_model Otwtranslation::Phrase
     Otwtranslation::Translation.should_receive(:new)
-    Otwtranslation::Phrase.should_receive(:find_from_cache_or_db).with("somekey")
+    Otwtranslation::Phrase.should_receive(:find_by_key).with("somekey").and_return phrase
+    phrase.should_receive(:translations_for).with(OtwtranslationConfig.DEFAULT_LANGUAGE)
+    
     get :new, :id => "somekey"
   end
 end

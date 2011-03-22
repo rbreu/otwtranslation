@@ -1,0 +1,20 @@
+<dl id="otwtranslation_phrase">
+
+  <dt class="label"><%= ts("Label:") %></dt>
+  <dd class="label"><%= phrase.label %></dd>
+
+  <dt class="description"><%= ts("Description:") %></dt>
+  <dd class="description"><%= phrase.description %>&nbsp;</dd>
+
+  <dt class="version"><%= ts("Version:") %></dt>
+  <dd class="version"><%= phrase.version %></dd>
+
+  <dt class="sources"><%= ts("Sources:") %></dt>
+  <dd class="sources">
+    <ul>
+      <% phrase.sources.each do |source| %>
+        <li><%= link_to(source.url, source.url) %> (<%= source.controller_action %>)</li>
+      <% end %>	
+    </ul>
+  </dd>
+</dl>
