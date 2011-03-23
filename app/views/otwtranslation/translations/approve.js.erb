@@ -1,0 +1,6 @@
+<% if @translation.approved %>
+  $("li#translation<%= @translation.id %>:not(.approved)").addClass("approved")
+  $("li#translation<%= @translation.id %> dd.approved").html("yes")
+<% else %>
+  $("#main").prepend("<div class=\"flash error\"><%=escape_javascript(flash.delete(:error)) %></div>")
+<% end %>

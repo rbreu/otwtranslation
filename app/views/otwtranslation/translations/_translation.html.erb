@@ -5,7 +5,7 @@
   <dd class="votes"> TODO</dd>
 
   <dt class="approved">Approved:</dt>
-  <dd class="approved"><%= translation.approved? ? ts("yes") : ts("no") %></dd>
+  <dd class="approved"><%= translation.approved? ? "yes" : "no" %></dd>
 
   <dt class="updated_at">Updated at:</dt>
   <dd class="updated_at"><%= translation.updated_at %></dd>    
@@ -15,7 +15,8 @@
   <li>
     <%= form_for(translation, 
                  :url => otwtranslation_approve_translation_path(translation), 
-                 :html => { :method => :post } ) do |f| %>
+                 :html => { :method => :post },
+                 :remote => true ) do |f| %>
       <%= f.submit 'Approve' %>
     <% end %>
   </li>

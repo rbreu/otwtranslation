@@ -29,12 +29,18 @@ class Otwtranslation::TranslationsController < ApplicationController
   def approve
     @translation = Otwtranslation::Translation.find(params[:id])
     @translation.approved = true
+    
     unless @translation.save
       msg = 'There was a problem saving the translation:' +
         prettify_error_messages(@translation) 
       flash[:error] = msg.html_safe
+      @translation.approved = false
     end
-    redirect_to :back
+
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js
+    end
       
   end
 

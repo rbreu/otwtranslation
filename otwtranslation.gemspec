@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 3.0.5"
   s.add_dependency "rails_helpers_fix"
+  s.add_dependency "jquery-rails"
 
   s.add_development_dependency "rspec-rails", "~> 2.5.0"
   s.add_development_dependency "cucumber-rails", "~> 0.3.2"
