@@ -53,3 +53,20 @@ Feature: Translations
     Then I should see "Another translation is already approved."
     And I should see "no" within "li.odd dd.approved"
     
+  @javascript
+  Scenario: Approve translations with javascript
+    Given I have the translation "Akzeptiere mich!" for "Approve me!" in Deutsch
+    And I have the translation "Gib mich frei!" for "Approve me!" in Deutsch
+    And I have selected the language Deutsch
+    And I am a translator
+ 
+    When I go to the phrases list
+    And I follow "Approve me!"
+    Then I should see "no" within "li.even dd.approved"
+    When I press "Approve" within "li.even"
+    Then I should see "yes" within "li.even dd.approved"
+
+    When I press "Approve" within "li.odd"
+    Then I should see "Another translation is already approved."
+    And I should see "no" within "li.odd dd.approved"
+    

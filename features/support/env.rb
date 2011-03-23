@@ -12,6 +12,10 @@ require 'cucumber/rails/world'
 require 'cucumber/rails/active_record'
 require 'cucumber/web/tableish'
 
+require 'database_cleaner'
+require 'database_cleaner/cucumber'
+
+
 require 'factory_girl'
 require 'factory_girl/step_definitions'
 
@@ -51,6 +55,10 @@ ActionController::Base.allow_rescue = false
 Cucumber::Rails::World.use_transactional_fixtures = true
 # How to clean your database when transactions are turned off. See
 # http://github.com/bmabey/database_cleaner for more info.
+
+DatabaseCleaner.app_root = "test_app"
+
+
 if defined?(ActiveRecord::Base)
   begin
     require 'database_cleaner'
@@ -58,6 +66,12 @@ if defined?(ActiveRecord::Base)
   rescue LoadError => ignore_if_database_cleaner_not_present
   end
 end
+
+
+# for headless javascript testing
+require 'akephalos'
+Capybara.server_boot_timeout = 50
+Capybara.javascript_driver = :akephalos
 
 
 Before do

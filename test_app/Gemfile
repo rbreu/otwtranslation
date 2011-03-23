@@ -23,5 +23,7 @@ group :development, :test do
   gem "launchy"
   gem "factory_girl"
   gem "webrat"
+  gem "database_cleaner"
+  gem "akephalos"
 end
 
