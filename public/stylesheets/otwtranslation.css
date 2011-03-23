@@ -57,7 +57,7 @@ ol#otwtranslation_translations li.odd {
 }
 
 ol#otwtranslation_translations li.approved {
-    background: #ccffcc;
+    background: #cce698
 }
 
 ol#otwtranslation_translations dl.stats { 
@@ -82,7 +82,7 @@ span.otwtranslation_mark_translated {
 }
 
 span.otwtranslation_mark_approved {
-    border-bottom: solid green;
+    border-bottom: solid lime;
 }
 
 

@@ -27,12 +27,12 @@ module OtwtranslationHelper
         
 
       
-      if phrase.translations_for(otwtranslation_language).count == 0
-        display_phrase = "<span class=\"otwtranslation_mark_untranslated\">#{phrase.label}</span>".html_safe
-      elsif phrase.approved_translations_for(otwtranslation_language).count > 0
-        display_phrase = "<span class=\"otwtranslation_mark_approved\">#{phrase.label}</span>".html_safe
+      if transl = phrase.approved_translations_for(otwtranslation_language).first
+        display_phrase = "<span class=\"otwtranslation_mark_approved\">#{transl.label}</span>".html_safe
+      elsif transl = phrase.translations_for(otwtranslation_language).first
+        display_phrase = "<span class=\"otwtranslation_mark_translated\">#{transl.label}</span>".html_safe
       else
-        display_phrase = "<span class=\"otwtranslation_mark_translated\">#{phrase.label}</span>".html_safe
+        display_phrase = "<span class=\"otwtranslation_mark_untranslated\">#{phrase.label}</span>".html_safe
       end
     end
       
