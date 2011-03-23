@@ -94,3 +94,53 @@ describe Otwtranslation::TranslationsController, "POST create" do
     end
   end
 end
+
+
+describe Otwtranslation::TranslationsController, "POST approve" do
+
+  it "should fail if we are not authenticated" do
+    post :approve, :id => 1
+    response.should_not be_success
+  end
+
+  context "when logged in as admin" do
+    
+    before(:each) do
+      admin_login()
+      request.env["HTTP_REFERER"] = "/"
+      @translation = mock_model(Otwtranslation::Translation).as_null_object
+      Otwtranslation::Translation.stub(:find).and_return(@translation)
+    end
+
+    it "should retrieve a translation" do
+      Otwtranslation::Translation.should_receive(:find).with(1)
+      post :approve, :id => 1
+    end
+
+    it "should set translation approved to true" do
+      @translation.should_receive(:approved=).with(true)
+      post :approve, :id => 1
+    end
+
+    it "should save a translation" do
+      @translation.should_receive(:save)
+      post :approve, :id => 1
+    end
+
+    it "should redirect back" do
+      post :approve, :id => 1
+      response.should redirect_to request.env["HTTP_REFERER"]
+    end
+
+    context "when translation fails to save" do
+
+      it "should set a flash[:error] message" do
+        @translation.stub(:save).and_return(false)
+        post :create, :id => "somekey"
+        flash[:error].should contain 'There was a problem saving the translation.'
+      end
+    end
+  end
+end
+
+  

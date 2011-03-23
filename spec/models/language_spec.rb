@@ -57,7 +57,7 @@ describe Otwtranslation::Language do
        Factory.create(:translation,
                       {:language => @german, :phrase => @phrase1, :approved => true})
        Factory.create(:translation,
-                      {:language => @german, :phrase => @phrase1, :approved => true})
+                      {:language => @german, :phrase => @phrase1})
      
       @german.percentage_translated.should be_within(0.00001).of(50)
       @german.percentage_approved.should be_within(0.00001).of(50)

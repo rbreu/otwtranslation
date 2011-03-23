@@ -7,7 +7,7 @@ Feature: Translations
 
   Scenario: View translations
     Given I have the translation "Hallo Welt!" for "Hello world!" in Deutsch
-    Given I have the translation "Hoi wereld!" for "Hello world!" in Nederlands
+    And I have the translation "Hoi wereld!" for "Hello world!" in Nederlands
     And I have selected the language Deutsch
     And I am a translator
 
@@ -37,4 +37,19 @@ Feature: Translations
     And I should see "Hello world!" within "dd.label"
     And I should see "Hallo Welt!" within "p.label"
 
+  Scenario: Approve translations
+    Given I have the translation "Akzeptiere mich!" for "Approve me!" in Deutsch
+    And I have the translation "Gib mich frei!" for "Approve me!" in Deutsch
+    And I have selected the language Deutsch
+    And I am a translator
+ 
+    When I go to the phrases list
+    And I follow "Approve me!"
+    Then I should see "no" within "li.even dd.approved"
+    When I press "Approve" within "li.even"
+    Then I should see "yes" within "li.even dd.approved"
+
+    When I press "Approve" within "li.odd"
+    Then I should see "Another translation is already approved."
+    And I should see "no" within "li.odd dd.approved"
     

@@ -45,26 +45,32 @@ table#otwtranslation_languages td.approved {
 
 ol#otwtranslation_translations li
 {
-  padding: 0.8575em 0.25em;
+    padding: 0.8575em 0.25em;
 }
 
 ol#otwtranslation_translations li.even {
-  background: #eeeeee;
+    background: #eeeeee;
 }
 
 ol#otwtranslation_translations li.odd {
-  background: #f6f0f0;
+    background: #f6f0f0;
 }
 
 ol#otwtranslation_translations li.approved {
-  background: #ccffcc;
+    background: #ccffcc;
 }
 
 ol#otwtranslation_translations dl.stats { 
-  font-size: 0.8575em;
-  text-align: right;
-  padding: 0 0.3em 0.3em;
-  margin-top: 0.1em;
+    font-size: 0.8575em;
+    text-align: right;
+    padding: 0 0.3em 0.3em;
+    margin-top: 0.1em;
+}
+
+ol#otwtranslation_translations ul.navigation {
+    float: left;
+    font-size: 0.8575em;
+    margin: -1.25em auto auto;
 }
 
 span.otwtranslation_mark_untranslated {
@@ -72,7 +78,7 @@ span.otwtranslation_mark_untranslated {
 }
 
 span.otwtranslation_mark_translated {
-    border-bottom: solid magenta;
+    border-bottom: solid cyan;
 }
 
 span.otwtranslation_mark_approved {

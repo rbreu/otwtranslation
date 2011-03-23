@@ -1,13 +1,22 @@
+<p class="label"><%= translation.label %></p>
 
-  <p class="label"><%= translation.label %></p>
+<dl class="stats">
+  <dt class="votes">Votes:</dt>
+  <dd class="votes"> TODO</dd>
 
-  <dl class="stats">
-    <dt class="votes">Votes:</dt>
-    <dd class="votes"> TODO</dd>
+  <dt class="approved">Approved:</dt>
+  <dd class="approved"><%= translation.approved? ? ts("yes") : ts("no") %></dd>
 
-    <dt class="approved">Approved:</dt>
-    <dd class="approved"><%= translation.approved? ? ts("yes") : ts("no") %></dd>
-    <dt class="updated_at">Updated at:</dt>
-    <dd class="updated_at"><%= translation.updated_at %></dd>    
-  </dl> 
+  <dt class="updated_at">Updated at:</dt>
+  <dd class="updated_at"><%= translation.updated_at %></dd>    
+</dl> 
 
+<ul class="navigation">
+  <li>
+    <%= form_for(translation, 
+                 :url => otwtranslation_approve_translation_path(translation), 
+                 :html => { :method => :post } ) do |f| %>
+      <%= f.submit 'Approve' %>
+    <% end %>
+  </li>
+</ul>

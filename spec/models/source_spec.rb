@@ -103,7 +103,7 @@ describe Otwtranslation::Source do
        Factory.create(:translation,
                       {:language => @german, :phrase => @phrase1, :approved => true})
        Factory.create(:translation,
-                      {:language => @german, :phrase => @phrase1, :approved => true})
+                      {:language => @german, :phrase => @phrase1})
      
       @source.percentage_translated_for(@german.short).should \
       be_within(0.00001).of(50)

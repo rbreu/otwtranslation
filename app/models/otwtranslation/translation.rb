@@ -10,5 +10,9 @@ class Otwtranslation::Translation < ActiveRecord::Base
   validates_presence_of :label
   validates_presence_of :phrase
   validates_presence_of :language
+  validates_uniqueness_of :approved, :scope => [:phrase_key, :language_short],
+                          :allow_blank => true,
+                          :message => "Another translation is already approved."
+
 
 end
