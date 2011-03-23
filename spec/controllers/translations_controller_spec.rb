@@ -82,7 +82,7 @@ describe Otwtranslation::TranslationsController, "POST create" do
         
         it "sets a flash[:error] message" do
           post :create, :id => "somekey"
-          flash[:error].should == 'There was a problem saving the translation.'
+          flash[:error].should contain 'There was a problem saving the translation'
         end
       
         it "render the new form" do
@@ -137,7 +137,7 @@ describe Otwtranslation::TranslationsController, "POST approve" do
       it "should set a flash[:error] message" do
         @translation.stub(:save).and_return(false)
         post :create, :id => "somekey"
-        flash[:error].should contain 'There was a problem saving the translation.'
+        flash[:error].should contain 'There was a problem saving the translation'
       end
     end
   end

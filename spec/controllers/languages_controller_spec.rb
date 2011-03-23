@@ -90,7 +90,7 @@ describe Otwtranslation::LanguagesController, "POST create" do
       before(:each) do
         @language_params = {"short" => "de", "name" => "Deutsch",
           "right_to_left" => false, "translation_visible" => true}
-        @language = mock_model(Otwtranslation::Language, :save => nil)
+        @language = mock_model(Otwtranslation::Language, :save => true)
         Otwtranslation::Language.stub(:new).and_return(@language)
       end
     
@@ -134,7 +134,7 @@ describe Otwtranslation::LanguagesController, "POST create" do
         
         it "sets a flash[:error] message" do
           post :create
-          flash[:error].should == 'There was a problem saving the language.'
+          flash[:error].should contain 'There was a problem saving the language'
         end
       
         it "render the new form" do

@@ -19,7 +19,9 @@ class Otwtranslation::TranslationsController < ApplicationController
       flash[:notice] =  ts('Translation successfully created.')
       redirect_to otwtranslation_phrase_path(params[:id])
     else
-      flash[:error] = ts('There was a problem saving the translation.')
+      msg = 'There was a problem saving the translation:' +
+        prettify_error_messages(@translation) 
+      flash[:error] = msg.html_safe
       redirect_to otwtranslation_new_translation_path(params[:id])
     end
   end
@@ -28,12 +30,9 @@ class Otwtranslation::TranslationsController < ApplicationController
     @translation = Otwtranslation::Translation.find(params[:id])
     @translation.approved = true
     unless @translation.save
-      msg = ['There was a problem saving the translation:', '<ul>']
-      @translation.errors.each_pair do |attribute, message|
-        msg += ["<li>#{attribute}: #{message.join(", ")}</li>"]
-      end
-      msg += ['</ul>']
-      flash[:error] = msg.join("\n").html_safe
+      msg = 'There was a problem saving the translation:' +
+        prettify_error_messages(@translation) 
+      flash[:error] = msg.html_safe
     end
     redirect_to :back
       
