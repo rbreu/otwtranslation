@@ -57,7 +57,7 @@ class Otwtranslation::TranslationsController < ApplicationController
     translation.save
     @phrase = Otwtranslation::Phrase.find_by_key(translation.phrase_key)
     @translations = @phrase.translations_for(otwtranslation_language)
-    render "otwtranslation/phrases/show"
+    redirect_to otwtranslation_phrase_path(@phrase)
   end
 
 end
