@@ -143,4 +143,104 @@ describe Otwtranslation::TranslationsController, "POST approve" do
   end
 end
 
-  
+
+
+describe Otwtranslation::TranslationsController, "GET confirm_disapprove" do
+
+  it "should fail if we are not authenticated" do
+    get :confirm_disapprove, :id => 1
+    response.should_not be_success
+  end
+
+  context "when logged in as admin" do
+    
+    before(:each) do
+      admin_login()
+      request.env["HTTP_REFERER"] = "/"
+      @translation = mock_model(Otwtranslation::Translation).as_null_object
+      Otwtranslation::Translation.stub(:find).and_return(@translation)
+    end
+
+    it "should retrieve a translation" do
+      Otwtranslation::Translation.should_receive(:find).with(1)
+      get :confirm_disapprove, :id => 1
+    end
+
+    it "should assign @translation" do
+      get :confirm_disapprove, :id => 1
+      assigns(:translation).should == @translation
+    end
+
+    it "should send me to confirmation page" do
+      get :confirm_disapprove, :id => 1
+      response.should render_template("otwtranslation/translations/confirm_disapprove")
+    end
+  end
+end
+
+
+describe Otwtranslation::TranslationsController, "POST disapprove" do
+
+  it "should fail if we are not authenticated" do
+    post :disapprove, :id => 1
+    response.should_not be_success
+  end
+
+  context "when logged in as admin" do
+    
+    before(:each) do
+      admin_login()
+      @translation = mock_model(Otwtranslation::Translation).as_null_object
+      Otwtranslation::Translation.stub(:find).and_return(@translation)
+      @phrase = mock_model(Otwtranslation::Phrase).as_null_object
+      Otwtranslation::Phrase.stub(:find_by_key).and_return(@phrase)
+      @phrase.translations << @translation
+      @phrase.save
+      Otwtranslation::Phrase.stub(:translations_for).and_return(@phrase.translations)
+    end
+
+    it "should retrieve a translation" do
+      Otwtranslation::Translation.should_receive(:find).with(1)
+      post :disapprove, :id => 1
+    end
+
+    it "should set approved to false" do
+      @translation.should_receive(:approved=).with(false)
+      post :disapprove, :id => 1
+    end
+
+    it "should save the translation" do
+      @translation.should_receive(:save)
+      post :disapprove, :id => 1
+    end
+
+    it "should retrieve a phrase" do
+      Otwtranslation::Phrase.should_receive(:find_by_key).with(@translation.phrase_key)
+      post :disapprove, :id => 1
+    end
+
+    it "should assign @phrase" do
+      post :disapprove, :id => 1
+      assigns(:phrase).should == @phrase
+    end
+
+    it "should retrieve all translations for the phrase" do
+      session[:otwtranslation_language] = 'de'
+      @phrase.should_receive(:translations_for).with('de')
+      post :disapprove, :id => 1
+    end
+
+    it "should assign @translations" do
+      post :disapprove, :id => 1
+      assigns(:translations).should == @phrase.translations
+    end
+
+    it "should send me to the phrase view" do
+      post :disapprove, :id => 1
+      response.should render_template("otwtranslation/phrases/show")
+    end
+    
+  end
+end
+
+

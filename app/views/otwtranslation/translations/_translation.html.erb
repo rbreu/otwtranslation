@@ -11,13 +11,5 @@
   <dd class="updated_at"><%= translation.updated_at %></dd>    
 </dl> 
 
-<ul class="navigation">
-  <li>
-    <%= form_for(translation, 
-                 :url => otwtranslation_approve_translation_path(translation), 
-                 :html => { :method => :post },
-                 :remote => true ) do |f| %>
-      <%= f.submit 'Approve' %>
-    <% end %>
-  </li>
-</ul>
+<%= render :partial => "otwtranslation/translations/navigation", 
+                 :locals => { :translation => translation } %>

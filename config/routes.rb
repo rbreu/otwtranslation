@@ -52,5 +52,11 @@ Rails.application.routes.draw do
   match "#{mount_at}/translations/:id/approve" => 'otwtranslation/translations#approve',
   :as => 'otwtranslation_approve_translation', :via => [:post]
   
+  get "#{mount_at}/translations/:id/confirm_disapprove" => 'otwtranslation/translations#confirm_disapprove',
+  :as => 'otwtranslation_confirm_disapprove_translation'
+  
+  match "#{mount_at}/translations/:id/disapprove" => 'otwtranslation/translations#disapprove',
+  :as => 'otwtranslation_disapprove_translation', :via => [:post]
+  
 end
 

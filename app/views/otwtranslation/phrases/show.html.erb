@@ -1,6 +1,6 @@
 <h2><%= ts("Show Phrase") %></h2>
 
-<%= render :partial => "phrase", :locals => { :phrase => @phrase } %>
+<%= render :partial => "otwtranslation/phrases/phrase", :locals => { :phrase => @phrase } %>
 
 <ul class="otwtranslation navigation">
   <li><%= link_to ts('Add translation'), otwtranslation_new_translation_path(@phrase) %></li>

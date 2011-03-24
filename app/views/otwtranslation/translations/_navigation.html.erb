@@ -1,0 +1,18 @@
+<ul class="navigation">
+  <li>
+    <% if translation.approved %>
+    <%= form_for(translation, 
+                 :url => otwtranslation_confirm_disapprove_translation_path(translation),
+                 :html => {:method => :get}) do |f| %>
+      <%= f.submit 'Disapprove' %>
+    <% end %>
+    <% else %>
+    <%= form_for(translation, 
+                 :url => otwtranslation_approve_translation_path(translation), 
+                 :html => { :method => :post },
+                 :remote => true ) do |f| %>
+      <%= f.submit 'Approve' %>
+    <% end %>
+    <% end %>    
+  </li>
+</ul>

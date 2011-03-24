@@ -42,6 +42,16 @@ Given /^I have the translation "([^"]*)" for "([^"]*)" in ([^"]*)$/ do |translat
           :language => lang, :phrase => phrase)
 end
 
+Given /^I have the approved translation "([^"]*)" for "([^"]*)" in ([^"]*)$/ do |translation, phrase, language|
+  lang = Otwtranslation::Language.find_by_name(language) ||
+    Factory(:language, {:name => language})
+  phrase = Otwtranslation::Phrase.find_by_label(phrase) ||
+    Factory(:phrase, {:label => phrase})
+
+  Factory(:translation, :label => translation,
+          :language => lang, :phrase => phrase, :approved => true)
+end
+
 Given /^I (have selected|select) the language ([^"]*)$/ do |_, language|
   lang = Otwtranslation::Language.find_by_name(language) ||
     Factory(:language, {:name => language})

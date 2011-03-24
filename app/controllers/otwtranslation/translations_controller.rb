@@ -44,5 +44,21 @@ class Otwtranslation::TranslationsController < ApplicationController
       
   end
 
+
+  def confirm_disapprove
+    @translation = Otwtranslation::Translation.find(params[:id])
+    render "confirm_disapprove"
+  end
+
+
+  def disapprove
+    translation = Otwtranslation::Translation.find(params[:id])
+    translation.approved = false
+    translation.save
+    @phrase = Otwtranslation::Phrase.find_by_key(translation.phrase_key)
+    @translations = @phrase.translations_for(otwtranslation_language)
+    render "otwtranslation/phrases/show"
+  end
+
 end
 
