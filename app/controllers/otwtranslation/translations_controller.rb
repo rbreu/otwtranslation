@@ -52,12 +52,17 @@ class Otwtranslation::TranslationsController < ApplicationController
 
 
   def disapprove
-    translation = Otwtranslation::Translation.find(params[:id])
-    translation.approved = false
-    translation.save
-    @phrase = Otwtranslation::Phrase.find_by_key(translation.phrase_key)
-    @translations = @phrase.translations_for(otwtranslation_language)
-    redirect_to otwtranslation_phrase_path(@phrase)
+    @translation = Otwtranslation::Translation.find(params[:id])
+    @translation.approved = false
+    
+    unless @translation.save
+      msg = 'There was a problem saving the translation:' +
+        prettify_error_messages(@translation) 
+      flash[:error] = msg.html_safe
+      @translation.approved = true
+    end
+    
+    redirect_to otwtranslation_phrase_path(@translation.phrase_key)
   end
 
 end

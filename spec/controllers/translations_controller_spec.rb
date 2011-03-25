@@ -192,11 +192,6 @@ describe Otwtranslation::TranslationsController, "POST disapprove" do
       admin_login()
       @translation = mock_model(Otwtranslation::Translation).as_null_object
       Otwtranslation::Translation.stub(:find).and_return(@translation)
-      @phrase = mock_model(Otwtranslation::Phrase).as_null_object
-      Otwtranslation::Phrase.stub(:find_by_key).and_return(@phrase)
-      @phrase.translations << @translation
-      @phrase.save
-      Otwtranslation::Phrase.stub(:translations_for).and_return(@phrase.translations)
     end
 
     it "should retrieve a translation" do
@@ -214,30 +209,23 @@ describe Otwtranslation::TranslationsController, "POST disapprove" do
       post :disapprove, :id => 1
     end
 
-    it "should retrieve a phrase" do
-      Otwtranslation::Phrase.should_receive(:find_by_key).with(@translation.phrase_key)
+    it "should assign @translation" do
       post :disapprove, :id => 1
-    end
-
-    it "should assign @phrase" do
-      post :disapprove, :id => 1
-      assigns(:phrase).should == @phrase
-    end
-
-    it "should retrieve all translations for the phrase" do
-      session[:otwtranslation_language] = 'de'
-      @phrase.should_receive(:translations_for).with('de')
-      post :disapprove, :id => 1
-    end
-
-    it "should assign @translations" do
-      post :disapprove, :id => 1
-      assigns(:translations).should == @phrase.translations
+      assigns(:translation).should == @translation
     end
 
     it "should send me to the phrase view" do
       post :disapprove, :id => 1
-      response.should render_template("otwtranslation/phrases/show")
+      response.should redirect_to otwtranslation_phrase_path(@translation.phrase_key)
+    end
+
+    context "when translation fails to save" do
+      
+      it "should set flash[:error]" do
+        @translation.stub(:save).and_return(false)
+        post :disapprove, :id => 1
+        flash[:error].should contain 'There was a problem saving the translation'
+      end
     end
     
   end
