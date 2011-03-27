@@ -84,6 +84,7 @@ Feature: Translations
     Then I should see "no" within "dd.approved"
 
   @javascript
+  @wip
   Scenario: Disapprove translations with javascsript
     Given I have the approved translation "Lehne mich ab :(" for "Disapprove me :(" in Deutsch
     And I have selected the language Deutsch
@@ -93,6 +94,5 @@ Feature: Translations
     And I follow "Disapprove me :("
     Then I should see "yes" within "dd.approved"
     When I press "Disapprove"
-    Then I should see "Are you sure"
-    When I press "Disapprove"
+    And I confirm the popup
     Then I should see "no" within "dd.approved"

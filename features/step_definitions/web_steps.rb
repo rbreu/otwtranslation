@@ -16,6 +16,14 @@ module WithinHelpers
 end
 World(WithinHelpers)
 
+
+
+
+When /^I confirm the popup$/ do
+  page.evaluate_script("window.alert = function(msg) { return true; }")
+  page.evaluate_script("window.confirm = function(msg) { return true; }")
+end
+
 Given /^(?:|I )am on (.+)$/ do |page_name|
   visit path_to(page_name)
 end
