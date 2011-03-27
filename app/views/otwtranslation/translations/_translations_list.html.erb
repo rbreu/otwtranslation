@@ -1,7 +1,7 @@
 <ol id="otwtranslation_translations">
   <% translations.each.with_index do |translation, i| %>
     <li id="translation<%= translation.id %>" 
-        class="<%= i%2 == 0 ? "even" : "odd" %> <%= "approved" if translation.approved %>  "> 
+        class="<%= i%2 == 0 ? "even" : "odd" %>"> 
 
       <%= render :partial => "otwtranslation/translations/translation", 
                  :locals => { :translation => translation } %>
