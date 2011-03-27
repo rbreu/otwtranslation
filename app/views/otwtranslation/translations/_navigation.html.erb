@@ -3,7 +3,8 @@
     <% if translation.approved %>
     <%= form_for(translation, 
                  :url => otwtranslation_confirm_disapprove_translation_path(translation),
-                 :html => {:method => :get}) do |f| %>
+                 :html => {:method => :get},
+                 :remote => true ) do |f| %>
       <%= f.submit 'Disapprove' %>
     <% end %>
     <% else %>

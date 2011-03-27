@@ -47,7 +47,10 @@ class Otwtranslation::TranslationsController < ApplicationController
 
   def confirm_disapprove
     @translation = Otwtranslation::Translation.find(params[:id])
-    render "confirm_disapprove"
+    respond_to do |format|
+      format.html 
+      format.js
+    end
   end
 
 
@@ -62,7 +65,12 @@ class Otwtranslation::TranslationsController < ApplicationController
       @translation.approved = true
     end
     
-    redirect_to otwtranslation_phrase_path(@translation.phrase_key)
+    respond_to do |format|
+      format.html { redirect_to otwtranslation_phrase_path(@translation.phrase_key) }
+      format.js { render :partial => "translation",
+        :locals => {:translation => @translation} }
+    end
+
   end
 
 end

@@ -48,7 +48,6 @@ Feature: Translations
     Then I should see "no" within "li.even dd.approved"
     When I press "Approve" within "li.even"
     Then I should see "yes" within "li.even dd.approved"
-    And show me the page
 
     When I press "Approve" within "li.odd"
     Then I should see "Another translation is already approved."
@@ -72,6 +71,20 @@ Feature: Translations
     And I should see "no" within "li.odd dd.approved"
     
   Scenario: Disapprove translations
+    Given I have the approved translation "Lehne mich ab :(" for "Disapprove me :(" in Deutsch
+    And I have selected the language Deutsch
+    And I am a translator
+ 
+    When I go to the phrases list
+    And I follow "Disapprove me :("
+    Then I should see "yes" within "dd.approved"
+    When I press "Disapprove"
+    Then I should see "Are you sure"
+    When I press "Disapprove"
+    Then I should see "no" within "dd.approved"
+
+  @javascript
+  Scenario: Disapprove translations with javascsript
     Given I have the approved translation "Lehne mich ab :(" for "Disapprove me :(" in Deutsch
     And I have selected the language Deutsch
     And I am a translator
