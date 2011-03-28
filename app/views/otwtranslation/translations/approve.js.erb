@@ -1,7 +1,6 @@
 <% if @translation.approved %>
-  $("li#translation<%= @translation.id %> div:not(.approved)").addClass("approved")
-  $("li#translation<%= @translation.id %> dd.approved").html("yes")
-  $("li#translation<%= @translation.id %> ul.navigation").replaceWith("<%= escape_javascript(render :partial => "otwtranslation/translations/navigation", 
+  $("li#translation<%= @translation.id %> div").replaceWith(
+      "<%= escape_javascript(render :partial => "otwtranslation/translations/translation", 
                  :locals => { :translation => @translation }) %>")
 <% end %>
 
