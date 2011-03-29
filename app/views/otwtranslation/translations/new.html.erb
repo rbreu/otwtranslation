@@ -3,15 +3,8 @@
 <%= render :partial => "/otwtranslation/phrases/phrase", 
            :locals => { :phrase => @phrase } %>
 
-<%= form_for(@translation, :url => otwtranslation_post_translation_path) do |f| %>
-  <dl>
-    <dt><%= f.label(:label, ts("Translation:"))%></dt>
-    <dd><%= f.text_area :label, :rows => 5 %></dd>
+<%= render :partial => "form", :locals => { :translation => @translation } %>
 
-  </dl>
-  <p class="submit"><%= f.submit ts("Add translation") %></p>
-
-<% end %>
 
 <h3 class="landmark">Translations for this phrase</h3>
 

@@ -1,0 +1,5 @@
+$("#add_translation").replaceWith(
+  "<%= escape_javascript(render :partial => "otwtranslation/translations/form", 
+                 :locals => { :translation => @translation }) %>")
+
+

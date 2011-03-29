@@ -29,7 +29,23 @@ Feature: Translations
 
     When I go to the phrases list
     And I follow "Hello world!"
-    And I follow "Add translation"
+    And I press "Add translation"
+    And I fill in "Translation:" with "Hallo Welt!"
+    And I press "Add translation"
+    Then I should see "Translation successfully created."
+    And I should see "Show Phrase"
+    And I should see "Hello world!" within "dd.label"
+    And I should see "Hallo Welt!" within "p.label"
+
+  @javascript
+  Scenario: Add translations with javascript
+    Given I have the phrase "Hello world!"
+    And I have selected the language Deutsch
+    And I am a translator
+
+    When I go to the phrases list
+    And I follow "Hello world!"
+    And I press "Add translation"
     And I fill in "Translation:" with "Hallo Welt!"
     And I press "Add translation"
     Then I should see "Translation successfully created."
