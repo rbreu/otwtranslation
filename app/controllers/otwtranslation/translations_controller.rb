@@ -81,7 +81,29 @@ class Otwtranslation::TranslationsController < ApplicationController
       format.js { render :partial => "translation",
         :locals => {:translation => @translation} }
     end
+  end
 
+  
+  def confirm_destroy
+    respond_to do |format|
+      format.html do
+        @translation = Otwtranslation::Translation.find(params[:id])
+      end
+      format.js do
+        @translation_id = params[:id]
+      end
+    end
+  end
+
+
+  def destroy
+    @translation = Otwtranslation::Translation.find(params[:id])
+    @translation.destroy
+    
+    respond_to do |format|
+      format.html { redirect_to otwtranslation_phrase_path(@translation.phrase_key) }
+      format.js { render :nothing => true }
+    end
   end
 
 end

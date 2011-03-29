@@ -9,28 +9,38 @@
   <dt class="approved">Approved:</dt>
   <dd class="approved"><%= translation.approved? ? "yes" : "no" %></dd>
 
-  <dt class="updated_at">Updated at:</dt>
-  <dd class="updated_at"><%= translation.updated_at %></dd>    
+  <dt class="updated_at">Comments:</dt>
+  <dd class="updated_at">TODO</dd>    
 </dl> 
 
 <ul class="navigation">
-  <li>
-    <% if translation.approved %>
+  <% if translation.approved %>
+    <li>
     <%= form_for(translation, 
                  :url => otwtranslation_confirm_disapprove_translation_path(translation),
                  :html => {:method => :get},
                  :remote => true ) do |f| %>
       <%= f.submit 'Disapprove' %>
     <% end %>
-    <% else %>
+    </li>
+  <% else %>
+    <li>
     <%= form_for(translation, 
                  :url => otwtranslation_approve_translation_path(translation), 
                  :html => { :method => :post },
                  :remote => true ) do |f| %>
       <%= f.submit 'Approve' %>
     <% end %>
-    <% end %>    
-  </li>
+    </li>
+    <li>
+    <%= form_for(translation, 
+                 :url => otwtranslation_confirm_destroy_translation_path(translation), 
+                 :html => { :method => :get },
+                 :remote => true ) do |f| %>
+      <%= f.submit 'Delete' %>
+    <% end %>
+    </li>
+  <% end %>    
 </ul>
 
 </div>

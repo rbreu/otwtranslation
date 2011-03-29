@@ -58,5 +58,11 @@ Rails.application.routes.draw do
   match "#{mount_at}/translations/:id/disapprove" => 'otwtranslation/translations#disapprove',
   :as => 'otwtranslation_disapprove_translation', :via => [:post]
   
+  get "#{mount_at}/translations/:id/confirm_destroy" => 'otwtranslation/translations#confirm_destroy',
+  :as => 'otwtranslation_confirm_destroy_translation'
+  
+  match "#{mount_at}/translations/:id/destroy" => 'otwtranslation/translations#destroy',
+  :as => 'otwtranslation_destroy_translation', :via => [:delete]
+  
 end
 

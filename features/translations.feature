@@ -112,3 +112,29 @@ Feature: Translations
     When I press "Disapprove"
     And I confirm the popup
     Then I should see "no" within "dd.approved"
+
+  Scenario: Delete translations
+    Given I have the translation "Lösch mich :(" for "Delete me :(" in Deutsch
+    And I have selected the language Deutsch
+    And I am a translator
+ 
+    When I go to the phrases list
+    And I follow "Delete me :("
+    And I press "Delete"
+    Then I should see "Are you sure"
+    When I press "Delete"
+    Then I should not see "Lösch mich :("
+
+  @javascript
+  @wip
+  Scenario: Delete translations
+    Given I have the translation "Lösch mich :(" for "Delete me :(" in Deutsch
+    And I have selected the language Deutsch
+    And I am a translator
+ 
+    When I go to the phrases list
+    And I follow "Delete me :("
+    And I press "Delete"
+    And I confirm the popup
+    Then I should not see "Lösch mich :("
+
