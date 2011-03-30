@@ -43,8 +43,11 @@ table#otwtranslation_languages td.approved {
     text-align: right
 }
 
-ol#otwtranslation_translations > li > div
-{
+div.otwtranslation_translation {
+    background: #eeeeee;
+}
+
+ol#otwtranslation_translations > li > div {
     padding: 0.8575em 0.25em;
 }
 

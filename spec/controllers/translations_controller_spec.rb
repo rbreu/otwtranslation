@@ -192,6 +192,7 @@ describe Otwtranslation::TranslationsController, "POST disapprove" do
       admin_login()
       @translation = mock_model(Otwtranslation::Translation).as_null_object
       Otwtranslation::Translation.stub(:find).and_return(@translation)
+      @translation.stub(:phrase_key).and_return("somekey")
     end
 
     it "should retrieve a translation" do
@@ -216,7 +217,7 @@ describe Otwtranslation::TranslationsController, "POST disapprove" do
 
     it "should send me to the phrase view" do
       post :disapprove, :id => 1
-      response.should redirect_to otwtranslation_phrase_path(@translation.phrase_key)
+      response.should redirect_to otwtranslation_phrase_path("somekey")
     end
 
     context "when translation fails to save" do
@@ -228,6 +229,115 @@ describe Otwtranslation::TranslationsController, "POST disapprove" do
       end
     end
     
+  end
+end
+
+
+describe Otwtranslation::TranslationsController, "GET confirm_destroy" do
+
+  it "should fail if we are not authenticated" do
+    get :confirm_destroy, :id => 1
+    response.should_not be_success
+  end
+
+  context "when logged in as admin" do
+    
+    before(:each) do
+      admin_login()
+      request.env["HTTP_REFERER"] = "/"
+      @translation = mock_model(Otwtranslation::Translation).as_null_object
+      Otwtranslation::Translation.stub(:find).and_return(@translation)
+    end
+
+    it "should retrieve a translation" do
+      Otwtranslation::Translation.should_receive(:find).with(1)
+      get :confirm_destroy, :id => 1
+    end
+
+    it "should send me to confirmation page" do
+      get :confirm_destroy, :id => 1
+      response.should render_template("otwtranslation/translations/confirm_destroy")
+    end
+  end
+end
+
+
+describe Otwtranslation::TranslationsController, "DELETE destroy" do
+
+  it "should fail if we are not authenticated" do
+    delete :destroy, :id => 1
+    response.should_not be_success
+  end
+
+  context "when logged in as admin" do
+    
+    before(:each) do
+      admin_login()
+      @translation = mock_model(Otwtranslation::Translation).as_null_object
+      @translation.stub(:phrase_key).and_return("somekey")
+      Otwtranslation::Translation.stub(:find).and_return(@translation)
+    end
+
+    it "should retrieve a translation" do
+      Otwtranslation::Translation.should_receive(:find).with(1)
+      delete :destroy, :id => 1
+    end
+
+    it "should destroy the translation" do
+      @translation.should_receive(:destroy)
+      delete :destroy, :id => 1
+    end
+
+    it "should send me to the phrase view" do
+      delete :destroy, :id => 1
+      response.should redirect_to otwtranslation_phrase_path("somekey")
+    end    
+  end
+end
+
+describe Otwtranslation::TranslationsController, "GET show" do
+
+  it "should fail if we are not authenticated" do
+    get :show, :id => 1
+    response.should_not be_success
+  end
+
+  context "when logged in as admin" do
+    
+    before(:each) do
+      admin_login()
+      @translation = mock_model(Otwtranslation::Translation).as_null_object
+      Otwtranslation::Translation.stub(:find).and_return(@translation)
+      @translation.stub(:phrase_key).and_return("somekey")
+      
+      @phrase = mock_model(Otwtranslation::Phrase)
+      Otwtranslation::Phrase.stub(:find_by_key).and_return(@phrase)
+    end
+
+    it "should retrieve a translation" do
+      Otwtranslation::Translation.should_receive(:find).with(1)
+      get :show, :id => 1
+    end
+
+    it "should retrieve a phrase" do
+      Otwtranslation::Phrase.should_receive(:find_by_key).with("somekey")
+      get :show, :id => 1
+    end
+
+    it "should assign @translation" do
+      post :show, :id => 1
+      assigns(:translation).should == @translation
+    end
+
+    it "should assign @phrase" do
+      post :show, :id => 1
+      assigns(:phrase).should == @phrase
+    end
+
+    it "should render the show view" do
+      get :show, :id => 1
+      response.should render_template("otwtranslation/translations/show")
+    end    
   end
 end
 

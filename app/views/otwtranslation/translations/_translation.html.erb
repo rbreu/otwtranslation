@@ -2,18 +2,12 @@
 
 <p class="label"><%= translation.label %></p>
 
-<dl class="stats">
-  <dt class="votes">Votes:</dt>
-  <dd class="votes"> TODO</dd>
-
-  <dt class="approved">Approved:</dt>
-  <dd class="approved"><%= translation.approved? ? "yes" : "no" %></dd>
-
-  <dt class="updated_at">Comments:</dt>
-  <dd class="updated_at">TODO</dd>    
-</dl> 
+<%= render :partial => "/otwtranslation/translations/stats", 
+           :locals => { :translation => translation } %>
 
 <ul class="navigation">
+  <li><%= link_to 'Show', otwtranslation_translation_path(translation) %></li>
+
   <% if translation.approved %>
     <li>
     <%= form_for(translation, 
@@ -30,14 +24,6 @@
                  :html => { :method => :post },
                  :remote => true ) do |f| %>
       <%= f.submit 'Approve' %>
-    <% end %>
-    </li>
-    <li>
-    <%= form_for(translation, 
-                 :url => otwtranslation_confirm_destroy_translation_path(translation), 
-                 :html => { :method => :get },
-                 :remote => true ) do |f| %>
-      <%= f.submit 'Delete' %>
     <% end %>
     </li>
   <% end %>    

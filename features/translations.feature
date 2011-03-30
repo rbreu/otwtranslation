@@ -16,6 +16,8 @@ Feature: Translations
     Then I should see "Hallo Welt!" within "p.label"
     And I should see "no" within "dd.approved"
     And I should not see "Hoi wereld!"
+    When I follow "Show" 
+    Then I should see "Hallo Welt!"
 
     When I select the language Italiano
     And I go to the phrases list
@@ -120,6 +122,7 @@ Feature: Translations
  
     When I go to the phrases list
     And I follow "Delete me :("
+    And I follow "Show"
     And I press "Delete"
     Then I should see "Are you sure"
     When I press "Delete"
@@ -134,6 +137,7 @@ Feature: Translations
  
     When I go to the phrases list
     And I follow "Delete me :("
+    And I follow "Show"
     And I press "Delete"
     And I confirm the popup
     Then I should not see "Lösch mich :("

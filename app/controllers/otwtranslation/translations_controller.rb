@@ -75,11 +75,11 @@ class Otwtranslation::TranslationsController < ApplicationController
       flash[:error] = msg.html_safe
       @translation.approved = true
     end
-    
+
     respond_to do |format|
       format.html { redirect_to otwtranslation_phrase_path(@translation.phrase_key) }
       format.js { render :partial => "translation",
-        :locals => {:translation => @translation} }
+                         :locals => {:translation => @translation} }
     end
   end
 
@@ -99,12 +99,18 @@ class Otwtranslation::TranslationsController < ApplicationController
   def destroy
     @translation = Otwtranslation::Translation.find(params[:id])
     @translation.destroy
-    
+
     respond_to do |format|
       format.html { redirect_to otwtranslation_phrase_path(@translation.phrase_key) }
       format.js { render :nothing => true }
     end
   end
 
+
+  def show
+    @translation = Otwtranslation::Translation.find(params[:id])
+    @phrase = Otwtranslation::Phrase.find_by_key(@translation.phrase_key)
+  end
+  
 end
 
