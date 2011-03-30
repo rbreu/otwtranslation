@@ -1,7 +1,7 @@
 <h2><%= ts("Show Translation") %></h2>
 
 <ol id="otwtranslation_translations">
-<li class="even">
+<li id="translation<%= @translation.id %>" class="even">
 <div <%='class=approved' if @translation.approved %> >
 <p class="label"><%= @translation.label %></p>
 
