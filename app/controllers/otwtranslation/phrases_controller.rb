@@ -14,7 +14,8 @@ class Otwtranslation::PhrasesController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.js { render :partial => 'show_inline' }
+      format.js { render :partial => 'show_inline',
+        :locals => { :translations => @translations } }
     end
   end
 

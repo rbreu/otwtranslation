@@ -1,6 +1,29 @@
 <div class="otwtranslation_show_inline">
 
-TODO
+
+<p><%= @phrase.label %></p>
+
+<ul class="otwtranslation navigation" id="add_translation">
+  <li>
+    <%= form_for(:translation, 
+                 :url => otwtranslation_new_translation_path(@phrase), 
+                 :html => { :method => :get },
+                 :remote => true ) do |f| %>
+      <%= f.submit 'Add translation' %>
+    <% end %>
+  </li>
+</ul>
+
+<h3 class="landmark">Translations for this phrase</h3>
+<h3>Translations for this phrase:</h3>
+
+
+<% if @translations.empty? %>
+  <p><%= ts("There are no translations for the selected language.") %></p>
+<% elsif %>
+  <%= render :partial => "otwtranslation/translations/translations_list", 
+             :locals => { :translations => @translations } %>
+<% end %>
 
 <ul class="navigation">
   <li><span class="otwtranslation_hide_inline">Close</span></li>
