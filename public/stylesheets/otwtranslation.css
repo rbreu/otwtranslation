@@ -92,3 +92,24 @@ span.otwtranslation_mark_approved {
 #new_otwtranslation_translation input[type="text"] {
     width: 49em;
 }
+
+div.otwtranslation_show_inline {
+    display: block;
+    position: absolute; 
+    width: 40%;
+    z-index: 100;
+    border: 1px solid black;
+    background: #eeeeee;
+    padding: 0.5em 0.5em 0 0.5em;
+}
+
+span.otwtranslation_hide_inline {
+    margin: 0.5em auto 1em;
+    border:1px solid #bbb;
+    background:#fffef9 url(/images/fffef9-ccc.png) bottom left repeat-x;
+    padding:0.15em 0.5em 0.25em;
+    float:right;
+    border-radius:3em;
+    -moz-border-radius:3em;
+    -webkit-border-radius:2em;
+}

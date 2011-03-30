@@ -37,7 +37,7 @@ module OtwtranslationHelper
       end
     end
       
-    return display_phrase.html_safe || phrase.label
+    return (display_phrase || phrase.label).html_safe
 
   end
 
