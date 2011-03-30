@@ -30,12 +30,12 @@ Add
 
 ::
 
-  <%= stylesheet_link_tag 'otwtranslation' %>
+  <%= render :partial => 'layout/otwtranslation_includes' %>
 
-to your stylesheet includes.
+to your application.html.erb
 
 
-TODO: db migrations; stylesheets
+TODO: db migrations; stylesheets; javasripts
 
 
 Usage

@@ -26,17 +26,18 @@ module OtwtranslationHelper
       phrase = Otwtranslation::Phrase.find_by_key(phrase.key)
         
 
+      display_phrase = "<span id=\"phrase_#{phrase.key}\" class=\"otwtranslation_mark_"
       
       if transl = phrase.approved_translations_for(otwtranslation_language).first
-        display_phrase = "<span class=\"otwtranslation_mark_approved\">#{transl.label}</span>".html_safe
+        display_phrase += "approved\">#{transl.label}</span>"
       elsif transl = phrase.translations_for(otwtranslation_language).first
-        display_phrase = "<span class=\"otwtranslation_mark_translated\">#{transl.label}</span>".html_safe
+        display_phrase += "translated\">#{transl.label}</span>"
       else
-        display_phrase = "<span class=\"otwtranslation_mark_untranslated\">#{phrase.label}</span>".html_safe
+        display_phrase += "untranslated\">#{phrase.label}</span>"
       end
     end
       
-    return display_phrase || phrase.label
+    return display_phrase.html_safe || phrase.label
 
   end
 
