@@ -1,0 +1,9 @@
+$("ol#otwtranslation_translations").append(
+      "<%= escape_javascript(render :partial => "otwtranslation/translations/translation", 
+                 :locals => { :translation => @translation }) %>")
+
+$("form#new_otwtranslation_translation").replace_With("<%= escape_javascript(render :partial => "otwtranslation/phrases/add_translation_button", 
+                 :locals => { :phrase => @phrase_id }) %>")
+ 
+
+$("#main").prepend("<div class=\"flash notice\"><%= escape_javascript(flash.delete(:notice)) %></div>")

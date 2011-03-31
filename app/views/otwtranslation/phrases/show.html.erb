@@ -2,16 +2,9 @@
 
 <%= render :partial => "otwtranslation/phrases/phrase", :locals => { :phrase => @phrase } %>
 
-<ul class="otwtranslation navigation" id="add_translation">
-  <li>
-    <%= form_for(:translation, 
-                 :url => otwtranslation_new_translation_path(@phrase), 
-                 :html => { :method => :get },
-                 :remote => true ) do |f| %>
-      <%= f.submit 'Add translation' %>
-    <% end %>
-  </li>
-</ul>
+<%= render :partial => "otwtranslation/phrases/add_translation_button", 
+           :locals => { :phrase => @phrase_id } %>
+
 
 <h3 class="landmark">Translations for this phrase</h3>
 <h3>Translations for this phrase:</h3>

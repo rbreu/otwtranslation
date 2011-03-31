@@ -1,0 +1,10 @@
+<ul class="otwtranslation navigation" id="add_translation">
+  <li>
+    <%= form_for(:translation, 
+                 :url => otwtranslation_new_translation_path(phrase), 
+                 :html => { :method => :get },
+                 :remote => true ) do |f| %>
+      <%= f.submit 'Add translation' %>
+    <% end %>
+  </li>
+</ul>
