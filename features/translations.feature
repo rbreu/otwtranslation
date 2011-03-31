@@ -34,8 +34,7 @@ Feature: Translations
     And I press "Add translation"
     And I fill in "Translation:" with "Hallo Welt!"
     And I press "Add translation"
-    Then I should see "Translation successfully created."
-    And I should see "Show Phrase"
+    Then I should see "Show Phrase"
     And I should see "Hello world!" within "dd.label"
     And I should see "Hallo Welt!" within "p.label"
 
@@ -50,8 +49,7 @@ Feature: Translations
     And I press "Add translation"
     And I fill in "Translation:" with "Hallo Welt!"
     And I press "Add translation"
-    Then I should see "Translation successfully created."
-    And I should see "Show Phrase"
+    Then I should see "Show Phrase"
     And I should see "Hello world!" within "dd.label"
     And I should see "Hallo Welt!" within "p.label"
 

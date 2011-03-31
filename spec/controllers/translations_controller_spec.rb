@@ -58,11 +58,6 @@ describe Otwtranslation::TranslationsController, "POST create" do
           @translation.stub(:save).and_return(true)
         end
         
-        it "sets a flash[:notice] message" do
-          post :create, :id => "somekey"
-          flash[:notice].should == 'Translation successfully created.'
-        end
-      
         it "redirects to the newly created translation" do
           post :create, :id => "somekey"
           response.should redirect_to(otwtranslation_phrase_path("somekey"))

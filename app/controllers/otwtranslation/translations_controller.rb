@@ -22,18 +22,25 @@ class Otwtranslation::TranslationsController < ApplicationController
     @translation = Otwtranslation::Translation.new(params[:otwtranslation_translation])
     @translation.phrase_key = params[:id]
     @translation.language_short = otwtranslation_language
+    @phrase_id = params[:id]
     
     if @translation.save
-      flash[:notice] =  ts('Translation successfully created.')
-      redirect_to otwtranslation_phrase_path(params[:id])
+      respond_to do |format|
+        format.html { redirect_to otwtranslation_phrase_path(@phrase_id) }
+        format.js { render 'create_success' }
+      end
     else
       msg = 'There was a problem saving the translation:' +
         prettify_error_messages(@translation) 
       flash[:error] = msg.html_safe
-      redirect_to otwtranslation_new_translation_path(params[:id])
+      respond_to do |format|
+        format.html { redirect_to otwtranslation_new_translation_path(params[:id])}
+        format.js { render 'create_fail' }
+      end
     end
   end
 
+  
   def approve
     @translation = Otwtranslation::Translation.find(params[:id])
     @translation.approved = true

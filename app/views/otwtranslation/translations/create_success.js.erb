@@ -1,9 +1,15 @@
-$("ol#otwtranslation_translations").append(
-      "<%= escape_javascript(render :partial => "otwtranslation/translations/translation", 
-                 :locals => { :translation => @translation }) %>")
+var cls = ($("ol#otwtranslation_translations > li").size() % 2 == 0) ? "even" : "odd"
 
-$("form#new_otwtranslation_translation").replace_With("<%= escape_javascript(render :partial => "otwtranslation/phrases/add_translation_button", 
+
+$("ol#otwtranslation_translations").append(
+   '<li id="translation<%= @translation.id %>" class="' + cls + '">' + 
+   '<%= escape_javascript(render :partial => "otwtranslation/translations/translation", 
+                 :locals => { :translation => @translation }) %>' + 
+   '</li>')
+
+
+$("form#new_otwtranslation_translation").replaceWith(
+      "<%= escape_javascript(render :partial => "otwtranslation/phrases/add_translation_button", 
                  :locals => { :phrase => @phrase_id }) %>")
  
 
-$("#main").prepend("<div class=\"flash notice\"><%= escape_javascript(flash.delete(:notice)) %></div>")
