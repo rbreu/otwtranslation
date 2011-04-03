@@ -1,16 +1,15 @@
-var length = $("ol#otwtranslation_translations > li").length
-var cls =  length % 2 == 0 ? "even" : "odd"
+var li_length = $("ol#otwtranslation_translations > li").length
+var li_class = li_length % 2 == 0 ? "even" : "odd"
 
-if (length == 0) {
+if (li_length == 0) {
   $('p#otwtranslation_notranslations').replaceWith('<ol id="otwtranslation_translations"></ol>')
 }
 
 $("ol#otwtranslation_translations").append(
-   '<li id="translation<%= @translation.id %>" class="' + cls + '">' + 
+   '<li id="translation<%= @translation.id %>" class="' + li_class + '">' + 
    '<%= escape_javascript(render :partial => "otwtranslation/translations/translation", 
                  :locals => { :translation => @translation }) %>' + 
    '</li>')
-
 
 $("form#new_otwtranslation_translation").replaceWith(
       "<%= escape_javascript(render :partial => "otwtranslation/phrases/add_translation_button", 
