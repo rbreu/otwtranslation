@@ -1,5 +1,9 @@
-var cls = ($("ol#otwtranslation_translations > li").size() % 2 == 0) ? "even" : "odd"
+var length = $("ol#otwtranslation_translations > li").length
+var cls =  length % 2 == 0 ? "even" : "odd"
 
+if (length == 0) {
+  $('p#otwtranslation_notranslations').replaceWith('<ol id="otwtranslation_translations"></ol>')
+}
 
 $("ol#otwtranslation_translations").append(
    '<li id="translation<%= @translation.id %>" class="' + cls + '">' + 

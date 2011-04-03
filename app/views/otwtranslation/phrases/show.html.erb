@@ -1,19 +1,13 @@
 <h2><%= ts("Show Phrase") %></h2>
 
-<%= render :partial => "otwtranslation/phrases/phrase", :locals => { :phrase => @phrase } %>
+<%= render :partial => "otwtranslation/phrases/phrase", 
+           :locals => { :phrase => @phrase } %>
 
 <%= render :partial => "otwtranslation/phrases/add_translation_button", 
            :locals => { :phrase => @phrase_id } %>
 
 
-<h3 class="landmark">Translations for this phrase</h3>
-<h3>Translations for this phrase:</h3>
+<%= render :partial => "otwtranslation/translations/translations_list", 
+           :locals => { :translations => @translations } %>
 
-
-<% if @translations.empty? %>
-  <p><%= ts("There are no translations for the selected language.") %></p>
-<% elsif %>
-  <%= render :partial => "otwtranslation/translations/translations_list", 
-             :locals => { :translations => @translations } %>
-<% end %>
 

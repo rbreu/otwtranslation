@@ -1,11 +1,24 @@
-<ol id="otwtranslation_translations">
-  <% translations.each.with_index do |translation, i| %>
-    <li id="translation<%= translation.id %>" 
-        class="<%= i%2 == 0 ? "even" : "odd" %>"> 
+<h3 class="landmark">Translations for this phrase</h3>
 
-      <%= render :partial => "otwtranslation/translations/translation", 
-                 :locals => { :translation => translation } %>
+<h3>Translations for this phrase:</h3>
 
-    </li>
-  <% end %>
-</ol>
+<% if translations.empty? %>
+  <p id="otwtranslation_notranslations">
+    <%= ts("There are no translations for the selected language.") %>
+  </p>
+
+<% elsif %>
+
+  <ol id="otwtranslation_translations">
+    <% translations.each.with_index do |translation, i| %>
+      <li id="translation<%= translation.id %>" 
+          class="<%= i%2 == 0 ? "even" : "odd" %>"> 
+
+        <%= render :partial => "otwtranslation/translations/translation", 
+                   :locals => { :translation => translation } %>
+
+      </li>
+    <% end %>
+  </ol>
+
+<% end %>

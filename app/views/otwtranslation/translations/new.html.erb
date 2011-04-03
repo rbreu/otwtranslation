@@ -6,13 +6,6 @@
 <%= render :partial => "form", :locals => { :translation => @translation } %>
 
 
-<h3 class="landmark">Translations for this phrase</h3>
+<%= render :partial => "otwtranslation/translations/translations_list", 
+           :locals => { :translations => @existing_translations } %>
 
-<h3>Translations for this phrase:</h3>
-
-<% if @existing_translations.empty? %>
-  <p><%= ts("There are no translations for the selected language.") %></p>
-<% elsif %>
-  <%= render :partial => "otwtranslation/translations/translations_list", 
-             :locals => { :translations => @existing_translations } %>
-<% end %>
