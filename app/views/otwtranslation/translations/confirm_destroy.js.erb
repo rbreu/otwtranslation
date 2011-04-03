@@ -1,13 +1,5 @@
 if ( confirm("Are you sure you want delete this translation?") ) {
-  $.ajax({url: '<%= otwtranslation_destroy_translation_path(@translation_id) %>',
-          type: 'delete',
-          dataType: 'script',
-          async: 'false',
-          data: { '_method': 'destroy' },
-	  success: function(html) {
-	    $("li#translation<%= @translation_id %> div").remove()
-          }
-        });
+   var $form = $('<%= form_for(@translation_id, :url => otwtranslation_destroy_translation_path(@translation_id), :html => { :method => :delete } ) do |f| %> <%= f.submit 'Delete' %> <% end %>')
+   $form.appendTo('body')
+   $form.submit()
 }
-
-

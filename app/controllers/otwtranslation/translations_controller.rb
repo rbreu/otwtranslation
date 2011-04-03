@@ -106,11 +106,7 @@ class Otwtranslation::TranslationsController < ApplicationController
   def destroy
     @translation = Otwtranslation::Translation.find(params[:id])
     @translation.destroy
-
-    respond_to do |format|
-      format.html { redirect_to otwtranslation_phrase_path(@translation.phrase_key) }
-      format.js { render :nothing => true }
-    end
+    redirect_to otwtranslation_phrase_path(@translation.phrase_key)
   end
 
 
