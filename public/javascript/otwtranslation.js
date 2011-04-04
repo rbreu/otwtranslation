@@ -1,6 +1,6 @@
 $(document).ready(function() {
   $('span.otwtranslation_mark_untranslated, span.otwtranslation_mark_translated, span.otwtranslation_mark_approved').rightClick(function(event) {
-      var phrase_key = $(this).attr('id').replace("phrase_", "");
+      var phrase_key = $(this).attr('id').replace("otwtranslation_phrase_", "");
       var ypos = $(this).offset().top + $(this).height() 
 	  - $('#main').offset().top + 10
       var xpos = $(window).width() / 4

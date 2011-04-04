@@ -37,7 +37,7 @@ module OtwtranslationHelper
     phrase = Otwtranslation::Phrase.find_by_key(phrase_key)
     
     
-    display_phrase = "<span id=\"phrase_#{phrase.key}\" class=\"otwtranslation_mark_"
+    display_phrase = "<span id=\"otwtranslation_phrase_#{phrase.key}\" class=\"otwtranslation_mark_"
       
     if transl = phrase.approved_translations_for(otwtranslation_language).first
         display_phrase += "approved\">#{transl.label}</span>"

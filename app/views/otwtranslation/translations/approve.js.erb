@@ -4,6 +4,9 @@
                  :locals => { :translation => @translation }) %>")
 <% end %>
 
+$("span#otwtranslation_phrase_<%= @translation.phrase_key %>").replaceWith(
+  '<%= otwtranslation_decorated_translation(@translation.phrase_key) %>')
+
 <% unless flash[:error].blank? %>
   $("#main").prepend("<div class=\"flash error\"><%= escape_javascript(flash.delete(:error)) %></div>")
 <% end %>
