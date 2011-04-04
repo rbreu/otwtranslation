@@ -2,6 +2,7 @@ module OtwtranslationHelper
 
   def ts(phrase, description="")
 
+    # Try to store this phrase
     begin
       # Maybe we got called from a view
       source = {
@@ -19,28 +20,36 @@ module OtwtranslationHelper
     end
 
     phrase = Otwtranslation::Phrase.find_or_create(phrase, description, source)
-    
+
+    # See if we need to present a translation
     if otwtranslation_tool_visible? && otwtranslation_language != OtwtranslationConfig.DEFAULT_LANGUAGE
-
-      # TODO: performance!!!!
-      phrase = Otwtranslation::Phrase.find_by_key(phrase.key)
-        
-
-      display_phrase = "<span id=\"phrase_#{phrase.key}\" class=\"otwtranslation_mark_"
-      
-      if transl = phrase.approved_translations_for(otwtranslation_language).first
-        display_phrase += "approved\">#{transl.label}</span>"
-      elsif transl = phrase.translations_for(otwtranslation_language).first
-        display_phrase += "translated\">#{transl.label}</span>"
-      else
-        display_phrase += "untranslated\">#{phrase.label}</span>"
-      end
+      return otwtranslation_decorated_translation(phrase.key)
+    else
+      return phrase.label
     end
-      
-    return (display_phrase || phrase.label).html_safe
-
+    
   end
 
+
+  def otwtranslation_decorated_translation(phrase_key)
+    
+    # TODO: performance!!!!
+    phrase = Otwtranslation::Phrase.find_by_key(phrase_key)
+    
+    
+    display_phrase = "<span id=\"phrase_#{phrase.key}\" class=\"otwtranslation_mark_"
+      
+    if transl = phrase.approved_translations_for(otwtranslation_language).first
+        display_phrase += "approved\">#{transl.label}</span>"
+    elsif transl = phrase.translations_for(otwtranslation_language).first
+      display_phrase += "translated\">#{transl.label}</span>"
+    else
+      display_phrase += "untranslated\">#{phrase.label}</span>"
+    end
+
+    return display_phrase.html_safe
+  end
+ 
   
   def t(id, params={})
     warn "[DEPRECATION WARNING] 't' is deprecated. Use 'ts' instead."

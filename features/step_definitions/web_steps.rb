@@ -19,9 +19,14 @@ World(WithinHelpers)
 
 
 
-When /^I confirm the popup$/ do
+Given /^I will confirm the popup$/ do
   page.evaluate_script("window.alert = function(msg) { return true; }")
   page.evaluate_script("window.confirm = function(msg) { return true; }")
+end
+
+Given /^I won't confirm the popup$/ do
+  page.evaluate_script("window.alert = function(msg) { return false; }")
+  page.evaluate_script("window.confirm = function(msg) { return false; }")
 end
 
 Given /^(?:|I )am on (.+)$/ do |page_name|

@@ -102,15 +102,19 @@ Feature: Translations
   @javascript
   @wip
   Scenario: Disapprove translations with javascsript
+    # As is the test should pass but doesn't...
+
     Given I have the approved translation "Lehne mich ab :(" for "Disapprove me :(" in Deutsch
     And I have selected the language Deutsch
     And I am a translator
+    #And I will confirm the popup
+    And I won't confirm the popup
  
     When I go to the phrases list
     And I follow "Disapprove me :("
     Then I should see "yes" within "dd.approved"
     When I press "Disapprove"
-    And I confirm the popup
+    # Here's the popup that's to be confirmed
     Then I should see "no" within "dd.approved"
 
   Scenario: Delete translations
@@ -129,14 +133,19 @@ Feature: Translations
   @javascript
   @wip
   Scenario: Delete translations
+    # As is the test should fail, but doesn't...
+
     Given I have the translation "Lösch mich :(" for "Delete me :(" in Deutsch
     And I have selected the language Deutsch
     And I am a translator
+    #And I will confirm the popup
+    And I won't confirm the popup
  
     When I go to the phrases list
     And I follow "Delete me :("
     And I follow "Show"
     And I press "Delete"
-    And I confirm the popup
+    # Here's the popup that's to be confirmed
     Then I should not see "Lösch mich :("
+    And I should see "There are no translations"
 
