@@ -12,7 +12,7 @@ describe Otwtranslation::SourcesController, "GET index" do
     sources = mock(Array)
     Otwtranslation::Source.should_receive(:all).and_return(sources)
     get :index
-    assigns[:sources] = sources
+    assigns[:sources].should == sources
   end
 end
 
@@ -28,6 +28,6 @@ describe Otwtranslation::SourcesController, "GET show" do
     source = mock_model(Otwtranslation::Source)
     Otwtranslation::Source.should_receive(:find).with(1).and_return(source)
     get :show, :id => 1
-    assigns[:source] = source
+    assigns[:source].should == source
   end
 end

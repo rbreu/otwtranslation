@@ -7,14 +7,63 @@ describe Otwtranslation::TranslationsController, "GET new" do
     response.should_not be_success
   end
 
-  it "should create a translation" do
-    admin_login()
-    phrase = mock_model Otwtranslation::Phrase
-    Otwtranslation::Translation.should_receive(:new)
-    Otwtranslation::Phrase.should_receive(:find_by_key).with("somekey").and_return phrase
-    phrase.should_receive(:translations_for).with(OtwtranslationConfig.DEFAULT_LANGUAGE)
-    
-    get :new, :id => "somekey"
+  context "when logged in" do
+
+    before(:each) do
+      admin_login()
+      @phrase = mock_model(Otwtranslation::Phrase).as_null_object
+      @translation = mock_model Otwtranslation::Translation
+      Otwtranslation::Translation.stub(:new).and_return(@translation)
+      Otwtranslation::Phrase.stub(:find_by_key).and_return(@phrase)
+    end
+   
+    it "should create a translation for HTML" do
+      Otwtranslation::Translation.should_receive(:new)
+      get :new, :id => "somekey"
+    end
+
+    it "should create a translation for JS" do
+      Otwtranslation::Translation.should_receive(:new)
+      get :new, :id => "somekey", :format => "js"
+    end
+
+    it "should assign @phrase for HTML" do
+      Otwtranslation::Phrase.should_receive(:find_by_key)
+        .with("somekey").and_return @phrase
+      get :new, :id => "somekey"
+      assigns[:phrase].should == @phrase
+    end
+      
+    it "should not assign @phrase for JS" do
+      Otwtranslation::Phrase.should_not_receive(:find_by_key)
+      get :new, :id => "somekey", :format => "js"
+      assigns[:phrase].should == nil
+    end
+      
+
+    it "should assign @existing_translations for HTML" do
+      @phrase.should_receive(:translations_for)
+        .with(OtwtranslationConfig.DEFAULT_LANGUAGE)
+      get :new, :id => "somekey"
+      assigns[:existing_translations].should == @existing_translations
+    end
+
+    it "should not assign @existing_translations for JS" do
+      @phrase.should_no_receive(:translations_for)
+      get :new, :id => "somekey", :format => "js"
+      assigns[:existing_translations].should == nil
+    end
+   
+    it "should render new for HTML" do
+      get :new, :id => "somekey"
+      response.should render_template("new")
+    end
+      
+    it "should render new for JS" do
+      get :new, :id => "somekey", :format => "js"
+      response.should render_template("new")
+    end
+      
   end
 end
 
@@ -30,62 +79,90 @@ describe Otwtranslation::TranslationsController, "POST create" do
     
     before(:each) do
       admin_login()
+      @translation_params = {"language" => "de", "label" => "foreign text",
+        "translation_id" => "1"}
+      @translation = mock_model(Otwtranslation::Translation).as_null_object
+      Otwtranslation::Translation.stub(:new).and_return(@translation)
     end
 
-    context "when creating a new translation" do
+    it "should create a translation for HTML" do
+      Otwtranslation::Translation.should_receive(:new)
+        .with(@translation_params).and_return(@translation)
+      post(:create, :otwtranslation_translation => @translation_params,
+           :id => "somekey")
+    end
+      
+    it "should create a translation for JS" do
+      Otwtranslation::Translation.should_receive(:new)
+        .with(@translation_params).and_return(@translation)
+      post(:create, :otwtranslation_translation => @translation_params,
+             :id => "somekey", :format => "js")
+    end
+
+    it "should save a translation for HTML" do
+      @translation.should_receive(:save)
+      post :create, :id => "somekey"
+    end
+      
+    it "should save a translation for JS" do
+      @translation.should_receive(:save)
+      post :create, :id => "somekey", :format => "js"
+    end
+
+    it "should assign @translation for HTML" do
+      post :create, :id => "somekey"
+      assigns[:translation].should == @translation
+    end
+        
+    it "should assign @translation for JS" do
+      post :create, :id => "somekey", :format => "js"
+      assigns[:translation].should == @translation
+    end
+        
+
+    context "when translation saves successfully" do
 
       before(:each) do
-        @translation_params = {"language" => "de", "label" => "foreign text",
-          "translation_id" => "1"}
-        @translation = mock_model(Otwtranslation::Translation).as_null_object
-        Otwtranslation::Translation.stub(:new).and_return(@translation)
+        @translation.stub(:save).and_return(true)
       end
-    
-      it "should create a translation" do
-        Otwtranslation::Translation.should_receive(:new).with(@translation_params).and_return(@translation)
-        post(:create, :otwtranslation_translation => @translation_params,
-             :id => "somekey")
-      end
-      
-      it "should save a translation" do
-        @translation.should_receive(:save)
+        
+      it "redirects to the newly created translation for HTML" do
         post :create, :id => "somekey"
+        response.should redirect_to(otwtranslation_phrase_path("somekey"))
+      end
+      
+      it "renders create_success for JS" do
+        post :create, :id => "somekey", :format => "js"
+        response.should render_template("create_success")
+      end
+      
+    end
+
+    context "when translation fails to save" do
+
+      before(:each) do
+        @translation.stub(:save).and_return(false)
       end
 
-      context "when translation saves successfully" do
+      it "should set a flash[:error] message for HTML" do
+        post :create, :id => "somekey"
+        flash[:error].should contain 'There was a problem saving the translation'
+      end
       
-        before(:each) do
-          @translation.stub(:save).and_return(true)
-        end
-        
-        it "redirects to the newly created translation" do
-          post :create, :id => "somekey"
-          response.should redirect_to(otwtranslation_phrase_path("somekey"))
-        end
+      it "should set a flash[:error] message for JS" do
+        post :create, :id => "somekey", :format => "js"
+        flash[:error].should contain 'There was a problem saving the translation'
       end
 
-      context "when translation fails to save" do
-      
-        before(:each) do
-          @translation.stub(:save).and_return(false)
-        end
-
-        it "assigns @translation" do
- 	  post :create, :id => "somekey"
- 	  assigns[:translation].should == @translation
- 	end
-        
-        it "sets a flash[:error] message" do
-          post :create, :id => "somekey"
-          flash[:error].should contain 'There was a problem saving the translation'
-        end
-      
-        it "render the new form" do
-          post :create, :id => "somekey"
-          response.should redirect_to(otwtranslation_new_translation_path("somekey"))
-        end
+      it "should render the new form for HTML" do
+        post :create, :id => "somekey"
+        response.should redirect_to(otwtranslation_new_translation_path("somekey"))
       end
 
+      it "should render create_fail for JS" do
+        post :create, :id => "somekey", :format => "js"
+        response.should render_template("create_fail")
+      end
     end
   end
 end
@@ -107,31 +184,60 @@ describe Otwtranslation::TranslationsController, "POST approve" do
       Otwtranslation::Translation.stub(:find).and_return(@translation)
     end
 
-    it "should retrieve a translation" do
+
+    it "should retrieve a translation for HTML" do
       Otwtranslation::Translation.should_receive(:find).with(1)
       post :approve, :id => 1
     end
-
-    it "should set translation approved to true" do
+      
+    it "should retrieve a translation for JS" do
+      Otwtranslation::Translation.should_receive(:find).with(1)
+      post :approve, :id => 1, :format => "js"
+    end
+    
+    it "should set translation approved to true for HTML" do
       @translation.should_receive(:approved=).with(true)
       post :approve, :id => 1
+      end
+    
+    it "should set translation approved to true for JS" do
+      @translation.should_receive(:approved=).with(true)
+      post :approve, :id => 1, :format => "js"
     end
-
-    it "should save a translation" do
+    
+    it "should save a translation for HTML" do
       @translation.should_receive(:save)
       post :approve, :id => 1
     end
-
-    it "should redirect back" do
+    
+    it "should save a translation for JS" do
+      @translation.should_receive(:save)
+      post :approve, :id => 1, :format => "js"
+    end
+    
+    it "should redirect back for HTML" do
       post :approve, :id => 1
       response.should redirect_to request.env["HTTP_REFERER"]
     end
-
+    
+    it "should render approve for JS" do
+      post :approve, :id => 1, :format => "js"
+      response.should render_template("approve")
+    end
+    
     context "when translation fails to save" do
 
-      it "should set a flash[:error] message" do
+      before(:each) do
         @translation.stub(:save).and_return(false)
+      end
+      
+      it "should set a flash[:error] message for HTML" do
         post :create, :id => "somekey"
+        flash[:error].should contain 'There was a problem saving the translation'
+      end
+
+      it "should set a flash[:error] message for JS" do
+        post :create, :id => "somekey", :format => "js"
         flash[:error].should contain 'There was a problem saving the translation'
       end
     end
@@ -156,19 +262,26 @@ describe Otwtranslation::TranslationsController, "GET confirm_disapprove" do
       Otwtranslation::Translation.stub(:find).and_return(@translation)
     end
 
-    it "should retrieve a translation" do
+    it "should assign a translation for HTML" do
       Otwtranslation::Translation.should_receive(:find).with(1)
-      get :confirm_disapprove, :id => 1
-    end
-
-    it "should assign @translation" do
       get :confirm_disapprove, :id => 1
       assigns(:translation).should == @translation
     end
 
-    it "should send me to confirmation page" do
+    it "should not assign a translation for JS" do
+      Otwtranslation::Translation.should_not_receive(:find)
+      get :confirm_disapprove, :id => 1, :format => "js"
+      assigns(:translation).should == nil
+    end
+
+    it "should render the confirmation page for HTML" do
       get :confirm_disapprove, :id => 1
-      response.should render_template("otwtranslation/translations/confirm_disapprove")
+      response.should render_template("confirm_disapprove")
+    end
+
+    it "should render the confirmation page for JS" do
+      get :confirm_disapprove, :id => 1
+      response.should render_template("confirm_disapprove")
     end
   end
 end
@@ -190,40 +303,72 @@ describe Otwtranslation::TranslationsController, "POST disapprove" do
       @translation.stub(:phrase_key).and_return("somekey")
     end
 
-    it "should retrieve a translation" do
+    it "should retrieve a translation for HTML" do
       Otwtranslation::Translation.should_receive(:find).with(1)
       post :disapprove, :id => 1
     end
 
-    it "should set approved to false" do
+    it "should retrieve a translation for JS" do
+      Otwtranslation::Translation.should_receive(:find).with(1)
+      post :disapprove, :id => 1, :format => "js"
+    end
+
+    it "should set approved to false for HTML" do
       @translation.should_receive(:approved=).with(false)
       post :disapprove, :id => 1
     end
 
-    it "should save the translation" do
+    it "should set approved to false for JS" do
+      @translation.should_receive(:approved=).with(false)
+      post :disapprove, :id => 1, :format => "js"
+    end
+
+    it "should save the translation for HTML" do
       @translation.should_receive(:save)
       post :disapprove, :id => 1
     end
 
-    it "should assign @translation" do
+    it "should save the translation for JS" do
+      @translation.should_receive(:save)
+      post :disapprove, :id => 1, :format => "js"
+    end
+
+    it "should assign @translation for HTML" do
       post :disapprove, :id => 1
       assigns(:translation).should == @translation
     end
 
-    it "should send me to the phrase view" do
+    it "should assign @translation for JS" do
+      post :disapprove, :id => 1, :format => "js"
+      assigns(:translation).should == @translation
+    end
+
+    it "should send me to the phrase view for HTML" do
       post :disapprove, :id => 1
       response.should redirect_to otwtranslation_phrase_path("somekey")
     end
 
+    it "should render disapprove for JS" do
+      post :disapprove, :id => 1, :format => "js"
+      response.should render_template("_translation")
+    end
+
     context "when translation fails to save" do
-      
-      it "should set flash[:error]" do
+
+      before(:each) do
         @translation.stub(:save).and_return(false)
+      end
+
+      it "should set flash[:error] for HTML" do
         post :disapprove, :id => 1
         flash[:error].should contain 'There was a problem saving the translation'
       end
+
+      it "should set flash[:error] for JS" do
+        post :disapprove, :id => 1, :format => "js"
+        flash[:error].should contain 'There was a problem saving the translation'
+      end
     end
-    
   end
 end
 
@@ -244,14 +389,31 @@ describe Otwtranslation::TranslationsController, "GET confirm_destroy" do
       Otwtranslation::Translation.stub(:find).and_return(@translation)
     end
 
-    it "should retrieve a translation" do
+    it "should assign a translation for HTML" do
       Otwtranslation::Translation.should_receive(:find).with(1)
       get :confirm_destroy, :id => 1
+      assigns[:translation].should == @translation
     end
 
-    it "should send me to confirmation page" do
+    it "should not assign a translation for JS" do
+      Otwtranslation::Translation.should_not_receive(:find)
+      get :confirm_destroy, :id => 1, :format => "js"
+      assigns[:translation].should == nil
+    end
+
+    it "should assign a translation ID for JS" do
+      get :confirm_destroy, :id => 1, :format => "js"
+      assigns[:translation_id].should == 1
+    end
+
+    it "should render confirmation page for HTML" do
       get :confirm_destroy, :id => 1
-      response.should render_template("otwtranslation/translations/confirm_destroy")
+      response.should render_template("confirm_destroy")
+    end
+
+    it "should render confirmation page for JS" do
+      get :confirm_destroy, :id => 1
+      response.should render_template("confirm_destroy")
     end
   end
 end
@@ -273,18 +435,33 @@ describe Otwtranslation::TranslationsController, "DELETE destroy" do
       Otwtranslation::Translation.stub(:find).and_return(@translation)
     end
 
-    it "should retrieve a translation" do
+    it "should retrieve a translation for HTML" do
       Otwtranslation::Translation.should_receive(:find).with(1)
       delete :destroy, :id => 1
     end
 
-    it "should destroy the translation" do
+    it "should retrieve a translation for JS" do
+      Otwtranslation::Translation.should_receive(:find).with(1)
+      delete :destroy, :id => 1, :format => "js"
+    end
+
+    it "should destroy the translation for HTML" do
       @translation.should_receive(:destroy)
       delete :destroy, :id => 1
     end
 
-    it "should send me to the phrase view" do
+    it "should destroy the translation for JS" do
+      @translation.should_receive(:destroy)
+      delete :destroy, :id => 1, :format => "js"
+    end
+
+    it "should send me to the phrase view for HTML" do
       delete :destroy, :id => 1
+      response.should redirect_to otwtranslation_phrase_path("somekey")
+    end    
+
+    it "should send me to the phrase view for JS" do
+      delete :destroy, :id => 1, :format => "js"
       response.should redirect_to otwtranslation_phrase_path("somekey")
     end    
   end

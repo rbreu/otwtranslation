@@ -12,7 +12,7 @@ describe Otwtranslation::PhrasesController, "GET index" do
     phrases = mock(Array)
     Otwtranslation::Phrase.should_receive(:all).and_return(phrases)
     get :index
-    assigns[:phrases] = phrases
+    assigns[:phrases].should == phrases
   end
 end
 
@@ -30,7 +30,7 @@ describe Otwtranslation::PhrasesController, "GET show" do
     Otwtranslation::Phrase.should_receive(:find_by_key).with("somekey").and_return phrase
 
     get :show, :id => "somekey"
-    assigns[:phrase] = phrase
+    assigns[:phrase].should == phrase
   end
 
 
