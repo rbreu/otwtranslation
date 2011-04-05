@@ -268,10 +268,10 @@ describe Otwtranslation::TranslationsController, "GET confirm_disapprove" do
       assigns(:translation).should == @translation
     end
 
-    it "should not assign a translation for JS" do
-      Otwtranslation::Translation.should_not_receive(:find)
+    it "should assign a translation for JS" do
+      Otwtranslation::Translation.should_receive(:find).with(1)
       get :confirm_disapprove, :id => 1, :format => "js"
-      assigns(:translation).should == nil
+      assigns(:translation).should == @translation
     end
 
     it "should render the confirmation page for HTML" do

@@ -61,13 +61,10 @@ class Otwtranslation::TranslationsController < ApplicationController
 
 
   def confirm_disapprove
+    @translation = Otwtranslation::Translation.find(params[:id])
     respond_to do |format|
-      format.html do
-        @translation = Otwtranslation::Translation.find(params[:id])
-      end
-      format.js do
-        @translation_id = params[:id]
-      end
+      format.html
+      format.js
     end
   end
 

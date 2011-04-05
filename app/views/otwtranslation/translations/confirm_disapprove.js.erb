@@ -1,11 +1,16 @@
 if ( confirm("Are you sure you want disapprove this translation?") ) {
-  $.ajax({url: '<%= otwtranslation_disapprove_translation_path(@translation_id) %>',
+  $.ajax({url: '<%= otwtranslation_disapprove_translation_path(@translation) %>',
           type: 'post',
           dataType: 'script',
           async: 'false',
           data: { '_method': 'disapprove' },
 	  success: function(html) {
 	    $("li#translation<%= @translation_id %> div").replaceWith(html)
+	    $("span#otwtranslation_phrase_<%= @translation.phrase_key %>")
+              .removeClass('otwtranslation_mark_approved')
+              .addClass('otwtranslation_mark_translated');
+
+	    //alert($("p.label", html).html())
           }
         });
 }
