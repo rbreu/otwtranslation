@@ -9,6 +9,10 @@ if ( confirm("Are you sure you want disapprove this translation?") ) {
 	    $("span#otwtranslation_phrase_<%= @translation.phrase_key %>")
               .removeClass('otwtranslation_mark_approved')
               .addClass('otwtranslation_mark_translated');
+
+	      $("span#otwtranslation_phrase_<%= @translation.phrase_key %>").rightClick(function(event) {
+     	           otwtranslation_inline_translator(this)
+  	       }); 
           }
         });
 }

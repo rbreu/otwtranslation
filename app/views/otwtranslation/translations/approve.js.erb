@@ -7,6 +7,10 @@
 $("span#otwtranslation_phrase_<%= @translation.phrase_key %>").replaceWith(
   '<%= escape_javascript(otwtranslation_decorated_translation(@translation.phrase_key)) %>')
 
+$("span#otwtranslation_phrase_<%= @translation.phrase_key %>").rightClick(function(event) {
+      otwtranslation_inline_translator(this)
+  });
+
 <% unless flash[:error].blank? %>
   $("#main").prepend("<div class=\"flash error\"><%= escape_javascript(flash.delete(:error)) %></div>")
 <% end %>
