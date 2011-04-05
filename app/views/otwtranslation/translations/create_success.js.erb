@@ -16,5 +16,5 @@ $("form#new_otwtranslation_translation").replaceWith(
                  :locals => { :phrase => @phrase_id }) %>")
  
 $("span#otwtranslation_phrase_<%= @translation.phrase_key %>").replaceWith(
-  '<%= otwtranslation_decorated_translation(@translation.phrase_key) %>')
+  '<%= escape_javascript(otwtranslation_decorated_translation(@translation.phrase_key)) %>')
 

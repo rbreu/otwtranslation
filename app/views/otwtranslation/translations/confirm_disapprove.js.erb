@@ -5,12 +5,10 @@ if ( confirm("Are you sure you want disapprove this translation?") ) {
           async: 'false',
           data: { '_method': 'disapprove' },
 	  success: function(html) {
-	    $("li#translation<%= @translation_id %> div").replaceWith(html)
+	    $("li#translation<%= @translation.id %> div").replaceWith(html)
 	    $("span#otwtranslation_phrase_<%= @translation.phrase_key %>")
               .removeClass('otwtranslation_mark_approved')
               .addClass('otwtranslation_mark_translated');
-
-	    //alert($("p.label", html).html())
           }
         });
 }
