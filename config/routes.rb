@@ -61,12 +61,18 @@ Rails.application.routes.draw do
   get "#{mount_at}/translations/:id/confirm_destroy" => 'otwtranslation/translations#confirm_destroy',
   :as => 'otwtranslation_confirm_destroy_translation'
   
-  match "#{mount_at}/translations/:id/destroy" => 'otwtranslation/translations#destroy',
-  :as => 'otwtranslation_destroy_translation', :via => [:delete]
+  get "#{mount_at}/translations/:id/edit" => 'otwtranslation/translations#edit',
+  :as => 'otwtranslation_edit_translation'
   
   get "#{mount_at}/translations/:id" => 'otwtranslation/translations#show',
   :as => 'otwtranslation_translation'
 
+  match "#{mount_at}/translations/:id" => 'otwtranslation/translations#destroy',
+  :as => 'otwtranslation_destroy_translation', :via => [:delete]
+  
+  match "#{mount_at}/translations/:id" => 'otwtranslation/translations#update',
+  :as => 'otwtranslation_update_translation', :via => [:post]
+  
   
 end
 

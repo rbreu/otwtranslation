@@ -21,6 +21,14 @@
   <% else %>
     <li>
     <%= form_for(@translation, 
+                 :url => otwtranslation_edit_translation_path(@translation), 
+                 :html => { :method => :get },
+                 ) do |f| %>
+      <%= f.submit 'Edit' %>
+    <% end %>
+    </li>
+    <li>
+    <%= form_for(@translation, 
                  :url => otwtranslation_approve_translation_path(@translation), 
                  :html => { :method => :post },
                  :remote => true ) do |f| %>

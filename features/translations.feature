@@ -149,3 +149,19 @@ Feature: Translations
     Then I should not see "Lösch mich :("
     And I should see "There are no translations"
 
+
+  Scenario: Edit translations
+    Given I have the translation "Ändere mich!" for "Change me!" in Deutsch
+    And I have selected the language Deutsch
+    And I am a translator
+ 
+    When I go to the phrases list
+    And I follow "Change me!"
+    And I follow "Show"
+    And I press "Edit"
+    And I fill in "Translation:" with "Editiere mich!"
+    And I press "Save"
+
+    Then I should see "Show Translation"
+    And I should see "Editiere mich!" within "p.label"
+    And I should not see "Ändere mich!"
