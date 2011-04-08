@@ -26,6 +26,22 @@
       <%= f.submit 'Approve' %>
     <% end %>
     </li>
+    <li>
+    <%= form_for(translation, 
+                 :url => otwtranslation_edit_translation_path(translation), 
+                 :html => { :method => :get },
+                 :remote => true) do |f| %>
+      <%= f.submit 'Edit' %>
+    <% end %>
+    </li>
+    <li>
+    <%= form_for(translation, 
+                 :url => otwtranslation_confirm_destroy_translation_path(translation), 
+                 :html => { :method => :get },
+                 :remote => true ) do |f| %>
+      <%= f.submit 'Delete' %>
+    <% end %>
+    </li>
   <% end %>    
 </ul>
 

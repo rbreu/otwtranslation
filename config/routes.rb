@@ -71,8 +71,7 @@ Rails.application.routes.draw do
   :as => 'otwtranslation_destroy_translation', :via => [:delete]
   
   match "#{mount_at}/translations/:id" => 'otwtranslation/translations#update',
-  :as => 'otwtranslation_update_translation', :via => [:post]
-  
-  
+  :as => 'otwtranslation_update_translation', :via => [:put]
+    
 end
 

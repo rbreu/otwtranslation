@@ -1,9 +1,9 @@
-<h2><%= ts("Add Translation") %></h2>
+<h2><%= ts("Edit Translation") %></h2>
 
 <%= render :partial => "/otwtranslation/phrases/phrase", 
            :locals => { :phrase => @phrase } %>
 
-<%= render :partial => "new_form", :locals => { :translation => @translation } %>
+<%= render :partial => "edit_form", :locals => { :translation => @translation } %>
 
 
 <%= render :partial => "otwtranslation/translations/translations_list", 

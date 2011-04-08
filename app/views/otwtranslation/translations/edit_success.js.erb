@@ -1,0 +1,9 @@
+$("li#translation<%= @translation.id %> p.label").html(
+    "<%= escape_javascript(@translation.label) %>")
+
+$("span#otwtranslation_phrase_<%= @translation.phrase_key %>").html(
+    "<%= escape_javascript(@translation.label) %>")
+
+$("form#edit_otwtranslation_translation_<%= @translation.id %>").replaceWith(
+      "<%= escape_javascript(render :partial => "otwtranslation/phrases/add_translation_button", 
+                 :locals => { :phrase => @phrase_id }) %>")

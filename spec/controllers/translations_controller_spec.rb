@@ -514,3 +514,178 @@ describe Otwtranslation::TranslationsController, "GET show" do
 end
 
 
+describe Otwtranslation::TranslationsController, "GET edit" do
+
+  it "should fail if we are not authenticated" do
+    get :edit, :id => 1
+    response.should_not be_success
+  end
+
+  context "when logged in as admin" do
+    
+    before(:each) do
+      admin_login()
+      @phrase = mock_model(Otwtranslation::Phrase).as_null_object
+      @translation = mock_model Otwtranslation::Translation
+      @translation.stub(:phrase_key).and_return("somekey")
+      Otwtranslation::Translation.stub(:find).and_return(@translation)
+      Otwtranslation::Phrase.stub(:find_by_key).and_return(@phrase)
+    end
+   
+    it "should receive a translation for HTML" do
+      Otwtranslation::Translation.should_receive(:find).with(1)
+      get :edit, :id => 1
+    end
+
+    it "should create a translation for JS" do
+      Otwtranslation::Translation.should_receive(:find).with(1)
+      get :edit, :id => 1, :format => "js"
+    end
+
+    it "should assign @phrase for HTML" do
+      Otwtranslation::Phrase.should_receive(:find_by_key)
+        .with("somekey").and_return @phrase
+      get :edit, :id => 1
+      assigns[:phrase].should == @phrase
+    end
+      
+    it "should not assign @phrase for JS" do
+      Otwtranslation::Phrase.should_not_receive(:find_by_key)
+      get :edit, :id => 1, :format => "js"
+      assigns[:phrase].should == nil
+    end
+      
+
+    it "should assign @existing_translations for HTML" do
+      @phrase.should_receive(:translations_for)
+        .with(OtwtranslationConfig.DEFAULT_LANGUAGE)
+      get :edit, :id => 1
+      assigns[:existing_translations].should == @existing_translations
+    end
+
+    it "should not assign @existing_translations for JS" do
+      @phrase.should_no_receive(:translations_for)
+      get :edit, :id => 1, :format => "js"
+      assigns[:existing_translations].should == nil
+    end
+   
+    it "should render edit for HTML" do
+      get :edit, :id => 1
+      response.should render_template("edit")
+    end
+      
+    it "should render edit for JS" do
+      get :edit, :id => 1, :format => "js"
+      response.should render_template("edit")
+    end
+  end
+end
+
+
+describe Otwtranslation::TranslationsController, "PUT update" do
+  
+  it "should fail if we are not authenticated" do
+    put :update, :id => "somekey"
+    response.should_not be_success
+  end
+
+  context "when logged in as admin" do
+    
+    before(:each) do
+      admin_login()
+      @translation = mock_model(Otwtranslation::Translation).as_null_object
+      Otwtranslation::Translation.stub(:find).and_return(@translation)
+      @translation_params = { :label => "foreign text" }
+
+    end
+
+    it "should retrieve a translation for HTML" do
+      Otwtranslation::Translation.should_receive(:find)
+        .with(1).and_return(@translation)
+      put :update, :otwtranslation_translation => @translation_params, :id => 1
+    end
+      
+    it "should retrieve a translation for JS" do
+      Otwtranslation::Translation.should_receive(:find)
+        .with(1).and_return(@translation)
+      put :update, :otwtranslation_translation => @translation_params, :id => 1, :format => "js"
+    end
+
+    it "should save a translation with new label for HTML" do
+      @translation.should_receive(:save)
+      @translation.should_receive(:label=).with("foreign text")
+      put :update, :otwtranslation_translation => @translation_params, :id => 1
+    end
+      
+    it "should save a translation with new label for JS" do
+      @translation.should_receive(:save)
+      @translation.should_receive(:label=).with("foreign text")
+      put(:update, :otwtranslation_translation => @translation_params,
+          :id => 1, :format => "js")
+    end
+
+    it "should assign @translation for HTML" do
+      put :update, :otwtranslation_translation => @translation_params, :id => 1
+      assigns[:translation].should == @translation
+    end
+        
+    it "should assign @translation for JS" do
+      put(:update, :otwtranslation_translation => @translation_params,
+          :id => 1, :format => "js")
+      assigns[:translation].should == @translation
+    end
+        
+
+    context "when translation saves successfully" do
+
+      before(:each) do
+        @translation.stub(:save).and_return(true)
+      end
+        
+      it "should redicret to translation page" do
+        put :update, :otwtranslation_translation => @translation_params, :id => 1
+        response.should redirect_to otwtranslation_translation_path(@translation)
+      end
+      
+      it "renders edit_success for JS" do
+        put(:update, :otwtranslation_translation => @translation_params,
+            :id => 1, :format => "js")
+        response.should render_template("edit_success")
+      end
+      
+    end
+
+    context "when translation fails to save" do
+
+      before(:each) do
+        @translation.stub(:save).and_return(false)
+      end
+
+      it "should set a flash[:error] message for HTML" do
+        put(:update, :otwtranslation_translation => @translation_params,
+            :id => 1)
+        flash[:error].should contain 'There was a problem saving the translation'
+      end
+      
+      it "should set a flash[:error] message for JS" do
+        put(:update, :otwtranslation_translation => @translation_params,
+            :id => 1, :format => "js")
+        flash[:error].should contain 'There was a problem saving the translation'
+      end
+
+      it "should render the new form for HTML" do
+        put(:update, :otwtranslation_translation => @translation_params,
+            :id => 1)
+        response.should redirect_to(otwtranslation_edit_translation_path(1))
+      end
+
+      it "should render edit_fail for JS" do
+        put(:update, :otwtranslation_translation => @translation_params,
+            :id => 1, :format => "js")
+        response.should render_template("edit_fail")
+      end
+    end
+  end
+end
+
+

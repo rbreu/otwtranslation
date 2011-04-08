@@ -1,52 +1,10 @@
 <h2><%= ts("Show Translation") %></h2>
 
 <ol id="otwtranslation_translations">
-<li id="translation<%= @translation.id %>" class="even">
-<div <%='class=approved' if @translation.approved %> >
-<p class="label"><%= @translation.label %></p>
-
-<%= render :partial => "stats", :locals => { :translation => @translation } %>
-
-<ul class="navigation">
-
-  <% if @translation.approved %>
-    <li>
-    <%= form_for(@translation, 
-                 :url => otwtranslation_confirm_disapprove_translation_path(@translation),
-                 :html => {:method => :get},
-                 :remote => true ) do |f| %>
-      <%= f.submit 'Disapprove' %>
-    <% end %>
-    </li>
-  <% else %>
-    <li>
-    <%= form_for(@translation, 
-                 :url => otwtranslation_edit_translation_path(@translation), 
-                 :html => { :method => :get },
-                 ) do |f| %>
-      <%= f.submit 'Edit' %>
-    <% end %>
-    </li>
-    <li>
-    <%= form_for(@translation, 
-                 :url => otwtranslation_approve_translation_path(@translation), 
-                 :html => { :method => :post },
-                 :remote => true ) do |f| %>
-      <%= f.submit 'Approve' %>
-    <% end %>
-    </li>
-    <li>
-    <%= form_for(@translation, 
-                 :url => otwtranslation_confirm_destroy_translation_path(@translation), 
-                 :html => { :method => :get },
-                 :remote => true ) do |f| %>
-      <%= f.submit 'Delete' %>
-    <% end %>
-    </li>
-  <% end %>    
-</ul>
-</div>
-</li>
+  <li id="translation<%= @translation.id %>" class="even">
+    <%= render :partial => "otwtranslation/translations/translation", 
+               :locals => { :translation => @translation } %>
+  </li>
 </ol>
 
 

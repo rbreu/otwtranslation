@@ -157,11 +157,26 @@ Feature: Translations
  
     When I go to the phrases list
     And I follow "Change me!"
-    And I follow "Show"
     And I press "Edit"
     And I fill in "Translation:" with "Editiere mich!"
-    And I press "Save"
+    And I press "Update translation"
 
     Then I should see "Show Translation"
+    And I should see "Editiere mich!" within "p.label"
+    And I should not see "Ändere mich!"
+
+
+  @javascript  
+  Scenario: Edit translations with Javascript
+    Given I have the translation "Ändere mich!" for "Change me!" in Deutsch
+    And I have selected the language Deutsch
+    And I am a translator
+ 
+    When I go to the phrases list
+    And I follow "Change me!"
+    And I press "Edit"
+    And I fill in "Translation:" with "Editiere mich!"
+    And I press "Update translation"
+
     And I should see "Editiere mich!" within "p.label"
     And I should not see "Ändere mich!"

@@ -15,8 +15,23 @@ class Otwtranslation::TranslationsController < ApplicationController
         
       format.js
     end
-
   end
+
+
+  def edit
+    @translation = Otwtranslation::Translation.find(params[:id])
+    
+    respond_to do |format|
+      format.html do
+        @phrase = Otwtranslation::Phrase.find_by_key(@translation.phrase_key)
+        @existing_translations = @phrase.translations_for(otwtranslation_language)
+        render 'edit'
+      end
+        
+      format.js
+    end
+  end
+
 
   def create
     @translation = Otwtranslation::Translation.new(params[:otwtranslation_translation])
@@ -110,6 +125,27 @@ class Otwtranslation::TranslationsController < ApplicationController
   def show
     @translation = Otwtranslation::Translation.find(params[:id])
     @phrase = Otwtranslation::Phrase.find_by_key(@translation.phrase_key)
+  end
+  
+
+  def update
+    @translation = Otwtranslation::Translation.find(params[:id])
+    @translation.label = params[:otwtranslation_translation][:label]
+    
+    if @translation.save
+      respond_to do |format|
+        format.html { redirect_to otwtranslation_translation_path(@translation) }
+        format.js { render 'edit_success' }
+      end
+    else
+      msg = 'There was a problem saving the translation:' +
+        prettify_error_messages(@translation) 
+      flash[:error] = msg.html_safe
+      respond_to do |format|
+        format.html { redirect_to otwtranslation_edit_translation_path(params[:id])}
+        format.js { render 'edit_fail' }
+      end
+    end
   end
   
 end
