@@ -17,3 +17,14 @@ end
 Then /^I should see translations visible set to "([^"]*)"$/ do |visible|
   Then "I should see \"#{visible}\" within \"dd.translation_visible\""
 end
+
+
+Given /^I (have selected|select) the language ([^"]*)$/ do |_, language|
+  lang = Otwtranslation::Language.find_by_name(language) ||
+    Factory(:language, {:name => language})
+  
+  visit "/"
+  select language, :from => 'otwtranslation_language'
+  click_button "Set language"
+  
+end

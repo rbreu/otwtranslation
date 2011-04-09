@@ -21,7 +21,7 @@ Feature: Translation home page
 
     When I follow "Disable Translation Tools"
     Then I should see "Enable Translation Tools" in the footer
-    And I should not see the translation toolbar
+    But I should not see the translation toolbar
     And I should not see marked phrases
 
   Scenario: View the translation home page

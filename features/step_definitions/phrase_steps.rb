@@ -1,3 +1,8 @@
+
+Given /^I have the phrase "([^"]*)"$/ do |phrase|
+  @phrase = Factory(:phrase, {:label => phrase})
+end
+
 Then /^I should see the phrase "([^"]*)"$/ do |phrase|
   Then "I should see \"#{phrase}\" within \"td.label, dd.label\""
 end
