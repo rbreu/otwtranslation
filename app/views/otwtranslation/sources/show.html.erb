@@ -1,9 +1,16 @@
+<!--Descriptive page name and system messages, descriptions, and instructions.-->
 <h2><%= ts("Show Source") %></h2>
+<!--end descriptions-->
 
+<!--Subnavigation, sorting and actions.-->
+<!--end navigation-->
+
+
+<!--main content-->
 <dl id="otwtranslation_source">
 
-  <dt class="controller_action"><%= ts("Controller#Action:") %></dt>
-  <dd class="controller_action"><%= @source.controller_action %></dd>
+  <dt class="action"><%= ts("Controller#Action:") %></dt>
+  <dd class="action"><%= @source.controller_action %></dd>
 
   <dt class="url"><%= ts("URL:") %></dt>
   <dd class="url"><%= link_to(@source.url, @source.url) %></dd>
@@ -31,4 +38,8 @@
 <%= render :partial => "otwtranslation/phrases/phrase_list",
            :locals => { :phrases => @source.phrases } %>
 
-<%= link_to ts('Back'), otwtranslation_sources_path %>
+<!--/main-->
+
+<!--secondary navigation-->
+<p class="navigation"><%= link_to ts('Back'), otwtranslation_sources_path %></p>
+<!--/nav-->

@@ -1,5 +1,11 @@
+<!--Descriptive page name and system messages, descriptions, and instructions.-->
 <h2><%= ts("Add Language") %></h2>
+<!--end descriptions-->
 
+<!--Subnavigation, sorting and actions.-->
+<!--end navigation-->
+
+<!--main content-->
 <%= form_for(@language, :url => otwtranslation_post_language_path) do |f| %>
   <dl>
     <dt><%= f.label(:short, ts("Short:"))%></dt>

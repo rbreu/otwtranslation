@@ -1,4 +1,11 @@
+<!--Descriptive page name and system messages, descriptions, and instructions.-->
 <h2><%= ts("Add Translation") %></h2>
+<!--end descriptions-->
+
+<!--Subnavigation, sorting and actions.-->
+<!--end navigation-->
+
+<!--main content-->
 
 <%= render :partial => "/otwtranslation/phrases/phrase", 
            :locals => { :phrase => @phrase } %>
@@ -8,4 +15,4 @@
 
 <%= render :partial => "otwtranslation/translations/translations_list", 
            :locals => { :translations => @existing_translations } %>
-
+<!--/main-->

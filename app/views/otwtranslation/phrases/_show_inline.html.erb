@@ -1,8 +1,10 @@
-<div class="otwtranslation_show_inline">
+<div class="show inline">
 
+<!--BACK END: is this a heading? Please h4 if so-->
 <p><%= @phrase.label %></p>
 
-<ul class="otwtranslation navigation" id="add_translation">
+<!--BACK END: if this is a single form and not a list, let's drop the list structure-->
+<ul class="translation navigation" id="add_translation">
   <li>
     <%= form_for(:translation, 
                  :url => otwtranslation_new_translation_path(@phrase), 
@@ -17,8 +19,6 @@
            :locals => { :translations => @translations } %>
 
 
-<ul class="navigation">
-  <li><span class="otwtranslation_hide_inline">Close</span></li>
-</ul>
+<p class="navigation hide inline"><!--BACK END: assuming this is function tba-->Close</p>
 
 </div>
