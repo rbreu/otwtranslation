@@ -22,7 +22,7 @@
     <!-- END sidebar -->
 
     <!-- BEGIN main -->
-    <div id="main" class="<%= classes_for_main %>" role="main">
+    <div id="main" class="<%= classes_for_main %> <%= otwtranslation_classes_for_main %>" role="main">
       <%= flash_div :error, :warning, :notice %>
       <%= yield  %>
     <div class="clear"><!--presentational--></div>

@@ -89,6 +89,11 @@ module OtwtranslationHelper
   def otwtranslation_language
     session[:otwtranslation_language] || OtwtranslationConfig.DEFAULT_LANGUAGE
   end
-   
+
+
+  def otwtranslation_classes_for_main
+    otwtranslation_tool_visible? ? "translator" : ""
+  end
+  
 end
 
