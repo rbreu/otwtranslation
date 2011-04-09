@@ -6,14 +6,14 @@ Feature: Translation sources
   Scenario: View phrases
     Given someone has visited the hello world page
     And I am a translator
+
     When I go to the sources list
-    Then I should see "Sources List" within "h2"
+    Then I should see the heading "Sources List"
     And I should see "hello#world" within "td.controller_action"
+
     When I follow "hello#world"
-    Then I should see "Show Source" within "h2"
+    Then I should see the heading "Show Source"
     And I should see "hello#world" within "dd.controller_action"
     And I should see "hello/world" within "dd.url"
     And I should see "yes" within "dd.version"
-    And I should see "0.00%" within "dd.translated"
-    And I should see "0.00%" within "dd.approved"
-    And I should see "Hello World!" within "td.phrase"
+    And I should see the phrase "Hello World!"

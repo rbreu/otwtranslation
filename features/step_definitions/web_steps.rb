@@ -29,6 +29,17 @@ Given /^I won't confirm the popup$/ do
   page.evaluate_script("window.confirm = function(msg) { return false; }")
 end
 
+
+Then /^I should see the heading "([^"]*)"$/ do |text|
+  Then "I should see \"#{text}\" within \"h2\""
+end
+
+
+Then /^I should see "([^"]*)" in the (header|footer)$/ do |text, selector|
+  Then "I should see \"#{text}\" within \"##{selector}\""
+end
+
+
 Given /^(?:|I )am on (.+)$/ do |page_name|
   visit path_to(page_name)
 end

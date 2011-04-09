@@ -12,7 +12,7 @@
 <% phrases.each do |phrase| %>
 <% cache("otwtranslation-phrase-index-#{otwtranslation_language}-#{phrase.id}",
       :expires_in => OtwtranslationConfig.STATS_CACHE_EXPIRY.to_f.minutes) do %>  <tr>
-    <td class="phrase">
+    <td class="label">
       <%= link_to(phrase.label, otwtranslation_phrase_path(phrase)) %>
     </td>
     <td class="description"><%= phrase.description %></td>

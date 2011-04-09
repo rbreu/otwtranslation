@@ -28,10 +28,6 @@ Given /^I have the phrase "([^"]*)"$/ do |phrase|
   Factory(:phrase, {:label => phrase})
 end
 
-Given /^I have the language ([^"]*)$/ do |language|
-  Factory(:language, {:name => language})
-end
-
 Given /^I have the translation "([^"]*)" for "([^"]*)" in ([^"]*)$/ do |translation, phrase, language|
   lang = Otwtranslation::Language.find_by_name(language) ||
     Factory(:language, {:name => language})
