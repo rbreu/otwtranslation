@@ -16,10 +16,10 @@ function otwtranslation_inline_translator(doc)
 	    data: { '_method': 'show' },
 	    success: function(html) {
 		$('#main').append(html)
-		$('div.otwtranslation_show_inline').css({top: ypos, left: xpos});
+		$('div.show.inline').css({top: ypos, left: xpos});
 		
-		$('span.otwtranslation_hide_inline').click(function() {
-		    $('div.otwtranslation_show_inline').remove();
+		$('p.hide.inline').click(function() {
+		    $('div.show.inline').remove();
 		}); 
 		
 	    }
