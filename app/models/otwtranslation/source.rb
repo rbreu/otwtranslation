@@ -48,7 +48,7 @@ class Otwtranslation::Source < ActiveRecord::Base
     FROM otwtranslation_translations
     WHERE (otwtranslation_translations.language_short = #{connection.quote(language)}
     AND otwtranslation_translations.phrase_key IN
-      (SELECT key FROM otwtranslation_phrases
+      (SELECT otwtranslation_phrases.key FROM otwtranslation_phrases
        INNER JOIN otwtranslation_phrases_sources
        ON otwtranslation_phrases.id = otwtranslation_phrases_sources.phrase_id
        WHERE (otwtranslation_phrases_sources.source_id = #{id} )))
@@ -68,7 +68,7 @@ class Otwtranslation::Source < ActiveRecord::Base
     WHERE (otwtranslation_translations.language_short = #{connection.quote(language)}
     AND otwtranslation_translations.approved = #{connection.quoted_true}
     AND otwtranslation_translations.phrase_key IN
-      (SELECT key FROM otwtranslation_phrases
+      (SELECT otwtranslation_phrases.key FROM otwtranslation_phrases
        INNER JOIN otwtranslation_phrases_sources
        ON otwtranslation_phrases.id = otwtranslation_phrases_sources.phrase_id
        WHERE (otwtranslation_phrases_sources.source_id = #{id} )))
