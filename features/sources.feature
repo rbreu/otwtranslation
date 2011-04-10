@@ -9,11 +9,11 @@ Feature: Translation sources
 
     When I go to the sources list
     Then I should see the heading "Sources List"
-    And I should see "hello#world" within "td.controller_action"
+    And I should see the source action "hello#world"
 
     When I follow "hello#world"
     Then I should see the heading "Show Source"
-    And I should see "hello#world" within "dd.controller_action"
-    And I should see "hello/world" within "dd.url"
-    And I should see "yes" within "dd.version"
+    And I should see the source action "hello#world"
+    And I should see the source url "hello/world"
+    And I should see phrase with current version "yes"
     And I should see the phrase "Hello World!"
