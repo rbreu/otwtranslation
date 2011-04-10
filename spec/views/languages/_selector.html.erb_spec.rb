@@ -1,19 +1,36 @@
 require 'spec_helper'
  	
 describe "otwtranslation/languages/_selector.html.erb" do
-  it "should display the visible languages" do
-    Factory(:language, :name => 'English', :translation_visible => true)
-    Factory(:language, :name => 'Deutsch', :translation_visible => true)
-    render
-    rendered.should contain 'English'
-    rendered.should contain 'Deutsch'
-  end
 
-  it "should not display the invisible languages" do
-    Factory(:language, :name => 'English', :translation_visible => true)
-    Factory(:language, :name => 'Deutsch', :translation_visible => false)
-    render
-    rendered.should contain 'English'
-    rendered.should_not contain 'Deutsch'
+  context "when there are visible and invisible languages" do
+    before(:each) do
+      Factory(:language, :name => 'English', :translation_visible => true)
+      Factory(:language, :name => 'Deutsch', :translation_visible => true)
+      Factory(:language, :name => 'Nederlands', :translation_visible => false)
+    end
+
+    context "when translation tools not visible" do
+      before(:each) do
+        view.stub(:otwtranslation_tool_visible?).and_return(false)
+      end
+      
+      it "should display the visible languages" do
+        render
+        rendered.should contain 'English'
+        rendered.should contain 'Deutsch'
+      end
+      
+      it "should not display the invisible languages" do
+        render
+        rendered.should_not contain 'Nederlands'
+      end
+
+    end
+    
+    it "should show all languages when translation tools are visible" do
+      view.stub(:otwtranslation_tool_visible?).and_return(true)
+      render
+      rendered.should contain 'Nederlands'
+    end
   end
 end
