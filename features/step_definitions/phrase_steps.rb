@@ -3,15 +3,15 @@ Given /^I have the phrase "([^"]*)"$/ do |phrase|
   @phrase = Factory(:phrase, {:label => phrase})
 end
 
-Then /^I should see the phrase "([^"]*)"$/ do |phrase|
-  Then "I should see \"#{phrase}\" within \"td.label, dd.label\""
+Then /^I should see the phrase "([^"]*)"$/ do |label|
+  page.should have_selector('td.label, dd.label', :text => label)
 end
 
 Then /^I should see the phrase source "([^"]*)"$/ do |source|
-  Then "I should see \"#{source}\" within \"dd.sources\""
+  page.should have_selector('dd.sources', :text => source)
 end
 
 Then /^I should see the phrase version "([^"]*)"$/ do |version|
-  Then "I should see \"#{version}\" within \"dd.version\""
+  page.should have_selector('td.version, dd.version', :text => version)
 end
 

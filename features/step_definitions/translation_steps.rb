@@ -27,16 +27,15 @@ Then /^I should not see marked phrases$/ do
   page.should_not have_selector('span.otwtranslation_mark_translated, span.otwtranslation_mark_approved, span.otwtranslation_mark_untranslated')
 end
 
-
 Then /^I should see the translation "([^"]*)"$/ do |translation|
-  Then "I should see \"#{translation}\" within \"p.label\""
+  page.should have_selector('p.label', :text => translation)
 end
 
 Then /^I should not see the translation "([^"]*)"$/ do |translation|
-  Then "I should not see \"#{translation}\" within \"p.label\""
+  page.should_not have_selector('p.label', :text => translation)
 end
 
 Then /^I should see approved set to "([^"]*)"$/ do |approved|
-  Then "I should see \"#{approved}\" within \"dd.approved\""
+  page.should have_selector('dd.approved', :text => approved)
 end
 
