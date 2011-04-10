@@ -13,7 +13,7 @@ Feature: Translation sources
 
     When I follow "hello#world"
     Then I should see the heading "Show Source"
-    And I should see "hello#world" within "dd.controller_action"
+    And I should see "hello#world" within "dd.action"
     And I should see "hello/world" within "dd.url"
     And I should see "yes" within "dd.version"
     And I should see the phrase "Hello World!"

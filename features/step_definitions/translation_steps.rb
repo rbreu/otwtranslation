@@ -11,7 +11,7 @@ end
 
 
 Then /^I should see the translation toolbar$/ do
-  page.should have_selector('#header ul.otwtranslation[role="navigation"]')
+  page.should have_selector('#header ul.translation.navigation')
 end
 
 Then /^I should not see the translation toolbar$/ do
