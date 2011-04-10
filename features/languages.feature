@@ -5,24 +5,24 @@ Feature: Translation phrases
 
   Scenario: View languages
     Given I am a translation admin
-    And I have the language Deutsch
+    And I have the language "Deutsch" with short "de"
+
     When I go to the languages list
-    Then I should see "Language List" within "h2"
-    And I should see "Deutsch" within "td.name"
+    Then I should see the heading "Language List"
+    And I should see the language name "Deutsch"
+    And I should see the language short "de"
+
     When I follow "Deutsch"
-    Then I should see "Show Language" within "h2"
-    And I should see "de" within "dd.short"
-    And I should see "Deutsch" within "dd.name"
-    And I should see "no" within "dd.right_to_left"
-    And I should see "yes" within "dd.translation_visible"
-    And I should see "0.00%" within "dd.translated"
-    And I should see "0.00%" within "dd.approved"
+    Then I should see the heading "Show Language"
+    And I should see the language short "de"
+    And I should see the language name "Deutsch"
 
   Scenario: Add a language
     Given I am a translation admin
-    When I go to the languages list
-    And I follow "Add language"
-    Then I should see "Add Language" within "h2"
+    And I am on the languages list
+
+    When I follow "Add language"
+    Then I should see the heading "Add Language"
 
     When I fill in the following:
       | Short: | de      |
@@ -31,14 +31,13 @@ Feature: Translation phrases
     And I check "Translation visible?"
     And I press "Add language"
     Then I should see "Language successfully created."
-    And I should see "Show Language" within "h2"
-    And I should see "de" within "dd.short"
-    And I should see "Deutsch" within "dd.name"
-    And I should see "no" within "dd.right_to_left"
-    And I should see "yes" within "dd.translation_visible"
-    When I go to the languages list
-    Then I should see "Language List" within "h2"
-    And I should see "Deutsch" within "td.name"
+    And I should see the heading "Show Language"
+    And I should see the language short "de"
+    And I should see the language name "Deutsch"
+    And I should see right to left set to "no"
+    And I should see translations visible set to "yes"
+
+
 
 
 

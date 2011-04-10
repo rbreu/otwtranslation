@@ -12,19 +12,22 @@ module NavigationHelpers
       '/'
       
     when /the translation home\s?page/
-      "/#{OtwtranslationConfig.MOUNT_AT}"
+      otwtranslation_home_path
 
     when 'the phrases list'
-      "/#{OtwtranslationConfig.MOUNT_AT}/phrases"
+      otwtranslation_phrases_path
       
     when 'the sources list'
-      "/#{OtwtranslationConfig.MOUNT_AT}/sources"
+      otwtranslation_sources_path
       
     when 'the languages list'
-      "/#{OtwtranslationConfig.MOUNT_AT}/languages"
+      otwtranslation_languages_path
       
     when 'the hello world page'
       "/hello/world"
+
+    when 'the phrase page'
+      otwtranslation_phrase_path(@phrase)
       
 
     # Add more mappings here.

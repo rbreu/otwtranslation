@@ -7,15 +7,17 @@ Feature: Translation phrases
     Given I'm on revision "0.8"
     And someone has visited the hello world page
     And I am a translator
+
     When I go to the phrases list
-    Then I should see "Phrases List" within "h2"
-    And I should see "Hello World!" within "td.phrase"
+    Then I should see the heading "Phrases List"
+    And I should see the phrase "Hello World!"
+
     When I follow "Hello World!"
-    Then I should see "Show Phrase" within "h2"
-    And I should see "Hello World!" within "dd.label"
-    And I should see "hello/world" within "dd.sources"
-    And I should see "hello#world" within "dd.sources"
-    And I should see "0.8" within "dd.version"
+    Then I should see the heading "Show Phrase"
+    And I should see the phrase "Hello World!"
+    And I should see the phrase source "hello/world"
+    And I should see the phrase source "hello#world"
+    And I should see the phrase version "0.8"
     And I should see "There are no translations for the selected language."
 
 
