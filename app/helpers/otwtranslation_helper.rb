@@ -50,7 +50,7 @@ module OtwtranslationHelper
     else
       span_class = 'untranslated'
       landmark = '<span class="landmark">translate</span>'
-      label = phrase.label
+      label = "*" + phrase.label
     end
 
     return "<span class=\"#{span_class}\">#{landmark}#{label}</span>".html_safe
