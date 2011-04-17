@@ -35,6 +35,7 @@ module OtwtranslationHelper
     
     # TODO: performance!!!!
     phrase = Otwtranslation::Phrase.find_by_key(phrase_key)
+    span_id = "otwtranslation_phrase_#{phrase_key}"
     
     if transl = phrase.approved_translations_for(otwtranslation_language).first
       span_class = 'approved'
@@ -50,7 +51,7 @@ module OtwtranslationHelper
       label = "*" + phrase.label
     end
 
-    return "<span class=\"#{span_class}\">#{landmark}#{label}</span>".html_safe
+    return "<span id=\"#{span_id}\" class=\"#{span_class}\">#{landmark}#{label}</span>".html_safe
   end
  
   

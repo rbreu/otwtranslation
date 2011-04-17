@@ -7,8 +7,8 @@ if ( confirm("Are you sure you want disapprove this translation?") ) {
 	  success: function(html) {
 	    $("li#translation<%= @translation.id %> div").replaceWith(html)
 	    $("span#otwtranslation_phrase_<%= @translation.phrase_key %>")
-              .removeClass('otwtranslation_mark_approved')
-              .addClass('otwtranslation_mark_translated');
+              .removeClass('approved')
+              .addClass('translated');
 
 	      $("span#otwtranslation_phrase_<%= @translation.phrase_key %>").rightClick(function(event) {
      	           otwtranslation_inline_translator(this)
