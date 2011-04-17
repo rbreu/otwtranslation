@@ -14,12 +14,12 @@
 	<caption><!--please briefly label--></caption>
   <thead>
 	<tr>
-    <th><%= ts("Short") %></th>
-    <th><%= ts("Name") %></th>
-    <th><%= ts("Right to left?") %>
-    <th><%= ts("Translation visible?") %>
-    <th><%= ts("Translated") %>
-    <th><%= ts("Approved") %>
+    <th scope="col"><%= ts("Short") %></th>
+    <th scope="col"><%= ts("Name") %></th>
+    <th scope="col"><%= ts("Right to left?") %>
+    <th scope="col"><%= ts("Translation visible?") %>
+    <th scope="col"><%= ts("Translated") %>
+    <th scope="col"><%= ts("Approved") %>
   </tr>
 </thead>
  <tbody>
@@ -27,10 +27,10 @@
 	<% cache("otwtranslation-language-index-#{language.id}",
 	      :expires_in => OtwtranslationConfig.STATS_CACHE_EXPIRY.to_f.minutes) do %>
 	<tr>
-    <th class="short"><%= language.short %></th>
-    <td class="name">
+    <td class="short"><%= language.short %></td>
+    <th class="language" scope="row">
       <%= link_to(language.name, otwtranslation_language_path(language)) %>
-    </td>
+    </th>
     <td class="direction">
       <%= language.right_to_left? ? "&#x2713;".html_safe : "" %>
     </td>

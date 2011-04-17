@@ -3,11 +3,11 @@ Given /^I have the language "([^"]*)" with short "([^"]*)"$/ do |name, short|
 end
 
 Then /^I should see the language name "([^"]*)"$/ do |name|
-  page.should have_selector('td.name, dd.language', :text => name)
+  page.should have_selector('th.language, dd.language', :text => name)
 end
 
 Then /^I should see the language short "([^"]*)"$/ do |short|
-  page.should have_selector('th.short, dd.short', :text => short)
+  page.should have_selector('td.short, dd.short', :text => short)
 end
 
 Then /^I should see right to left set to "([^"]*)"$/ do |rtl|
