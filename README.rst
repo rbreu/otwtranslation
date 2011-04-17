@@ -68,8 +68,6 @@ Additional helpers:
 * ``otwtranslation_tool_header``: adds a toolbar for translators and
   translation admins when they have translation tools enabled
 
-* ``otwtranslation_classes_for_main``: Add this to your #main element
-
 
 Notes
 -----

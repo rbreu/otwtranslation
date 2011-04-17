@@ -21,7 +21,7 @@ describe "otwtranslation/translations/_translation.html.erb" do
 
     it "should use 'approved' class" do
       render
-      rendered.should have_selector('div', :class => 'approved')
+      rendered.should have_selector('div', :class => 'translation approved')
     end
   end
 
