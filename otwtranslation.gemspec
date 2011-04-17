@@ -32,5 +32,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "webrat"
   s.add_development_dependency "database_cleaner"
   s.add_development_dependency "akephalos"
+  s.add_development_dependency "simplecov", ">= 0.4.0"
 end
 

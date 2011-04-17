@@ -1,6 +1,7 @@
 *.gem
 .bundle
 pkg/*
+coverage/*
 test_app/log/*
 test_app/tmp/
 *.sqlite3
