@@ -7,8 +7,8 @@ Feature: Translation phrases
     Given I am a translation admin
     And I have the language "Deutsch" with short "de"
 
-    When I go to the languages list
-    Then I should see the heading "Language List"
+    When I go to the language table
+    Then I should see the heading "Language Table"
     And I should see the language name "Deutsch"
     And I should see the language short "de"
 
@@ -19,7 +19,7 @@ Feature: Translation phrases
 
   Scenario: Add a language
     Given I am a translation admin
-    And I am on the languages list
+    And I am on the language table
 
     When I follow "Add language"
     Then I should see the heading "Add Language"

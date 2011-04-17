@@ -1,15 +1,15 @@
 Feature: Translation phrases
   In order to manage phrases
   As a translator
-  I want to view the phrases list and single phrases
+  I want to view the phrase table and single phrases
 
   Scenario: View phrases
     Given I'm on revision "0.8"
     And someone has visited the hello world page
     And I am a translator
 
-    When I go to the phrases list
-    Then I should see the heading "Phrases List"
+    When I go to the phrase table
+    Then I should see the heading "Phrase Table"
     And I should see the phrase "Hello World!"
 
     When I follow "Hello World!"
