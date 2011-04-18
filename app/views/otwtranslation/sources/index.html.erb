@@ -1,7 +1,18 @@
-<h2><%= ts("Sources List") %></h2>
+<!--Descriptive page name and system messages, descriptions, and instructions.-->
+<h2><%= ts("Source Table") %></h2>
+<!--end descriptions-->
 
-<table id="otwtranslation_sources">
-  <tr>
+<!--Subnavigation, sorting and actions.-->
+<!--end navigation-->
+
+<p class="notice">Maybe we can base assignments on this.</p>
+
+<p><%= "(Statistics will update every #{OtwtranslationConfig.STATS_CACHE_EXPIRY} minutes.)" %></p>
+
+<table id="otwtranslation_sources" summary="please summarise">
+	<caption><!--please briefly label--></caption>
+  <thead>
+	<tr>
     <th><%= ts("Controller#Action") %></th>
     <th><%= ts("URL") %></th>
     <th><%= ts("Has phrases with current version?") %>
@@ -9,15 +20,12 @@
     <th><%= ts("Translated") %>
     <th><%= ts("Approved") %>
   </tr>
-
-<p style="color: red;">Maybe we can base assignments on this.</p>
-
-<p><%= "(Statistics will update every #{OtwtranslationConfig.STATS_CACHE_EXPIRY} minutes.)" %></p>
-
-<% @sources.each do |source| %>
+</thead>
+<tbody>
+  <% @sources.each do |source| %>
 <% cache("otwtranslation-source-index-#{otwtranslation_language}-#{source.id}",
       :expires_in => OtwtranslationConfig.STATS_CACHE_EXPIRY.to_f.minutes) do %>
-  <tr>
+<tr>
     <td class="controller_action">
       <%= link_to(source.controller_action, otwtranslation_source_path(source)) %>
     </td>
@@ -41,6 +49,7 @@
   </tr>
 <% end %><!-- end of cache -->
 <% end %>
+</tbody>
 </table>
 
 

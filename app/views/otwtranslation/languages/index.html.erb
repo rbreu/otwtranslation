@@ -1,35 +1,40 @@
-<h2><%= ts("Language List") %></h2>
-
-<ul class="otwtranslation navigation">
-  <li id="add_language">
-    <%= link_to(ts("Add language"), otwtranslation_new_language_path) %>
-  </li>
-</ul>
-
-<table id="otwtranslation_languages">
-  <tr>
-    <th><%= ts("Short") %></th>
-    <th><%= ts("Name") %></th>
-    <th><%= ts("Right to left?") %>
-    <th><%= ts("Translation visible?") %>
-    <th><%= ts("Translated") %>
-    <th><%= ts("Approved") %>
-  </tr>
-
+<!--Descriptive page name and system messages, descriptions, and instructions.-->
+<h2><%= ts("Language Table") %></h2>
 <p><%= "(Statistics will update every #{OtwtranslationConfig.STATS_CACHE_EXPIRY} minutes.)" %></p>
+<!--end descriptions-->
 
-<% @languages.each do |language| %>
-<% cache("otwtranslation-language-index-#{language.id}",
-      :expires_in => OtwtranslationConfig.STATS_CACHE_EXPIRY.to_f.minutes) do %>
-  <tr>
+<!--navigation, sorting and actions-->
+<p class="translation navigation" id="add_language">
+    <%= link_to(ts("Add language"), otwtranslation_new_language_path) %>
+</p>
+<!--/nav-->
+
+<!--main content-->
+<table id="otwtranslation_languages" summary="please summarise">
+	<caption><!--please briefly label--></caption>
+  <thead>
+	<tr>
+    <th scope="col"><%= ts("Short") %></th>
+    <th scope="col"><%= ts("Name") %></th>
+    <th scope="col"><%= ts("Right to left?") %>
+    <th scope="col"><%= ts("Translation visible?") %>
+    <th scope="col"><%= ts("Translated") %>
+    <th scope="col"><%= ts("Approved") %>
+  </tr>
+</thead>
+ <tbody>
+	<% @languages.each do |language| %>
+	<% cache("otwtranslation-language-index-#{language.id}",
+	      :expires_in => OtwtranslationConfig.STATS_CACHE_EXPIRY.to_f.minutes) do %>
+	<tr>
     <td class="short"><%= language.short %></td>
-    <td class="name">
+    <th class="language" scope="row">
       <%= link_to(language.name, otwtranslation_language_path(language)) %>
-    </td>
-    <td class="right_to_left">
+    </th>
+    <td class="direction">
       <%= language.right_to_left? ? "&#x2713;".html_safe : "" %>
     </td>
-    <td class="translation_visible">
+    <td class="visible">
       <%= language.translation_visible? ? "&#x2713;".html_safe : "" %>
     </td>
     <td class="translated">
@@ -39,7 +44,9 @@
       <%= number_to_percentage language.percentage_approved, :precision => 2 %>
     </td>
   </tr>
+
 <% end %><!-- end of cache -->
+</tbody>
 <% end %>
 </table>
 

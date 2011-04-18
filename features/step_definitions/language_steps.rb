@@ -3,7 +3,7 @@ Given /^I have the language "([^"]*)" with short "([^"]*)"$/ do |name, short|
 end
 
 Then /^I should see the language name "([^"]*)"$/ do |name|
-  page.should have_selector('td.name, dd.name', :text => name)
+  page.should have_selector('th.language, dd.language', :text => name)
 end
 
 Then /^I should see the language short "([^"]*)"$/ do |short|
@@ -11,11 +11,11 @@ Then /^I should see the language short "([^"]*)"$/ do |short|
 end
 
 Then /^I should see right to left set to "([^"]*)"$/ do |rtl|
-  page.should have_selector('dd.right_to_left', :text => rtl)
+  page.should have_selector('dd.direction', :text => rtl)
 end
 
 Then /^I should see translations visible set to "([^"]*)"$/ do |visible|
-  page.should have_selector('dd.translation_visible', :text => visible)
+  page.should have_selector('dd.visible', :text => visible)
 end
 
 

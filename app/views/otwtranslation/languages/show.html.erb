@@ -1,20 +1,26 @@
+<!--Descriptive page name and system messages, descriptions, and instructions.-->
 <h2><%= ts("Show Language") %></h2>
+<!-- end descriptions-->
 
+<!--Subnavigation, sorting and actions.-->
+<!--end navigation-->
+
+<!--main content-->
 <dl id="otwtranslation_language">
 
   <dt class="short"><%= ts("Short:") %></dt>
   <dd class="short"><%= @language.short %></dd>
 
-  <dt class="name"><%= ts("Name:") %></dt>
-  <dd class="name"><%= @language.name %></dd>
+  <dt class="language"><%= ts("Name:") %></dt>
+  <dd class="language"><%= @language.name %></dd>
 
-  <dt class="right_to_left"><%= ts("Right to left?") %></dt>
-  <dd class="right_to_left">
+  <dt class="direction"><%= ts("Right to left?") %></dt>
+  <dd class="direction">
     <%= @language.right_to_left? ? ts("yes") : ts("no") %>
   </dd>
 
-  <dt class="translation_visible"><%= ts("Translation visible?") %></dt>
-  <dd class="translation_visible">
+  <dt class="visible"><%= ts("Translation visible?") %></dt>
+  <dd class="visible">
     <%= @language.translation_visible? ? ts("yes") : ts("no") %>
   </dd>
 
@@ -28,5 +34,8 @@
     <%= number_to_percentage @language.percentage_approved, :precision => 2 %>
   </dd>
 </dl>
+<!--end main-->
 
-<%= link_to ts('Back'), otwtranslation_languages_path %>
+<!--navigation, sorting and actions-->
+<p class="navigation"><%= link_to ts('Back'), otwtranslation_languages_path %></p>
+<!-- end nav-->

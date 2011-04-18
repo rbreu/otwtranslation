@@ -34,7 +34,6 @@ Add
 
 to your application.html.erb
 
-
 TODO: db migrations; stylesheets; javasripts
 
 

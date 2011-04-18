@@ -1,5 +1,13 @@
+<!--Descriptive page name and system messages, descriptions, and instructions.-->
 <h2><%= ts("Show Translation") %></h2>
+<!--end descriptions-->
 
+
+<!--Subnavigation, sorting and actions.-->
+<!--end navigation-->
+
+
+<!--main content-->
 <ol id="otwtranslation_translations">
   <li id="translation<%= @translation.id %>" class="even">
     <%= render :partial => "otwtranslation/translations/translation", 
@@ -7,17 +15,11 @@
   </li>
 </ol>
 
-
-<h3 class="landmark">For phrase</h3>
-
 <h3>For phrase</h3>
 
 <%= render :partial => "/otwtranslation/phrases/phrase", 
            :locals => { :phrase => @phrase } %>
 
 
-<h3 class="landmark">Comments</h3>
-
 <h3>Comments</h3>
-
-<p style="color: red;">Here be place for comments</p>
+<p class="notice">Here be place for comments</p>

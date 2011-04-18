@@ -1,11 +1,14 @@
-<div <%='class=approved' if translation.approved %> >
+<div class="translation <%='approved' if translation.approved %>" >
 
+<!-- BACK END: is this a heading: on a summary of the page contents, ought this show up?-->
 <p class="label"><%= translation.label %></p>
 
 <%= render :partial => "/otwtranslation/translations/stats", 
            :locals => { :translation => translation } %>
 
-<ul class="navigation">
+
+<h3 class="landmark">Translation Actions</h3>
+<ul class="translation navigation">
   <li><%= link_to 'Show', otwtranslation_translation_path(translation) %></li>
 
   <% if translation.approved %>

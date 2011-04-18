@@ -35,19 +35,23 @@ module OtwtranslationHelper
     
     # TODO: performance!!!!
     phrase = Otwtranslation::Phrase.find_by_key(phrase_key)
+    span_id = "otwtranslation_phrase_#{phrase_key}"
     
-    
-    display_phrase = "<span id=\"otwtranslation_phrase_#{phrase.key}\" class=\"otwtranslation_mark_"
-      
     if transl = phrase.approved_translations_for(otwtranslation_language).first
-        display_phrase += "approved\">#{transl.label}</span>"
+      span_class = 'approved'
+      landmark = ""
+      label = transl.label
     elsif transl = phrase.translations_for(otwtranslation_language).first
-      display_phrase += "translated\">#{transl.label}</span>"
+      span_class = 'translated'
+      landmark = '<span class="landmark">review</span>'
+      label = transl.label
     else
-      display_phrase += "untranslated\">#{phrase.label}</span>"
+      span_class = 'untranslated'
+      landmark = '<span class="landmark">translate</span>'
+      label = "*" + phrase.label
     end
 
-    return display_phrase.html_safe
+    return "<span id=\"#{span_id}\" class=\"#{span_class}\">#{landmark}#{label}</span>".html_safe
   end
  
   
@@ -89,6 +93,6 @@ module OtwtranslationHelper
   def otwtranslation_language
     session[:otwtranslation_language] || OtwtranslationConfig.DEFAULT_LANGUAGE
   end
-   
+
 end
 

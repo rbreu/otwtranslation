@@ -1,14 +1,28 @@
-#header ul.otwtranslation { 
+/*MAIN NAV spoofs admin nav */
+#header ul.translation { 
     margin-top: 2.375em;
     position: absolute;
     right: 1em;
     z-index: 50;
 }
 
-#header ul.otwtranslation a,#header ul.otwtranslation .current {
+#header ul.translation a,#header ul.translation .current {
     border-bottom: 3px solid #111;
     float: right;
 }
+
+/* TRANSLATABLE PHRASE STATE */
+
+span.untranslated {
+    border-bottom: 3px solid red;
+}
+span.translated {
+    border-bottom: 3px solid cyan;
+}
+span.approved {
+    border-bottom: 3px dotted lime;
+}
+
 
 dl#otwtranslation_phrase dt, dl#otwtranslation_source dt, 
 dl#otwtranslation_language dt {
@@ -23,44 +37,32 @@ dl#otwtranslation_language dd {
 }
 
 
-table#otwtranslation_sources td.version {
-    text-align: center
-}
-
-table#otwtranslation_sources td.phrases,  
-table#otwtranslation_sources td.translated,
-table#otwtranslation_sources td.approved {
+table td.phrases, table td.translated, table td.approved, table td.translations {
     text-align: right
 }
 
-table#otwtranslation_languages td.right_to_left,
-table#otwtranslation_languages td.translation_visible {
+table td.direction, table td.visible {
     text-align: center
 }
 
-table#otwtranslation_languages td.translated,
-table#otwtranslation_languages td.approved {
-    text-align: right
-}
 
-div.otwtranslation_translation {
-    background: #eeeeee;
-}
 
-ol#otwtranslation_translations > li > div {
+div.translation {
     padding: 0.8575em 0.25em;
 }
 
-ol#otwtranslation_translations li.even {
-    background: #eeeeee;
-}
 
-ol#otwtranslation_translations li.odd {
-    background: #f6f0f0;
-}
-
-ol#otwtranslation_translations div.approved {
+div.approved {
     background: #cce698
+}
+
+
+ol.translation.index li.even {
+    background: #eee;
+}
+
+ol.translation.index li.odd {
+    background: #f6f0f0;
 }
 
 ol#otwtranslation_translations dl.stats { 
@@ -76,24 +78,11 @@ ol#otwtranslation_translations ul.navigation {
     margin: -1.25em auto auto;
 }
 
-span.otwtranslation_mark_untranslated {
-    border-bottom: solid red;
-}
-
-span.otwtranslation_mark_translated {
-    border-bottom: solid cyan;
-}
-
-span.otwtranslation_mark_approved {
-    border-bottom: solid lime;
-}
-
-
 #new_otwtranslation_translation input[type="text"] {
     width: 49em;
 }
 
-div.otwtranslation_show_inline {
+div.show.inline {
     display: block;
     position: absolute; 
     width: 50%;
@@ -104,7 +93,7 @@ div.otwtranslation_show_inline {
 }
 
 
-span.otwtranslation_hide_inline {
+p.hide.inline {
     background: transparent;
     border:0; 
     border-right:1px solid #ccc; 
@@ -116,3 +105,4 @@ span.otwtranslation_hide_inline {
     text-decoration: none; 
     width: auto
 }
+

@@ -1,6 +1,4 @@
-<h3 class="landmark">Translations for this phrase</h3>
-
-<h3>Translations for this phrase:</h3>
+<h3>List of translations for this phrase:</h3>
 
 <% if translations.empty? %>
   <p id="otwtranslation_notranslations">
@@ -9,7 +7,7 @@
 
 <% elsif %>
 
-  <ol id="otwtranslation_translations">
+  <ol id="otwtranslation_translations" class="translation index">
     <% translations.each.with_index do |translation, i| %>
       <li id="translation<%= translation.id %>" 
           class="<%= i%2 == 0 ? "even" : "odd" %>"> 

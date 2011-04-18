@@ -4,7 +4,7 @@ Given /^I have the phrase "([^"]*)"$/ do |phrase|
 end
 
 Then /^I should see the phrase "([^"]*)"$/ do |label|
-  page.should have_selector('td.label, dd.label', :text => label)
+  page.should have_selector('th.label, dd.label', :text => label)
 end
 
 Then /^I should see the phrase source "([^"]*)"$/ do |source|
