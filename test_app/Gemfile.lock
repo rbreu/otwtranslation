@@ -170,5 +170,6 @@ DEPENDENCIES
   rails (= 3.0.5)
   rails_helpers_fix
   rspec-rails (~> 2.5.0)
+  selenium-webdriver
   sqlite3
   webrat

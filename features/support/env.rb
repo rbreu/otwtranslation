@@ -69,9 +69,13 @@ end
 
 
 # for headless javascript testing
-require 'akephalos'
+# require 'akephalos'
+# Capybara.server_boot_timeout = 50
+# Capybara.javascript_driver = :akephalos
+
+
 Capybara.server_boot_timeout = 50
-Capybara.javascript_driver = :akephalos
+Capybara.javascript_driver = :selenium
 
 
 Before do
