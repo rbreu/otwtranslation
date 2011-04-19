@@ -47,36 +47,28 @@ end
 
 When /^I right\-click on the hello world phrase$/ do
   key = Otwtranslation::Phrase.find_by_label("Hello World!").key
-  #puts page.driver.browser.methods
-  #page.driver.mouse_down_right('span#otwtranslation_phrase_#{key}')
-  #mouse_up_right('span#otwtranslation_phrase_#{key}')
-  #find_element(:name, 'test')
-  #puts page.driver.browser.class
-  #puts page.driver.browser.methods
-  #puts page.driver.browser.instance_variables
+  #element = page.driver.browser.find_element(:css, "span#otwtranslation_phrase_#{key}")
 
-  #puts page.class
-  #puts page.methods
-  #puts page.instance_variables
+  #element.send_keys([:shift, :f10]); # darn, this is the context menu... :(
   
-  page.evaluate_script("""
-    var element = $('span#otwtranslation_phrase_#{key}')
-    var evt = element.ownerDocument.createEvent('MouseEvents');
+  
+ #  page.evaluate_script("""
+ #    var element = $('span#otwtranslation_phrase_#{key}')
+ #    var evt = element.ownerDocument.createEvent('MouseEvents');
 
-    evt.initMouseEvent('click', true, true,
-      element.ownerDocument.defaultView, 1, 0, 0, 0, 0, false,
-      false, false, false, RIGHT_CLICK_BUTTON_CODE, null);
+ #    evt.initMouseEvent('click', true, true,
+ #      element.ownerDocument.defaultView, 1, 0, 0, 0, 0, false,
+ #      false, false, false, RIGHT_CLICK_BUTTON_CODE, null);
 
-    if (document.createEventObject){
-        // dispatch for IE
-        return element.fireEvent('onclick', evt)
-    }
-    else{
-        // dispatch for firefox + others
-        return !element.dispatchEvent(evt);
-    }
-
- """)
+ #    if (document.createEventObject){
+ #        // dispatch for IE
+ #        return element.fireEvent('onclick', evt)
+ #    }
+ #    else{
+ #        // dispatch for firefox + others
+ #        return !element.dispatchEvent(evt);
+ #    }
+ # """)
 end
 
 Then /^I should see the inline translator$/ do
