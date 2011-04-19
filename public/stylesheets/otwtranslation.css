@@ -94,10 +94,7 @@ div.show.inline {
 
 
 p.hide.inline {
-    background: transparent;
-    border:0; 
-    border-right:1px solid #ccc; 
-    border-left:1px solid #ccc; 
+    border: 1px solid #BBBBBB;
     cursor: pointer; 
     font-weight: 700; 
     margin: 0 0.125em; 
