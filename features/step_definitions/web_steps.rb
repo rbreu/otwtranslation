@@ -17,18 +17,17 @@ end
 World(WithinHelpers)
 
 
-
-
-Given /^I will confirm the popup$/ do
-  page.evaluate_script("window.alert = function(msg) { return true; }")
-  page.evaluate_script("window.confirm = function(msg) { return true; }")
+When /^I confirm the popup$/ do
+  sleep 1
+  confirm = page.driver.browser.switch_to.alert
+  confirm.accept
 end
 
-Given /^I won't confirm the popup$/ do
-  page.evaluate_script("window.alert = function(msg) { return false; }")
-  page.evaluate_script("window.confirm = function(msg) { return false; }")
+When /^I don't confirm the popup$/ do
+  sleep 1
+  confirm = page.driver.browser.switch_to.alert
+  confirm.dismiss
 end
-
 
 Then /^I should see the heading "([^"]*)"$/ do |text|
   Then "I should see \"#{text}\" within \"h2\""

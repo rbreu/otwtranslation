@@ -97,7 +97,6 @@ Feature: Translations
     And I should see approved set to "no"
     
     
-  @bla
   Scenario: Disapprove translations
     Given I have the approved translation "Lehne mich ab :(" for "Disapprove me :(" in Deutsch
     And I have selected the language Deutsch
@@ -111,20 +110,15 @@ Feature: Translations
     Then I should see approved set to "no"
 
   @javascript
-  @wip
   Scenario: Disapprove translations with javascsript
-    # problems with popup confirming
-
     Given I have the approved translation "Lehne mich ab :(" for "Disapprove me :(" in Deutsch
     And I have selected the language Deutsch
     And I am a translator
-    #And I will confirm the popup
-    And I won't confirm the popup
  
     When I go to the phrase page
     Then I should see approved set to "yes"
     When I press "Disapprove"
-    # Here's the popup that's to be confirmed
+    And I confirm the popup
     Then I should see approved set to "no"
 
   Scenario: Delete translations
@@ -139,19 +133,14 @@ Feature: Translations
     Then I should not see "Lösch mich :("
 
   @javascript
-  @wip
-  Scenario: Delete translations
-    # problems with confirming popops
-
+  Scenario: Delete translations with javascript
     Given I have the translation "Lösch mich :(" for "Delete me :(" in Deutsch
     And I have selected the language Deutsch
     And I am a translator
-    #And I will confirm the popup
-    And I won't confirm the popup
  
     When I go to the phrase page
     And I press "Delete"
-    # Here's the popup that's to be confirmed
+    And I confirm the popup
     Then I should not see "Lösch mich :("
 
   Scenario: Edit translations

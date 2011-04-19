@@ -36,6 +36,50 @@ Then /^I should not see the translation "([^"]*)"$/ do |translation|
 end
 
 Then /^I should see approved set to "([^"]*)"$/ do |approved|
-  page.should have_selector('dd.approved', :text => approved)
+  begin
+    page.should have_selector('dd.approved', :text => approved)
+  rescue Selenium::WebDriver::Error::ObsoleteElementError
+    # ajax call took to long to finish, try again
+    sleep 1
+    page.should have_selector('dd.approved', :text => approved)
+  end
+end
+
+When /^I right\-click on the hello world phrase$/ do
+  key = Otwtranslation::Phrase.find_by_label("Hello World!").key
+  #puts page.driver.browser.methods
+  #page.driver.mouse_down_right('span#otwtranslation_phrase_#{key}')
+  #mouse_up_right('span#otwtranslation_phrase_#{key}')
+  #find_element(:name, 'test')
+  #puts page.driver.browser.class
+  #puts page.driver.browser.methods
+  #puts page.driver.browser.instance_variables
+
+  #puts page.class
+  #puts page.methods
+  #puts page.instance_variables
+  
+  page.evaluate_script("""
+    var element = $('span#otwtranslation_phrase_#{key}')
+    var evt = element.ownerDocument.createEvent('MouseEvents');
+
+    evt.initMouseEvent('click', true, true,
+      element.ownerDocument.defaultView, 1, 0, 0, 0, 0, false,
+      false, false, false, RIGHT_CLICK_BUTTON_CODE, null);
+
+    if (document.createEventObject){
+        // dispatch for IE
+        return element.fireEvent('onclick', evt)
+    }
+    else{
+        // dispatch for firefox + others
+        return !element.dispatchEvent(evt);
+    }
+
+ """)
+end
+
+Then /^I should see the inline translator$/ do
+  page.should have_selector('div.show.inline')
 end
 
