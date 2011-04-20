@@ -89,7 +89,7 @@ class Otwtranslation::Phrase < ActiveRecord::Base
   end
 
   def remove_from_cache
-    Rails.cache.delete(cache_key)
+    Rails.cache.delete(self.class.cache_key(key))
   end
 
 

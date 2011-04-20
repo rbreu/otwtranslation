@@ -32,8 +32,9 @@ module OtwtranslationHelper
 
 
   def otwtranslation_decorated_translation(phrase_key)
-    
-    markup = Rails.cache.read("otwtranslation_for_translator_#{otwtranslation_language}_#{phrase_key}")
+    cache_key = Otwtranslation::Translation
+      .cache_key(phrase_key, otwtranslation_language, true)
+    markup = Rails.cache.read(cache_key)
     return markup.html_safe if markup
       
     phrase = Otwtranslation::Phrase.find_by_key(phrase_key)
@@ -53,7 +54,7 @@ module OtwtranslationHelper
     end
 
     markup = "<span id=\"otwtranslation_phrase_#{phrase_key}\" class=\"#{span_class}\">#{landmark}#{label}</span>"
-    Rails.cache.write("otwtranslation_for_translator_#{otwtranslation_language}_#{phrase_key}", markup)
+    Rails.cache.write(cache_key, markup)
 
     return markup.html_safe
   end

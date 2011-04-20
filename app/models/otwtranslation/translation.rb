@@ -14,5 +14,18 @@ class Otwtranslation::Translation < ActiveRecord::Base
                           :allow_blank => true,
                           :message => "Another translation is already approved."
 
+  after_destroy :remove_from_cache
+  after_save :remove_from_cache
 
+  
+  def self.cache_key(phrase_key, language, decorated=false)
+    "otwtranslation_for_#{language}_#{phrase_key}#{decorated ? '_decorated' : ''}"
+  end
+  
+
+  def remove_from_cache
+    # only decorated stuff so far
+    Rails.cache.delete(self.class.cache_key(phrase_key, language_short, true))
+  end
+  
 end
