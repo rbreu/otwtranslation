@@ -21,7 +21,7 @@ module OtwtranslationHelper
 
     phrase = Otwtranslation::Phrase.find_or_create(phrase, description, source)
 
-    # See if we need to present a translation
+    # See if we need to present a decorated or plain translation
     if otwtranslation_tool_visible? && otwtranslation_language != OtwtranslationConfig.DEFAULT_LANGUAGE
       return otwtranslation_decorated_translation(phrase.key)
     else
@@ -33,9 +33,10 @@ module OtwtranslationHelper
 
   def otwtranslation_decorated_translation(phrase_key)
     
-    # TODO: performance!!!!
+    markup = Rails.cache.read("otwtranslation_for_translator_#{otwtranslation_language}_#{phrase_key}")
+    return markup.html_safe if markup
+      
     phrase = Otwtranslation::Phrase.find_by_key(phrase_key)
-    span_id = "otwtranslation_phrase_#{phrase_key}"
     
     if transl = phrase.approved_translations_for(otwtranslation_language).first
       span_class = 'approved'
@@ -51,7 +52,10 @@ module OtwtranslationHelper
       label = "*" + phrase.label
     end
 
-    return "<span id=\"#{span_id}\" class=\"#{span_class}\">#{landmark}#{label}</span>".html_safe
+    markup = "<span id=\"otwtranslation_phrase_#{phrase_key}\" class=\"#{span_class}\">#{landmark}#{label}</span>"
+    Rails.cache.write("otwtranslation_for_translator_#{otwtranslation_language}_#{phrase_key}", markup)
+
+    return markup.html_safe
   end
  
   
