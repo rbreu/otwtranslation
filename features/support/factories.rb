@@ -41,7 +41,6 @@ end
 
 Factory.define(:phrase, :class => Otwtranslation::Phrase) do |phrase|
   phrase.label { Factory.next(:english_label) }
-  phrase.key "123"
   phrase.version OtwtranslationConfig.VERSION
   
   phrase.after_build do |p|

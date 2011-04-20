@@ -11,12 +11,57 @@ describe OtwtranslationHelper do
 
   describe "t" do
     it "should return the original phrase" do
-      helper.t("home.greeting", :default => "Good day!").should == "Good day!"
+      t("home.greeting", :default => "Good day!").should == "Good day!"
     end
 
     it "should insert variables" do
-      helper.t("home.greeting", :default => "Good day, %{name}!",
+      t("home.greeting", :default => "Good day, %{name}!",
                :name => "Abby").should == "Good day, Abby!"
     end
   end
+
+
+  describe "otwtranslation_decorated_translation" do
+    before(:each) do
+      @phrase = Factory.create(:phrase, :label => "Good day!")
+      helper.stub(:otwtranslation_language).and_return("de")
+    end
+    
+    it "should mark the phrase untranslated" do
+      otwtranslation_decorated_translation(@phrase.key)
+        .should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"untranslated\"><span class=\"landmark\">translate</span>*Good day!</span>"
+    end
+      
+    it "should mark the phrase translated" do
+      translation = Factory.create(:translation,
+                                   :label => "Guten Tag!",
+                                   :language_short => "de",
+                                   :approved => false,
+                                   :phrase => @phrase)
+
+      helper.otwtranslation_decorated_translation(@phrase.key)
+        .should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"translated\"><span class=\"landmark\">review</span>Guten Tag!</span>"
+      
+    end
+    
+    it "should mark the phrase approved" do
+      translation = Factory.create(:translation,
+                                   :label => "Moin!",
+                                   :language_short => "de",
+                                   :approved => true,
+                                   :phrase => @phrase)
+      
+      helper.otwtranslation_decorated_translation(@phrase.key)
+        .should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"approved\">Moin!</span>"
+    end
+    
+    it "should cache" do
+      otwtranslation_decorated_translation(@phrase.key)
+      Otwtranslation::Phrase.should_not_receive(:find_by_key)
+      otwtranslation_decorated_translation(@phrase.key).should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"untranslated\"><span class=\"landmark\">translate</span>*Good day!</span>"
+    end
+    
+  end
+
+ 
 end
