@@ -8,5 +8,7 @@ VERSION: '0.8'
 
 DEFAULT_LANGUAGE: 'en'
 
+ALLOWED_TRANSLATIONS_HTML: ['em', 'strong', 'i', 'b']
+
 # After how many minutes to expire statistics on some of the index pages
 STATS_CACHE_EXPIRY: 5

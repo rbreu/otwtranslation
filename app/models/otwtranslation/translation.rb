@@ -1,3 +1,5 @@
+require 'sanitize'
+
 class Otwtranslation::Translation < ActiveRecord::Base
   
   set_table_name :otwtranslation_translations
@@ -15,6 +17,7 @@ class Otwtranslation::Translation < ActiveRecord::Base
                           :message => "Another translation is already approved."
 
   after_destroy :remove_from_cache
+  before_validation :sanitize_label
   after_save :remove_from_cache
 
   
@@ -26,6 +29,11 @@ class Otwtranslation::Translation < ActiveRecord::Base
   def remove_from_cache
     # only decorated stuff so far
     Rails.cache.delete(self.class.cache_key(phrase_key, language_short, true))
+  end
+
+
+  def sanitize_label
+    Sanitize.clean!(label, :elements => OtwtranslationConfig.ALLOWED_TRANSLATIONS_HTML)
   end
   
 end

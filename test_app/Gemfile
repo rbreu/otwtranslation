@@ -4,6 +4,7 @@ gem 'rails', '3.0.5'
 gem 'sqlite3'
 gem 'memcache-client'
 gem 'jquery-rails'
+gem 'sanitize'
 
 gem "rails_helpers_fix"
 
