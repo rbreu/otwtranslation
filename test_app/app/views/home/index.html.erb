@@ -26,3 +26,15 @@
   <%= ts('Login first.') %>
 <% end %>
 </p>
+
+<hr>
+
+<h2><%= ts("Some Test cases:") %></h2>
+
+<% ["Spock", "Uhura", "Kirk"].each do |name| %>
+  <p><%= ts("Hello {data::name}!", "", :name => name) %></p>
+<% end %>
+
+<% 0.upto(3) do |i| %>
+  <p><%= ts("You have {count::message}.", "", :message => i) %></p>
+<% end %>

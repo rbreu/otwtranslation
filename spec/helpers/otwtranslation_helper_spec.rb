@@ -7,6 +7,12 @@ describe OtwtranslationHelper do
       helper.stub(:logged_in?).and_return(false)
       helper.ts("Good day!").should == "Good day!"
     end
+
+    it "should substitute tokens" do
+      helper.stub(:logged_in?).and_return(false)
+      helper.ts("Hello {data::name}!", "", :name => "Abby")
+        .should == "Hello Abby!"
+    end
   end
 
   describe "t" do

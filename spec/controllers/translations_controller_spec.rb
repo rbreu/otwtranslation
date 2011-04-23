@@ -232,12 +232,12 @@ describe Otwtranslation::TranslationsController, "POST approve" do
       end
       
       it "should set a flash[:error] message for HTML" do
-        post :create, :id => "somekey"
+        post :approve, :id => "somekey"
         flash[:error].should contain 'There was a problem saving the translation'
       end
 
       it "should set a flash[:error] message for JS" do
-        post :create, :id => "somekey", :format => "js"
+        post :approve, :id => "somekey", :format => "js"
         flash[:error].should contain 'There was a problem saving the translation'
       end
     end

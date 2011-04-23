@@ -66,6 +66,11 @@ class Otwtranslation::Phrase < ActiveRecord::Base
     end
   end
   
+
+  def self.tokenize_label(label)
+    tokens = []
+    
+  end
   
   def self.cache_key(key)
     "otwtranslation_phrase_#{key}"

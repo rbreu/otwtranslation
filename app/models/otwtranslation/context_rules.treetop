@@ -1,0 +1,52 @@
+grammar ContextRules
+
+  rule document
+    (context_rule / text)* {
+      def content
+        elements.map{ |e| e.content }
+      end
+    }
+  end
+
+  rule text
+    (!context_rule .)+ {
+      def content
+        [:text, text_value]
+      end
+    }
+  end
+
+  rule context_rule
+    rule_name variable {
+      def content
+        d = {}
+        elements.each do |e|
+          d[e.content[0]] = e.content[1]
+        end
+        [:rule, d]
+      end
+    }
+  end
+
+  rule rule_name
+    "{" name:[a-zA-Z]+ ":" {
+      def content
+        [:name, name.text_value]
+      end
+    }
+  end
+
+  rule variable
+    ":" variable:[a-zA-Z]+ "}" {
+      def content
+        [:variable, variable.text_value]
+      end
+    }
+  end
+
+end
+
+# Don't remove; this is for Emacs users :)
+# Local variables:
+# mode: ruby
+# end:

@@ -1,6 +1,6 @@
 module OtwtranslationHelper
 
-  def ts(phrase, description="")
+  def ts(phrase, description="", variables = {})
 
     # Try to store this phrase
     begin
@@ -23,15 +23,15 @@ module OtwtranslationHelper
 
     # See if we need to present a decorated or plain translation
     if otwtranslation_tool_visible? && otwtranslation_language != OtwtranslationConfig.DEFAULT_LANGUAGE
-      return otwtranslation_decorated_translation(phrase.key)
+      return otwtranslation_decorated_translation(phrase.key, variables)
     else
-      return phrase.label
+      return Otwtranslation::TokenisedLabel.new(phrase.label).apply_rules(variables)
     end
     
   end
 
 
-  def otwtranslation_decorated_translation(phrase_key)
+  def otwtranslation_decorated_translation(phrase_key, variables={})
     cache_key = Otwtranslation::Translation
       .cache_key(phrase_key, otwtranslation_language, true)
     markup = Rails.cache.read(cache_key)
@@ -42,19 +42,22 @@ module OtwtranslationHelper
     if transl = phrase.approved_translations_for(otwtranslation_language).first
       span_class = 'approved'
       landmark = ""
-      label = transl.label
+      label =  Otwtranslation::TokenisedLabel.new(transl.label).apply_rules(variables)
     elsif transl = phrase.translations_for(otwtranslation_language).first
       span_class = 'translated'
       landmark = '<span class="landmark">review</span>'
-      label = transl.label
+      label =  Otwtranslation::TokenisedLabel.new(transl.label).apply_rules(variables)
     else
       span_class = 'untranslated'
       landmark = '<span class="landmark">translate</span>'
-      label = "*" + phrase.label
+      label = "*" +  Otwtranslation::TokenisedLabel.new(phrase.label).apply_rules(variables)
     end
 
     markup = "<span id=\"otwtranslation_phrase_#{phrase_key}\" class=\"#{span_class}\">#{landmark}#{label}</span>"
-    Rails.cache.write(cache_key, markup)
+
+    if Otwtranslation::TokenisedLabel.new(phrase.label).all_text?
+      Rails.cache.write(cache_key, markup)
+    end
 
     return markup.html_safe
   end
