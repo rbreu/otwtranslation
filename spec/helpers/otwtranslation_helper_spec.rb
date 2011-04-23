@@ -61,13 +61,19 @@ describe OtwtranslationHelper do
         .should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"approved\">Moin!</span>"
     end
     
-    it "should cache" do
+    it "should cache all text labels" do
       otwtranslation_decorated_translation(@phrase.key)
       Otwtranslation::Phrase.should_not_receive(:find_by_key)
       otwtranslation_decorated_translation(@phrase.key).should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"untranslated\"><span class=\"landmark\">translate</span>*Good day!</span>"
     end
     
+    it "should not cache labe with rules" do
+      @phrase = Factory.create(:phrase, :label => "Hello {data::name}!")
+
+      otwtranslation_decorated_translation(@phrase.key)
+      Rails.cache.should_not_receive(:write)
+      otwtranslation_decorated_translation(@phrase.key)
+    end
   end
 
- 
 end
