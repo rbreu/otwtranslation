@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'shared_examples_for_tokenisable'
 
 describe Otwtranslation::Phrase, "creation" do
   
@@ -58,13 +57,4 @@ describe Otwtranslation::Phrase, "update" do
   end
 end
 
-
-describe Otwtranslation::Phrase, "tokenizable" do
-  before(:each) do
-    @tokenisable = Factory.create(:phrase)
-  end
-
-  it_should_behave_like "tokenisable"
-  
-end
   

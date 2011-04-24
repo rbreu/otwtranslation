@@ -3,8 +3,6 @@ require 'ostruct'
 
 class Otwtranslation::Phrase < ActiveRecord::Base
 
-  include Otwtranslation::Tokenisable
-
   set_table_name :otwtranslation_phrases
   has_and_belongs_to_many(:sources, 
                           :join_table => :otwtranslation_phrases_sources,
@@ -87,8 +85,6 @@ class Otwtranslation::Phrase < ActiveRecord::Base
   def to_cachable
     p = OpenStruct.new(attributes)
     p.sources = sources.select(:controller_action).map{|s| s.controller_action}
-    p.extend(Otwtranslation::Tokenisable)
-    p.tokenise_label
     return p.freeze
   end
 
