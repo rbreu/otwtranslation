@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'shared_examples_for_tokenisable'
 
 describe Otwtranslation::Phrase, "creation" do
   
@@ -55,7 +56,15 @@ describe Otwtranslation::Phrase, "update" do
     source = {:controller => "works", :action => "show", :url => "works/2"}
     phrase = Otwtranslation::Phrase.find_or_create("foo", "bar", source)
   end
-    
 end
 
 
+describe Otwtranslation::Phrase, "tokenizable" do
+  before(:each) do
+    @tokenisable = Factory.create(:phrase)
+  end
+
+  it_should_behave_like "tokenisable"
+  
+end
+  

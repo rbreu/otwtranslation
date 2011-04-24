@@ -25,7 +25,7 @@ module OtwtranslationHelper
     if otwtranslation_tool_visible? && otwtranslation_language != OtwtranslationConfig.DEFAULT_LANGUAGE
       return otwtranslation_decorated_translation(phrase.key, variables)
     else
-      return Otwtranslation::TokenisedLabel.new(phrase.label).apply_rules(variables)
+      return phrase.apply_rules(variables)
     end
     
   end
@@ -42,20 +42,20 @@ module OtwtranslationHelper
     if transl = phrase.approved_translations_for(otwtranslation_language).first
       span_class = 'approved'
       landmark = ""
-      label =  Otwtranslation::TokenisedLabel.new(transl.label).apply_rules(variables)
+      label = transl.apply_rules(variables)
     elsif transl = phrase.translations_for(otwtranslation_language).first
       span_class = 'translated'
       landmark = '<span class="landmark">review</span>'
-      label =  Otwtranslation::TokenisedLabel.new(transl.label).apply_rules(variables)
+      label = transl.apply_rules(variables)
     else
       span_class = 'untranslated'
       landmark = '<span class="landmark">translate</span>'
-      label = "*" +  Otwtranslation::TokenisedLabel.new(phrase.label).apply_rules(variables)
+      label = "*" + phrase.apply_rules(variables)
     end
 
     markup = "<span id=\"otwtranslation_phrase_#{phrase_key}\" class=\"#{span_class}\">#{landmark}#{label}</span>"
 
-    if Otwtranslation::TokenisedLabel.new(phrase.label).all_text?
+    if phrase.all_text?
       Rails.cache.write(cache_key, markup)
     end
 

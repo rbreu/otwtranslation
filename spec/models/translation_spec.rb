@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'shared_examples_for_tokenisable'
 
 describe Otwtranslation::Translation do
 
@@ -42,4 +43,13 @@ describe Otwtranslation::Translation do
     translation.label.should_not =~ /<\/{0,1}blah>/
     translation.label.should_not =~ /<\/{0,1}a>/
   end
+end
+
+describe Otwtranslation::Translation, "tokenizable" do
+  before(:each) do
+    @tokenisable = Factory.create(:translation)
+  end
+
+  it_should_behave_like "tokenisable"
+  
 end

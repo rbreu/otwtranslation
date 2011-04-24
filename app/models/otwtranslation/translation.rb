@@ -1,6 +1,8 @@
 require 'sanitize'
 
 class Otwtranslation::Translation < ActiveRecord::Base
+
+  include Otwtranslation::Tokenisable
   
   set_table_name :otwtranslation_translations
 

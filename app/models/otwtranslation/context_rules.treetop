@@ -17,29 +17,9 @@ grammar ContextRules
   end
 
   rule context_rule
-    rule_name variable {
+  "{" name:[a-zA-Z]+ "::" variable:[a-zA-Z]+ "}" {
       def content
-        d = {}
-        elements.each do |e|
-          d[e.content[0]] = e.content[1]
-        end
-        [:rule, d]
-      end
-    }
-  end
-
-  rule rule_name
-    "{" name:[a-zA-Z]+ ":" {
-      def content
-        [:name, name.text_value]
-      end
-    }
-  end
-
-  rule variable
-    ":" variable:[a-zA-Z]+ "}" {
-      def content
-        [:variable, variable.text_value]
+        [:rule, {:name => name.text_value, :variable => variable.text_value}]
       end
     }
   end
