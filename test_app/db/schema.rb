@@ -26,6 +26,8 @@ ActiveRecord::Schema.define(:version => 20110317134000) do
     t.string   "label"
     t.string   "description"
     t.string   "version"
+    t.integer  "translation_count"
+    t.integer  "approved_translation_count"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

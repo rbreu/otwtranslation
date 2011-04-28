@@ -17,8 +17,10 @@ module Otwtranslation::Tokenizer
     tokenize_label(label).each do |token, content|
       if token == :text
         applied += content
-      else
+      elsif content[:name] == "data"
         applied += (variables[content[:variable].to_sym] || rule_to_s(content)).to_s
+      else
+        applied += rule_to_s(content)
       end
     end
     return applied
