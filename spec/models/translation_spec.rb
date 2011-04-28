@@ -31,7 +31,7 @@ describe Otwtranslation::Translation do
     translation.label.should == label
   end
 
-  it "should remove weird HTML" do
+  it "should remove unknown HTML tags" do
     label = "<blah>foo</blah><a>bar</a>"
     translation = Otwtranslation::Translation.new(:label => label,
                                                   :language_short => "de",
@@ -39,7 +39,29 @@ describe Otwtranslation::Translation do
     translation.language = @language
     translation.phrase = @phrase
     translation.save.should == true
-    translation.label.should_not =~ /<\/{0,1}blah>/
-    translation.label.should_not =~ /<\/{0,1}a>/
+    translation.label.should == "foobar"
+  end
+  
+  it "should handle wrong HTML" do
+    label = "<em>hello</i>"
+    translation = Otwtranslation::Translation.new(:label => label,
+                                                  :language_short => "de",
+                                                  :phrase_key => "somekey")
+    translation.language = @language
+    translation.phrase = @phrase
+    translation.save.should == true
+    translation.label.should == "<em>hello</em>"
+  end
+  
+  it "should handle missing end tags" do
+    label = "<em>hello"
+    translation = Otwtranslation::Translation.new(:label => label,
+                                                  :language_short => "de",
+                                                  :phrase_key => "somekey")
+    translation.language = @language
+    translation.phrase = @phrase
+    translation.save.should == true
+    puts translation.label.should == "<em>hello</em>"
   end
 end
+
