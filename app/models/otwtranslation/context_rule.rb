@@ -33,7 +33,8 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
     "has number of elements" => "has_number_elements?",
     "has more elements than" => "has_gt_elements?",
     "is lesser/equal than" => "is_le?",
-    "is greater than" => "is_gt?"
+    "is greater than" => "is_gt?",
+    "matches all" => "matches_all",
   }
 
   @@ACTIONS = {
@@ -52,6 +53,10 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   ############################################################
   # Definition of conditions:
   
+  def self.condition_matches_all(value, params)
+    return all
+  end
+    
   def self.condition_is?(value, params)
     match = false
     params.each { |param| match ||= (value.to_s == param) }
@@ -151,6 +156,9 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   # A rule matches if all conditions match
   # A rule with no conditions always matches
   def match?(value)
+
+    return false if conditions.empty?
+    
     conditions.each do |condition, params|
       return false unless
         self.class.send("condition_#{@@CONDITIONS[condition]}", value, params)

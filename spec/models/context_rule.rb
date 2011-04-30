@@ -2,8 +2,14 @@ require 'spec_helper'
 
 describe Otwtranslation::ContextRule, "match" do
   
-  it "should match empty condition" do
+  it "should not match empty condition" do
     conditions = []
+    rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+    rule.match?("Abby").should == false
+  end
+
+  it "should match matches all condition" do
+    conditions = [["matches all", []]]
     rule = Otwtranslation::ContextRule.new(:conditions => conditions)
     rule.match?("Abby").should == true
   end
