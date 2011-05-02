@@ -21,33 +21,27 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
              :primary_key => 'short', :foreign_key => 'language_short')
 
   validates_presence_of :language
-
-  @@CONDITIONS = {
-    "is" => "is?",
-    "is not" => "is_not?",
-    "ends with" => "ends_with?",
-    "does not end with" => "not_ends_with?",
-    "starts with" => "starts_with?",
-    "does not start with" => "not_starts_with?",
-    "has lesser/equal elements than" => "has_le_elements?",
-    "has number of elements" => "has_number_elements?",
-    "has more elements than" => "has_gt_elements?",
-    "is lesser/equal than" => "is_le?",
-    "is greater than" => "is_gt?",
-    "matches all" => "matches_all",
+  
+  
+  CONDITIONS =  {
+      "is" => "is?",
+      "is not" => "is_not?",
+      "ends with" => "ends_with?",
+      "does not end with" => "not_ends_with?",
+      "starts with" => "starts_with?",
+      "does not start with" => "not_starts_with?",
+      "is lesser/equal than" => "is_le?",
+      "is greater than" => "is_gt?",
+      "matches all" => "matches_all",
   }
 
-  @@ACTIONS = {
-    "replace" => { :params => ["replacement"], :function => "replace" },
-    "append" => { :params => ["suffix"], :function => "append" },
-    "prepend" => { :params => ["prefix"], :function => "prepend" },
-    "auto pluralize" => { :params => [], :function => "auto_pluralize" },
-    "list replace" => {
-      :params => ["words_connector",
-                  "two_words_connector",
-                  "last_word_connector"],
-      :function => "list_replace" }
-    }
+
+  ACTIONS =  {
+      "replace" => "replace",
+      "append" => "append",
+      "prepend" => "prepend",
+      "auto pluralize" => "auto_pluralize"
+  }
 
 
   ############################################################
@@ -93,24 +87,6 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
     return match
   end
 
-  def self.condition_has_le_elements?(value, params)
-    match = false
-    params.each { |param| match ||= (value.length <= param.to_i) }
-    return match
-  end
-
-  def self.condition_has_number_elements?(value, params)
-    match = false
-    params.each { |param| match ||= (value.length == param.to_i) }
-    return match
-  end
-
-  def self.condition_has_gt_elements?(value, params)
-    match = false
-    params.each { |param| match ||= (value.length > param.to_i) }
-    return match
-  end
-
   def self.condition_is_le?(value, params)
     match = false
     params.each { |param| match ||= (value <= param.to_i) }
@@ -142,9 +118,6 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
     pluralize(value, name) 
   end
   
-  def self.action_list_replace(name, value, params)
-    value.to_sentence(params)
-  end
 
   ############################################################
 
@@ -154,16 +127,20 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
 
   
   # A rule matches if all conditions match
-  # A rule with no conditions always matches
+  # A rule with no conditions doesn't match
   def match?(value)
-
     return false if conditions.empty?
-    
+
     conditions.each do |condition, params|
       return false unless
-        self.class.send("condition_#{@@CONDITIONS[condition]}", value, params)
+        self.class.send("condition_#{self.class::CONDITIONS[condition]}",
+                        value, params)
     end
     return true
+  end
+
+
+  def apply_rules(label, variables={})
   end
   
 end

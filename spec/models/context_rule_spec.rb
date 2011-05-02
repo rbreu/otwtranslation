@@ -61,30 +61,6 @@ describe Otwtranslation::ContextRule, "match" do
     rule.match?("bob").should == true
   end
     
-  it "should match has lesser/equal elements than rule" do
-    conditions = [["has lesser/equal elements than", ["3"]]]
-    rule = Otwtranslation::ContextRule.new(:conditions => conditions)
-    rule.match?([1]).should == true
-    rule.match?([1, 2, 3]).should == true
-    rule.match?([1, 2, 3, 4]).should == false
-  end
-    
-  it "should match has number of elements rule" do
-    conditions = [["has number of elements", ["3"]]]
-    rule = Otwtranslation::ContextRule.new(:conditions => conditions)
-    rule.match?([1]).should == false
-    rule.match?([1, 2, 3]).should == true
-    rule.match?([1, 2, 3, 4]).should == false
-  end
-    
-  it "should match has more elements than" do
-    conditions = [["has more elements than", ["2"]]]
-    rule = Otwtranslation::ContextRule.new(:conditions => conditions)
-    rule.match?([1]).should == false
-    rule.match?([1, 2]).should == false
-    rule.match?([1, 2, 3]).should == true
-  end
-    
   it "should match lesser/equal than" do
     conditions = [["is lesser/equal than", ["2"]]]
     rule = Otwtranslation::ContextRule.new(:conditions => conditions)
@@ -99,9 +75,22 @@ describe Otwtranslation::ContextRule, "match" do
     rule.match?(1).should == false
     rule.match?(2).should == false
     rule.match?(3).should == true
-  end
-    
-
+  end    
 end
 
   
+describe Otwtranslation::ContextRule, "apply_rules" do
+
+  before(:each) do
+    conditions = [["matches all", []]]
+    @rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+  end
+    
+  
+  it "should append" do
+    @rule.actions = [["replace", {"append" => "Abby"}]]
+    result = rule.apply_rules("This is {context||name} fic", :name => "Abby")
+    result.should == "This is Abby's fic"
+  end
+
+end
