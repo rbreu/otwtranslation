@@ -1,7 +1,7 @@
+include ActionView::Helpers::TextHelper
+  
 class Otwtranslation::ContextRule < ActiveRecord::Base
 
-  include ActionView::Helpers::TextHelper
-  
   # Condtions:
   # Array of [condition name, param_list], e.g.
   # [["ends with", ["s", "x"], ["starts with", ["A", "a"]]]
@@ -103,19 +103,19 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   # Definition of actions:
   
   def self.action_replace(name, value, params)
-    params["replacement"]
+    params[:replacement]
   end
   
   def self.action_append(name, value, params)
-    value.to_s + params["suffix"]
+    value.to_s + params[:suffix]
   end
   
   def self.action_prepend(name, value, params)
-    params["prefix"] + value.to_s
+    params[:prefix] + value.to_s
   end
   
   def self.action_auto_pluralize(name, value, params)
-    pluralize(value, name) 
+    pluralize(value, name)
   end
   
 

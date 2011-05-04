@@ -11,7 +11,7 @@ class Otwtranslation::ListRule < Otwtranslation::ContextRule
     "replace" => "replace",
     "append" => "append",
     "prepend" => "prepend",
-    "list to sentence" => "list_to_sentence2"
+    "list to sentence" => "list_to_sentence"
   }
 
 

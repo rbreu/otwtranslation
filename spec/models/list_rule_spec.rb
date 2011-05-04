@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Otwtranslation::ListRule, "creation" do
   it "should save" do
     conditions = [["matches all", []]]
-    actions = [["replace", {"append" => "Abby"}]]
+    actions = [["replace", {:append => "Abby"}]]
     rule = Otwtranslation::ListRule.create(:conditions => conditions,
                                               :actions => actions,
                                               :language_short => "de",
@@ -44,3 +44,19 @@ describe Otwtranslation::ListRule, "match" do
   end
 end
 
+describe Otwtranslation::ListRule, "perform_actions" do
+  
+  it "should apply list to sentence" do
+    actions = [["list to sentence",
+                {:words_connector => "; ",
+                 :two_words_connector => " und ",
+                 :last_word_connector => " sowie "}
+               ]]
+    rule = Otwtranslation::ListRule.new(:actions => actions)
+    rule.perform_actions("names", ["Abby"]).should == "Abby"
+    rule.perform_actions("names", ["Abby", "Bob"]).should == "Abby und Bob"
+    rule.perform_actions("names", ["Abby", "Bob", "Clara"])
+      .should == "Abby; Bob sowie Clara"
+  end
+
+end

@@ -78,6 +78,47 @@ describe Otwtranslation::ContextRule, "match" do
   end    
 end
 
+
+describe Otwtranslation::ContextRule, "perform_actions" do
+  
+  it "should handle no actions" do
+    actions = []
+    rule = Otwtranslation::ContextRule.new(:actions => actions)
+    rule.perform_actions("name", "Abby").should == "Abby"
+  end
+
+  it "should apply replace rule" do
+    actions = [["replace", {:replacement => "Alice"}]]
+    rule = Otwtranslation::ContextRule.new(:actions => actions)
+    rule.perform_actions("name", "Abby").should == "Alice"
+  end
+
+  it "should apply append rule" do
+    actions = [["append", {:suffix => "'s"}]]
+    rule = Otwtranslation::ContextRule.new(:actions => actions)
+    rule.perform_actions("name", "Abby").should == "Abby's"
+  end
+
+  it "should apply prepend rule" do
+    actions = [["prepend", {:prefix => "d'"}]]
+    rule = Otwtranslation::ContextRule.new(:actions => actions)
+    rule.perform_actions("name", "Abby").should == "d'Abby"
+  end
+
+  it "should auto pluralize" do
+    actions = [["auto pluralize", {}]]
+    rule = Otwtranslation::ContextRule.new(:actions => actions)
+    rule.perform_actions("message", 1).should == "1 message"
+    rule.perform_actions("message", 2).should == "2 messages"
+  end
+
+  it "should handle two actions" do
+    actions = [["append", {:suffix => "'s"}], ["prepend", {:prefix => "of "}]]
+    rule = Otwtranslation::ContextRule.new(:actions => actions)
+    rule.perform_actions("name", "Abby").should == "of Abby's"
+  end
+
+end
   
 describe Otwtranslation::ContextRule, "apply_rules" do
 
@@ -85,22 +126,30 @@ describe Otwtranslation::ContextRule, "apply_rules" do
     conditions = [["matches all", []]]
     @rule = Otwtranslation::GeneralRule.new(:conditions => conditions,
                                             :language_short => "en")
-    #Otwtranslation::ContextRule.stub(:where).and_return([@rule])
   end
     
   
-  it "should handle empty variables" do
+  it "should handle one rule with no variables" do
     result = Otwtranslation::ContextRule.
-      apply_rules("This is {context::name} fic", "en")
-    result.should == "This is {context::name} fic"
+      apply_rules("This is {general::name} fic", "en")
+    result.should == "This is {general::name} fic"
   end
 
-  it "should append" do
-    @rule.actions = [["append", {"suffix" => "'s"}]]
+  it "should handle one rule with set variables" do
+    @rule.actions = [["append", {:suffix => "'s"}]]
     @rule.save
     result = Otwtranslation::ContextRule.
       apply_rules("This is {general::name} fic", "en", :name => "Abby")
     result.should == "This is Abby's fic"
+  end
+
+  it "should handle two rules with set variables" do
+    @rule.actions = [["append", {:suffix => "'s"}]]
+    @rule.save
+    result = Otwtranslation::ContextRule.
+      apply_rules("This is {general::author} fic and {general::artist} art.",
+                  "en", :author => "Abby", :artist => "Becky")
+    result.should == "This is Abby's fic and Becky's art."
   end
 
 end
