@@ -20,7 +20,7 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   belongs_to(:language, :class_name => 'Otwtranslation::Language',
              :primary_key => 'short', :foreign_key => 'language_short')
 
-  validates_presence_of :language
+  validates_presence_of :language_short
   
   
   CONDITIONS =  {
@@ -140,7 +140,46 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   end
 
 
-  def apply_rules(label, variables={})
+  def self.rules_for(language, type)
+    where(:language_short => language,
+          :type => "Otwtranslation::#{type.to_s.capitalize}Rule")
+  end
+
+
+  def perform_actions(name, value)
+    actions.each do |action, params|
+      value = self.class.send("action_#{self.class::ACTIONS[action]}",
+                              name, value, params)
+    end
+
+    return value
+  end
+  
+
+  def self.apply_rules(label, language, variables={})
+    applied = ""
+
+    Otwtranslation::Tokenizer.tokenize_label(label).each do |token, content|
+      if token == :text
+        applied += content
+      else
+        variable = content[:variable]
+        value = variables[content[:variable].to_sym]
+        if value.nil?
+          applied += Otwtranslation::Tokenizer.rule_to_s(content)
+          next
+        end
+        rules_for(language, content[:name]).each do |rule|
+          if rule.match?(value)
+            applied += rule.perform_actions(variable, value)
+            break
+          end
+          
+        end
+      end
+    end
+
+    return applied
   end
   
 end

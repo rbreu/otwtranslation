@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(:version => 20110425151400) do
   add_index "languages", ["short"], :name => "index_languages_on_short"
 
   create_table "otwtranslation_context_rules", :force => true do |t|
-    t.integer  "language_short"
+    t.string   "language_short"
     t.string   "type"
     t.string   "description"
     t.string   "conditions"

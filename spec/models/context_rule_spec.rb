@@ -83,13 +83,23 @@ describe Otwtranslation::ContextRule, "apply_rules" do
 
   before(:each) do
     conditions = [["matches all", []]]
-    @rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+    @rule = Otwtranslation::GeneralRule.new(:conditions => conditions,
+                                            :language_short => "en")
+    #Otwtranslation::ContextRule.stub(:where).and_return([@rule])
   end
     
   
+  it "should handle empty variables" do
+    result = Otwtranslation::ContextRule.
+      apply_rules("This is {context::name} fic", "en")
+    result.should == "This is {context::name} fic"
+  end
+
   it "should append" do
-    @rule.actions = [["replace", {"append" => "Abby"}]]
-    result = rule.apply_rules("This is {context||name} fic", :name => "Abby")
+    @rule.actions = [["append", {"suffix" => "'s"}]]
+    @rule.save
+    result = Otwtranslation::ContextRule.
+      apply_rules("This is {general::name} fic", "en", :name => "Abby")
     result.should == "This is Abby's fic"
   end
 

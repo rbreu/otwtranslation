@@ -1,5 +1,22 @@
 require 'spec_helper'
 
+describe Otwtranslation::ListRule, "creation" do
+  it "should save" do
+    conditions = [["matches all", []]]
+    actions = [["replace", {"append" => "Abby"}]]
+    rule = Otwtranslation::ListRule.create(:conditions => conditions,
+                                              :actions => actions,
+                                              :language_short => "de",
+                                              :description => "foo")
+    rule = Otwtranslation::ListRule.find(rule.id)
+    rule.language_short.should == "de"
+    rule.description.should == "foo"
+    rule.conditions.should == conditions
+    rule.actions.should == actions
+    rule.type.should == "Otwtranslation::ListRule"
+  end
+end
+
 describe Otwtranslation::ListRule, "match" do
   
   it "should match has lesser/equal elements than rule" do

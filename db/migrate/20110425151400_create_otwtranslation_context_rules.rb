@@ -1,7 +1,7 @@
 class CreateOtwtranslationContextRules < ActiveRecord::Migration
   def self.up
     create_table :otwtranslation_context_rules do |t|
-      t.integer :language_short
+      t.string :language_short
       t.string :type
       t.string :description
       t.string :conditions
