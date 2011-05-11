@@ -20,12 +20,12 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   # Actions are processed in order.
   serialize :actions
 
-  acts_as_list :scope => 'language_short = \'#{language_short}\''
+  acts_as_list :scope => 'language_short = \'#{language_short}\' AND type = \'#{type}\''
 
   validates_presence_of :language_short
 
-  @@RULES = ["general", "list", "quantity"]
-  cattr_accessor :RULES
+  @@RULE_TYPES = ["general", "list", "quantity"]
+  cattr_accessor :RULE_TYPES
 
   CONDITIONS =  {
       "is" => "is?",
@@ -146,6 +146,7 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   def self.rules_for(language, type)
     where(:language_short => language,
           :type => "Otwtranslation::#{type.to_s.capitalize}Rule")
+      .order(:position)
   end
 
 
