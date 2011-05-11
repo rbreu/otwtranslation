@@ -2,6 +2,11 @@ include ActionView::Helpers::TextHelper
   
 class Otwtranslation::ContextRule < ActiveRecord::Base
 
+  set_table_name :otwtranslation_context_rules
+
+  belongs_to(:language, :class_name => 'Otwtranslation::Language',
+             :primary_key => 'short', :foreign_key => 'language_short')
+
   # Condtions:
   # Array of [condition name, param_list], e.g.
   # [["ends with", ["s", "x"], ["starts with", ["A", "a"]]]
@@ -15,14 +20,13 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   # Actions are processed in order.
   serialize :actions
 
-  set_table_name :otwtranslation_context_rules
-
-  belongs_to(:language, :class_name => 'Otwtranslation::Language',
-             :primary_key => 'short', :foreign_key => 'language_short')
+  acts_as_list :scope => 'language_short = \'#{language_short}\''
 
   validates_presence_of :language_short
-  
-  
+
+  @@RULES = ["general", "list", "quantity"]
+  cattr_accessor :RULES
+
   CONDITIONS =  {
       "is" => "is?",
       "is not" => "is_not?",
@@ -34,7 +38,6 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
       "is greater than" => "is_gt?",
       "matches all" => "matches_all",
   }
-
 
   ACTIONS =  {
       "replace" => "replace",
@@ -181,5 +184,5 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
 
     return applied
   end
-  
+
 end

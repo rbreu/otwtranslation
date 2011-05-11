@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(:version => 20110425151400) do
 
   create_table "otwtranslation_context_rules", :force => true do |t|
     t.string   "language_short"
+    t.integer  "position"
     t.string   "type"
     t.string   "description"
     t.string   "conditions"

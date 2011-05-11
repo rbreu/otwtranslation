@@ -8,7 +8,7 @@ describe Otwtranslation::GeneralRule, "creation" do
                                               :actions => actions,
                                               :language_short => "de",
                                               :description => "foo")
-    rule = Otwtranslation::GeneralRule.find(rule.id)
+    rule.reload
     rule.language_short.should == "de"
     rule.description.should == "foo"
     rule.conditions.should == conditions

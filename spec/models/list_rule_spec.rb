@@ -8,7 +8,7 @@ describe Otwtranslation::ListRule, "creation" do
                                               :actions => actions,
                                               :language_short => "de",
                                               :description => "foo")
-    rule = Otwtranslation::ListRule.find(rule.id)
+    rule.reload
     rule.language_short.should == "de"
     rule.description.should == "foo"
     rule.conditions.should == conditions
