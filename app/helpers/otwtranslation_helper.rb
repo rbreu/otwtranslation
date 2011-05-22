@@ -25,7 +25,7 @@ module OtwtranslationHelper
     if otwtranslation_tool_visible? && otwtranslation_language != OtwtranslationConfig.DEFAULT_LANGUAGE
       return otwtranslation_decorated_translation(phrase.key, variables)
     else
-      return Otwtranslation::Tokenizer.apply_rules(phrase.label, variables)
+      return Otwtranslation::ContextRule.apply_rules(phrase.label, otwtranslation_language, variables).html_safe
     end
     
   end
@@ -35,7 +35,7 @@ module OtwtranslationHelper
     cache_key = Otwtranslation::Translation
       .cache_key(phrase_key, otwtranslation_language, true)
     markup = Rails.cache.read(cache_key)
-    return Otwtranslation::Tokenizer.apply_rules(markup, variables).html_safe if markup
+    return Otwtranslation::ContextRule.apply_rules(markup, otwtranslation_language, variables).html_safe if markup
       
     phrase = Otwtranslation::Phrase.find_by_key(phrase_key)
     
@@ -59,7 +59,7 @@ module OtwtranslationHelper
       Rails.cache.write(cache_key, markup)
     end
 
-    return Otwtranslation::Tokenizer.apply_rules(markup, variables).html_safe
+    return Otwtranslation::ContextRule.apply_rules(markup, otwtranslation_language, variables).html_safe
   end
  
   

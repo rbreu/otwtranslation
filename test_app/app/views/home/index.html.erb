@@ -32,13 +32,17 @@
 <h2><%= ts("Some Test cases:") %></h2>
 
 <p><% l = Otwtranslation::Language.find(:first, :order => 'random()') %>
-  <%= ts("View this {data::link}!", "", 
+  <%= ts("View this {general::link}!", "", 
            :link => link_to(ts("random language"), 
                             otwtranslation_language_path(l))) %>
 </p>
 
 <% ["Spock", "Uhura", "Kirk"].each do |name| %>
-  <p><%= ts("Hello {data::name}!", "", :name => name) %></p>
+  <p><%= ts("Hello {general::name}!", "", :name => name) %></p>
+<% end %>
+
+<% ["Abby", "Alex", "Anne"].each do |name| %>
+  <p><%= ts("This is {possessive::name} work!", "", :name => name) %></p>
 <% end %>
 
 <% 0.upto(3) do |i| %>

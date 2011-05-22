@@ -23,16 +23,6 @@ describe Otwtranslation::Tokenizer do
       .should == [[:text, "This {is} a test!"]]
   end
     
-  it "should apply simple data rule" do
-    Otwtranslation::Tokenizer.apply_rules("Hello {data::name}!")
-      .should == "Hello {data::name}!"
-  end
-
-  it "should apply simple data rule with variables" do
-    Otwtranslation::Tokenizer.apply_rules("Hello {data::name}!", :name => "Abby")
-      .should == "Hello Abby!"
-  end
-
 
   it "should know that label is all text" do
     Otwtranslation::Tokenizer.all_text_or_data?("This {is} a test!")

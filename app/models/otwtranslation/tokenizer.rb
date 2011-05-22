@@ -12,21 +12,6 @@ module Otwtranslation::Tokenizer
   end
 
   
-  def self.apply_rules(label, variables={})
-    applied = ""
-    tokenize_label(label).each do |token, content|
-      if token == :text
-        applied += content
-      elsif content[:name] == "data"
-        applied += (variables[content[:variable].to_sym] || rule_to_s(content)).to_s
-      else
-        applied += rule_to_s(content)
-      end
-    end
-    return applied
-  end
-
-
   def self.all_text_or_data?(label)
     tokenize_label(label).each do |token, content|
       return false if token != :text && content[:name] != "data"

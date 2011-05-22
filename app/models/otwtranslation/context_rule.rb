@@ -143,10 +143,18 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   end
 
 
-  def self.rules_for(language, type)
-    where(:language_short => language,
-          :type => "Otwtranslation::#{type.to_s.capitalize}Rule")
-      .order(:position)
+  def self.rules_for(language, type=nil)
+    if type.nil?
+      where(:language_short => language).order(:position)
+    else
+      where(:language_short => language,
+            :type => "Otwtranslation::#{type.to_s.capitalize}Rule")
+        .order(:position)
+    end
+  end
+
+  def display_type
+    type.gsub(/Otwtranslation::(.*)Rule/, '\1').downcase
   end
 
 
@@ -158,6 +166,21 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
 
     return value
   end
+
+
+  def self.apply_rule(language, content, variables)
+    variable = content[:variable]
+    value = variables[content[:variable].to_sym]
+    
+    return Otwtranslation::Tokenizer.rule_to_s(content) if value.nil?
+    
+    rules_for(language, content[:name]).each do |rule|
+      return rule.perform_actions(variable, value) if rule.match?(value)
+    end
+    
+    return value
+  end
+    
   
 
   def self.apply_rules(label, language, variables={})
@@ -167,19 +190,7 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
       if token == :text
         applied += content
       else
-        variable = content[:variable]
-        value = variables[content[:variable].to_sym]
-        if value.nil?
-          applied += Otwtranslation::Tokenizer.rule_to_s(content)
-          next
-        end
-        rules_for(language, content[:name]).each do |rule|
-          if rule.match?(value)
-            applied += rule.perform_actions(variable, value)
-            break
-          end
-          
-        end
+        applied += apply_rule(language, content, variables)
       end
     end
 

@@ -34,6 +34,50 @@
     <%= number_to_percentage @language.percentage_approved, :precision => 2 %>
   </dd>
 </dl>
+
+
+<h3><%= ts("Rules for this language:") %></h3>
+
+<h3 class="landmark">Rules Table</h3>
+<table id="otwtranslation_rules" summary="please summarise">
+  <caption><!--please briefly label--></caption>
+  <thead>
+    <tr>
+      <th><%= ts("Type") %></th>
+      <th><%= ts("Position") %></th>
+      <th><%= ts("Description") %></th>
+      <th><%= ts("Conditions") %></th>
+      <th><%= ts("Actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @rules.each do |rule| %>
+      <tr>
+        <th class="type"><%= rule.display_type %></th>
+        <td class="position"><%= rule.position %></td>
+        <td class="description"><%= rule.description %></td>
+        <td class="conditions">
+	  <ol>
+	  <% rule.conditions.each do |condition| %>
+	    <li><%= condition[0] %> <%= condition[1] %></li>
+	  <% end %>
+	  </ol>
+	</td>
+
+        <td class="actions">
+	  <ol>
+	  <% rule.actions.each do |action| %>
+	    <li><%= action[0] %> <%= action[1] %></li>
+	  <% end %>
+	  </ol>
+	</td>
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
 <!--end main-->
 
 <!--navigation, sorting and actions-->
