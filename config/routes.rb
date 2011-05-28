@@ -41,6 +41,15 @@ Rails.application.routes.draw do
   :as => 'otwtranslation_language'
 
   
+  # Rules
+  
+  get "#{mount_at}/rules/new" => 'otwtranslation/rules#new',
+  :as => 'otwtranslation_new_rule'
+
+  match "#{mount_at}/rules/" => 'otwtranslation/rules#create',
+  :as => 'otwtranslation_post_rule', :via => [:post]
+  
+  
   # Translations
   
   get "#{mount_at}/phrases/:id/translations/new" => 'otwtranslation/translations#new',

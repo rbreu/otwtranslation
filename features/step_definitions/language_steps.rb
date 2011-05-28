@@ -1,5 +1,5 @@
 Given /^I have the language "([^"]*)" with short "([^"]*)"$/ do |name, short|
-  Factory(:language, {:name => name, :short => short})
+  @language = Factory(:language, {:name => name, :short => short})
 end
 
 Then /^I should see the language name "([^"]*)"$/ do |name|

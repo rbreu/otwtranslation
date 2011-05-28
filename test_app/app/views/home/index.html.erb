@@ -32,9 +32,11 @@
 <h2><%= ts("Some Test cases:") %></h2>
 
 <p><% l = Otwtranslation::Language.find(:first, :order => 'random()') %>
-  <%= ts("View this {general::link}!", "", 
-           :link => link_to(ts("random language"), 
-                            otwtranslation_language_path(l))) %>
+  <% unless l.nil? %>
+    <%= ts("View this {general::link}!", "", 
+              :link => link_to(ts("random language"), 
+                              otwtranslation_language_path(l))) %>
+  <% end %>
 </p>
 
 <% ["Spock", "Uhura", "Kirk"].each do |name| %>

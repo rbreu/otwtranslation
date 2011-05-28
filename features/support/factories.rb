@@ -55,3 +55,11 @@ Factory.define(:translation, :class => Otwtranslation::Translation) do |translat
   translation.label "some foreign text"
   translation.approved false
 end
+
+
+Factory.define(:possessive_rule, :class => Otwtranslation::PossessiveRule) do |rule|
+  rule.association :language
+  rule.description "standard possessive rule"
+  rule.conditions  [["matches all", []]]
+  rule.actions [["append", {:suffix=>"'s"}]]
+end

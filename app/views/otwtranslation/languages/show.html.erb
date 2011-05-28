@@ -38,6 +38,19 @@
 
 <h3><%= ts("Rules for this language:") %></h3>
 
+<!-- BACK END: if this is a single action form let's lose the list structure-->
+
+<ul class="translation navigation" id="add_rule">
+  <li>
+    <%= form_for(:rule, 
+                 :url => otwtranslation_new_rule_path(@language), 
+                 :html => { :method => :get },
+                 :remote => true ) do |f| %>
+      <%= f.submit 'Add rule' %>
+    <% end %>
+  </li>
+</ul>
+
 <h3 class="landmark">Rules Table</h3>
 <table id="otwtranslation_rules" summary="please summarise">
   <caption><!--please briefly label--></caption>
@@ -48,6 +61,7 @@
       <th><%= ts("Description") %></th>
       <th><%= ts("Conditions") %></th>
       <th><%= ts("Actions") %></th>
+      <th><%= ts("Navigation") %></th>
     </tr>
   </thead>
   <tbody>
@@ -70,6 +84,9 @@
 	    <li><%= action[0] %> <%= action[1] %></li>
 	  <% end %>
 	  </ol>
+	</td>
+
+        <td class="actions">
 	</td>
 
       </tr>

@@ -145,7 +145,7 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
 
   def self.rules_for(language, type=nil)
     if type.nil?
-      where(:language_short => language).order(:position)
+      where(:language_short => language).order(:type, :position)
     else
       where(:language_short => language,
             :type => "Otwtranslation::#{type.to_s.capitalize}Rule")
@@ -178,7 +178,7 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
       return rule.perform_actions(variable, value) if rule.match?(value)
     end
     
-    return value
+    return value.to_s
   end
     
   
