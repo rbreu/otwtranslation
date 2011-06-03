@@ -24,7 +24,7 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
 
   validates_presence_of :language_short
 
-  @@RULE_TYPES = ["general", "list", "quantity"]
+  @@RULE_TYPES = ["general", "list", "possessive", "quantity"]
   cattr_accessor :RULE_TYPES
 
   CONDITIONS =  {
@@ -39,6 +39,7 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
       "matches all" => "matches_all",
   }
 
+
   ACTIONS =  {
       "replace" => "replace",
       "append" => "append",
@@ -47,6 +48,14 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   }
 
 
+  def self.conditions
+    self::CONDITIONS.keys
+  end
+  
+  def self.actions
+    self::ACTIONS.keys
+  end
+  
   ############################################################
   # Definition of conditions:
   
@@ -141,7 +150,6 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
     end
     return true
   end
-
 
   def self.rules_for(language, type=nil)
     if type.nil?

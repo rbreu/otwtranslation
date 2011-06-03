@@ -8,11 +8,36 @@
 <!--main content-->
 <%= form_for(@rule, :url => otwtranslation_post_rule_path) do |f| %>
   <dl>
-    <dt><%= f.label(:type, ts("Type:"))%></dt>
-    <dd><%= f.text_field :type %></dd>
+    <dt><%= f.label(:type, "Type:")%></dt>
+    <dd><%= f.select(:type, @rule.RULE_TYPES) %></dd>
+    <dt><%= f.label(:description, "Description:")%></dt>
+    <dd><%= f.text_area(:description, :rows => 3) %></dd>
 
+    <% 3.times do %>
+      <dt><%= f.label(:conditions, "Condition:")%></dt>
+      <dd>
+        <select name="otwtranslation_context_rule[conditions][]">
+	  <% ([""] + @rule.class.conditions).each do |condition| %>
+            <option value="<%= condition %>"><%= condition %></option>
+          <% end %>
+        </select>
+	<input type="text" name="otwtranslation_context_rule[conditions][]" />
+      </dd>
+    <% end %>
+
+    <% 3.times do %>
+      <dt><%= f.label(:actions, "Action:")%></dt>
+      <dd>
+        <select name="otwtranslation_context_rule[actions][]">
+	  <% ([""] + @rule.class.actions).each do |action| %>
+            <option value="<%= action %>"><%= action %></option>
+          <% end %>
+        </select>
+	<input type="text" name="otwtranslation_context_rule[actions][]" />
+      </dd>
+    <% end %>
   </dl>
-  <p class="submit"><%= f.submit ts("Add rule") %></p>
+  <p class="submit"><%= f.submit "Add rule" %></p>
 
 <% end %>
     

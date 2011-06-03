@@ -45,7 +45,7 @@
     <%= form_for(:rule, 
                  :url => otwtranslation_new_rule_path(@language), 
                  :html => { :method => :get },
-                 :remote => true ) do |f| %>
+                 :remote => false ) do |f| %>
       <%= f.submit 'Add rule' %>
     <% end %>
   </li>
