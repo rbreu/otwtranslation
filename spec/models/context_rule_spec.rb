@@ -1,5 +1,42 @@
 require 'spec_helper'
 
+
+describe Otwtranslation::ContextRule, "tokenize_label" do
+  it "should parse phrase with one rule" do
+    Otwtranslation::ContextRule.tokenize_label("Hello {data::name}!")
+      .should == [[:text, "Hello "],
+                  [:rule, {:name => "data", :variable => "name"}],
+                  [:text, "!"]]
+  end
+
+  it "should parse phrase with two rules" do
+     Otwtranslation::ContextRule.tokenize_label("You have {count::message} and {count::story}.")
+      .should == [[:text, "You have "],
+                  [:rule, {:name => "count", :variable => "message"}],
+                  [:text, " and "],
+                  [:rule, {:name => "count", :variable => "story"}],
+                  [:text, "."]]
+  end
+
+  it "should parse plain curly braces as all text" do
+    Otwtranslation::ContextRule.tokenize_label("This {is} a test!")
+      .should == [[:text, "This {is} a test!"]]
+  end
+    
+end
+
+describe Otwtranslation::ContextRule, "label_all_text?" do
+  it "should know that label is all text" do
+    Otwtranslation::ContextRule.label_all_text?("This {is} a test!")
+      .should == true
+  end
+  
+  it "should know that label has context rules" do
+    Otwtranslation::ContextRule.label_all_text?("You have {quantity::message}.")
+      .should == false
+  end
+end
+
 describe Otwtranslation::ContextRule, "match" do
   
   it "should not match empty condition" do

@@ -55,7 +55,7 @@ module OtwtranslationHelper
 
     markup = "<span id=\"otwtranslation_phrase_#{phrase_key}\" class=\"#{span_class}\">#{landmark}#{label}</span>"
 
-    if Otwtranslation::Tokenizer.all_text_or_data?(label)
+    if Otwtranslation::ContextRule.label_all_text?(label)
       Rails.cache.write(cache_key, markup)
     end
 

@@ -1,3 +1,8 @@
+require 'polyglot'
+require 'treetop'
+
+Treetop.load(File.join(File.dirname(__FILE__), 'context_rules'))
+
 include ActionView::Helpers::TextHelper
   
 class Otwtranslation::ContextRule < ActiveRecord::Base
@@ -24,6 +29,8 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
 
   validates_presence_of :language_short
 
+  @@context_parser = ContextRulesParser.new
+  
   @@RULE_TYPES = ["general", "list", "possessive", "quantity"]
   cattr_accessor :RULE_TYPES
 
@@ -48,6 +55,8 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   }
 
 
+  ############################################################
+
   def self.conditions
     self::CONDITIONS.keys
   end
@@ -56,6 +65,21 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
     self::ACTIONS.keys
   end
   
+  def self.tokenize_label(label)
+    @@context_parser.parse(label).content
+  end
+
+  def self.label_all_text?(label)
+    tokenize_label(label).each do |token, content|
+      return false if token != :text && content[:name] != "data"
+    end
+    return true
+  end
+
+  def self.rule_to_label(rule)
+    "{#{rule[:name]}::#{rule[:variable]}}"
+  end
+
   ############################################################
   # Definition of conditions:
   
@@ -180,7 +204,7 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
     variable = content[:variable]
     value = variables[content[:variable].to_sym]
     
-    return Otwtranslation::Tokenizer.rule_to_s(content) if value.nil?
+    return self.rule_to_label(content) if value.nil?
     
     rules_for(language, content[:name]).each do |rule|
       return rule.perform_actions(variable, value) if rule.match?(value)
@@ -194,7 +218,7 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   def self.apply_rules(label, language, variables={})
     applied = ""
 
-    Otwtranslation::Tokenizer.tokenize_label(label).each do |token, content|
+    self.tokenize_label(label).each do |token, content|
       if token == :text
         applied += content
       else
