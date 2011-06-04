@@ -7,7 +7,7 @@ class Otwtranslation::ParameterParser < ActiveRecord::Base
   @@parameter_parser = ParameterRulesParser.new
 
   def self.tokenize(params)
-    @@parameter_parser.parse(params).content
+    @@parameter_parser.parse(params.strip).content
   end
 
 

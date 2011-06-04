@@ -17,7 +17,7 @@ grammar ParameterRules
   end
 
   rule delimiter
-  "," " "* {
+  " "* "," " "* {
       def content
         nil
       end
@@ -27,7 +27,7 @@ grammar ParameterRules
   rule nonquoted_parameter
     [^,]+ {
       def content
-        text_value
+        text_value.strip
       end
     }
   end
