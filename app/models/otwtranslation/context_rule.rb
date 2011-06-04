@@ -20,7 +20,7 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
 
   # Actions:
   # Array of [action, params], e.g.
-  # [["append", {"suffix" => "s"}]]
+  # [["append", ["s"]]]
   # A rule if all condition matches. Rules without conditions always match.
   # Actions are processed in order.
   serialize :actions
@@ -139,15 +139,15 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   # Definition of actions:
   
   def self.action_replace(name, value, params)
-    params[:replacement]
+    params[0] || value
   end
   
   def self.action_append(name, value, params)
-    value.to_s + params[:suffix]
+    value.to_s + (params[0] || value)
   end
   
   def self.action_prepend(name, value, params)
-    params[:prefix] + value.to_s
+    (params[0] || value) + value.to_s
   end
   
   def self.action_auto_pluralize(name, value, params)

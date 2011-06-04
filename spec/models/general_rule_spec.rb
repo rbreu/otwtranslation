@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Otwtranslation::GeneralRule, "creation" do
   it "should save" do
     conditions = [["matches all", []]]
-    actions = [["replace", {:append => "Abby"}]]
+    actions = [["replace", ["Abby"]]]
     rule = Otwtranslation::GeneralRule.create(:conditions => conditions,
                                               :actions => actions,
                                               :language_short => "de",

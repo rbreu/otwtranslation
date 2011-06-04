@@ -125,32 +125,32 @@ describe Otwtranslation::ContextRule, "perform_actions" do
   end
 
   it "should apply replace rule" do
-    actions = [["replace", {:replacement => "Alice"}]]
+    actions = [["replace", ["Alice"]]]
     rule = Otwtranslation::ContextRule.new(:actions => actions)
     rule.perform_actions("name", "Abby").should == "Alice"
   end
 
   it "should apply append rule" do
-    actions = [["append", {:suffix => "'s"}]]
+    actions = [["append", ["'s"]]]
     rule = Otwtranslation::ContextRule.new(:actions => actions)
     rule.perform_actions("name", "Abby").should == "Abby's"
   end
 
   it "should apply prepend rule" do
-    actions = [["prepend", {:prefix => "d'"}]]
+    actions = [["prepend", ["d'"]]]
     rule = Otwtranslation::ContextRule.new(:actions => actions)
     rule.perform_actions("name", "Abby").should == "d'Abby"
   end
 
   it "should auto pluralize" do
-    actions = [["auto pluralize", {}]]
+    actions = [["auto pluralize", []]]
     rule = Otwtranslation::ContextRule.new(:actions => actions)
     rule.perform_actions("message", 1).should == "1 message"
     rule.perform_actions("message", 2).should == "2 messages"
   end
 
   it "should handle two actions" do
-    actions = [["append", {:suffix => "'s"}], ["prepend", {:prefix => "of "}]]
+    actions = [["append", ["'s"]], ["prepend", ["of "]]]
     rule = Otwtranslation::ContextRule.new(:actions => actions)
     rule.perform_actions("name", "Abby").should == "of Abby's"
   end
@@ -180,7 +180,7 @@ describe Otwtranslation::ContextRule, "apply_rules" do
     end
 
     it "should handle one rule with set variables" do
-      @rule.actions = [["append", {:suffix => "'s"}]]
+      @rule.actions = [["append", ["'s"]]]
       @rule.save
       result = Otwtranslation::ContextRule.
         apply_rules("This is {general::name} fic", "en", :name => "Abby")
@@ -188,7 +188,7 @@ describe Otwtranslation::ContextRule, "apply_rules" do
     end
 
     it "should handle two rules with set variables" do
-      @rule.actions = [["append", {:suffix => "'s"}]]
+      @rule.actions = [["append", ["'s"]]]
       @rule.save
       result = Otwtranslation::ContextRule.
         apply_rules("This is {general::author} fic and {general::artist} art.",

@@ -41,7 +41,9 @@ class Otwtranslation::ListRule < Otwtranslation::ContextRule
   # Definition of actions:
   
   def self.action_list_to_sentence(name, value, params)
-    value.to_sentence(params)
+    value.to_sentence(:words_connector => params[0],
+                      :two_words_connector => params[1],
+                      :last_word_connector => params[2])
   end
 
   ############################################################
