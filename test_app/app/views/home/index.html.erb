@@ -43,10 +43,16 @@
   <p><%= ts("Hello {general::name}!", "", :name => name) %></p>
 <% end %>
 
-<% ["Abby", "Alex", "Anne"].each do |name| %>
+<% ["Abby", "Alex", "Ales"].each do |name| %>
   <p><%= ts("This is {possessive::name} work!", "", :name => name) %></p>
 <% end %>
 
 <% 0.upto(3) do |i| %>
   <p><%= ts("You have {quantity::message}.", "", :message => i) %></p>
 <% end %>
+
+<p><%= ts("I love {list::names}.", "", :names => ["Spock", "Uhura", "Kirk"]) %></p>
+<p><%= ts("I love {list::names}.", "", :names => ["Spock", "Kirk"]) %></p>
+<p><%= ts("I love {list::names}.", "", :names => ["Uhura"]) %></p>
+<p><%= ts("{list::names} as well as {quantity::guest} left kudos.", "", 
+          :names => ["Spock", "Uhura", "Kirk"], :guest => (rand*3).to_i ) %></p>

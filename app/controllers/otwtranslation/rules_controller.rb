@@ -10,11 +10,12 @@ class Otwtranslation::RulesController < ApplicationController
   def create
 
     type = "#{params[:otwtranslation_context_rule][:type].capitalize}Rule"
-    
     @rule = Otwtranslation.const_get(type).new(params[:otwtranslation_context_rule])
 
     @rule.conditions = trim_condition_action_params(@rule.conditions)
     @rule.actions = trim_condition_action_params(@rule.actions)
+
+    render(:action => 'new') && return if params[:commit] == "Set Type"
 
     if @rule.save
       redirect_to otwtranslation_language_path(@rule.language_short)
@@ -22,7 +23,7 @@ class Otwtranslation::RulesController < ApplicationController
       msg = 'There was a problem saving the rule:' +
         prettify_error_messages(@rule)
       flash[:error] = msg.html_safe
-      render 'new'
+      render(:action => 'new') && return 
     end
   end
 
