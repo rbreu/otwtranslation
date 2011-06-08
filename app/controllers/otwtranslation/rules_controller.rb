@@ -4,35 +4,36 @@ class Otwtranslation::RulesController < ApplicationController
 
 
   def new
-    @rule = Otwtranslation::ContextRule.new(params[:otwtranslation_context_rule])
+    @rule = Otwtranslation::GeneralRule.new(params[:otwtranslation_context_rule])
   end
 
   def create
-    @rule = Otwtranslation::ContextRule.new(params[:otwtranslation_context_rule])
 
-    # OMG refactor! and write tests!
+    type = "#{params[:otwtranslation_context_rule][:type].capitalize}Rule"
     
-    conditions = []
-    @rule.conditions.each_slice(2) do |condition, parameters|
-      parameters = Otwtranslation::ParameterParser.tokenize(parameters)
-      conditions << [condition, parameters] unless condition.blank?
+    @rule = Otwtranslation.const_get(type).new(params[:otwtranslation_context_rule])
+
+    @rule.conditions = trim_condition_action_params(@rule.conditions)
+    @rule.actions = trim_condition_action_params(@rule.actions)
+
+    if @rule.save
+      redirect_to otwtranslation_language_path(@rule.language_short)
+    else
+      msg = 'There was a problem saving the rule:' +
+        prettify_error_messages(@rule)
+      flash[:error] = msg.html_safe
+      render 'new'
     end
-    @rule.conditions = conditions
-    
-    actions = []
-    @rule.actions.each_slice(2) do |action, parameters|
-      parameters = Otwtranslation::ParameterParser.tokenize(parameters)
-      actions << [action, parameters] unless action.blank?
-    end
-    @rule.actions = actions
-
-    logger.info @rule.conditions
-    logger.info @rule.actions
-    
-
-    redirect_to otwtranslation_language_path(@rule.language_short)
   end
 
-  
+
+  def trim_condition_action_params(p)
+    trimmed = []
+    p.each_slice(2) do |name, parameters|
+      parameters = Otwtranslation::ParameterParser.tokenize(parameters)
+      trimmed << [name, parameters] unless name.blank?
+    end
+    return trimmed
+  end
 end
 

@@ -74,7 +74,8 @@
         <td class="conditions">
 	  <ol>
 	  <% rule.conditions.each do |condition| %>
-	    <li><%= condition[0] %> <%= condition[1] %></li>
+	    <li><%= condition[0] %> 
+                <%= Otwtranslation::ParameterParser.stringify(condition[1]) %></li>
 	  <% end %>
 	  </ol>
 	</td>
@@ -82,7 +83,8 @@
         <td class="actions">
 	  <ol>
 	  <% rule.actions.each do |action| %>
-	    <li><%= action[0] %> <%= action[1] %></li>
+	    <li><%= action[0] %> 
+                <%= Otwtranslation::ParameterParser.stringify(action[1]) %></li>
 	  <% end %>
 	  </ol>
 	</td>
