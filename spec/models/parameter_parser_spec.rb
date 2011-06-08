@@ -50,7 +50,27 @@ describe Otwtranslation::ParameterParser, "tokenize" do
     Otwtranslation::ParameterParser.tokenize('" aa ","  bb"," cc "')
       .should == [" aa ", "  bb", " cc "]
   end
-
-    
 end
 
+describe Otwtranslation::ParameterParser, "stringify" do
+
+  it "should not quote simple parameters" do
+    Otwtranslation::ParameterParser.stringify(["aa", "b b", "cc"])
+      .should == 'aa, b b, cc'
+  end
+
+  it "should quote commas" do
+    Otwtranslation::ParameterParser.stringify(["aa", "b,b", "cc"])
+      .should == 'aa, "b,b", cc'
+  end
+  
+  it "should quote leading spaces" do
+    Otwtranslation::ParameterParser.stringify(["aa", " bb", "cc"])
+      .should == 'aa, " bb", cc'
+  end
+  
+  it "should quote trailing spaces" do
+    Otwtranslation::ParameterParser.stringify(["aa", " bb", "cc"])
+      .should == 'aa, " bb", cc'
+  end
+end
