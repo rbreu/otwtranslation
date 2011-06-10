@@ -33,6 +33,24 @@
     </dd>
   <% end %>
 
+  <% unless rule.actions.nil? %>
+  <% rule.actions.each do |act, param| %> 
+    <dt><%= f.label(:actions, "Action:")%></dt>
+    <dd>
+       <select name="otwtranslation_context_rule[actions][]">
+	  <% ([""] + rule.class.actions).each do |action| %>
+	  <% logger.info action %>
+          <option <%= 'selected="selected"'.html_safe if act == action %>
+          ><%= action %></option>
+        <% end %>
+      </select>
+	<input type="text" name="otwtranslation_context_rule[actions][]" 
+             value="<%= Otwtranslation::ParameterParser.stringify(param) %> "/>
+    </dd>
+  <% end %>
+  <% end %>
+
+
   <% 3.times do %>
     <dt><%= f.label(:actions, "Action:")%></dt>
     <dd>

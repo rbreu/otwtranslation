@@ -139,7 +139,7 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   # Definition of actions:
   
   def self.action_replace(name, value, params)
-    params[0] || value
+    params[0] || value.to_s
   end
   
   def self.action_append(name, value, params)
@@ -196,7 +196,7 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
                               name, value, params)
     end
 
-    return value
+    return value.to_s
   end
 
 

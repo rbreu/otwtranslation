@@ -159,24 +159,45 @@ end
   
 describe Otwtranslation::ContextRule, "apply_rules" do
 
-  it "should insert when there are no rules" do
-    result = Otwtranslation::ContextRule.
-      apply_rules("Hi {general::name}!", "en", :name => "Abby")
-    result.should == "Hi Abby!"
+  context "when there are no rules" do
+    
+    it "should insert" do
+      result = Otwtranslation::ContextRule.
+        apply_rules("Hi {general::name}!", "en", :name => "Abby")
+      result.should == "Hi Abby!"
+    end
+
+    it "should insert numbers" do
+      result = Otwtranslation::ContextRule.
+        apply_rules("The answer is {general::number}!", "en", :number => 42)
+      result.should == "The answer is 42!"
+    end
   end
 
-  context "there are rules" do
+  context "when there are rules" do
     before(:each) do
       conditions = [["matches all", []]]
-      @rule = Otwtranslation::GeneralRule.new(:conditions => conditions,
-                                              :language_short => "en")
+      @rule = Otwtranslation::GeneralRule.create(:conditions => conditions,
+                                                 :language_short => "en",
+                                                 :actions => [])
     end
     
-  
     it "should handle one rule with no variables" do
       result = Otwtranslation::ContextRule.
         apply_rules("This is {general::name} fic", "en")
       result.should == "This is {general::name} fic"
+    end
+
+    it "should handle no actions with variables" do
+      result = Otwtranslation::ContextRule.
+        apply_rules("Hi {general::name}!", "en", :name => "Abby")
+      result.should == "Hi Abby!"
+    end
+
+    it "should handle no actions with number variables" do
+      result = Otwtranslation::ContextRule.
+        apply_rules("The answer is {general::number}!", "en", :number => 42)
+      result.should == "The answer is 42!"
     end
 
     it "should handle one rule with set variables" do
@@ -187,7 +208,7 @@ describe Otwtranslation::ContextRule, "apply_rules" do
       result.should == "This is Abby's fic"
     end
 
-    it "should handle two rules with set variables" do
+    it "should handle two rules with their own variables" do
       @rule.actions = [["append", ["'s"]]]
       @rule.save
       result = Otwtranslation::ContextRule.
