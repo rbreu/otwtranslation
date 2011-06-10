@@ -1,10 +1,7 @@
 <%= f.hidden_field("language_short", {:value=>rule.language_short}) %>
 <dl>
-  <dt><%= f.label(:type, "Type:")%></dt>
-  <dd><%= f.select(:type, rule.RULE_TYPES, :selected => rule.display_type) %> <%= f.submit "Set Type" %></dd>
   <dt><%= f.label(:description, "Description:")%></dt>
   <dd><%= f.text_area(:description, :rows => 3) %></dd>
-
   
   <% unless rule.conditions.nil? %>
   <% rule.conditions.each do |cond, param| %> 

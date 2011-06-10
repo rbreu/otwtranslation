@@ -9,7 +9,13 @@
 
 <%= form_for("otwtranslation_context_rule", @rule, :url => otwtranslation_post_rule_path) do |f| %>
 
+<dl>
+  <dt><%= f.label(:type, "Type:")%></dt>
+  <dd><%= f.select(:type, @rule.RULE_TYPES, :selected => @rule.display_type) %> <%= f.submit "Set Type" %></dd>
+</dl>
+
   <%= render :partial => "otwtranslation/rules/form",
              :locals => { :rule => @rule, :f => f } %>
   <p class="submit"><%= f.submit "Add rule" %></p>
+
 <% end %>
