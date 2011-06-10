@@ -1,0 +1,13 @@
+<h3 class="landmark">Rule Actions</h3>
+<ul class="rule navigation">
+  <li>
+    <%= form_for(rule, 
+                 :url => otwtranslation_edit_rule_path(rule),
+                 :html => {:method => :get},
+                 :remote => false ) do |f| %>
+      <%= f.submit 'Edit' %>
+    <% end %>
+  </li>
+</ul>
+
+

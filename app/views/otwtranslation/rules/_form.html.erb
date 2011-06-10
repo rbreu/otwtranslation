@@ -1,0 +1,52 @@
+<%= f.hidden_field("language_short", {:value=>rule.language_short}) %>
+<dl>
+  <dt><%= f.label(:type, "Type:")%></dt>
+  <dd><%= f.select(:type, rule.RULE_TYPES, :selected => rule.display_type) %> <%= f.submit "Set Type" %></dd>
+  <dt><%= f.label(:description, "Description:")%></dt>
+  <dd><%= f.text_area(:description, :rows => 3) %></dd>
+
+  
+  <% unless rule.conditions.nil? %>
+  <% rule.conditions.each do |cond, param| %> 
+    <dt><%= f.label(:conditions, "Condition:")%></dt>
+    <dd>
+       <select name="otwtranslation_context_rule[conditions][]">
+	  <% ([""] + rule.class.conditions).each do |condition| %>
+	  <% logger.info condition %>
+          <option <%= 'selected="selected"'.html_safe if cond == condition %>
+          ><%= condition %></option>
+        <% end %>
+      </select>
+	<input type="text" name="otwtranslation_context_rule[conditions][]" 
+             value="<%= Otwtranslation::ParameterParser.stringify(param) %> "/>
+    </dd>
+  <% end %>
+  <% end %>
+
+
+  <% 3.times do %>
+    <dt><%= f.label(:conditions, "Condition:")%></dt>
+    <dd>
+      <select name="otwtranslation_context_rule[conditions][]">
+	  <% ([""] + rule.class.conditions).each do |condition| %>
+          <option><%= condition %></option>
+        <% end %>
+      </select>
+	<input type="text" name="otwtranslation_context_rule[conditions][]" />
+    </dd>
+  <% end %>
+
+  <% 3.times do %>
+    <dt><%= f.label(:actions, "Action:")%></dt>
+    <dd>
+      <select name="otwtranslation_context_rule[actions][]">
+	  <% ([""] + rule.class.actions).each do |action| %>
+          <option><%= action %></option>
+        <% end %>
+      </select>
+	<input type="text" name="otwtranslation_context_rule[actions][]" />
+    </dd>
+  <% end %>
+</dl>
+
+

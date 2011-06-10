@@ -1,5 +1,5 @@
 <!--Descriptive page name and system messages, descriptions, and instructions.-->
-<h2><%= ts("Add Rule") %></h2>
+<h2><%= ts("Edit Rule") %></h2>
 <!--end descriptions-->
 
 <!--Subnavigation, sorting and actions.-->
@@ -7,9 +7,9 @@
 
 <!--main content-->
 
-<%= form_for("otwtranslation_context_rule", @rule, :url => otwtranslation_post_rule_path) do |f| %>
+<%= form_for("otwtranslation_context_rule", @rule, :url => otwtranslation_update_rule_path, :html => { :method => :put }) do |f| %>
 
   <%= render :partial => "otwtranslation/rules/form",
              :locals => { :rule => @rule, :f => f } %>
-  <p class="submit"><%= f.submit "Add rule" %></p>
+  <p class="submit"><%= f.submit "Update rule" %></p>
 <% end %>
