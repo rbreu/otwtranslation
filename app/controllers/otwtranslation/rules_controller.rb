@@ -36,7 +36,7 @@ class Otwtranslation::RulesController < ApplicationController
     @rule.conditions = trim_condition_action_params(@rule.conditions)
     @rule.actions = trim_condition_action_params(@rule.actions)
 
-    render(:action => 'new') && return if params[:commit] == "Set Type"
+    render(:action => 'new') && return if params[:commit].downcase == "set type"
 
     if @rule.save
       redirect_to otwtranslation_language_path(@rule.language_short)
