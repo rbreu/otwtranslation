@@ -3,8 +3,7 @@
   <dt><%= f.label(:description, "Description:")%></dt>
   <dd><%= f.text_area(:description, :rows => 3) %></dd>
   
-  <% unless rule.conditions.nil? %>
-  <% rule.conditions.each do |cond, param| %> 
+  <% (rule.conditions + [["", []]]*3).each do |cond, param| %> 
     <dt><%= f.label(:conditions, "Condition:")%></dt>
     <dd>
        <select name="otwtranslation_context_rule[conditions][]">
@@ -18,23 +17,8 @@
              value="<%= Otwtranslation::ParameterParser.stringify(param) %> "/>
     </dd>
   <% end %>
-  <% end %>
 
-
-  <% 3.times do %>
-    <dt><%= f.label(:conditions, "Condition:")%></dt>
-    <dd>
-      <select name="otwtranslation_context_rule[conditions][]">
-	  <% ([""] + rule.class.conditions).each do |condition| %>
-          <option><%= condition %></option>
-        <% end %>
-      </select>
-	<input type="text" name="otwtranslation_context_rule[conditions][]" />
-    </dd>
-  <% end %>
-
-  <% unless rule.actions.nil? %>
-  <% rule.actions.each do |act, param| %> 
+  <% (rule.actions + [["", []]]*3).each do |act, param| %> 
     <dt><%= f.label(:actions, "Action:")%></dt>
     <dd>
        <select name="otwtranslation_context_rule[actions][]">
@@ -48,20 +32,7 @@
              value="<%= Otwtranslation::ParameterParser.stringify(param) %> "/>
     </dd>
   <% end %>
-  <% end %>
 
-
-  <% 3.times do %>
-    <dt><%= f.label(:actions, "Action:")%></dt>
-    <dd>
-      <select name="otwtranslation_context_rule[actions][]">
-	  <% ([""] + rule.class.actions).each do |action| %>
-          <option><%= action %></option>
-        <% end %>
-      </select>
-	<input type="text" name="otwtranslation_context_rule[actions][]" />
-    </dd>
-  <% end %>
 </dl>
 
 

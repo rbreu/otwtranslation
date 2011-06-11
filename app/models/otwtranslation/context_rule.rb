@@ -28,7 +28,7 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   acts_as_list :scope => 'language_short = \'#{language_short}\' AND type = \'#{type}\''
 
   validates_presence_of :language_short
-
+  
   @@context_parser = ContextRulesParser.new
   
   @@RULE_TYPES = ["general", "list", "possessive", "quantity"]
@@ -54,6 +54,13 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
       "auto pluralize" => "auto_pluralize"
   }
 
+
+  after_initialize :init_actions_conditions
+
+  def init_actions_conditions
+    self.conditions ||= []
+    self.actions ||= []
+  end
 
   ############################################################
 

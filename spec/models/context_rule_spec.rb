@@ -1,5 +1,12 @@
 require 'spec_helper'
 
+describe Otwtranslation::ContextRule, "creation" do
+  it "should create empty conditions and actions lists" do
+    rule = Otwtranslation::ContextRule.new()
+    rule.conditions.should == []
+    rule.actions.should == []
+  end
+end
 
 describe Otwtranslation::ContextRule, "tokenize_label" do
   it "should parse phrase with one rule" do
