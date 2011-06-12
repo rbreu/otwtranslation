@@ -1,0 +1,45 @@
+<h3>Are you sure you want to delete the following rule?</h3>
+
+<dl>
+  <dt class="type">Type:</dt>
+  <dd class="type"><%= @rule.display_type %></dd>
+
+  <dt class="description">Description:</dt>
+  <dd class="description"><%= @rule.description %></dd>
+
+  <dt class="conditions">Conditions:</dt>
+  <dd class="conditions">
+    <ol>
+      <% @rule.conditions.each do |condition| %>
+        <li><%= condition[0] %> 
+          <%= Otwtranslation::ParameterParser.stringify(condition[1]) %>
+        </li>
+      <% end %>
+    </ol>
+  </dd>
+
+  <dt class="actions">Actions:</dt>
+  <dd class="actions">
+    <ol>
+      <% @rule.actions.each do |action| %>
+        <li><%= action[0] %> 
+          <%= Otwtranslation::ParameterParser.stringify(action[1]) %>
+        </li>
+      <% end %>
+    </ol>
+  </dd>
+</dl>
+
+<h3 class="landmark">Rule Actions</h3>
+<ul class="navigation">
+  <li>
+    <%= link_to 'Cancel', otwtranslation_language_path(@rule.language_short) %>
+  </li>
+  <li>
+    <%= form_for(@rule, 
+                 :url => otwtranslation_destroy_rule_path(@rule), 
+                 :html => { :method => :delete } ) do |f| %>
+      <%= f.submit 'Delete' %>
+    <% end %>
+  </li>
+</ul>

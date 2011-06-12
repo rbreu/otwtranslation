@@ -8,6 +8,14 @@
       <%= f.submit 'Edit' %>
     <% end %>
   </li>
+  <li>
+    <%= form_for(rule,
+                 :url => otwtranslation_confirm_destroy_rule_path(rule), 
+                 :html => { :method => :get },
+                 :remote => false ) do |f| %>
+      <%= f.submit 'Delete' %>
+    <% end %>
+
 </ul>
 
 

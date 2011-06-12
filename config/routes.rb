@@ -48,12 +48,20 @@ Rails.application.routes.draw do
 
   match "#{mount_at}/rules/" => 'otwtranslation/rules#create',
   :as => 'otwtranslation_post_rule', :via => [:post]
-  
+
+  get "#{mount_at}/rules/:id/confirm_destroy" => 'otwtranslation/rules#confirm_destroy',
+  :as => 'otwtranslation_confirm_destroy_rule'
+
   get "#{mount_at}/rules/:id/edit" => 'otwtranslation/rules#edit',
   :as => 'otwtranslation_edit_rule'
 
+  match "#{mount_at}/rules/:id" => 'otwtranslation/rules#destroy',
+  :as => 'otwtranslation_destroy_rule', :via => [:delete]
+  
   match "#{mount_at}/rules/:id" => 'otwtranslation/rules#update',
   :as => 'otwtranslation_update_rule', :via => [:put]
+
+  
 
   
   # Translations

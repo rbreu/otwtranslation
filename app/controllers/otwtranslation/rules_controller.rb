@@ -49,6 +49,18 @@ class Otwtranslation::RulesController < ApplicationController
   end
 
 
+  def confirm_destroy
+    @rule = Otwtranslation::ContextRule.find(params[:id])
+  end
+
+  
+  def destroy
+    rule = Otwtranslation::ContextRule.find(params[:id])
+    rule.destroy
+    redirect_to otwtranslation_language_path(rule.language_short)
+  end
+  
+
   def trim_condition_action_params(p)
     trimmed = []
     p.each_slice(2) do |name, parameters|

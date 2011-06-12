@@ -70,3 +70,14 @@ Feature: Context Rules
     And I should see the rule action "append"
     And I should see the rule action "new action"
 
+  Scenario: Remove rules
+    Given I am a translation admin
+    And I have the "possessive" rule for the language "English"
+    
+    When I go to the language page
+    And I press "Delete"
+    Then I should see "Are you sure"
+
+    When I press "Delete"
+    Then I should see the language name "English"
+    And I should not see "possessive"
