@@ -52,6 +52,12 @@ Rails.application.routes.draw do
   get "#{mount_at}/rules/:id/confirm_destroy" => 'otwtranslation/rules#confirm_destroy',
   :as => 'otwtranslation_confirm_destroy_rule'
 
+  get "#{mount_at}/rules/:id/move_down" => 'otwtranslation/rules#move_down',
+  :as => 'otwtranslation_move_down_rule'
+
+  get "#{mount_at}/rules/:id/move_up" => 'otwtranslation/rules#move_up',
+  :as => 'otwtranslation_move_up_rule'
+
   get "#{mount_at}/rules/:id/edit" => 'otwtranslation/rules#edit',
   :as => 'otwtranslation_edit_rule'
 

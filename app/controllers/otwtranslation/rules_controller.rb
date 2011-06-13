@@ -54,6 +54,20 @@ class Otwtranslation::RulesController < ApplicationController
   end
 
   
+  def move_up
+    rule = Otwtranslation::ContextRule.find(params[:id])
+    rule.move_higher
+    redirect_to otwtranslation_language_path(rule.language_short)
+  end
+
+  
+  def move_down
+    rule = Otwtranslation::ContextRule.find(params[:id])
+    rule.move_lower
+    redirect_to otwtranslation_language_path(rule.language_short)
+  end
+
+  
   def destroy
     rule = Otwtranslation::ContextRule.find(params[:id])
     rule.destroy
