@@ -78,9 +78,22 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
 
   def self.label_all_text?(label)
     tokenize_label(label).each do |token, content|
-      return false if token != :text && content[:name] != "data"
+      return false if token != :text
     end
     return true
+  end
+
+  def self.label_rule_combinations_for(label, language)
+    rules = []
+    tokenize_label(label).each do |token, content|
+      rules << self.rules_for(language, content[:name]) if token != :text
+    end
+
+    if rules.length > 0
+      rules = rules[0].product(*rules[1..-1])
+    end
+
+    rules
   end
 
   def self.rule_to_label(rule)
@@ -164,11 +177,6 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
 
   ############################################################
 
-  def self.parse_param_list(param)
-    param.split(/\s*,\s*/)
-  end
-
-  
   # A rule matches if all conditions match
   # A rule with no conditions doesn't match
   def match?(value)

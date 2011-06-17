@@ -34,6 +34,11 @@ class Otwtranslation::TranslationsController < ApplicationController
 
 
   def create
+    if params[:commit].downcase == "create context-aware translations"
+      #Otwtranslation::ContextRule.
+    end
+
+    
     @translation = Otwtranslation::Translation.new(params[:otwtranslation_translation])
     @translation.phrase_key = params[:id]
     @translation.language_short = otwtranslation_language

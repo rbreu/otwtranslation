@@ -71,7 +71,7 @@ end
 describe Otwtranslation::TranslationsController, "POST create" do
   
   it "should fail if we are not authenticated" do
-    post :create, :id => "somekey"
+    post :create, :id => "somekey", :commit => "Add translation"
     response.should_not be_success
   end
 
@@ -89,33 +89,33 @@ describe Otwtranslation::TranslationsController, "POST create" do
       Otwtranslation::Translation.should_receive(:new)
         .with(@translation_params).and_return(@translation)
       post(:create, :otwtranslation_translation => @translation_params,
-           :id => "somekey")
+           :id => "somekey", :commit => "Add translation")
     end
       
     it "should create a translation for JS" do
       Otwtranslation::Translation.should_receive(:new)
         .with(@translation_params).and_return(@translation)
       post(:create, :otwtranslation_translation => @translation_params,
-             :id => "somekey", :format => "js")
+             :id => "somekey", :format => "js", :commit => "Add translation")
     end
 
     it "should save a translation for HTML" do
       @translation.should_receive(:save)
-      post :create, :id => "somekey"
+      post :create, :id => "somekey", :commit => "Add translation"
     end
       
     it "should save a translation for JS" do
       @translation.should_receive(:save)
-      post :create, :id => "somekey", :format => "js"
+      post :create, :id => "somekey", :format => "js", :commit => "Add translation"
     end
 
     it "should assign @translation for HTML" do
-      post :create, :id => "somekey"
+      post :create, :id => "somekey", :commit => "Add translation"
       assigns[:translation].should == @translation
     end
         
     it "should assign @translation for JS" do
-      post :create, :id => "somekey", :format => "js"
+      post :create, :id => "somekey", :format => "js", :commit => "Add translation"
       assigns[:translation].should == @translation
     end
         
@@ -127,12 +127,12 @@ describe Otwtranslation::TranslationsController, "POST create" do
       end
         
       it "redirects to the newly created translation for HTML" do
-        post :create, :id => "somekey"
+        post :create, :id => "somekey", :commit => "Add translation"
         response.should redirect_to(otwtranslation_phrase_path("somekey"))
       end
       
       it "renders create_success for JS" do
-        post :create, :id => "somekey", :format => "js"
+        post :create, :id => "somekey", :format => "js", :commit => "Add translation"
         response.should render_template("create_success")
       end
       
@@ -145,22 +145,22 @@ describe Otwtranslation::TranslationsController, "POST create" do
       end
 
       it "should set a flash[:error] message for HTML" do
-        post :create, :id => "somekey"
+        post :create, :id => "somekey", :commit => "Add translation"
         flash[:error].should contain 'There was a problem saving the translation'
       end
       
       it "should set a flash[:error] message for JS" do
-        post :create, :id => "somekey", :format => "js"
+        post :create, :id => "somekey", :format => "js", :commit => "Add translation"
         flash[:error].should contain 'There was a problem saving the translation'
       end
 
       it "should render the new form for HTML" do
-        post :create, :id => "somekey"
+        post :create, :id => "somekey", :commit => "Add translation"
         response.should redirect_to(otwtranslation_new_translation_path("somekey"))
       end
 
       it "should render create_fail for JS" do
-        post :create, :id => "somekey", :format => "js"
+        post :create, :id => "somekey", :format => "js", :commit => "Add translation"
         response.should render_template("create_fail")
       end
     end

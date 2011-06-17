@@ -8,6 +8,9 @@ class Otwtranslation::Translation < ActiveRecord::Base
              :primary_key => 'short', :foreign_key => 'language_short')
   belongs_to(:phrase, :class_name => 'Otwtranslation::Phrase',
              :primary_key => 'key', :foreign_key => 'phrase_key')
+  
+  # Rules: Array of rule IDs this translation must fulfill to be applied
+  serialize :rules
 
   validates_presence_of :label
   validates_presence_of :phrase
