@@ -3,6 +3,25 @@
 <!-- BACK END: is this a heading: on a summary of the page contents, ought this show up?-->
 <p class="label"><%= translation.label %></p>
 
+<p class="rules">Rules:
+  <% if translation.rules.blank? %>
+    All.
+  <% else %>
+  <ul>
+    <% translation.rules.each do |rule_id| %>
+        <% rule = Otwtranslation::ContextRule.find(rule_id) %>
+	<%= rule.display_type %>
+	<ol>
+	  <% rule.conditions.each do |condition| %>
+	  <li><%= condition[0] %> 
+              <%= Otwtranslation::ParameterParser.stringify(condition[1]) %></li>
+	  <% end %>
+	</ol>
+      </li>
+    <% end %>  
+  <% end %>
+</p>
+
 <%= render :partial => "/otwtranslation/translations/stats", 
            :locals => { :translation => translation } %>
 

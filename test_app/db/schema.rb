@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110425151400) do
+ActiveRecord::Schema.define(:version => 20110613144000) do
 
   create_table "languages", :force => true do |t|
     t.string  "short",               :limit => 4
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(:version => 20110425151400) do
     t.string   "language_short"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "rules"
   end
 
   create_table "users", :force => true do |t|

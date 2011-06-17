@@ -35,11 +35,33 @@ class Otwtranslation::TranslationsController < ApplicationController
 
   def create
     if params[:commit].downcase == "create context-aware translations"
-      #Otwtranslation::ContextRule.
+      phrase = Otwtranslation::Phrase.find_from_cache_or_db(params[:id])
+      combinations = Otwtranslation::ContextRule
+        .label_rule_combinations_for(phrase.label, otwtranslation_language)
+
+      msg = ""
+      combinations.each do |combination|
+        translation = Otwtranslation::Translation.new()
+        translation.label = phrase.label
+        translation.language_short = otwtranslation_language
+        translation.phrase_key = params[:id]
+        translation.rules = combination.map{|r| r.id}
+        unless translation.save
+          msg += 'There was a problem saving the translation:' +
+            prettify_error_messages(translation) 
+        end
+      end
+
+      respond_to do |format|
+        flash[:error] = msg.html_safe unless msg.blank?
+        format.html { redirect_to otwtranslation_phrase_path(@phrase_id) }
+      end
+
+      return
     end
 
     
-    @translation = Otwtranslation::Translation.new(params[:otwtranslation_translation])
+    @translation = Otwtranslation::Translation.new([:otwtranslation_translation])
     @translation.phrase_key = params[:id]
     @translation.language_short = otwtranslation_language
     @phrase_id = params[:id]

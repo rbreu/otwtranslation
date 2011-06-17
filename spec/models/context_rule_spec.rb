@@ -58,10 +58,25 @@ describe Otwtranslation::ContextRule, "match" do
     rule.match?("Abby").should == true
   end
 
+  it "should match is condition" do
+    conditions = [["is", ["foo"]]]
+    rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+    rule.match?("foo").should == true
+    rule.match?("bar").should == false
+  end
+
+  it "should match is condition with numbers" do
+    conditions = [["is", ["11"]]]
+    rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+    rule.match?(11).should == true
+    rule.match?(0).should == false
+  end
+
   it "should match single is not rule" do
     conditions = [["is not", ["100"]]]
     rule = Otwtranslation::ContextRule.new(:conditions => conditions)
     rule.match?("101").should == true
+    rule.match?("100").should == false
   end
 
   it "should match single is rule with list param" do
