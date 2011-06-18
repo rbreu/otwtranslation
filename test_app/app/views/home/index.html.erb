@@ -47,10 +47,12 @@
   <p><%= ts("You have {quantity::message}.", "", :message => i) %></p>
 <% end %>
 
-<p><%= ts("I love {list::names}.", "", :names => ["Spock", "Uhura", "Kirk"]) %></p>
-<p><%= ts("I love {list::names}.", "", :names => ["Spock", "Kirk"]) %></p>
-<p><%= ts("I love {list::names}.", "", :names => ["Uhura"]) %></p>
+<p><%= ts("{list::names} left kudos.", "", :names => ["Spock", "Uhura", "Kirk"]) %></p>
+<p><%= ts("{list::names} left kudos.", "", :names => ["Spock", "Kirk"]) %></p>
+<p><%= ts("{list::names} left kudos.", "", :names => ["Uhura"]) %></p>
 <% 0.upto(3) do |i| %>
-  <p><%= ts("{list::names} as well as {quantity::guest} left kudos.", "", 
-          :names => ["Spock", "Uhura", "Kirk"], :guest => i ) %></p>
+  <% 0.upto(3) do |j| %>
+  <p><%= ts("You have {quantity::apple} and {quantity::banana}.", "", 
+          :apple => i, :banana => j ) %></p>
+  <% end %>
 <% end %>
