@@ -39,11 +39,11 @@ module OtwtranslationHelper
       
     phrase = Otwtranslation::Phrase.find_by_key(phrase_key)
     
-    if transl = phrase.approved_translations_for(otwtranslation_language).first
+    if transl = phrase.approved_translations_for(otwtranslation_language, variables).first
       span_class = 'approved'
       landmark = ""
       label = transl.label
-    elsif transl = phrase.translations_for(otwtranslation_language).first
+    elsif transl = phrase.translations_for(otwtranslation_language, variables).first
       span_class = 'translated'
       landmark = '<span class="landmark">review</span>'
       label = transl.label

@@ -18,6 +18,7 @@ describe Otwtranslation::Translation do
     translation = Otwtranslation::Translation.first
     translation.label.should == "irgendwas"
     translation.approved.should == false
+    translation.rules.should == []
   end
 
   it "should let basic inline HTML untouched" do

@@ -54,5 +54,7 @@
 <p><%= ts("I love {list::names}.", "", :names => ["Spock", "Uhura", "Kirk"]) %></p>
 <p><%= ts("I love {list::names}.", "", :names => ["Spock", "Kirk"]) %></p>
 <p><%= ts("I love {list::names}.", "", :names => ["Uhura"]) %></p>
-<p><%= ts("{list::names} as well as {quantity::guest} left kudos.", "", 
-          :names => ["Spock", "Uhura", "Kirk"], :guest => (rand*3).to_i ) %></p>
+<% 0.upto(3) do |i| %>
+  <p><%= ts("{list::names} as well as {quantity::guest} left kudos.", "", 
+          :names => ["Spock", "Uhura", "Kirk"], :guest => i ) %></p>
+<% end %>

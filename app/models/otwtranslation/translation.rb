@@ -22,6 +22,11 @@ class Otwtranslation::Translation < ActiveRecord::Base
   after_destroy :remove_from_cache
   before_validation :sanitize_label
   after_save :remove_from_cache
+  after_initialize :init_rules
+
+  def init_rules
+    self.rules ||= []
+  end
 
   
   def self.cache_key(phrase_key, language, decorated=false)

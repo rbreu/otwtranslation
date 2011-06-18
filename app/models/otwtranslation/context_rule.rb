@@ -83,19 +83,6 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
     return true
   end
 
-  def self.label_rule_combinations_for(label, language)
-    rules = []
-    tokenize_label(label).each do |token, content|
-      rules << self.rules_for(language, content[:name]) if token != :text
-    end
-
-    if rules.length > 0
-      rules = rules[0].product(*rules[1..-1])
-    end
-
-    rules
-  end
-
   def self.rule_to_label(rule)
     "{#{rule[:name]}::#{rule[:variable]}}"
   end
@@ -229,7 +216,6 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   end
     
   
-
   def self.apply_rules(label, language, variables={})
     applied = ""
 
@@ -243,5 +229,39 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
 
     return applied
   end
+
+
+  def self.matching_rules(label, language, variables={})
+    rules = []
+
+    self.tokenize_label(label).each do |token, content|
+      if token != :text
+        value = variables[content[:variable].to_sym]
+        self.rules_for(language, content[:name]).each do |rule|
+          if rule.match?(value)
+            rules << rule
+            break
+          end
+        end
+      end
+    end
+
+    return rules
+  end
+
+
+  def self.rule_combinations(label, language)
+    rules = []
+    tokenize_label(label).each do |token, content|
+      rules << self.rules_for(language, content[:name]) if token != :text
+    end
+
+    if rules.length > 0
+      rules = rules[0].product(*rules[1..-1])
+    end
+
+    rules
+  end
+
 
 end

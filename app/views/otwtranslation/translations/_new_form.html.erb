@@ -7,7 +7,7 @@
   </dl>
   <ul class="navigation">
     <li><%= f.submit "Add translation" %></li>
-    <% if Otwtranslation::ContextRule.label_rule_combinations_for(
+    <% if Otwtranslation::ContextRule.rule_combinations(
            translation.phrase.label, otwtranslation_language).length > 1 %>
       <li><%= f.submit "Create context-aware translations" %></li>
     <% end %>

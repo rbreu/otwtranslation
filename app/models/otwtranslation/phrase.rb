@@ -98,13 +98,19 @@ class Otwtranslation::Phrase < ActiveRecord::Base
   end
 
 
-  def translations_for(language)
-    translations.where(:language_short => language)
+  def translations_for(language, variables=nil)
+    return translations.where(:language_short => language) if variables.nil?
+
+    rules = Otwtranslation::ContextRule.matching_rules(label, language, variables).map{|r| r.id}
+    translations.where(:language_short => language, :rules => rules.to_yaml) + translations.where(:language_short => language, :rules => [].to_yaml)
   end
   
 
-  def approved_translations_for(language)
-    approved_translations.where(:language_short => language)
+  def approved_translations_for(language, variables=nil)
+    return approved_translations.where(:language_short => language) if variables.nil?
+
+    rules = Otwtranslation::ContextRule.matching_rules(label, language, variables).map{|r| r.id}
+    approved_translations.where(:language_short => language, :rules => rules.to_yaml) + approved_translations.where(:language_short => language, :rules => [].to_yaml)
   end
   
 end

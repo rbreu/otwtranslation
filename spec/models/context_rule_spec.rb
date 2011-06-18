@@ -243,7 +243,7 @@ describe Otwtranslation::ContextRule, "apply_rules" do
 end
 
 
-describe Otwtranslation::ContextRule, "label_rule_combinations_for" do
+describe Otwtranslation::ContextRule, "rule_combinations" do
 
   before(:each) do
     @gen = Otwtranslation::GeneralRule.create(:language_short => "en",
@@ -255,46 +255,46 @@ describe Otwtranslation::ContextRule, "label_rule_combinations_for" do
   end
   
 
-  it "should find one combination" do
+  it "should find no combinations" do
     label = "Hello World!"
-    Otwtranslation::ContextRule.label_rule_combinations_for(label, "en")
+    Otwtranslation::ContextRule.rule_combinations(label, "en")
       .should == []
   end
 
   it "should find one combination" do
     label = "Hello {general::name}!"
-    Otwtranslation::ContextRule.label_rule_combinations_for(label, "en")
+    Otwtranslation::ContextRule.rule_combinations(label, "en")
       .should =~ [[@gen]]
   end
 
   it "should find one combination" do
     label = "Hello {general::author} and hello {general::artist}!"
-    Otwtranslation::ContextRule.label_rule_combinations_for(label, "en")
+    Otwtranslation::ContextRule.rule_combinations(label, "en")
       .should =~ [[@gen, @gen]]
   end
 
   it "should find two combinations" do
     label = "You have {quantity::message}!"
-    Otwtranslation::ContextRule.label_rule_combinations_for(label, "en")
+    Otwtranslation::ContextRule.rule_combinations(label, "en")
       .should =~ [[@quant1], [@quant2]]
   end
 
   it "should find two combinations" do
     label = "Hello {general::name}. You have {quantity::message}!"
-    Otwtranslation::ContextRule.label_rule_combinations_for(label, "en")
+    Otwtranslation::ContextRule.rule_combinations(label, "en")
       .should =~ [[@gen, @quant1], [@gen, @quant2]]
   end
 
   it "should find four combinations" do
-    label = "You have {quantity::message} and {quantity::notifications}!"
-    Otwtranslation::ContextRule.label_rule_combinations_for(label, "en")
+    label = "You have {quantity::message} and {quantity::notification}!"
+    Otwtranslation::ContextRule.rule_combinations(label, "en")
       .should =~ [[@quant1, @quant1], [@quant1, @quant2],
                   [@quant2, @quant1], [@quant2, @quant2]]
   end
 
   it "should find eight combinations" do
     label = " {quantity::a} {quantity::b} {quantity::c}"
-    Otwtranslation::ContextRule.label_rule_combinations_for(label, "en")
+    Otwtranslation::ContextRule.rule_combinations(label, "en")
       .should =~ [[@quant1, @quant1, @quant1],
                   [@quant1, @quant1, @quant2],
                   [@quant1, @quant2, @quant1],
@@ -303,6 +303,94 @@ describe Otwtranslation::ContextRule, "label_rule_combinations_for" do
                   [@quant2, @quant1, @quant2],
                   [@quant2, @quant2, @quant1],
                   [@quant2, @quant2, @quant2]]
+  end
+
+end
+
+
+describe Otwtranslation::ContextRule, "matching_rules" do
+
+  before(:each) do
+    @gen = Otwtranslation::GeneralRule.create(:language_short => "en",
+                                              :conditions => [["matches all", []]])
+    @quant1 = Otwtranslation::QuantityRule.create(:language_short => "en",
+                                                  :conditions => [["is", ["1"]]])
+    @quant2 = Otwtranslation::QuantityRule.create(:language_short => "en",
+                                                  :conditions => [["matches all", []]])
+  end
+  
+
+  it "should find no rules" do
+    label = "Hello World!"
+    Otwtranslation::ContextRule.matching_rules(label, "en")
+      .should == []
+  end
+
+  it "should find one general rule" do
+    label = "Hello {general::name}!"
+    Otwtranslation::ContextRule.matching_rules(label, "en",
+                                               :name => "Abby")
+      .should == [@gen]
+  end
+
+  it "should find two general rules" do
+    label = "Hello {general::author} and hello {general::artist}!"
+    Otwtranslation::ContextRule.matching_rules(label, "en",
+                                               :author => "Alice",
+                                               :artist => "Bob")
+      .should == [@gen, @gen]
+  end
+
+  it "should find one quantity rule" do
+    label = "You have {quantity::message}!"
+    Otwtranslation::ContextRule.matching_rules(label, "en", :message => 1)
+      .should == [@quant1]
+    Otwtranslation::ContextRule.matching_rules(label, "en", :message => 2)
+      .should == [@quant2]
+  end
+
+  it "should find one general rule and one quantity rule" do
+    label = "Hello {general::name}. You have {quantity::message}!"
+    Otwtranslation::ContextRule.matching_rules(label, "en",
+                                               :name => "Abby", :message => 1)
+      .should == [@gen, @quant1]
+    Otwtranslation::ContextRule.matching_rules(label, "en",
+                                               :name => "Abby", :message => 2)
+      .should == [@gen, @quant2]
+  end
+
+  it "should find two quantity rules" do
+    label = "You have {quantity::message} and {quantity::notification}!"
+    Otwtranslation::ContextRule.matching_rules(label, "en",
+                                               :message => 1,
+                                               :notification => 1)
+      .should == [@quant1, @quant1]
+
+    Otwtranslation::ContextRule.matching_rules(label, "en",
+                                               :message => 1,
+                                               :notification => 2)
+      .should == [@quant1, @quant2]
+
+    Otwtranslation::ContextRule.matching_rules(label, "en",
+                                               :message => 2,
+                                               :notification => 1)
+      .should == [@quant2, @quant1]
+
+    Otwtranslation::ContextRule.matching_rules(label, "en",
+                                               :message => 2,
+                                               :notification => 2)
+      .should == [@quant2, @quant2]
+
+  end
+
+  it "should find three quantity rules" do
+    label = " {quantity::a} {quantity::b} {quantity::c}"
+    Otwtranslation::ContextRule.matching_rules(label, "en",
+                                               :a => 1, :b => 2, :c => 1)
+      .should == [@quant1, @quant2, @quant1]
+    Otwtranslation::ContextRule.matching_rules(label, "en",
+                                               :a => 1, :b => 1, :c => 2)
+      .should == [@quant1, @quant1, @quant2]
   end
 
 end

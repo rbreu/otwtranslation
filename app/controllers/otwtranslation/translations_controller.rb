@@ -37,7 +37,7 @@ class Otwtranslation::TranslationsController < ApplicationController
     if params[:commit].downcase == "create context-aware translations"
       phrase = Otwtranslation::Phrase.find_from_cache_or_db(params[:id])
       combinations = Otwtranslation::ContextRule
-        .label_rule_combinations_for(phrase.label, otwtranslation_language)
+        .rule_combinations(phrase.label, otwtranslation_language)
 
       msg = ""
       combinations.each do |combination|
@@ -61,7 +61,7 @@ class Otwtranslation::TranslationsController < ApplicationController
     end
 
     
-    @translation = Otwtranslation::Translation.new([:otwtranslation_translation])
+    @translation = Otwtranslation::Translation.new(params[:otwtranslation_translation])
     @translation.phrase_key = params[:id]
     @translation.language_short = otwtranslation_language
     @phrase_id = params[:id]
