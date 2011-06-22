@@ -58,3 +58,69 @@ describe Otwtranslation::Phrase, "update" do
 end
 
   
+describe Otwtranslation::Phrase, "translation associations" do
+   before(:each) do
+    @de = Factory.create(:language, :name => "Deutsch")
+    @nl = Factory.create(:language, :name => "Nederlands")
+    @phrase = Factory.create(:phrase, :label => "{possessive::name}")
+    
+    Factory.create(:translation, :language => @de, :phrase => @phrase)
+    Factory.create(:translation, :language => @de, :phrase => @phrase,
+                   :approved => true)
+    
+    Factory.create(:translation, :language => @nl, :phrase => @phrase)
+    Factory.create(:translation, :language => @nl, :phrase => @phrase,
+                   :approved => true)
+  end
+
+  it "should find all translations" do
+    @phrase.translations.size.should == 4
+  end
+  
+  it "should find all translations per language" do
+    @phrase.translations_for(@de.short).size.should == 2
+    @phrase.translations_for(@de.short).first.language_short == @de.short
+    @phrase.translations_for(@de.short).last.language_short == @de.short
+    @phrase.translations_for(@nl.short).size == 2
+    @phrase.translations_for(@nl.short).first.language_short == @nl.short
+    @phrase.translations_for(@nl.short).last.language_short == @nl.short
+  end
+  
+  it "should find approved translations per language" do
+    @phrase.approved_translations_for(@de.short).size.should == 1
+    t = @phrase.approved_translations_for(@de.short).first
+    t.language_short.should == @de.short
+    t.approved.should == true
+
+    @phrase.approved_translations_for(@nl.short).size.should == 1
+    t = @phrase.approved_translations_for(@nl.short).first
+    t.language_short.should == @nl.short
+    t.approved.should == true
+  end
+
+  it "should find translations per language per rule" do
+    rule1 = Factory.create(:possessive_rule, :language => @de,
+                           :conditions => [["is", ["foo"]]])
+    rule2 = Factory.create(:possessive_rule, :language => @de,
+                           :conditions => [["is", ["bar"]]])
+    
+    Factory.create(:translation, :language => @de, :phrase => @phrase,
+                   :rules => [rule1.id])
+    Factory.create(:translation, :language => @de, :phrase => @phrase,
+                   :rules => [rule2.id])
+
+    @phrase.translations_for(@de.short, {:name => "foo"}).size.should == 3
+    t = @phrase.translations_for(@de.short, {:name => "foo"}).first
+    t.language_short.should == @de.short
+    t.rules.should == [rule1.id]
+    
+    @phrase.translations_for(@de.short, {:name => "bar"}).size.should == 3
+    t = @phrase.translations_for(@de.short, {:name => "bar"}).first
+    t.language_short.should == @de.short
+    t.rules.should == [rule2.id]
+    
+    @phrase.translations_for(@de.short, {:name => "blah"}).size.should == 2
+
+  end
+  
+end

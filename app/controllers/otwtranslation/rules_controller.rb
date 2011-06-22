@@ -73,8 +73,10 @@ class Otwtranslation::RulesController < ApplicationController
     rule.destroy
     redirect_to otwtranslation_language_path(rule.language_short)
   end
-  
 
+  
+  private
+  
   def trim_condition_action_params(p)
     trimmed = []
     p.each_slice(2) do |name, parameters|

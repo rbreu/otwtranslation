@@ -60,6 +60,6 @@ end
 Factory.define(:possessive_rule, :class => Otwtranslation::PossessiveRule) do |rule|
   rule.association :language
   rule.description "standard possessive rule"
-  rule.conditions  [["matches all", []]]
+  rule.conditions [["matches all", []]]
   rule.actions [["append", ["'s"]]]
 end
