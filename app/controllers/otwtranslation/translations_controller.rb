@@ -10,7 +10,7 @@ class Otwtranslation::TranslationsController < ApplicationController
     respond_to do |format|
       format.html do
         @phrase = Otwtranslation::Phrase.find_by_key(params[:id])
-        @existing_translations = @phrase.translations_for(otwtranslation_language)
+        @existing_translations = @phrase.translations.for_language(otwtranslation_language)
       end
         
       format.js
@@ -24,7 +24,7 @@ class Otwtranslation::TranslationsController < ApplicationController
     respond_to do |format|
       format.html do
         @phrase = Otwtranslation::Phrase.find_by_key(@translation.phrase_key)
-        @existing_translations = @phrase.translations_for(otwtranslation_language)
+        @existing_translations = @phrase.translations.for_language(otwtranslation_language)
         render 'edit'
       end
         

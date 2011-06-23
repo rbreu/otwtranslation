@@ -13,6 +13,7 @@ describe Otwtranslation::TranslationsController, "GET new" do
       admin_login()
       @phrase = mock_model(Otwtranslation::Phrase).as_null_object
       @translation = mock_model Otwtranslation::Translation
+      @translations = mock(Array)
       Otwtranslation::Translation.stub(:new).and_return(@translation)
       Otwtranslation::Phrase.stub(:find_by_key).and_return(@phrase)
     end
@@ -42,14 +43,14 @@ describe Otwtranslation::TranslationsController, "GET new" do
       
 
     it "should assign @existing_translations for HTML" do
-      @phrase.should_receive(:translations_for)
-        .with(OtwtranslationConfig.DEFAULT_LANGUAGE)
+      @phrase.should_receive(:translations).and_return @translations
+      @translations.should_receive(:for_language).with(OtwtranslationConfig.DEFAULT_LANGUAGE).and_return []
       get :new, :id => "somekey"
-      assigns[:existing_translations].should == @existing_translations
+      assigns[:existing_translations].should == []
     end
 
     it "should not assign @existing_translations for JS" do
-      @phrase.should_no_receive(:translations_for)
+      @phrase.should_no_receive(:translations)
       get :new, :id => "somekey", :format => "js"
       assigns[:existing_translations].should == nil
     end
@@ -526,6 +527,7 @@ describe Otwtranslation::TranslationsController, "GET edit" do
     before(:each) do
       admin_login()
       @phrase = mock_model(Otwtranslation::Phrase).as_null_object
+      @translations = mock(Array)
       @translation = mock_model Otwtranslation::Translation
       @translation.stub(:phrase_key).and_return("somekey")
       Otwtranslation::Translation.stub(:find).and_return(@translation)
@@ -557,14 +559,14 @@ describe Otwtranslation::TranslationsController, "GET edit" do
       
 
     it "should assign @existing_translations for HTML" do
-      @phrase.should_receive(:translations_for)
-        .with(OtwtranslationConfig.DEFAULT_LANGUAGE)
+      @phrase.should_receive(:translations).and_return @translations
+      @translations.should_receive(:for_language).with(OtwtranslationConfig.DEFAULT_LANGUAGE).and_return []
       get :edit, :id => 1
-      assigns[:existing_translations].should == @existing_translations
+      assigns[:existing_translations].should == []
     end
 
     it "should not assign @existing_translations for JS" do
-      @phrase.should_no_receive(:translations_for)
+      @phrase.should_no_receive(:translations)
       get :edit, :id => 1, :format => "js"
       assigns[:existing_translations].should == nil
     end

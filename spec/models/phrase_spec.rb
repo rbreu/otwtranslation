@@ -71,56 +71,45 @@ describe Otwtranslation::Phrase, "translation associations" do
     Factory.create(:translation, :language => @nl, :phrase => @phrase)
     Factory.create(:translation, :language => @nl, :phrase => @phrase,
                    :approved => true)
+
+    # Throw in a few translations that shouldn't be found
+    dummy_phrase = Factory.create(:phrase)
+    Factory.create(:translation, :language => @de, :phrase => dummy_phrase)
+    Factory.create(:translation, :language => @de, :phrase => dummy_phrase,
+                   :approved => true)
   end
 
   it "should find all translations" do
     @phrase.translations.size.should == 4
   end
   
-  it "should find all translations per language" do
-    @phrase.translations_for(@de.short).size.should == 2
-    @phrase.translations_for(@de.short).first.language_short == @de.short
-    @phrase.translations_for(@de.short).last.language_short == @de.short
-    @phrase.translations_for(@nl.short).size == 2
-    @phrase.translations_for(@nl.short).first.language_short == @nl.short
-    @phrase.translations_for(@nl.short).last.language_short == @nl.short
-  end
-  
-  it "should find approved translations per language" do
-    @phrase.approved_translations_for(@de.short).size.should == 1
-    t = @phrase.approved_translations_for(@de.short).first
-    t.language_short.should == @de.short
-    t.approved.should == true
-
-    @phrase.approved_translations_for(@nl.short).size.should == 1
-    t = @phrase.approved_translations_for(@nl.short).first
-    t.language_short.should == @nl.short
-    t.approved.should == true
+  it "should find all german translations" do
+    @phrase.translations.for_language(@de).size.should == 2
+    @phrase.translations.for_language(@de).first.language_short == @de.short
+    @phrase.translations.for_language(@de).last.language_short == @de.short
   end
 
-  it "should find translations per language per rule" do
-    rule1 = Factory.create(:possessive_rule, :language => @de,
+  it "should find all approved german translations" do
+    t = @phrase.approved_translations.for_language(@de)
+    t.size.should == 1
+    t.first.language_short.should == @de.short
+    t.first.approved.should == true
+  end
+
+  it "should find translations per context" do
+    rfoo = Factory.create(:possessive_rule, :language => @de,
                            :conditions => [["is", ["foo"]]])
-    rule2 = Factory.create(:possessive_rule, :language => @de,
+    rbar = Factory.create(:possessive_rule, :language => @de,
                            :conditions => [["is", ["bar"]]])
     
-    Factory.create(:translation, :language => @de, :phrase => @phrase,
-                   :rules => [rule1.id])
-    Factory.create(:translation, :language => @de, :phrase => @phrase,
-                   :rules => [rule2.id])
+    tfoo = Factory.create(:translation, :language => @de, :phrase => @phrase,
+                          :rules => [rfoo.id])
+    tbar = Factory.create(:translation, :language => @de, :phrase => @phrase,
+                          :rules => [rbar.id])
 
-    @phrase.translations_for(@de.short, {:name => "foo"}).size.should == 3
-    t = @phrase.translations_for(@de.short, {:name => "foo"}).first
-    t.language_short.should == @de.short
-    t.rules.should == [rule1.id]
-    
-    @phrase.translations_for(@de.short, {:name => "bar"}).size.should == 3
-    t = @phrase.translations_for(@de.short, {:name => "bar"}).first
-    t.language_short.should == @de.short
-    t.rules.should == [rule2.id]
-    
-    @phrase.translations_for(@de.short, {:name => "blah"}).size.should == 2
-
+    t = @phrase.translations.for_context(@phrase.label, @de, {:name => "foo"})
+    t.size.should == 3
+    t.should include(tfoo)
   end
   
 end

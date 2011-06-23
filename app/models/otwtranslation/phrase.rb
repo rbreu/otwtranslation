@@ -97,35 +97,4 @@ class Otwtranslation::Phrase < ActiveRecord::Base
     Rails.cache.delete(self.class.cache_key(key))
   end
 
-
-  def translations_for(language, variables=nil)
-    return translations.where(:language_short => language) if variables.nil?
-
-    rules = Otwtranslation::ContextRule.matching_rules(label, language, variables).map{|r| r.id}
-
-    transl = translations.where(:language_short => language, :rules => rules.to_yaml)
-
-    unless rules.empty?
-      transl += translations.where(:language_short => language, :rules => [].to_yaml)
-    end
-
-    return transl
-  end
-  
-
-  def approved_translations_for(language, variables=nil)
-    return approved_translations.where(:language_short => language) if variables.nil?
-
-    rules = Otwtranslation::ContextRule.matching_rules(label, language, variables).map{|r| r.id}
-
-    transl = approved_translations.where(:language_short => language, :rules => rules.to_yaml)
-
-    unless rules.empty?
-      transl += approved_translations.where(:language_short => language, :rules => [].to_yaml)
-    end
-
-    return transl
-    
-  end
-  
 end

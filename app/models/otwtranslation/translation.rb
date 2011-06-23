@@ -32,7 +32,29 @@ class Otwtranslation::Translation < ActiveRecord::Base
   def self.cache_key(phrase_key, language, decorated=false)
     "otwtranslation_for_#{language}_#{phrase_key}#{decorated ? '_decorated' : ''}"
   end
-  
+
+  # Find translations for a specific language
+  # Takes a language_short string or a language object
+  def self.for_language(language)
+    begin
+      language = language.short
+    rescue NoMethodError
+    end
+    where(:language_short => language)
+  end
+
+  # Find context-aware translations matching a specific set of variables
+  # plus non-context-aware translations
+  def self.for_context(label, language, variables)
+    begin
+      language = language.short
+    rescue NoMethodError
+    end
+    rules = Otwtranslation::ContextRule
+      .matching_rules(label, language, variables).map{|r| r.id}
+
+    where(:language_short => language).where("rules='#{rules.to_yaml}' OR rules='#{[].to_yaml}'")
+  end
 
   def remove_from_cache
     # only decorated stuff so far
