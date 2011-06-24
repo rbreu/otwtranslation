@@ -10,10 +10,11 @@ class Otwtranslation::ParameterParser < ActiveRecord::Base
     @@parameter_parser.parse(params.strip).content
   end
 
-  def self.stringify(params)
+  def self.stringify(params, delimiter=", ")
     quoted = []
 
     params.each do |param|
+      param = param.to_s
       if param.include?(",") || param.end_with?(" ") || param.start_with?(" ")
         quoted << "\"#{param}\""
       else
@@ -21,7 +22,7 @@ class Otwtranslation::ParameterParser < ActiveRecord::Base
       end
     end
     
-    quoted.join(", ")
+    quoted.join(delimiter)
   end
   
 end

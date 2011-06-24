@@ -32,8 +32,13 @@ describe OtwtranslationHelper do
       @phrase = Factory.create(:phrase, :label => "Good day!")
       helper.stub(:otwtranslation_language).and_return("de")
     end
-    
+
     it "should mark the phrase untranslated" do
+      otwtranslation_decorated_translation(@phrase.key, @phrase.label)
+        .should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"untranslated\"><span class=\"landmark\">translate</span>*Good day!</span>"
+    end
+      
+    it "should mark the phrase untranslated when called without label" do
       otwtranslation_decorated_translation(@phrase.key)
         .should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"untranslated\"><span class=\"landmark\">translate</span>*Good day!</span>"
     end
@@ -45,7 +50,7 @@ describe OtwtranslationHelper do
                                    :approved => false,
                                    :phrase => @phrase)
 
-      helper.otwtranslation_decorated_translation(@phrase.key)
+      helper.otwtranslation_decorated_translation(@phrase.key, @phrase.label)
         .should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"translated\"><span class=\"landmark\">review</span>Guten Tag!</span>"
       
     end
@@ -57,22 +62,22 @@ describe OtwtranslationHelper do
                                    :approved => true,
                                    :phrase => @phrase)
       
-      helper.otwtranslation_decorated_translation(@phrase.key)
+      helper.otwtranslation_decorated_translation(@phrase.key, @phrase.label)
         .should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"approved\">Moin!</span>"
     end
     
     it "should cache all text labels" do
-      otwtranslation_decorated_translation(@phrase.key)
+      t = otwtranslation_decorated_translation(@phrase.key, @phrase.label)
       Otwtranslation::Phrase.should_not_receive(:find_by_key)
-      otwtranslation_decorated_translation(@phrase.key).should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"untranslated\"><span class=\"landmark\">translate</span>*Good day!</span>"
+      t.should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"untranslated\"><span class=\"landmark\">translate</span>*Good day!</span>"
     end
     
     it "should not cache labe with rules" do
       @phrase = Factory.create(:phrase, :label => "Hello {data::name}!")
 
-      otwtranslation_decorated_translation(@phrase.key)
+      otwtranslation_decorated_translation(@phrase.key, @phrase.label)
       Rails.cache.should_not_receive(:write)
-      otwtranslation_decorated_translation(@phrase.key)
+      otwtranslation_decorated_translation(@phrase.key, @phrase.label)
     end
   end
 
