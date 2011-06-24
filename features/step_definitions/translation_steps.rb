@@ -35,6 +35,14 @@ Then /^I should not see the translation "([^"]*)"$/ do |translation|
   page.should_not have_selector('p.label', :text => translation)
 end
 
+Then /^I should see (\d+) translations$/ do |count|
+  page.should have_selector('p.label', :count => count.to_i)
+end
+
+Then /^I should see the translation rule "([^"]*)"$/ do |rule|
+  page.should have_selector('div.rules', :text => rule)
+end
+
 Then /^I should see approved set to "([^"]*)"$/ do |approved|
   begin
     page.should have_selector('dd.approved', :text => approved)

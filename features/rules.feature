@@ -5,16 +5,17 @@ Feature: Context Rules
 
   Scenario: View rules
     Given I am a translation admin
-    And I have the "possessive" rule for the language "English"
+    And I have singular/plural rules for Deutsch
+    And I have selected the language Deutsch
     
     When I go to the language page
-    Then I should see the language name "English"
+    Then I should see the language name "Deutsch"
     And I should see "Rules for this language"
-    And I should see the rule type "possessive"
+    And I should see the rule type "quantity"
 
   Scenario: Add rules--general rule
     Given I am a translation admin
-    And I have the language "English" with short "en"
+    And I have selected the language Deutsch
     
     When I go to the language page
     And I press "Add rule" 
@@ -25,7 +26,7 @@ Feature: Context Rules
     And I fill in "otwtranslation_context_rule[actions][]" with "barbaz"
     And I press "Add rule"
 
-    Then I should see the language name "English"
+    Then I should see the language name "Deutsch"
     And I should see the rule type "general"
     And I should see the rule description "test rule"
     And I should see the rule condition "ends with"
@@ -35,7 +36,7 @@ Feature: Context Rules
 
   Scenario: Add rules--switch rule type
     Given I am a translation admin
-    And I have the language "English" with short "en"
+    And I have selected the language Deutsch
     
     When I go to the language page
     And I press "Add rule" 
@@ -52,7 +53,8 @@ Feature: Context Rules
 
   Scenario: Edit rules
     Given I am a translation admin
-    And I have the "possessive" rule for the language "English"
+    And I have singular/plural rules for Deutsch
+    And I have selected the language Deutsch
     
     When I go to the language page
     And press "Edit"
@@ -63,7 +65,7 @@ Feature: Context Rules
     And I fill in "otwtranslation_context_rule[actions][]" with "new action"
     And I press "Update rule"
 
-    Then I should see the language name "English"
+    Then I should see the language name "Deutsch"
     And I should see the rule description "new description"
     And I should see the rule condition "ends with"
     And I should see the rule condition "new cond"
@@ -72,12 +74,13 @@ Feature: Context Rules
 
   Scenario: Remove rules
     Given I am a translation admin
-    And I have the "possessive" rule for the language "English"
+    And I have singular/plural rules for Deutsch
+    And I have selected the language Deutsch
     
     When I go to the language page
     And I press "Delete"
     Then I should see "Are you sure"
 
     When I press "Delete"
-    Then I should see the language name "English"
+    Then I should see the language name "Deutsch"
     And I should not see "possessive"

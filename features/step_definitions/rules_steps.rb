@@ -1,10 +1,3 @@
-Given /^I have the "([^"]*)" rule for the language "([^"]*)"$/ do |type, lang|
-  type = "#{type}_rule".to_sym
-  @language = Otwtranslation::Language.find_by_name(lang) || 
-    Factory.create(:language, {:name => lang})
-  @rule = Factory.create(type, {:language => @language})
-end
-
 Then /^I should see the rule type "([^"]*)"$/ do |type|
   page.should have_selector('td.type', :text => type)
 end
@@ -19,4 +12,13 @@ end
 
 Then /^I should see the rule action "([^"]*)"$/ do |action|
   page.should have_selector('td.actions', :text => action)
+end
+
+Given /^I have singular\/plural rules for ([^"]*)$/ do |language|
+  @language = Otwtranslation::Language.find_by_name(language) ||
+    Factory(:language, {:name => language})
+  rule = Otwtranslation::QuantityRule.create(:conditions => [["is", ["1"]]],
+                                             :language_short => @language.short)
+  rule = Otwtranslation::QuantityRule.create(:conditions => [["matches all", []]],
+                                             :language_short => @language.short)
 end

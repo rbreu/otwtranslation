@@ -20,7 +20,7 @@ end
 
 
 Given /^I (have selected|select) the language ([^"]*)$/ do |_, language|
-  lang = Otwtranslation::Language.find_by_name(language) ||
+  @language = Otwtranslation::Language.find_by_name(language) ||
     Factory(:language, {:name => language})
   
   visit "/"

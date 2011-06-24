@@ -36,6 +36,8 @@ Feature: Translations
     And I should see the phrase "Hello world!"
     And I should see the translation "Hallo Welt!"
     And I should see approved set to "no"
+    And I should see the translation rule "All"
+
 
   @javascript
   Scenario: Add translations with javascript
@@ -51,6 +53,22 @@ Feature: Translations
     And I should see the phrase "Hello world!"
     And I should see the translation "Hallo Welt!"
     And I should see approved set to "no"
+
+
+  Scenario: Add context-aware translations
+    Given I have the phrase "You have {quantity::msg} messages!"
+    And I have singular/plural rules for Deutsch
+    And I have selected the language Deutsch
+    And I am a translator
+
+    When I go to the phrase page
+    And I press "Add translation"
+    And I press "Create context-aware translations"
+    Then I should see "Show Phrase"
+    And I should see 2 translations
+    And I should see the translation rule "is"
+    And I should see the translation rule "matches all"
+
 
   Scenario: Approve translations
     Given I have the translation "Akzeptiere mich!" for "Approve me!" in Deutsch

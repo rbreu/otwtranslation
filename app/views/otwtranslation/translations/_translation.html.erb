@@ -3,15 +3,16 @@
 <!-- BACK END: is this a heading: on a summary of the page contents, ought this show up?-->
 <p class="label"><%= translation.label %></p>
 
-<p class="rules">Rules:
+<div class="rules">Rules:
   <% if translation.rules.blank? %>
     All.
   <% else %>
-  <ul>
+  <ul class="rules">
     <% translation.rules.each do |rule_id| %>
+      <li id="<%= rule_id %>">
         <% rule = Otwtranslation::ContextRule.find(rule_id) %>
 	<%= rule.display_type %>
-	<ol>
+	<ol class="conditions">
 	  <% rule.conditions.each do |condition| %>
 	  <li><%= condition[0] %> 
               <%= Otwtranslation::ParameterParser.stringify(condition[1]) %></li>
@@ -19,8 +20,9 @@
 	</ol>
       </li>
     <% end %>  
+  </ul>
   <% end %>
-</p>
+</div>
 
 <%= render :partial => "/otwtranslation/translations/stats", 
            :locals => { :translation => translation } %>
