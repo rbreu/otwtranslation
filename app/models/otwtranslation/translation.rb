@@ -29,8 +29,9 @@ class Otwtranslation::Translation < ActiveRecord::Base
   end
 
   
-  def self.cache_key(phrase_key, language, decorated=false)
-    "otwtranslation_for_#{language}_#{phrase_key}#{decorated ? '_decorated' : ''}"
+  def self.cache_key(phrase_key, language, rules=[], decorated=false)
+    rules = Otwtranslation::ParameterParser.stringify(rules, ",")
+    "otwtranslation_for_#{language}_#{phrase_key}_#{rules}#{decorated ? '_decorated' : ''}"
   end
 
   # Find translations for a specific language
@@ -58,7 +59,8 @@ class Otwtranslation::Translation < ActiveRecord::Base
 
   def remove_from_cache
     # only decorated stuff so far
-    Rails.cache.delete(self.class.cache_key(phrase_key, language_short, true))
+    # only non-context stuff so far
+    Rails.cache.delete(self.class.cache_key(phrase_key, language_short, [], true))
   end
 
 

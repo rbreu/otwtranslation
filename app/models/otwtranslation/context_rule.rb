@@ -91,7 +91,7 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   # Definition of conditions:
   
   def self.condition_matches_all(value, params)
-    return all
+    return true
   end
     
   def self.condition_is?(value, params)
@@ -173,7 +173,9 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
       return false unless
         self.class.send("condition_#{self.class::CONDITIONS[condition]}",
                         value, params)
+    self.class.send("condition_matches_all", value, params)
     end
+    
     return true
   end
 

@@ -32,16 +32,14 @@ module OtwtranslationHelper
 
 
   def otwtranslation_decorated_translation(phrase_key, phrase_label=nil, variables={})
-    #logger.info "1----------------"
     cache_key = Otwtranslation::Translation
-      .cache_key(phrase_key, otwtranslation_language, true)
+      .cache_key(phrase_key, otwtranslation_language, [], true)
     markup = Rails.cache.read(cache_key)
     return Otwtranslation::ContextRule.apply_rules(markup, otwtranslation_language, variables).html_safe if markup
 
     if phrase_label.nil?
       phrase_label = Otwtranslation::Phrase.find_by_key(phrase_key).label
     end
-    #logger.info "2----------------"
     
     if transl = Otwtranslation::Translation
         .where(:phrase_key => phrase_key, :approved => true)
@@ -67,7 +65,6 @@ module OtwtranslationHelper
       Rails.cache.write(cache_key, markup)
     end
 
-    #logger.info "3----------------"
     return Otwtranslation::ContextRule.apply_rules(markup, otwtranslation_language, variables).html_safe
   end
  
