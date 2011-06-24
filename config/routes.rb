@@ -43,10 +43,10 @@ Rails.application.routes.draw do
   
   # Rules
   
-  get "#{mount_at}/rules/new" => 'otwtranslation/rules#new',
+  get "#{mount_at}/languages/:id/rules/new" => 'otwtranslation/rules#new',
   :as => 'otwtranslation_new_rule'
 
-  match "#{mount_at}/rules/" => 'otwtranslation/rules#create',
+  match "#{mount_at}/languages/:id/rules/" => 'otwtranslation/rules#create',
   :as => 'otwtranslation_post_rule', :via => [:post]
 
   get "#{mount_at}/rules/:id/confirm_destroy" => 'otwtranslation/rules#confirm_destroy',

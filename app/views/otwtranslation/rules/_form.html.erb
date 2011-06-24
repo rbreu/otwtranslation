@@ -1,4 +1,4 @@
-<%= f.hidden_field("language_short", {:value=>rule.language_short}) %>
+<%# = f.hidden_field("language_short", {:value=>rule.language_short}) %>
 <dl>
   <dt><%= f.label(:description, "Description:")%></dt>
   <dd><%= f.text_area(:description, :rows => 3) %></dd>
@@ -8,7 +8,6 @@
     <dd>
        <select name="otwtranslation_context_rule[conditions][]">
 	  <% ([""] + rule.class.conditions).each do |condition| %>
-	  <% logger.info condition %>
           <option <%= 'selected="selected"'.html_safe if cond == condition %>
           ><%= condition %></option>
         <% end %>
@@ -23,7 +22,6 @@
     <dd>
        <select name="otwtranslation_context_rule[actions][]">
 	  <% ([""] + rule.class.actions).each do |action| %>
-	  <% logger.info action %>
           <option <%= 'selected="selected"'.html_safe if act == action %>
           ><%= action %></option>
         <% end %>
