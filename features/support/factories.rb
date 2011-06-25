@@ -1,28 +1,14 @@
 require 'factory_girl'
 
-Factory.sequence :user_name do |i|
-  "Abby#{i}"
-end
-
-Factory.sequence :english_label do |i|
-  "This is number #{i}!"
-end
-
-Factory.sequence :controller_action do |i|
-  "home#{i}#index"
-end
-
-
 Factory.define(:source, :class => Otwtranslation::Source) do |source|
-  source.controller_action { Factory.next(:controller_action) }
+  source.sequence(:controller_action) { |i| "home#{i}#index" } 
 end
 
 Factory.define(:user) do |user|
-  user.login { Factory.next(:user_name) }
+  user.sequence(:login) { |i| "name#{i}" } 
+  user.sequence(:email) { |i| "name#{i}@example.com" } 
   user.translation_admin false
   user.password 'test123'
-
-  user.after_build {|u|  u.email = "#{u.login}@example.com" }
 end
 
 Factory.define :translation_admin, :parent => :user do |user|
@@ -31,7 +17,7 @@ end
 
 
 Factory.define(:language, :class => Otwtranslation::Language) do |language|
-  language.name 'Deutsch'
+  language.sequence(:name) { |i| "#{i}Deutsch" } 
   language.right_to_left false
   language.translation_visible true
 
@@ -40,7 +26,7 @@ end
 
 
 Factory.define(:phrase, :class => Otwtranslation::Phrase) do |phrase|
-  phrase.label { Factory.next(:english_label) }
+  phrase.sequence(:label) { |i| "some text #{i}" } 
   phrase.version OtwtranslationConfig.VERSION
   
   phrase.after_build do |p|

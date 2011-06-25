@@ -15,9 +15,14 @@ class Otwtranslation::Translation < ActiveRecord::Base
   validates_presence_of :label
   validates_presence_of :phrase
   validates_presence_of :language
-  validates_uniqueness_of :approved, :scope => [:phrase_key, :language_short],
-                          :allow_blank => true,
-                          :message => "Another translation is already approved."
+
+  
+  validates_each :approved do |translation, attr, value|
+    unless validate_approved(translation, value)
+      translation.errors.add attr, "Another translation is already approved."
+    end
+  end
+
 
   after_destroy :remove_from_cache
   before_validation :sanitize_label
@@ -28,6 +33,29 @@ class Otwtranslation::Translation < ActiveRecord::Base
     self.rules ||= []
   end
 
+
+  # Check if we can set translation.approved to value
+  #
+  # * We can always set approved to false.
+  # * We can set approved to true if there is no approved translation for this
+  #   language, phrase and ruleset
+  # * We can't set approved to true if there is an approved translation for
+  # * the same ruleset or for unspecified ruleset
+  def self.validate_approved(translation, value)
+    return true if value.blank?
+    
+    existing = where(:language_short => translation.language_short,
+                     :phrase_key => translation.phrase_key,
+                     :approved => translation.approved)
+
+    return true if existing.empty?
+    
+    existing.each do |ex|
+      return false if ex.rules.blank? || ex.rules == translation.rules
+    end
+  
+    return true
+  end
   
   def self.cache_key(phrase_key, language, rules=[], decorated=false)
     rules = Otwtranslation::ParameterParser.stringify(rules, ",")

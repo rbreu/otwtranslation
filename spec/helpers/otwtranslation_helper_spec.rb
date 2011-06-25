@@ -30,7 +30,8 @@ describe OtwtranslationHelper do
   describe "otwtranslation_decorated_translation" do
     before(:each) do
       @phrase = Factory.create(:phrase, :label => "Good day!")
-      helper.stub(:otwtranslation_language).and_return("de")
+      @language = Factory.create(:language, :name => "Deutsch")
+      helper.stub(:otwtranslation_language).and_return(@language.short)
     end
 
     it "should mark the phrase untranslated" do
@@ -38,7 +39,7 @@ describe OtwtranslationHelper do
         .should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"untranslated\"><span class=\"landmark\">translate</span>*Good day!</span>"
     end
       
-    it "should mark the phrase untranslated when called without label" do
+    it "should work when called without label" do
       otwtranslation_decorated_translation(@phrase.key)
         .should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"untranslated\"><span class=\"landmark\">translate</span>*Good day!</span>"
     end
@@ -46,7 +47,7 @@ describe OtwtranslationHelper do
     it "should mark the phrase translated" do
       translation = Factory.create(:translation,
                                    :label => "Guten Tag!",
-                                   :language_short => "de",
+                                   :language => @language,
                                    :approved => false,
                                    :phrase => @phrase)
 
@@ -58,7 +59,7 @@ describe OtwtranslationHelper do
     it "should mark the phrase approved" do
       translation = Factory.create(:translation,
                                    :label => "Moin!",
-                                   :language_short => "de",
+                                   :language => @language,
                                    :approved => true,
                                    :phrase => @phrase)
       
