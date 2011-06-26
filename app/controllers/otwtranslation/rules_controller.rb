@@ -51,7 +51,14 @@ class Otwtranslation::RulesController < ApplicationController
 
 
   def confirm_destroy
-    @rule = Otwtranslation::ContextRule.find(params[:id])
+    respond_to do |format|
+      format.html do
+        @rule = Otwtranslation::ContextRule.find(params[:id])
+      end
+      format.js do
+        @rule_id = params[:id]
+      end
+    end
   end
 
   
