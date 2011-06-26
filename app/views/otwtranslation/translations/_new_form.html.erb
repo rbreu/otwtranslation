@@ -1,5 +1,5 @@
 <%= form_for(translation, :url => otwtranslation_post_translation_path,
-                          :remote => false) do |f| %>
+                          :remote => true) do |f| %>
   <dl>
     <dt><%= f.label(:label, ts("Translation:"))%></dt>
     <dd><%= f.text_area :label, :rows => 5 %></dd>

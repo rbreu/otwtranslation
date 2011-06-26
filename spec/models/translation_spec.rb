@@ -192,4 +192,13 @@ describe Otwtranslation::Translation, "for_variables" do
     t.should include(@t2)
   end
 
+  it "should find all translations when no variables are given" do
+    t = Otwtranslation::Translation.for_context(@phrase.label, @de, {})
+    t.size.should == 4
+    t.should include(@t1)
+    t.should include(@t2)
+    t.should include(@tfoo)
+    t.should include(@tbar)
+  end
+
 end

@@ -39,9 +39,12 @@ describe OtwtranslationHelper do
         .should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"untranslated\"><span class=\"landmark\">translate</span>*Good day!</span>"
     end
       
-    it "should work when called without label" do
+    it "should work when called without label and variables" do
       otwtranslation_decorated_translation(@phrase.key)
         .should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"untranslated\"><span class=\"landmark\">translate</span>*Good day!</span>"
+      @phrase = Factory.create(:phrase, :label => "Hi {general::name}!")
+      otwtranslation_decorated_translation(@phrase.key)
+        .should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"untranslated\"><span class=\"landmark\">translate</span>*Hi {general::name}!</span>"
     end
       
     it "should mark the phrase translated" do

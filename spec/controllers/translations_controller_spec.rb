@@ -84,6 +84,10 @@ describe Otwtranslation::TranslationsController, "POST create" do
         "translation_id" => "1"}
       @translation = mock_model(Otwtranslation::Translation).as_null_object
       Otwtranslation::Translation.stub(:new).and_return(@translation)
+      @translation2 = mock_model(Otwtranslation::Translation).as_null_object
+      Otwtranslation::Translation.stub(:new).and_return(@translation)
+      @rule1 = mock_model(Otwtranslation::ContextRule).as_null_object
+      @rule2 = mock_model(Otwtranslation::ContextRule).as_null_object
     end
 
     it "should create a translation for HTML" do
@@ -110,14 +114,16 @@ describe Otwtranslation::TranslationsController, "POST create" do
       post :create, :id => "somekey", :format => "js", :commit => "Add translation"
     end
 
-    it "should assign @translation for HTML" do
+    it "should assign @translations and @phrase_key for HTML" do
       post :create, :id => "somekey", :commit => "Add translation"
-      assigns[:translation].should == @translation
+      assigns[:translations].should == [@translation]
+      assigns[:phrase_key].should == "somekey"
     end
         
-    it "should assign @translation for JS" do
+    it "should assign @translations and @phrase_key for JS" do
       post :create, :id => "somekey", :format => "js", :commit => "Add translation"
-      assigns[:translation].should == @translation
+      assigns[:translations].should == [@translation]
+      assigns[:phrase_key].should == "somekey"
     end
         
 

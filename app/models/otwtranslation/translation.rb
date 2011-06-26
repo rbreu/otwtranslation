@@ -77,6 +77,9 @@ class Otwtranslation::Translation < ActiveRecord::Base
       language = language.short
     rescue NoMethodError
     end
+    
+    return where(:language_short => language) if variables.blank?
+    
     rules = Otwtranslation::ContextRule
       .matching_rules(label, language, variables).map{|r| r.id}
 

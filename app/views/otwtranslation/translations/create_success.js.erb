@@ -1,23 +1,35 @@
 var li_length = $("ol#otwtranslation_translations > li").length
-var li_class = li_length % 2 == 0 ? "even" : "odd"
+var li_class = ""
 
 if (li_length == 0) {
-  $('p#otwtranslation_notranslations').replaceWith('<ol id="otwtranslation_translations"></ol>')
+  $('p#otwtranslation_notranslations').replaceWith('<ol id="otwtranslation_translations" class="translation index"></ol>')
 }
 
-$("ol#otwtranslation_translations").append(
-   '<li id="translation<%= @translation.id %>" class="' + li_class + '">' + 
-   '<%= escape_javascript(render :partial => "otwtranslation/translations/translation", 
-                 :locals => { :translation => @translation }) %>' + 
-   '</li>')
+// append new translation to the list of translations
+<% @translations.each_with_index do |translation, i| %>
+li_class = (li_length + <%= i %> ) % 2 == 0 ? "even" : "odd"
 
+$("ol#otwtranslation_translations").append(
+   '<li id="translation<%= translation.id %>" class="' + li_class + '">' + 
+   '<%= escape_javascript(render :partial => "otwtranslation/translations/translation", 
+                 :locals => { :translation => translation }) %>' + 
+   '</li>')
+<% end %>
+
+// replace the form with an "add translation button"
 $("form#new_otwtranslation_translation").replaceWith(
       "<%= escape_javascript(render :partial => "otwtranslation/phrases/add_translation_button", 
-                 :locals => { :phrase => @phrase_id }) %>")
+                 :locals => { :phrase => @phrase_key }) %>")
  
-$("span#otwtranslation_phrase_<%= @translation.phrase_key %>").replaceWith(
-  '<%= escape_javascript(otwtranslation_decorated_translation(@translation.phrase_key)) %>')
+// replace phrases with appropirate translation
+$("span#otwtranslation_phrase_<%= @phrase_key %>").replaceWith(
+  '<%= escape_javascript(otwtranslation_decorated_translation(@phrase_key)) %>')
 
-$("span#otwtranslation_phrase_<%= @translation.phrase_key %>").rightClick(function(event) {
+$("span#otwtranslation_phrase_<%= @phrase_key %>").rightClick(function(event) {
       otwtranslation_inline_translator(this)
   });
+
+
+<% if flash[:notice] %>
+$("#main").prepend("<div class=\"flash notice\"><%= escape_javascript(flash.delete(:notice)) %></div>")
+<% end %>
