@@ -40,7 +40,7 @@ class Otwtranslation::Translation < ActiveRecord::Base
   # * We can set approved to true if there is no approved translation for this
   #   language, phrase and ruleset
   # * We can't set approved to true if there is an approved translation for
-  # * the same ruleset or for unspecified ruleset
+  # * the same ruleset or for an unspecified ruleset
   def self.validate_approved(translation, value)
     return true if value.blank?
     
@@ -48,8 +48,6 @@ class Otwtranslation::Translation < ActiveRecord::Base
                      :phrase_key => translation.phrase_key,
                      :approved => translation.approved)
 
-    return true if existing.empty?
-    
     existing.each do |ex|
       return false if ex.rules.blank? || ex.rules == translation.rules
     end
