@@ -1,5 +1,6 @@
 <h3 class="landmark">Edit Translation</h3>
 <%= form_for(translation, :url => otwtranslation_update_translation_path,
+                          :html => { :id => "edit_otwtranslation_translation_#{@translation.id}_form" },
                           :remote => true) do |f| %>
   <dl>
     <dt><%= f.label(:label, ts("Translation:"))%></dt>
