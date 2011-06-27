@@ -51,42 +51,50 @@ describe Otwtranslation::ContextRule, "match" do
     rule = Otwtranslation::ContextRule.new(:conditions => conditions)
     rule.match?("Abby").should == false
   end
-
+  
   it "should match matches all condition" do
     conditions = [["matches all", []]]
     rule = Otwtranslation::ContextRule.new(:conditions => conditions)
     rule.match?("Abby").should == true
+    rule.match?('<a href="example.org">label</a>').should == true
   end
-
+  
   it "should match is condition" do
     conditions = [["is", ["foo"]]]
     rule = Otwtranslation::ContextRule.new(:conditions => conditions)
     rule.match?("foo").should == true
     rule.match?("bar").should == false
+    rule.match?('<a href="example.org">foo</a>').should == true
+    rule.match?('<a href="example.org">bar</a>').should == false
   end
-
+  
   it "should match is condition with numbers" do
     conditions = [["is", ["11"]]]
     rule = Otwtranslation::ContextRule.new(:conditions => conditions)
     rule.match?(11).should == true
     rule.match?(0).should == false
   end
-
+  
   it "should match single is not rule" do
     conditions = [["is not", ["100"]]]
     rule = Otwtranslation::ContextRule.new(:conditions => conditions)
     rule.match?("101").should == true
     rule.match?("100").should == false
+    rule.match?('<a href="example.org">101</a>').should == true
+    rule.match?('<a href="example.org">100</a>').should == false
   end
-
+  
   it "should match single is rule with list param" do
     conditions = [["is", ["foo", "bar"]]]
     rule = Otwtranslation::ContextRule.new(:conditions => conditions)
     rule.match?("foo").should == true
     rule.match?("bar").should == true
     rule.match?("baz").should == false
+    rule.match?('<a href="example.org">foo</a>').should == true
+    rule.match?('<a href="example.org">bar</a>').should == true
+    rule.match?('<a href="example.org">baz</a>').should == false
   end
-
+  
   it "should match double ends with/starts with rule" do
     conditions = [["ends with", ["x", "s"]], ["starts with", ["A", "a"]]]
     rule = Otwtranslation::ContextRule.new(:conditions => conditions)
@@ -94,6 +102,10 @@ describe Otwtranslation::ContextRule, "match" do
     rule.match?("Abby").should == false
     rule.match?("Andreas").should == true
     rule.match?("Alex").should == true
+    
+    rule.match?('<a href="example.org">Abby</a>').should == false
+    rule.match?('<a href="example.org">Andreas</a>').should == true
+    rule.match?('<a href="example.org">Alex</a>').should == true
                   
     rule.match?("abby").should == false
     rule.match?("andreas").should == true
@@ -110,6 +122,10 @@ describe Otwtranslation::ContextRule, "match" do
     rule.match?("Abby").should == true
     rule.match?("Andreas").should == false
     rule.match?("Alex").should == false
+    
+    rule.match?('<a href="example.org">Abby</a>').should == true
+    rule.match?('<a href="example.org">Andreas</a>').should == false
+    rule.match?('<a href="example.org">Alex</a>').should == false
   end
     
   it "should match does not start with rule" do
@@ -118,6 +134,9 @@ describe Otwtranslation::ContextRule, "match" do
     rule.match?("Abby").should == false
     rule.match?("alex").should == false
     rule.match?("bob").should == true
+    rule.match?('<a href="example.org">Abby</a>').should == false
+    rule.match?('<a href="example.org">alex</a>').should == false
+    rule.match?('<a href="example.org">bob</a>').should == true
   end
     
   it "should match lesser/equal than" do
@@ -126,6 +145,14 @@ describe Otwtranslation::ContextRule, "match" do
     rule.match?(1).should == true
     rule.match?(2).should == true
     rule.match?(3).should == false
+    
+    rule.match?("1").should == true
+    rule.match?("2").should == true
+    rule.match?("3").should == false
+
+    rule.match?('<a href="example.org">1</a>').should == true
+    rule.match?('<a href="example.org">2</a>').should == true
+    rule.match?('<a href="example.org">3</a>').should == false
   end
     
   it "should match greater than" do
@@ -134,7 +161,15 @@ describe Otwtranslation::ContextRule, "match" do
     rule.match?(1).should == false
     rule.match?(2).should == false
     rule.match?(3).should == true
-  end    
+    
+    rule.match?("1").should == false
+    rule.match?("2").should == false
+    rule.match?("3").should == true
+
+    rule.match?('<a href="example.org">1</a>').should == false
+    rule.match?('<a href="example.org">2</a>').should == false
+    rule.match?('<a href="example.org">3</a>').should == true
+  end
 end
 
 
@@ -237,6 +272,62 @@ describe Otwtranslation::ContextRule, "apply_rules" do
         apply_rules("This is {general::author} fic and {general::artist} art.",
                     "en", :author => "Abby", :artist => "Becky")
       result.should == "This is Abby's fic and Becky's art."
+    end
+    
+    it "should replace" do
+      @rule.actions = [["replace", ["foo"]]]
+      @rule.save
+      
+      result = Otwtranslation::ContextRule.
+        apply_rules("This is {general::name} fic", "en", :name => 'Abby')
+      result.should == "This is foo fic"
+
+      result = Otwtranslation::ContextRule.
+        apply_rules("This is {general::name} fic", "en",
+                    :name => '<a href="example.org">Abby</a>')
+      result.should == "This is <a href=\"example.org\">foo</a> fic"
+    end
+
+    it "should append" do
+      @rule.actions = [["append", ["'s"]]]
+      @rule.save
+      
+      result = Otwtranslation::ContextRule.
+        apply_rules("This is {general::name} fic", "en", :name => 'Abby')
+      result.should == "This is Abby's fic"
+
+      result = Otwtranslation::ContextRule.
+        apply_rules("This is {general::name} fic", "en",
+                    :name => '<a href="example.org">Abby</a>')
+      result.should == "This is <a href=\"example.org\">Abby's</a> fic"
+    end
+
+    it "should prepend" do
+      @rule.actions = [["prepend", ["Hi "]]]
+      @rule.save
+      
+      result = Otwtranslation::ContextRule.
+        apply_rules("{general::name}.", "en", :name => 'Abby')
+      result.should == "Hi Abby."
+
+      result = Otwtranslation::ContextRule.
+        apply_rules("{general::name}.", "en",
+                    :name => '<a href="example.org">Abby</a>')
+      result.should == "<a href=\"example.org\">Hi Abby</a>."
+    end
+
+    it "should auto pluralize" do
+      @rule.actions = [["auto pluralize", []]]
+      @rule.save
+      
+      result = Otwtranslation::ContextRule.
+        apply_rules("You have {general::apple}.", "en", :apple => 2)
+      result.should == "You have 2 apples."
+
+      result = Otwtranslation::ContextRule.
+        apply_rules("You have {general::apple}.", "en",
+                    :apple => '<a href="example.org">2</a>')
+      result.should == "You have <a href=\"example.org\">2 apples</a>."
     end
   end
 

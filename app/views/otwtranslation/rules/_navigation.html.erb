@@ -11,8 +11,7 @@
   <li>
     <%= form_for(rule, 
                  :url => otwtranslation_move_up_rule_path(rule),
-                 :html => {:method => :get},
-                 :remote => false ) do |f| %>
+                 :html => {:method => :get}) do |f| %>
       <%= f.submit 'Move up' %>
     <% end %>
   </li>
@@ -20,8 +19,7 @@
   <li>
     <%= form_for(rule, 
                  :url => otwtranslation_move_down_rule_path(rule),
-                 :html => {:method => :get},
-                 :remote => false ) do |f| %>
+                 :html => {:method => :get}) do |f| %>
       <%= f.submit 'Move down' %>
     <% end %>
   </li>

@@ -41,8 +41,7 @@
   <li>
     <%= form_for(:otwtranslation_context_rule, 
                  :url => otwtranslation_new_rule_path(@language), 
-                 :html => { :method => :get },
-                 :remote => false ) do |f| %>
+                 :html => { :method => :get }) do |f| %>
       <%= f.hidden_field("language_short", {:value=>@language.short}) %>
       <%= f.submit 'Add rule' %>
     <% end %>

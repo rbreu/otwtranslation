@@ -95,70 +95,86 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   end
     
   def self.condition_is?(value, params)
+    value = separate_link_label(value)
     match = false
     params.each { |param| match ||= (value.to_s == param) }
     return match
   end
     
   def self.condition_is_not?(value, params)
+    value = separate_link_label(value)
     match = true
     params.each { |param| match &&= (value.to_s != param) }
     return match
   end
 
   def self.condition_ends_with?(value, params)
+    value = separate_link_label(value)
     match = false
     params.each { |param| match ||= (value.to_s.ends_with?(param)) }
     return match
   end
 
   def self.condition_not_ends_with?(value, params)
+    value = separate_link_label(value)
     match = true
     params.each { |param| match &&= (!value.to_s.ends_with?(param)) }
     return match
   end
 
   def self.condition_starts_with?(value, params)
+    value = separate_link_label(value)
     match = false
     params.each { |param| match ||= (value.to_s.starts_with?(param)) }
     return match
   end
 
   def self.condition_not_starts_with?(value, params)
+    value = separate_link_label(value)
     match = true
     params.each { |param| match &&= (!value.to_s.starts_with?(param)) }
     return match
   end
 
   def self.condition_is_le?(value, params)
+    value = separate_link_label(value)
     match = false
-    params.each { |param| match ||= (value <= param.to_i) }
+    params.each { |param| match ||= (value.to_i <= param.to_i) }
     return match
   end
 
   def self.condition_is_gt?(value, params)
+    value = separate_link_label(value)
     match = false
-    params.each { |param| match ||= (value > param.to_i) }
+    params.each { |param| match ||= (value.to_i > param.to_i) }
     return match
   end
 
   ############################################################
   # Definition of actions:
-  
+
   def self.action_replace(name, value, params)
-    params[0] || value.to_s
+    stripped_value = separate_link_label(value)
+    new_value = params[0] || stripped_value.to_s
+    merge_link_label(value, stripped_value, new_value)
   end
   
   def self.action_append(name, value, params)
-    value.to_s + (params[0] || value)
+    stripped_value = separate_link_label(value)
+    new_value = stripped_value.to_s + (params[0] || stripped_value)
+    merge_link_label(value, stripped_value, new_value)
   end
   
   def self.action_prepend(name, value, params)
-    (params[0] || value) + value.to_s
+    stripped_value = separate_link_label(value)
+    new_value = (params[0] || stripped_value) + stripped_value.to_s
+    merge_link_label(value, stripped_value, new_value)
   end
   
   def self.action_auto_pluralize(name, value, params)
-    pluralize(value, name)
+    stripped_value = separate_link_label(value)
+    new_value = pluralize(stripped_value, name)
+    merge_link_label(value, stripped_value, new_value)
   end
   
 
@@ -194,13 +210,31 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   end
 
 
+  def self.separate_link_label(value)
+    begin
+      value.match(/<a .*?>(.*?)<\/a>/)
+    rescue NoMethodError
+    end
+    $1 || value
+  end
+
+
+  def self.merge_link_label(value, stripped_value, new_value)
+    if value == stripped_value
+      return new_value
+    else
+      return value.gsub(/(<a .*?>)(.*?)(<\/a>)/, '\1' + new_value + '\3')
+    end
+  end
+  
+
   def perform_actions(name, value)
     actions.each do |action, params|
       value = self.class.send("action_#{self.class::ACTIONS[action]}",
-                              name, value, params)
+                                  name, value, params)
     end
 
-    return value.to_s
+    value.to_s
   end
 
 
