@@ -13,6 +13,7 @@ describe Otwtranslation::TranslationsController, "GET new" do
       admin_login()
       @phrase = mock_model(Otwtranslation::Phrase).as_null_object
       @translation = mock_model Otwtranslation::Translation
+      @translations = mock(Array)
       Otwtranslation::Translation.stub(:new).and_return(@translation)
       Otwtranslation::Phrase.stub(:find_by_key).and_return(@phrase)
     end
@@ -42,14 +43,14 @@ describe Otwtranslation::TranslationsController, "GET new" do
       
 
     it "should assign @existing_translations for HTML" do
-      @phrase.should_receive(:translations_for)
-        .with(OtwtranslationConfig.DEFAULT_LANGUAGE)
+      @phrase.should_receive(:translations).and_return @translations
+      @translations.should_receive(:for_language).with(OtwtranslationConfig.DEFAULT_LANGUAGE).and_return []
       get :new, :id => "somekey"
-      assigns[:existing_translations].should == @existing_translations
+      assigns[:existing_translations].should == []
     end
 
     it "should not assign @existing_translations for JS" do
-      @phrase.should_no_receive(:translations_for)
+      @phrase.should_no_receive(:translations)
       get :new, :id => "somekey", :format => "js"
       assigns[:existing_translations].should == nil
     end
@@ -71,7 +72,7 @@ end
 describe Otwtranslation::TranslationsController, "POST create" do
   
   it "should fail if we are not authenticated" do
-    post :create, :id => "somekey"
+    post :create, :id => "somekey", :commit => "Add translation"
     response.should_not be_success
   end
 
@@ -83,40 +84,46 @@ describe Otwtranslation::TranslationsController, "POST create" do
         "translation_id" => "1"}
       @translation = mock_model(Otwtranslation::Translation).as_null_object
       Otwtranslation::Translation.stub(:new).and_return(@translation)
+      @translation2 = mock_model(Otwtranslation::Translation).as_null_object
+      Otwtranslation::Translation.stub(:new).and_return(@translation)
+      @rule1 = mock_model(Otwtranslation::ContextRule).as_null_object
+      @rule2 = mock_model(Otwtranslation::ContextRule).as_null_object
     end
 
     it "should create a translation for HTML" do
       Otwtranslation::Translation.should_receive(:new)
         .with(@translation_params).and_return(@translation)
       post(:create, :otwtranslation_translation => @translation_params,
-           :id => "somekey")
+           :id => "somekey", :commit => "Add translation")
     end
       
     it "should create a translation for JS" do
       Otwtranslation::Translation.should_receive(:new)
         .with(@translation_params).and_return(@translation)
       post(:create, :otwtranslation_translation => @translation_params,
-             :id => "somekey", :format => "js")
+             :id => "somekey", :format => "js", :commit => "Add translation")
     end
 
     it "should save a translation for HTML" do
       @translation.should_receive(:save)
-      post :create, :id => "somekey"
+      post :create, :id => "somekey", :commit => "Add translation"
     end
       
     it "should save a translation for JS" do
       @translation.should_receive(:save)
-      post :create, :id => "somekey", :format => "js"
+      post :create, :id => "somekey", :format => "js", :commit => "Add translation"
     end
 
-    it "should assign @translation for HTML" do
-      post :create, :id => "somekey"
-      assigns[:translation].should == @translation
+    it "should assign @translations and @phrase_key for HTML" do
+      post :create, :id => "somekey", :commit => "Add translation"
+      assigns[:translations].should == [@translation]
+      assigns[:phrase_key].should == "somekey"
     end
         
-    it "should assign @translation for JS" do
-      post :create, :id => "somekey", :format => "js"
-      assigns[:translation].should == @translation
+    it "should assign @translations and @phrase_key for JS" do
+      post :create, :id => "somekey", :format => "js", :commit => "Add translation"
+      assigns[:translations].should == [@translation]
+      assigns[:phrase_key].should == "somekey"
     end
         
 
@@ -127,12 +134,12 @@ describe Otwtranslation::TranslationsController, "POST create" do
       end
         
       it "redirects to the newly created translation for HTML" do
-        post :create, :id => "somekey"
+        post :create, :id => "somekey", :commit => "Add translation"
         response.should redirect_to(otwtranslation_phrase_path("somekey"))
       end
       
       it "renders create_success for JS" do
-        post :create, :id => "somekey", :format => "js"
+        post :create, :id => "somekey", :format => "js", :commit => "Add translation"
         response.should render_template("create_success")
       end
       
@@ -145,22 +152,22 @@ describe Otwtranslation::TranslationsController, "POST create" do
       end
 
       it "should set a flash[:error] message for HTML" do
-        post :create, :id => "somekey"
+        post :create, :id => "somekey", :commit => "Add translation"
         flash[:error].should contain 'There was a problem saving the translation'
       end
       
       it "should set a flash[:error] message for JS" do
-        post :create, :id => "somekey", :format => "js"
+        post :create, :id => "somekey", :format => "js", :commit => "Add translation"
         flash[:error].should contain 'There was a problem saving the translation'
       end
 
       it "should render the new form for HTML" do
-        post :create, :id => "somekey"
+        post :create, :id => "somekey", :commit => "Add translation"
         response.should redirect_to(otwtranslation_new_translation_path("somekey"))
       end
 
       it "should render create_fail for JS" do
-        post :create, :id => "somekey", :format => "js"
+        post :create, :id => "somekey", :format => "js", :commit => "Add translation"
         response.should render_template("create_fail")
       end
     end
@@ -232,12 +239,12 @@ describe Otwtranslation::TranslationsController, "POST approve" do
       end
       
       it "should set a flash[:error] message for HTML" do
-        post :create, :id => "somekey"
+        post :approve, :id => "somekey"
         flash[:error].should contain 'There was a problem saving the translation'
       end
 
       it "should set a flash[:error] message for JS" do
-        post :create, :id => "somekey", :format => "js"
+        post :approve, :id => "somekey", :format => "js"
         flash[:error].should contain 'There was a problem saving the translation'
       end
     end
@@ -526,6 +533,7 @@ describe Otwtranslation::TranslationsController, "GET edit" do
     before(:each) do
       admin_login()
       @phrase = mock_model(Otwtranslation::Phrase).as_null_object
+      @translations = mock(Array)
       @translation = mock_model Otwtranslation::Translation
       @translation.stub(:phrase_key).and_return("somekey")
       Otwtranslation::Translation.stub(:find).and_return(@translation)
@@ -557,14 +565,14 @@ describe Otwtranslation::TranslationsController, "GET edit" do
       
 
     it "should assign @existing_translations for HTML" do
-      @phrase.should_receive(:translations_for)
-        .with(OtwtranslationConfig.DEFAULT_LANGUAGE)
+      @phrase.should_receive(:translations).and_return @translations
+      @translations.should_receive(:for_language).with(OtwtranslationConfig.DEFAULT_LANGUAGE).and_return []
       get :edit, :id => 1
-      assigns[:existing_translations].should == @existing_translations
+      assigns[:existing_translations].should == []
     end
 
     it "should not assign @existing_translations for JS" do
-      @phrase.should_no_receive(:translations_for)
+      @phrase.should_no_receive(:translations)
       get :edit, :id => 1, :format => "js"
       assigns[:existing_translations].should == nil
     end

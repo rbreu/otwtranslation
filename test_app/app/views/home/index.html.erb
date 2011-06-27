@@ -26,3 +26,33 @@
   <%= ts('Login first.') %>
 <% end %>
 </p>
+
+<hr>
+
+<h2><%= ts("Some Test cases:") %></h2>
+
+<p><%= ts("View this {general::link}!", "", 
+          :link => link_to(ts("interesting link"), "http://www.example.org")) %>
+</p>
+
+<% ["Spock", "Uhura", "Kirk"].each do |name| %>
+  <p><%= ts("Hello {general::name}!", "", :name => name) %></p>
+<% end %>
+
+<% ["Abby", "Alex", "Ales"].each do |name| %>
+  <p><%= ts("This is {possessive::name} work!", "", :name => name) %></p>
+<% end %>
+
+<% 0.upto(3) do |i| %>
+  <p><%= ts("You have {quantity::message}.", "", :message => i) %></p>
+<% end %>
+
+<p><%= ts("{list::names} left kudos.", "", :names => ["Spock", "Uhura", "Kirk"]) %></p>
+<p><%= ts("{list::names} left kudos.", "", :names => ["Spock", "Kirk"]) %></p>
+<p><%= ts("{list::names} left kudos.", "", :names => ["Uhura"]) %></p>
+<% 0.upto(3) do |i| %>
+  <% 0.upto(3) do |j| %>
+  <p><%= ts("You have {quantity::apple} and {quantity::banana}.", "", 
+          :apple => i, :banana => j ) %></p>
+  <% end %>
+<% end %>

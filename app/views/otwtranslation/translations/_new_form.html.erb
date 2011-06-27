@@ -5,6 +5,12 @@
     <dd><%= f.text_area :label, :rows => 5 %></dd>
 
   </dl>
-  <p class="submit"><%= f.submit "Add translation" %></p>
-
+  <ul class="navigation">
+    <li><%= f.submit "Add translation" %></li>
+    <% if Otwtranslation::ContextRule.rule_combinations(
+           translation.phrase.label, otwtranslation_language).length > 1 %>
+      <li><%= f.submit "Create context-aware translations" %></li>
+    <% end %>
+  </ul>
 <% end %>
+

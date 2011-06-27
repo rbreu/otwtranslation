@@ -1,0 +1,40 @@
+grammar ParameterRules
+
+  rule document
+    (quoted_parameter / delimiter / nonquoted_parameter)* {
+      def content
+        elements.map{ |e| e.content }.compact
+      end
+    }
+  end
+
+  rule quoted_parameter
+    '"' param:[^"]* '"' {
+      def content
+        param.text_value
+      end
+    }
+  end
+
+  rule delimiter
+  " "* "," " "* {
+      def content
+        nil
+      end
+    }
+  end
+
+  rule nonquoted_parameter
+    [^,]+ {
+      def content
+        text_value.strip
+      end
+    }
+  end
+
+end
+
+# Don't remove; this is for Emacs users :)
+# Local variables:
+# mode: ruby
+# end:

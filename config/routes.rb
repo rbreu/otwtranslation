@@ -41,6 +41,35 @@ Rails.application.routes.draw do
   :as => 'otwtranslation_language'
 
   
+  # Rules
+  
+  get "#{mount_at}/languages/:id/rules/new" => 'otwtranslation/rules#new',
+  :as => 'otwtranslation_new_rule'
+
+  match "#{mount_at}/languages/:id/rules/" => 'otwtranslation/rules#create',
+  :as => 'otwtranslation_post_rule', :via => [:post]
+
+  get "#{mount_at}/rules/:id/confirm_destroy" => 'otwtranslation/rules#confirm_destroy',
+  :as => 'otwtranslation_confirm_destroy_rule'
+
+  get "#{mount_at}/rules/:id/move_down" => 'otwtranslation/rules#move_down',
+  :as => 'otwtranslation_move_down_rule'
+
+  get "#{mount_at}/rules/:id/move_up" => 'otwtranslation/rules#move_up',
+  :as => 'otwtranslation_move_up_rule'
+
+  get "#{mount_at}/rules/:id/edit" => 'otwtranslation/rules#edit',
+  :as => 'otwtranslation_edit_rule'
+
+  match "#{mount_at}/rules/:id" => 'otwtranslation/rules#destroy',
+  :as => 'otwtranslation_destroy_rule', :via => [:delete]
+  
+  match "#{mount_at}/rules/:id" => 'otwtranslation/rules#update',
+  :as => 'otwtranslation_update_rule', :via => [:put]
+
+  
+
+  
   # Translations
   
   get "#{mount_at}/phrases/:id/translations/new" => 'otwtranslation/translations#new',

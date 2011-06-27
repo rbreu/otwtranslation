@@ -55,7 +55,61 @@ describe Otwtranslation::Phrase, "update" do
     source = {:controller => "works", :action => "show", :url => "works/2"}
     phrase = Otwtranslation::Phrase.find_or_create("foo", "bar", source)
   end
-    
 end
 
+  
+describe Otwtranslation::Phrase, "translation associations" do
+   before(:each) do
+    @de = Factory.create(:language, :name => "Deutsch")
+    @nl = Factory.create(:language, :name => "Nederlands")
+    @phrase = Factory.create(:phrase, :label => "{possessive::name}")
+    
+    Factory.create(:translation, :language => @de, :phrase => @phrase)
+    Factory.create(:translation, :language => @de, :phrase => @phrase,
+                   :approved => true)
+    
+    Factory.create(:translation, :language => @nl, :phrase => @phrase)
+    Factory.create(:translation, :language => @nl, :phrase => @phrase,
+                   :approved => true)
 
+    # Throw in a few translations that shouldn't be found
+    dummy_phrase = Factory.create(:phrase)
+    Factory.create(:translation, :language => @de, :phrase => dummy_phrase)
+    Factory.create(:translation, :language => @de, :phrase => dummy_phrase,
+                   :approved => true)
+  end
+
+  it "should find all translations" do
+    @phrase.translations.size.should == 4
+  end
+  
+  it "should find all german translations" do
+    @phrase.translations.for_language(@de).size.should == 2
+    @phrase.translations.for_language(@de).first.language_short == @de.short
+    @phrase.translations.for_language(@de).last.language_short == @de.short
+  end
+
+  it "should find all approved german translations" do
+    t = @phrase.approved_translations.for_language(@de)
+    t.size.should == 1
+    t.first.language_short.should == @de.short
+    t.first.approved.should == true
+  end
+
+  it "should find translations per context" do
+    rfoo = Factory.create(:possessive_rule, :language => @de,
+                           :conditions => [["is", ["foo"]]])
+    rbar = Factory.create(:possessive_rule, :language => @de,
+                           :conditions => [["is", ["bar"]]])
+    
+    tfoo = Factory.create(:translation, :language => @de, :phrase => @phrase,
+                          :rules => [rfoo.id])
+    tbar = Factory.create(:translation, :language => @de, :phrase => @phrase,
+                          :rules => [rbar.id])
+
+    t = @phrase.translations.for_context(@phrase.label, @de, {:name => "foo"})
+    t.size.should == 3
+    t.should include(tfoo)
+  end
+  
+end

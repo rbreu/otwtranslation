@@ -1,6 +1,6 @@
 module OtwtranslationHelper
 
-  def ts(phrase, description="")
+  def ts(phrase, description="", variables = {})
 
     # Try to store this phrase
     begin
@@ -23,39 +23,66 @@ module OtwtranslationHelper
 
     # See if we need to present a decorated or plain translation
     if otwtranslation_tool_visible? && otwtranslation_language != OtwtranslationConfig.DEFAULT_LANGUAGE
-      return otwtranslation_decorated_translation(phrase.key)
+      return otwtranslation_decorated_translation(phrase.key, phrase.label, variables)
     else
-      return phrase.label
+      return Otwtranslation::ContextRule.apply_rules(phrase.label, otwtranslation_language, variables).html_safe
     end
     
   end
 
 
-  def otwtranslation_decorated_translation(phrase_key)
+  def otwtranslation_decorated_translation(phrase_key, phrase_label=nil, variables={})
     cache_key = Otwtranslation::Translation
-      .cache_key(phrase_key, otwtranslation_language, true)
+      .cache_key(phrase_key, otwtranslation_language, [], true)
     markup = Rails.cache.read(cache_key)
     return markup.html_safe if markup
-      
-    phrase = Otwtranslation::Phrase.find_by_key(phrase_key)
+
+    if phrase_label.nil?
+      phrase_label = Otwtranslation::Phrase.find_by_key(phrase_key).label
+    end
     
-    if transl = phrase.approved_translations_for(otwtranslation_language).first
+    all_text = Otwtranslation::ContextRule.label_all_text?(phrase_label)
+
+    if transl = Otwtranslation::Translation
+        .where(:phrase_key => phrase_key, :approved => true)
+        .for_context(phrase_label, otwtranslation_language, variables).first
       span_class = 'approved'
       landmark = ""
-      label = transl.label
-    elsif transl = phrase.translations_for(otwtranslation_language).first
+      if all_text
+        label = transl.label
+      else
+        label = Otwtranslation::ContextRule.apply_rules(transl.label,
+                                                        otwtranslation_language,
+                                                        variables)
+      end
+    elsif transl = Otwtranslation::Translation
+        .where(:phrase_key => phrase_key)
+        .for_context(phrase_label, otwtranslation_language, variables).first
       span_class = 'translated'
       landmark = '<span class="landmark">review</span>'
-      label = transl.label
+      if all_text
+        label = transl.label
+      else
+        label = Otwtranslation::ContextRule.apply_rules(transl.label,
+                                                        otwtranslation_language,
+                                                        variables)
+      end
+        
     else
       span_class = 'untranslated'
       landmark = '<span class="landmark">translate</span>'
-      label = "*" + phrase.label
+      if all_text
+        label = "*" + phrase_label
+      else
+        label = "*" + Otwtranslation::ContextRule.apply_rules(phrase_label,
+                                                              OtwtranslationConfig.DEFAULT_LANGUAGE,
+                                                              variables)
+      end
     end
 
     markup = "<span id=\"otwtranslation_phrase_#{phrase_key}\" class=\"#{span_class}\">#{landmark}#{label}</span>"
-    Rails.cache.write(cache_key, markup)
 
+    Rails.cache.write(cache_key, markup) if all_text
     return markup.html_safe
   end
  

@@ -1,0 +1,37 @@
+<h3 class="landmark">Rule Actions</h3>
+<ul class="rule navigation">
+  <li>
+    <%= form_for(rule, 
+                 :url => otwtranslation_edit_rule_path(rule),
+                 :html => {:method => :get}) do |f| %>
+      <%= f.submit 'Edit' %>
+    <% end %>
+  </li>
+
+  <li>
+    <%= form_for(rule, 
+                 :url => otwtranslation_move_up_rule_path(rule),
+                 :html => {:method => :get}) do |f| %>
+      <%= f.submit 'Move up' %>
+    <% end %>
+  </li>
+
+  <li>
+    <%= form_for(rule, 
+                 :url => otwtranslation_move_down_rule_path(rule),
+                 :html => {:method => :get}) do |f| %>
+      <%= f.submit 'Move down' %>
+    <% end %>
+  </li>
+
+  <li>
+    <%= form_for(rule,
+                 :url => otwtranslation_confirm_destroy_rule_path(rule), 
+                 :html => { :method => :get },
+                 :remote => true ) do |f| %>
+      <%= f.submit 'Delete' %>
+    <% end %>
+  </li>
+</ul>
+
+

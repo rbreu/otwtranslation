@@ -66,6 +66,11 @@ class Otwtranslation::Phrase < ActiveRecord::Base
     end
   end
   
+
+  def self.tokenize_label(label)
+    tokens = []
+    
+  end
   
   def self.cache_key(key)
     "otwtranslation_phrase_#{key}"
@@ -92,14 +97,4 @@ class Otwtranslation::Phrase < ActiveRecord::Base
     Rails.cache.delete(self.class.cache_key(key))
   end
 
-
-  def translations_for(language)
-    translations.where(:language_short => language)
-  end
-  
-
-  def approved_translations_for(language)
-    approved_translations.where(:language_short => language)
-  end
-  
 end

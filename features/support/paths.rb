@@ -29,6 +29,9 @@ module NavigationHelpers
     when 'the phrase page'
       otwtranslation_phrase_path(@phrase)
       
+    when 'the language page'
+      otwtranslation_language_path(@language)
+      
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

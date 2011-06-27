@@ -23,10 +23,10 @@
         <td class="description"><%= phrase.description %></td>
         <td class="version"><%= phrase.version %></td>
         <td class="translations">
-          <%= phrase.translations_for(otwtranslation_language).count %>
+          <%= phrase.translations.for_language(otwtranslation_language).count %>
         </td>
         <td class="approved translations">
-          <%= phrase.approved_translations_for(otwtranslation_language).count %>
+          <%= phrase.approved_translations.for_language(otwtranslation_language).count %>
         </td>
       </tr>
       <% end %><!-- end of cache -->

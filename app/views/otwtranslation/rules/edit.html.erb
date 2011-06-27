@@ -1,0 +1,17 @@
+<!--Descriptive page name and system messages, descriptions, and instructions.-->
+<h2>Edit <%= @rule.display_type.capitalize %> Rule</h2>
+<!--end descriptions-->
+
+<!--Subnavigation, sorting and actions.-->
+<!--end navigation-->
+
+<!--main content-->
+
+
+<%= form_for(@rule, :as => "otwtranslation_context_rule", :url => otwtranslation_update_rule_path, :html => { :method => :put }) do |f| %>
+
+    <%= render :partial => "otwtranslation/rules/form",
+             :locals => { :rule => @rule, :f => f } %>
+  <p class="submit"><%= f.submit "Update rule" %></p>
+
+<% end %>

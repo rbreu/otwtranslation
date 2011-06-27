@@ -10,7 +10,7 @@ class Otwtranslation::TranslationsController < ApplicationController
     respond_to do |format|
       format.html do
         @phrase = Otwtranslation::Phrase.find_by_key(params[:id])
-        @existing_translations = @phrase.translations_for(otwtranslation_language)
+        @existing_translations = @phrase.translations.for_language(otwtranslation_language)
       end
         
       format.js
@@ -24,7 +24,7 @@ class Otwtranslation::TranslationsController < ApplicationController
     respond_to do |format|
       format.html do
         @phrase = Otwtranslation::Phrase.find_by_key(@translation.phrase_key)
-        @existing_translations = @phrase.translations_for(otwtranslation_language)
+        @existing_translations = @phrase.translations.for_language(otwtranslation_language)
         render 'edit'
       end
         
@@ -34,22 +34,52 @@ class Otwtranslation::TranslationsController < ApplicationController
 
 
   def create
-    @translation = Otwtranslation::Translation.new(params[:otwtranslation_translation])
-    @translation.phrase_key = params[:id]
-    @translation.language_short = otwtranslation_language
-    @phrase_id = params[:id]
+    msg = ""
+    @phrase_key = params[:id]
+    @translations = []
     
-    if @translation.save
+    if params[:commit].downcase == "create context-aware translations"
+      phrase = Otwtranslation::Phrase.find_from_cache_or_db(params[:id])
+      combinations = Otwtranslation::ContextRule
+        .rule_combinations(phrase.label, otwtranslation_language)
+
+      combinations.each do |combination|
+        translation = Otwtranslation::Translation.new()
+        translation.label = phrase.label
+        translation.language_short = otwtranslation_language
+        translation.phrase_key = params[:id]
+        translation.rules = combination.map{|r| r.id}
+        if translation.save
+          @translations << translation
+        else
+          msg += 'There was a problem saving the translation:' +
+            prettify_error_messages(translation) 
+        end
+      end
+      flash[:notice] = "Refresh the page to see the proper effect of context-aware translations."
+
+    else # create a non-context-specific translation
+      translation = Otwtranslation::Translation.new(params[:otwtranslation_translation])
+      translation.phrase_key = params[:id]
+      translation.language_short = otwtranslation_language
+    
+      if translation.save
+        @translations << translation
+      else
+        msg += 'There was a problem saving the translation:' +
+          prettify_error_messages(translation) 
+      end
+    end
+
+    if msg.blank?
       respond_to do |format|
-        format.html { redirect_to otwtranslation_phrase_path(@phrase_id) }
+        format.html { redirect_to otwtranslation_phrase_path(@phrase_key) }
         format.js { render 'create_success' }
       end
     else
-      msg = 'There was a problem saving the translation:' +
-        prettify_error_messages(@translation) 
       flash[:error] = msg.html_safe
       respond_to do |format|
-        format.html { redirect_to otwtranslation_new_translation_path(params[:id])}
+        format.html { redirect_to otwtranslation_new_translation_path(@phrase_key)}
         format.js { render 'create_fail' }
       end
     end

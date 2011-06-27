@@ -26,7 +26,9 @@ describe Otwtranslation::PhrasesController, "GET show" do
   it "should return a phrase" do
     admin_login()
     phrase = mock_model(Otwtranslation::Phrase)
-    phrase.should_receive(:translations_for).and_return []
+    translations = mock(Array)
+    translations.should_receive(:for_language)
+    phrase.should_receive(:translations).and_return translations
     Otwtranslation::Phrase.should_receive(:find_by_key).with("somekey").and_return phrase
 
     get :show, :id => "somekey"

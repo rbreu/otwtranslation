@@ -10,7 +10,7 @@ class Otwtranslation::PhrasesController < ApplicationController
 
   def show
     @phrase = Otwtranslation::Phrase.find_by_key(params[:id])
-    @translations = @phrase.translations_for(otwtranslation_language)
+    @translations = @phrase.translations.for_language(otwtranslation_language)
 
     respond_to do |format|
       format.html
