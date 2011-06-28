@@ -90,6 +90,12 @@ Rails.application.routes.draw do
   get "#{mount_at}/translations/:id/confirm_destroy" => 'otwtranslation/translations#confirm_destroy',
   :as => 'otwtranslation_confirm_destroy_translation'
   
+  match "#{mount_at}/translations/:id/vote_up" => 'otwtranslation/translations#vote_up',
+  :as => 'otwtranslation_vote_up_translation', :via => [:put]
+    
+  match "#{mount_at}/translations/:id/vote_down" => 'otwtranslation/translations#vote_down',
+  :as => 'otwtranslation_vote_down_translation', :via => [:put]
+    
   get "#{mount_at}/translations/:id/edit" => 'otwtranslation/translations#edit',
   :as => 'otwtranslation_edit_translation'
   

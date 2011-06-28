@@ -35,6 +35,10 @@ Then /^I should not see the translation "([^"]*)"$/ do |translation|
   page.should_not have_selector('p.label', :text => translation)
 end
 
+Then /^I should see the votes "([^"]*)"$/ do |votes|
+  page.should have_selector('dd.votes', :text => votes)
+end
+
 Then /^I should see (\d+) translations$/ do |count|
   page.should have_selector('p.label', :count => count.to_i)
 end

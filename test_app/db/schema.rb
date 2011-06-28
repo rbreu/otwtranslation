@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110613144000) do
+ActiveRecord::Schema.define(:version => 20110627150000) do
 
   create_table "languages", :force => true do |t|
     t.string  "short",               :limit => 4
@@ -67,6 +67,14 @@ ActiveRecord::Schema.define(:version => 20110613144000) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "rules"
+  end
+
+  create_table "otwtranslation_votes", :force => true do |t|
+    t.integer  "translation_id"
+    t.integer  "user_id"
+    t.integer  "votes",          :default => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", :force => true do |t|
