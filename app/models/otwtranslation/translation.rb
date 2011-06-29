@@ -9,6 +9,9 @@ class Otwtranslation::Translation < ActiveRecord::Base
   belongs_to(:phrase, :class_name => 'Otwtranslation::Phrase',
              :primary_key => 'key', :foreign_key => 'phrase_key')
   
+  has_many(:votes, :class_name => 'Otwtranslation::Vote',
+           :foreign_key => 'translation_id')
+  
   # Rules: Array of rule IDs this translation must fulfill to be applied
   serialize :rules
 

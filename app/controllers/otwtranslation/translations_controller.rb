@@ -178,5 +178,24 @@ class Otwtranslation::TranslationsController < ApplicationController
     end
   end
   
+
+  def vote_up
+    Otwtranslation::Vote.vote(params[:id], current_user, :up)
+    
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js {  }
+    end
+  end
+
+  def vote_down
+    Otwtranslation::Vote.vote(params[:id], current_user, :down)
+    
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.js {  }
+    end
+  end
+
 end
 
