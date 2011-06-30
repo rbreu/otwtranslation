@@ -33,17 +33,17 @@
   <li><%= link_to 'Show', otwtranslation_translation_path(translation) %></li>
   <li>
     <%= form_for(translation, 
-                 :url => otwtranslation_vote_up_translation_path(translation),
+                 :url => otwtranslation_vote_translation_path(translation),
                  :html => {:method => :put},
-                 :remote => false ) do |f| %>
+                 :remote => true ) do |f| %>
      <%= f.submit 'Vote up' %>
     <% end %>
   </li>
   <li>
     <%= form_for(translation, 
-                 :url => otwtranslation_vote_down_translation_path(translation),
+                 :url => otwtranslation_vote_translation_path(translation),
                  :html => {:method => :put},
-                 :remote => false ) do |f| %>
+                 :remote => true ) do |f| %>
      <%= f.submit 'Vote down' %>
     <% end %>
   </li>

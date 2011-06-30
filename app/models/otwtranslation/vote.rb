@@ -14,8 +14,11 @@ class Otwtranslation::Vote < ActiveRecord::Base
 
   def self.vote(translation, user, updown)
     
-    user = user.id if user.class == User
-    translation = translation.id if translation.class == Otwtranslation::Translation
+    user = user.id if user.class.ancestors.include? ActiveRecord::Base
+
+    if translation.class.ancestors.include? ActiveRecord::Base
+     translation = translation.id
+    end
     
     vote = find_or_create_by_translation_id_and_user_id(:user_id => user,
                                                         :translation_id => translation)

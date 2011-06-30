@@ -179,21 +179,21 @@ class Otwtranslation::TranslationsController < ApplicationController
   end
   
 
-  def vote_up
-    Otwtranslation::Vote.vote(params[:id], current_user, :up)
-    
-    respond_to do |format|
-      format.html { redirect_to :back }
-      format.js {  }
+  def vote
+    if params[:commit].downcase == "vote up"
+      Otwtranslation::Vote.vote(params[:id], current_user, :up)
+    elsif params[:commit].downcase == "vote down"
+      Otwtranslation::Vote.vote(params[:id], current_user, :down)
+    else
+      raise ArgumentError, "Unknown param for voting."
     end
-  end
-
-  def vote_down
-    Otwtranslation::Vote.vote(params[:id], current_user, :down)
-    
+      
     respond_to do |format|
       format.html { redirect_to :back }
-      format.js {  }
+      format.js do
+        @translation = Otwtranslation::Translation.find(params[:id])
+        render 'vote'
+      end
     end
   end
 
