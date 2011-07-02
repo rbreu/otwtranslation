@@ -7,6 +7,30 @@ Rails.application.routes.draw do
   :as => 'otwtranslation_toggle_tools'
 
 
+  # Assignments
+  
+  get "#{mount_at}/assignments" => 'otwtranslation/assignments#index',
+  :as => 'otwtranslation_assignments'
+
+  get "#{mount_at}/assignments/:id" => 'otwtranslation/assignments#show',
+  :as => 'otwtranslation_assignment'
+
+  get "#{mount_at}/assignments/new" => 'otwtranslation/assignments#new',
+  :as => 'otwtranslation_new_assignment'
+
+  match "#{mount_at}/assignments/" => 'otwtranslation/assignments#create',
+  :as => 'otwtranslation_post_assignment', :via => [:post]
+  
+
+
+  # Sources
+  
+  get "#{mount_at}/sources" => 'otwtranslation/sources#index',
+  :as => 'otwtranslation_sources'
+
+  get "#{mount_at}/sources/:id" => 'otwtranslation/sources#show',
+  :as => 'otwtranslation_source'
+
   # Phrases
   
   get "#{mount_at}/phrases" => 'otwtranslation/phrases#index',

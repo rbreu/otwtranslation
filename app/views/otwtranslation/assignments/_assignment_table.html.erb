@@ -1,0 +1,26 @@
+<h3 class="landmark">Assignment Table</h3>
+<table id="otwtranslation_assignments" summary="please summarise">
+  <caption><!--please briefly label--></caption>
+  <thead>
+    <tr>
+      <th><%= "Source" %></th>
+      <th><%= "Description" %></th>
+      <th><%= "Assigned to" %></th>
+      <th><%= "Completed" %></th>
+      <th><%= "Navigation" %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% assignments.each do |phrase| %>
+      <tr>
+        <th class="source">
+          <%= link_to(assignment.source.action_controller, otwtranslation_source_path(assignment.source)) %>
+        </th>
+        <td class="description"><%= assignment.description %></td>
+        <td class="assignees"><%#= assignment.assignees %></td>
+        <td class="completed"><%= assignment.completed %></td>
+        <td class="navigation"></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

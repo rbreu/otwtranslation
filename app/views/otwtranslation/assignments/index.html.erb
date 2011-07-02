@@ -1,0 +1,29 @@
+<!--Descriptive page name and system messages, descriptions, and instructions.-->
+<h2><%= ts("Assignment Table") %></h2>
+<!--end descriptions-->
+
+<!--Subnavigation, sorting and actions.-->
+
+<!-- BACK END: if this is a single action form let's lose the list structure-->
+
+<ul class="translation navigation" id="add_assignment">
+  <li>
+    <%= form_for(:otwtranslation_context_assignment, 
+                 :url => otwtranslation_new_assignment_path(@language), 
+                 :html => { :method => :get }) do |f| %>
+      <%= f.submit 'Add assignment' %>
+    <% end %>
+  </li>
+</ul>
+
+<div class="clear-both"></div>
+
+
+
+<!--end navigation-->
+
+<!--main content-->
+<%= render :partial => "assignment_table",
+           :locals => { :assignments => @assignments } %>
+<!-- /main-->
+
