@@ -12,15 +12,15 @@ Rails.application.routes.draw do
   get "#{mount_at}/assignments" => 'otwtranslation/assignments#index',
   :as => 'otwtranslation_assignments'
 
-  get "#{mount_at}/assignments/:id" => 'otwtranslation/assignments#show',
-  :as => 'otwtranslation_assignment'
-
   get "#{mount_at}/assignments/new" => 'otwtranslation/assignments#new',
   :as => 'otwtranslation_new_assignment'
 
   match "#{mount_at}/assignments/" => 'otwtranslation/assignments#create',
   :as => 'otwtranslation_post_assignment', :via => [:post]
   
+  get "#{mount_at}/assignments/:id" => 'otwtranslation/assignments#show',
+  :as => 'otwtranslation_assignment'
+
 
 
   # Sources

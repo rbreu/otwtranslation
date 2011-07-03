@@ -11,14 +11,17 @@
     </tr>
   </thead>
   <tbody>
-    <% assignments.each do |phrase| %>
+    <% assignments.each do |assignment| %>
       <tr>
         <th class="source">
-          <%= link_to(assignment.source.action_controller, otwtranslation_source_path(assignment.source)) %>
+	  <% if assignment.source %>
+            <%= link_to(assignment.source.controller_action, 
+                        otwtranslation_source_path(assignment.source)) %>
+	  <% end %>
         </th>
         <td class="description"><%= assignment.description %></td>
-        <td class="assignees"><%#= assignment.assignees %></td>
-        <td class="completed"><%= assignment.completed %></td>
+        <td class="assignees"><%= assignment.assignees_names %></td>
+        <td class="completed"><%= assignment.completed? %></td>
         <td class="navigation"></td>
       </tr>
     <% end %>

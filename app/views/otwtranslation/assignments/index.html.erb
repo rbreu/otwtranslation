@@ -8,16 +8,13 @@
 
 <ul class="translation navigation" id="add_assignment">
   <li>
-    <%= form_for(:otwtranslation_context_assignment, 
-                 :url => otwtranslation_new_assignment_path(@language), 
+    <%= form_for(:otwtranslation_assignment, 
+                 :url => otwtranslation_new_assignment_path, 
                  :html => { :method => :get }) do |f| %>
       <%= f.submit 'Add assignment' %>
     <% end %>
   </li>
 </ul>
-
-<div class="clear-both"></div>
-
 
 
 <!--end navigation-->
