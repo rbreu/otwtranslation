@@ -3,7 +3,8 @@ class Otwtranslation::Assignment < ActiveRecord::Base
   set_table_name :otwtranslation_assignments
 
   has_many(:parts, :class_name => 'Otwtranslation::AssignmentPart',
-           :foreign_key => 'assignment_id', :order => 'position')
+           :foreign_key => 'assignment_id', :order => 'position',
+           :dependent => :destroy)
   
   belongs_to(:source, :class_name => 'Otwtranslation::Source',
              :foreign_key => 'source_id')

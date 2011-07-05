@@ -106,7 +106,30 @@ Feature: Translation phrases
     Then I should see 1 assignments
 
 
+  Scenario: Delete assignment
+    Given I am a translation admin
+    And I have selected the language Deutsch
+    And I have an assignment for Deutsch
+    
+    When I go to the assignment table
+    And I press "Delete"
+    Then I should see "Are you sure"
+
+    When I press "Delete"
+    Then I should see the heading "Assignment Table"
+    And I should see 0 assignments
 
 
+  @javascript
+  Scenario: Delete assignment with JavaScript
+    Given I am a translation admin
+    And I have selected the language Deutsch
+    And I have an assignment for Deutsch
+    
+    When I go to the assignment table
+    And I press "Delete"
+    And I confirm the popup
+    Then I should see the heading "Assignment Table"
+    And I should see 0 assignments
 
 

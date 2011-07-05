@@ -14,6 +14,32 @@ class Otwtranslation::AssignmentsController < ApplicationController
     @assignment = Otwtranslation::Assignment.find(params[:id])
   end
 
+  
+  def confirm_destroy
+    respond_to do |format|
+      format.html do
+        @assignment = Otwtranslation::Assignment.find(params[:id])
+      end
+      format.js do
+        @assignment_id = params[:id]
+      end
+    end
+  end
+
+  
+  def destroy
+    @assignment = Otwtranslation::Assignment.find(params[:id])
+    @assignment.destroy
+    respond_to do |format|
+      format.html do
+        redirect_to otwtranslation_assignments_path
+      end
+      format.js do
+      end
+    end
+  end
+
+
   def create
 
     @assignment = Otwtranslation::Assignment.new(:description => params[:description],

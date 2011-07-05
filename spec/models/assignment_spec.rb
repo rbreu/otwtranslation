@@ -91,4 +91,17 @@ describe Otwtranslation::Assignment do
     assignment.assignees_names.should == [@user1.login, @user2.login,
                                           @user3.login].join(", ")
   end
+
+
+  it "should remove parts on assignment deletion" do
+    assignment = Otwtranslation::Assignment.new(:language => @language)
+    assignment.set_assignees([@user1.login, @user2.login, @user3.login])
+    assignment.save
+    Otwtranslation::AssignmentPart.all.size.should == 3
+
+    assignment.destroy
+    Otwtranslation::AssignmentPart.all.size.should == 0
+  end
+
+
 end

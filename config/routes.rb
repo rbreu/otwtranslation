@@ -18,6 +18,12 @@ Rails.application.routes.draw do
   match "#{mount_at}/assignments/" => 'otwtranslation/assignments#create',
   :as => 'otwtranslation_post_assignment', :via => [:post]
   
+  get "#{mount_at}/assignments/:id/confirm_destroy" => 'otwtranslation/assignments#confirm_destroy',
+  :as => 'otwtranslation_confirm_destroy_assignment'
+  
+  match "#{mount_at}/assignments/:id" => 'otwtranslation/assignments#destroy',
+  :as => 'otwtranslation_destroy_assignment', :via => [:delete]
+  
   get "#{mount_at}/assignments/:id" => 'otwtranslation/assignments#show',
   :as => 'otwtranslation_assignment'
 
