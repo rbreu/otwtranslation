@@ -77,9 +77,15 @@ class Otwtranslation::RulesController < ApplicationController
 
   
   def destroy
-    rule = Otwtranslation::ContextRule.find(params[:id])
-    rule.destroy
-    redirect_to otwtranslation_language_path(rule.language_short)
+    @rule = Otwtranslation::ContextRule.find(params[:id])
+    @rule.destroy
+    respond_to do |format|
+      format.html do
+        redirect_to otwtranslation_language_path(@rule.language_short)
+      end
+      format.js do
+      end
+    end
   end
 
   

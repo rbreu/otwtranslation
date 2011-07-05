@@ -68,7 +68,7 @@
   </thead>
   <tbody>
     <% @rules.each do |rule| %>
-      <tr>
+      <tr id="otwtranslation_rule_<%= rule.id %>">
         <td class="type"><%= rule.display_type %></td>
         <td class="position"><%= rule.position %></td>
         <td class="description"><%= rule.description %></td>
