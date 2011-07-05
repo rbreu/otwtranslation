@@ -8,8 +8,13 @@ class Otwtranslation::Assignment < ActiveRecord::Base
   belongs_to(:source, :class_name => 'Otwtranslation::Source',
              :foreign_key => 'source_id')
 
+  belongs_to(:language, :class_name => 'Otwtranslation::Language',
+             :primary_key => 'short', :foreign_key => 'language_short')
+
   has_many(:assignees, :class_name => 'User', :foreign_key => 'user_id',
            :through => :parts, :autosave => true)
+
+  validates_presence_of :language
 
   
   def set_assignees(user_logins)

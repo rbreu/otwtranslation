@@ -6,13 +6,14 @@ describe Otwtranslation::Assignment do
     @user1 = Factory.create(:user)
     @user2 =  Factory.create(:user)
     @user3 =  Factory.create(:user)
+    @language = Factory.create(:language)
   end
   
   it "should create an assignment with parts" do
-    assignment = Otwtranslation::Assignment.new()
+    assignment = Otwtranslation::Assignment.new(:language => @language)
     assignment.set_assignees([@user1.login, @user2.login, @user3.login])
     Otwtranslation::AssignmentPart.all.size.should == 0
-    assignment.save
+    assignment.save.should == true
     Otwtranslation::AssignmentPart.all.size.should == 3
     
     assignment.parts.size.should == 3
@@ -25,7 +26,7 @@ describe Otwtranslation::Assignment do
   end
 
   it "should handle creation for non-existing user names" do
-    assignment = Otwtranslation::Assignment.new()
+    assignment = Otwtranslation::Assignment.new(:language => @language)
     assignment.set_assignees([@user1.login, "foo", @user3.login])
     assignment.errors[:parts].should == ["No such user: foo"]
     assignment.parts.size.should == 2
@@ -44,14 +45,14 @@ describe Otwtranslation::Assignment do
   end
 
   it "should return completed?=false" do
-    assignment = Otwtranslation::Assignment.new()
+    assignment = Otwtranslation::Assignment.new(:language => @language)
     assignment.set_assignees([@user1.login, @user2.login])
     assignment.save
     assignment.completed?.should == false
   end
 
   it "should return completed?=false" do
-    assignment = Otwtranslation::Assignment.new()
+    assignment = Otwtranslation::Assignment.new(:language => @language)
     assignment.set_assignees([@user1.login, @user2.login])
     assignment.save
     part = assignment.parts.first
@@ -62,7 +63,7 @@ describe Otwtranslation::Assignment do
   end
 
   it "should return completed?=true" do
-    assignment = Otwtranslation::Assignment.new()
+    assignment = Otwtranslation::Assignment.new(:language => @language)
     assignment.set_assignees([@user1.login, @user2.login])
     assignment.save
     part = assignment.parts.first
@@ -77,14 +78,14 @@ describe Otwtranslation::Assignment do
   end
 
   it "should know assignees" do
-    assignment = Otwtranslation::Assignment.new()
+    assignment = Otwtranslation::Assignment.new(:language => @language)
     assignment.set_assignees([@user1.login, @user2.login, @user3.login])
     assignment.save
     assignment.assignees.should == [@user1, @user2, @user3]
   end
 
   it "should know assignees' names" do
-    assignment = Otwtranslation::Assignment.new()
+    assignment = Otwtranslation::Assignment.new(:language => @language)
     assignment.set_assignees([@user1.login, @user2.login, @user3.login])
     assignment.save
     assignment.assignees_names.should == [@user1.login, @user2.login,

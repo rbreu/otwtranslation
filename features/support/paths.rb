@@ -32,6 +32,9 @@ module NavigationHelpers
     when 'the language page'
       otwtranslation_language_path(@language)
       
+    when 'the assignment table'
+      otwtranslation_assignments_path
+      
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:

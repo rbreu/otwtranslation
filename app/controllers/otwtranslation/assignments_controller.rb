@@ -7,7 +7,7 @@ class Otwtranslation::AssignmentsController < ApplicationController
   end
 
   def index
-    @assignments = Otwtranslation::Assignment.all
+    @assignments = Otwtranslation::Assignment.where(:language_short => otwtranslation_language)
   end
 
   def show
@@ -16,7 +16,8 @@ class Otwtranslation::AssignmentsController < ApplicationController
 
   def create
 
-    @assignment = Otwtranslation::Assignment.new(:description => params[:description])
+    @assignment = Otwtranslation::Assignment.new(:description => params[:description],
+                                                 :language_short => otwtranslation_language)
 
     unless params[:source_controller_action].blank?
       source = Otwtranslation::Source

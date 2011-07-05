@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(:version => 20110701100500) do
 
   create_table "otwtranslation_assignments", :force => true do |t|
     t.integer  "source_id"
+    t.string   "language_short"
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"

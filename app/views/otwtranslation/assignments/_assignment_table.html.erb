@@ -12,7 +12,7 @@
   </thead>
   <tbody>
     <% assignments.each do |assignment| %>
-      <tr>
+      <tr class="assignment">
         <th class="source">
 	  <% if assignment.source %>
             <%= link_to(assignment.source.controller_action, 
