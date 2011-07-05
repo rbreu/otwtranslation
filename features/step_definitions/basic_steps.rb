@@ -24,3 +24,6 @@ Given /^I'm on revision "([^"]*)"$/ do |version|
   OtwtranslationConfig.VERSION = version
 end
 
+Given /^I have the user "([^"]*)"$/ do |login|
+  Factory.create(:user, :login => login)
+end

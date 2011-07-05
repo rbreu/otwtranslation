@@ -1,5 +1,5 @@
 <!--Descriptive page name and system messages, descriptions, and instructions.-->
-<h2><%= ts("Add Assignment") %></h2>
+<h2>"Add Assignment"</h2>
 <!--end descriptions-->
 
 <!--Subnavigation, sorting and actions.-->
@@ -8,7 +8,7 @@
 <%= form_tag(otwtranslation_post_assignment_path,
              :method => "post", :id => "otwtranslation_assignment") do %>
   <dl>
-    <dt><%= label_tag(:source, "Source:") %></dt>
+    <dt><%= label_tag(:source_controller_action, "Source:") %></dt>
     <dd><%= text_field_tag(:source_controller_action, @source_controller_action) %>
     </dd>
 

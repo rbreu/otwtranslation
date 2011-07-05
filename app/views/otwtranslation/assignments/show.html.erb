@@ -1,5 +1,5 @@
 <!--Descriptive page name and system messages, descriptions, and instructions.-->
-<h2><%= ts("Show Assignment") %></h2>
+<h2>"Show Assignment"</h2>
 <!--end descriptions-->
 
 <!--Subnavigation, sorting and actions.-->
@@ -12,17 +12,17 @@
   <dt class="source">Source:</dt>
   <dd class="source"><%= @assignment.source_controller_action %></dd>
 
-  <dt class="description">Description</dt>
+  <dt class="description">Description:</dt>
   <dd class="description"><%= @assignment.description %></dd>
 
-  <dt class="completed">Completed</dt>
+  <dt class="completed">Completed:</dt>
   <dd class="completed"><%= @assignment.completed? %></dd>
 
 <h3><%= ts("Assigned to:") %></h3>
 
 <ol id="otwtranslation_assisgnment_assignees">
 <% @assignment.assignees.each do |assignee| %>
-  <li><%= assignee.login %></li>
+  <li class="assignee"><%= assignee.login %></li>
 <% end %>
 </ol>
 <!--/main-->
