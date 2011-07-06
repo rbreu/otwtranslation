@@ -19,22 +19,8 @@
   <dd class="completed"><%= @assignment.completed? ? "yes" : "no" %></dd>
 </dl>
 
-<ul class="translation navigation" id="add_translation">
-  <li>
-    <%= form_for(:@assignment, 
-                 :url => otwtranslation_edit_assignment_path(@assignment), 
-                 :html => { :method => :get },
-                 :remote => false ) do |f| %>
-      <%= f.submit 'Edit' %>
-    <% end %>
-    <%= form_for(:@assignment, 
-                 :url => otwtranslation_new_translation_path(), 
-                 :html => { :method => :get },
-                 :remote => false ) do |f| %>
-      <%= f.submit 'Activate' %>
-    <% end %>
-  </li>
-</ul>
+<%= render :partial => "navigation", 
+           :locals => { :assignment => @assignment, :show => false } %>
 
 <div class="clear-both"></div>
 

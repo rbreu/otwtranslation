@@ -76,6 +76,12 @@ class Otwtranslation::AssignmentsController < ApplicationController
     else
       @source_controller_action = @assignment.source.controller_action
     end
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
+    
   end
 
 
@@ -93,14 +99,22 @@ class Otwtranslation::AssignmentsController < ApplicationController
     @assignment.save if @assignment.errors.blank?
     
     if @assignment.errors.blank?
-      redirect_to otwtranslation_assignment_path(@assignment)
+      respond_to do |format|
+        format.html do
+          redirect_to otwtranslation_assignment_path(@assignment)
+        end
+        format.js { render "edit_success" }
+      end
     else
       @source_controller_action = params[:source_controller_action]
       @assignees_names = params[:assignees_names]
       msg = 'There was a problem with the assignment:' +
         prettify_error_messages(@assignment)
       flash[:error] = msg.html_safe
-      render(:action => 'edit') && return 
+      respond_to do |format|
+        format.html { render(:action => 'edit') }
+        format.js { render "edit_fail" }
+      end
     end
   
   end

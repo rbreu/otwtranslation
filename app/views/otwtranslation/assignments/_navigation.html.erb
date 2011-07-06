@@ -1,0 +1,39 @@
+<ul class="assignment navigation" id="assignment_navigation">
+  <li>
+    <% if show %>
+      <%= form_for(assignment, 
+                   :url => otwtranslation_assignment_path(assignment),
+                   :html => {:method => :get}) do |f| %>
+        <%= f.submit 'Show' %>
+      <% end %>
+    <% end %>
+  </li>
+
+  <li>
+    <%= form_for(:assignment, 
+                 :url => otwtranslation_edit_assignment_path(assignment), 
+                 :html => { :method => :get },
+                 :remote => true ) do |f| %>
+      <%= f.submit 'Edit' %>
+    <% end %>
+  </li>
+
+  <li>
+    <%= form_for(assignment, 
+                 :url => otwtranslation_confirm_destroy_assignment_path(assignment),
+                 :html => {:method => :get},
+	         :remote => true) do |f| %>
+      <%= f.submit 'Delete' %>
+    <% end %>
+  </li>
+
+  <li>
+    <%= form_for(:assignment, 
+                 :url => "/", 
+                 :html => { :method => :get },
+                 :remote => false ) do |f| %>
+      <%= f.submit 'Activate' %>
+    <% end %>
+  </li>
+
+</ul>

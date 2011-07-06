@@ -149,4 +149,21 @@ Feature: Translation phrases
     And I should see the assignment description "My new description"
 
 
+  @javascript
+  Scenario: Edit assignments with JavaScript
+    Given I am a translation admin
+    And I have selected the language Deutsch
+    And I have an assignment for Deutsch
+
+    When I go to the assignment page
+    Then I should see the heading "Show Assignment"
+    When I press "Edit"
+
+    And I fill in "Description:" with "My new description"
+    And I press "Update assignment"
+
+    Then I should see the heading "Show Assignment"
+    And I should see the assignment description "My new description"
+
+
 

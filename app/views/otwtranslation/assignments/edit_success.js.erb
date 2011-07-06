@@ -1,0 +1,11 @@
+// Replace edit form with navigation bar
+$("form#otwtranslation_assignment").replaceWith(
+  "<%= escape_javascript(render :partial => "navigation", 
+           :locals => { :assignment => @assignment, :show => false }) %>")
+
+// Replace soure and description
+<% source = @assignment.source.nil? ? "" : @assignment.source.controller_action %>
+$("dl#otwtranslation_assignment dd.source").html("<%= escape_javascript(source) %>")
+
+$("dl#otwtranslation_assignment dd.description").html(
+  "<%= escape_javascript(@assignment.description) %>")
