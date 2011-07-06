@@ -1,5 +1,5 @@
 <!--Descriptive page name and system messages, descriptions, and instructions.-->
-<h2>"Show Assignment"</h2>
+<h2>Show Assignment</h2>
 <!--end descriptions-->
 
 <!--Subnavigation, sorting and actions.-->
@@ -16,13 +16,63 @@
   <dd class="description"><%= @assignment.description %></dd>
 
   <dt class="completed">Completed:</dt>
-  <dd class="completed"><%= @assignment.completed? %></dd>
+  <dd class="completed"><%= @assignment.completed? ? "yes" : "no" %></dd>
+</dl>
+
+<ul class="translation navigation" id="add_translation">
+  <li>
+    <%= form_for(:@assignment, 
+                 :url => otwtranslation_edit_assignment_path(@assignment), 
+                 :html => { :method => :get },
+                 :remote => false ) do |f| %>
+      <%= f.submit 'Edit' %>
+    <% end %>
+    <%= form_for(:@assignment, 
+                 :url => otwtranslation_new_translation_path(), 
+                 :html => { :method => :get },
+                 :remote => false ) do |f| %>
+      <%= f.submit 'Activate' %>
+    <% end %>
+  </li>
+</ul>
+
+<div class="clear-both"></div>
 
 <h3><%= ts("Assigned to:") %></h3>
 
-<ol id="otwtranslation_assisgnment_assignees">
-<% @assignment.assignees.each do |assignee| %>
-  <li class="assignee"><%= assignee.login %></li>
+<ol id="otwtranslation_assignment_parts">
+<% @assignment.parts.each do |part| %>
+  <li class="assignment_part <%= part.position%2 == 0 ? "even" : "odd" %>">
+  <div class="assignment_part">
+    <p class="assignee"><%= part.position %>. <%= part.assignee.login %></p>
+    <p calss="notes"><%= part.notes %></p>
+    <dl class="stats">
+      <dt class="completed">Completed:</dt>
+      <dd class="completed"><%= part.completed ? "yes" : "no" %></dt>
+    </dl>
+
+    <h3 class="landmark">Assignment Part Actions</h3>
+    <ul class="assignment_part navigation">
+      <li>
+        <%= form_for(part, 
+                     :url => otwtranslation_vote_translation_path(),
+                     :html => {:method => :put} ) do |f| %>
+          <%= f.submit 'Move up' %>
+        <% end %>
+        <%= form_for(part, 
+                     :url => otwtranslation_vote_translation_path(),
+                     :html => {:method => :put} ) do |f| %>
+          <%= f.submit 'Move down' %>
+        <% end %>
+        <%= form_for(part, 
+                     :url => otwtranslation_vote_translation_path(),
+                     :html => {:method => :put} ) do |f| %>
+          <%= f.submit 'Delete' %>
+        <% end %>
+      </li>
+    </ul>	
+  </div>
+  </li>
 <% end %>
 </ol>
 <!--/main-->

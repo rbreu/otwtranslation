@@ -1,7 +1,7 @@
 Given /^I have an assignment for ([^"]*)$/ do |language|
   lang = Otwtranslation::Language.find_by_name(language) ||
     Factory(:language, {:name => language})
-  Factory.create(:assignment, :language => lang)
+  @assignment = Factory.create(:assignment, :language => lang)
 end
 
 Then /^I should see (\d+) assignments$/ do |count|
@@ -25,5 +25,5 @@ Then /^I should see the completed status "([^"]*)"$/ do |completed|
 end
 
 Then /^I should see the assignee "([^"]*)"$/ do |assignee|
-  page.should have_selector('li.assignee', :text => assignee)
+  page.should have_selector('p.assignee', :text => assignee)
 end

@@ -57,7 +57,7 @@ describe Otwtranslation::Translation do
     translation.language = @language
     translation.phrase = @phrase
     translation.save.should == true
-    puts translation.label.should == "<em>hello</em>"
+    translation.label.should == "<em>hello</em>"
   end
 
   

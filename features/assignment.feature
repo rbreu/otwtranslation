@@ -36,7 +36,7 @@ Feature: Translation phrases
     Then I should see the heading "Show Assignment"
     And I should see the assignment description "Test description"
     And I should see the assignment source "home#index"
-    And I should see the completed status "false"
+    And I should see the completed status "no"
     And I should see the assignee "Sam"
     And I should see the assignee "Dean"
     
@@ -67,7 +67,7 @@ Feature: Translation phrases
     Then I should see the heading "Show Assignment"
     And I should see the assignment description "Test description"
     And I should see the assignment source "home#index"
-    And I should see the completed status "false"
+    And I should see the completed status "no"
     And I should see the assignee "Sam"
     And I should see the assignee "Dean"
     
@@ -98,7 +98,7 @@ Feature: Translation phrases
     Then I should see the heading "Show Assignment"
     And I should see the assignment description "Test description"
     And I should see the assignment source "home#index"
-    And I should see the completed status "false"
+    And I should see the completed status "no"
     And I should see the assignee "Sam"
     And I should see the assignee "Dean"
     
@@ -131,5 +131,22 @@ Feature: Translation phrases
     And I confirm the popup
     Then I should see the heading "Assignment Table"
     And I should see 0 assignments
+
+
+  Scenario: Edit assignments
+    Given I am a translation admin
+    And I have selected the language Deutsch
+    And I have an assignment for Deutsch
+
+    When I go to the assignment page
+    Then I should see the heading "Show Assignment"
+    When I press "Edit"
+
+    And I fill in "Description:" with "My new description"
+    And I press "Update assignment"
+
+    Then I should see the heading "Show Assignment"
+    And I should see the assignment description "My new description"
+
 
 

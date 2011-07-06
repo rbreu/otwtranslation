@@ -24,6 +24,11 @@ span.approved {
 }
 
 
+#main li.assignment_part p.assignee {
+    font-weight: 700; 
+}
+
+
 dl#otwtranslation_phrase dt, dl#otwtranslation_source dt, 
 dl#otwtranslation_language dt {
     font-size: 0.875em; 
@@ -47,6 +52,7 @@ table td.direction, table td.visible {
 
 
 
+div.assignment_part,
 div.translation {
     padding: 0.8575em 0.25em;
 }
@@ -57,22 +63,24 @@ div.approved {
 }
 
 
-ol.translation.index li.even {
+li.even {
     background: #eee;
 }
 
-ol.translation.index li.odd {
+li.odd {
     background: #f6f0f0;
 }
 
-ol#otwtranslation_translations dl.stats { 
+ol#otwtranslation_translations dl.stats,
+ol#otwtranslation_assignment_parts dl.stats { 
     font-size: 0.8575em;
     text-align: right;
     padding: 0 0.3em 0.3em;
     margin-top: 0.1em;
 }
 
-ol#otwtranslation_translations ul.navigation {
+ol#otwtranslation_translations ul.navigation,
+ol#otwtranslation_assignment_parts ul.navigation {
     float: left;
     font-size: 0.8575em;
     margin: -1.25em auto auto;

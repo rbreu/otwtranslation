@@ -67,5 +67,43 @@ class Otwtranslation::AssignmentsController < ApplicationController
       render(:action => 'new') && return 
     end
   end
+
+
+  def edit
+    @assignment = Otwtranslation::Assignment.find(params[:id])
+    if @assignment.source.nil?
+      @source_controller_action = ""
+    else
+      @source_controller_action = @assignment.source.controller_action
+    end
+  end
+
+
+  def update
+    @assignment = Otwtranslation::Assignment.find(params[:id])
+    
+    unless params[:source_controller_action].blank?
+      source = Otwtranslation::Source
+        .find_by_controller_action(params[:source_controller_action])
+     @assignment.errors[:source] = "Unknown source" if source.nil?
+    end
+
+    @assignment.source = source
+    @assignment.description = params[:description]
+    @assignment.save if @assignment.errors.blank?
+    
+    if @assignment.errors.blank?
+      redirect_to otwtranslation_assignment_path(@assignment)
+    else
+      @source_controller_action = params[:source_controller_action]
+      @assignees_names = params[:assignees_names]
+      msg = 'There was a problem with the assignment:' +
+        prettify_error_messages(@assignment)
+      flash[:error] = msg.html_safe
+      render(:action => 'edit') && return 
+    end
+  
+  end
+  
 end
 

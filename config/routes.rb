@@ -21,14 +21,19 @@ Rails.application.routes.draw do
   get "#{mount_at}/assignments/:id/confirm_destroy" => 'otwtranslation/assignments#confirm_destroy',
   :as => 'otwtranslation_confirm_destroy_assignment'
   
+  get "#{mount_at}/assignments/:id/edit" => 'otwtranslation/assignments#edit',
+  :as => 'otwtranslation_edit_assignment'
+
   match "#{mount_at}/assignments/:id" => 'otwtranslation/assignments#destroy',
   :as => 'otwtranslation_destroy_assignment', :via => [:delete]
   
   get "#{mount_at}/assignments/:id" => 'otwtranslation/assignments#show',
   :as => 'otwtranslation_assignment'
 
+  match "#{mount_at}/assignments/:id" => 'otwtranslation/assignments#update',
+  :as => 'otwtranslation_update_assignment', :via => [:put]
 
-
+  
   # Sources
   
   get "#{mount_at}/sources" => 'otwtranslation/sources#index',
