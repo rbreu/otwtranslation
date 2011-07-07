@@ -9,8 +9,8 @@ describe Otwtranslation::Language do
                                                :translation_visible => true)
     language.short.should == "de"
     language.name.should == "Deutsch"
-    language.right_to_left.should == false
-    language.translation_visible.should == true
+    language.right_to_left.should be_false
+    language.translation_visible.should be_true
   end
 
   context "when there are languages, phrases and sources" do

@@ -11,7 +11,7 @@ describe Otwtranslation::Vote do
   it "should create a new vote" do
     vote = Otwtranslation::Vote.new(:owner => @user,
                                     :translation => @translation)
-    vote.save.should == true
+    vote.save.should be_true
   end
 
   it "should not create duplicate vote" do
@@ -19,7 +19,7 @@ describe Otwtranslation::Vote do
                                         :translation => @translation)    
     vote2 = Otwtranslation::Vote.new(:owner => @user,
                                      :translation => @translation)
-    vote2.save.should == false
+    vote2.save.should be_false
   end
 
   it "should vote up" do

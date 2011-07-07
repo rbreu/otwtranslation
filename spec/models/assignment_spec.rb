@@ -13,7 +13,7 @@ describe Otwtranslation::Assignment do
     assignment = Otwtranslation::Assignment.new(:language => @language)
     assignment.set_assignees([@user1.login, @user2.login, @user3.login])
     Otwtranslation::AssignmentPart.all.size.should == 0
-    assignment.save.should == true
+    assignment.save.should be_true
     Otwtranslation::AssignmentPart.all.size.should == 3
     
     assignment.parts.size.should == 3
@@ -22,7 +22,7 @@ describe Otwtranslation::Assignment do
 
     assignment.parts.last.position.should == 3
     assignment.parts.last.user_id.should == @user3.id
-    assignment.parts.last.id.should_not == nil
+    assignment.parts.last.id.should_not be_nil
   end
 
   it "should handle creation for non-existing user names" do
@@ -41,14 +41,14 @@ describe Otwtranslation::Assignment do
 
   it "should return completed?=false for assignments with no parts" do
     assignment = Otwtranslation::Assignment.create()
-    assignment.completed?.should == false
+    assignment.completed?.should be_false
   end
 
   it "should return completed?=false" do
     assignment = Otwtranslation::Assignment.new(:language => @language)
     assignment.set_assignees([@user1.login, @user2.login])
     assignment.save
-    assignment.completed?.should == false
+    assignment.completed?.should be_false
   end
 
   it "should return completed?=false" do
@@ -59,7 +59,7 @@ describe Otwtranslation::Assignment do
     part.completed = true
     part.save
     
-    assignment.completed?.should == false
+    assignment.completed?.should be_false
   end
 
   it "should return completed?=true" do
@@ -74,7 +74,7 @@ describe Otwtranslation::Assignment do
     part.completed = true
     part.save
     
-    assignment.completed?.should == true
+    assignment.completed?.should be_true
   end
 
   it "should know assignees" do

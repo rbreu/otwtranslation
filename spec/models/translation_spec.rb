@@ -15,7 +15,7 @@ describe Otwtranslation::Translation do
                                                   :phrase => @phrase,
                                                   :approved => false)
     
-    translation.save.should == true
+    translation.save.should be_true
    translation.rules.should == []
   end
 
@@ -24,7 +24,7 @@ describe Otwtranslation::Translation do
     translation = Otwtranslation::Translation.new(:label => label,
                                                   :language => @language,
                                                   :phrase => @phrase)
-    translation.save.should == true
+    translation.save.should be_true
     translation.label.should == label
   end
 
@@ -34,7 +34,7 @@ describe Otwtranslation::Translation do
                                                   :language => @language,
                                                   :phrase => @phrase,
                                                   :phrase_key => "somekey")
-    translation.save.should == true
+    translation.save.should be_true
     translation.label.should == "foobar"
   end
   
@@ -45,7 +45,7 @@ describe Otwtranslation::Translation do
                                                   :phrase_key => "somekey")
     translation.language = @language
     translation.phrase = @phrase
-    translation.save.should == true
+    translation.save.should be_true
     translation.label.should == "<em>hello</em>"
   end
   
@@ -56,7 +56,7 @@ describe Otwtranslation::Translation do
                                                   :phrase_key => "somekey")
     translation.language = @language
     translation.phrase = @phrase
-    translation.save.should == true
+    translation.save.should be_true
     translation.label.should == "<em>hello</em>"
   end
 
@@ -66,7 +66,7 @@ describe Otwtranslation::Translation do
                                                   :language => @language,
                                                   :phrase => @phrase,
                                                   :approved => true)
-    translation.save.should == true
+    translation.save.should be_true
   end
 
   it "should not allow approved translation if unspecific approved translation exists" do
@@ -79,7 +79,7 @@ describe Otwtranslation::Translation do
                                                   :phrase => @phrase,
                                                   :approved => true,
                                                   :rules => [1])
-    translation.save.should == false
+    translation.save.should be_false
     translation.errors[:approved].should == ["Another translation is already approved."]
     
   end
@@ -95,7 +95,7 @@ describe Otwtranslation::Translation do
                                                   :phrase => @phrase,
                                                   :approved => true,
                                                   :rules => [2])
-    translation.save.should == true
+    translation.save.should be_true
   end
 
   it "should not allow two approved translations for the same rules" do
@@ -110,7 +110,7 @@ describe Otwtranslation::Translation do
                                                   :approved => true,
                                                   :rules => [1])
 
-    translation.save.should == false
+    translation.save.should be_false
     translation.errors[:approved].should == ["Another translation is already approved."]
    
   end
@@ -124,7 +124,7 @@ describe Otwtranslation::Translation do
                                                   :language => @language2,
                                                   :phrase => @phrase,
                                                   :approved => true)
-    translation.save.should == true
+    translation.save.should be_true
   end
 
   it "should allow two approved translations for different phrases" do
@@ -136,7 +136,7 @@ describe Otwtranslation::Translation do
                                                   :language => @language,
                                                   :phrase => @phrase2,
                                                   :approved => true)
-    translation.save.should == true
+    translation.save.should be_true
   end
 
 end

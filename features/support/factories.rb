@@ -63,8 +63,8 @@ Factory.define(:assignment, :class => Otwtranslation::Assignment) do |f|
   f.description "some description"
   
   f.after_build do |assnm|
-    assnm.parts = [Factory.build(:assignment_part, :assignment => assnm),
-                   Factory.build(:assignment_part, :assignment => assnm)]
+    assnm.parts ||= [Factory.build(:assignment_part, :assignment => assnm),
+                     Factory.build(:assignment_part, :assignment => assnm)]
   end
 end
 

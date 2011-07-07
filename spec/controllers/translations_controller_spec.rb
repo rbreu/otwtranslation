@@ -38,7 +38,7 @@ describe Otwtranslation::TranslationsController, "GET new" do
     it "should not assign @phrase for JS" do
       Otwtranslation::Phrase.should_not_receive(:find_by_key)
       get :new, :id => "somekey", :format => "js"
-      assigns[:phrase].should == nil
+      assigns[:phrase].should be_nil
     end
       
 
@@ -52,7 +52,7 @@ describe Otwtranslation::TranslationsController, "GET new" do
     it "should not assign @existing_translations for JS" do
       @phrase.should_no_receive(:translations)
       get :new, :id => "somekey", :format => "js"
-      assigns[:existing_translations].should == nil
+      assigns[:existing_translations].should be_nil
     end
    
     it "should render new for HTML" do
@@ -405,7 +405,7 @@ describe Otwtranslation::TranslationsController, "GET confirm_destroy" do
     it "should not assign a translation for JS" do
       Otwtranslation::Translation.should_not_receive(:find)
       get :confirm_destroy, :id => 1, :format => "js"
-      assigns[:translation].should == nil
+      assigns[:translation].should be_nil
     end
 
     it "should assign a translation ID for JS" do
@@ -560,7 +560,7 @@ describe Otwtranslation::TranslationsController, "GET edit" do
     it "should not assign @phrase for JS" do
       Otwtranslation::Phrase.should_not_receive(:find_by_key)
       get :edit, :id => 1, :format => "js"
-      assigns[:phrase].should == nil
+      assigns[:phrase].should be_nil
     end
       
 
@@ -574,7 +574,7 @@ describe Otwtranslation::TranslationsController, "GET edit" do
     it "should not assign @existing_translations for JS" do
       @phrase.should_no_receive(:translations)
       get :edit, :id => 1, :format => "js"
-      assigns[:existing_translations].should == nil
+      assigns[:existing_translations].should be_nil
     end
    
     it "should render edit for HTML" do
