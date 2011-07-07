@@ -1,6 +1,6 @@
 <ul class="assignment navigation" id="assignment_navigation">
   <li>
-    <% if show %>
+    <% unless on_show %>
       <%= form_for(assignment, 
                    :url => otwtranslation_assignment_path(assignment),
                    :html => {:method => :get}) do |f| %>
@@ -22,7 +22,7 @@
     <%= form_for(assignment, 
                  :url => otwtranslation_confirm_destroy_assignment_path(assignment),
                  :html => {:method => :get},
-	         :remote => true) do |f| %>
+	         :remote => !on_show) do |f| %>
       <%= f.submit 'Delete' %>
     <% end %>
   </li>
@@ -31,7 +31,7 @@
     <%= form_for(:assignment, 
                  :url => "/", 
                  :html => { :method => :get },
-                 :remote => false ) do |f| %>
+                 :remote => true ) do |f| %>
       <%= f.submit 'Activate' %>
     <% end %>
   </li>

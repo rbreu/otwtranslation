@@ -24,7 +24,7 @@
         <td class="completed"><%= assignment.completed? %></td>
         <td class="navigation">
 	  <%= render :partial => "navigation", 
-                     :locals => { :assignment => assignment, :show => true } %>
+                     :locals => { :assignment => assignment, :on_show => false } %>
 	</td>
       </tr>
     <% end %>
