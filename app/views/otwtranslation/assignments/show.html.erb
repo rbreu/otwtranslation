@@ -41,18 +41,19 @@
     <ul class="assignment_part navigation">
       <li>
         <%= form_for(part, 
-                     :url => otwtranslation_vote_translation_path(),
+                     :url => "",
                      :html => {:method => :put} ) do |f| %>
           <%= f.submit 'Move up' %>
         <% end %>
         <%= form_for(part, 
-                     :url => otwtranslation_vote_translation_path(),
+                     :url => "",
                      :html => {:method => :put} ) do |f| %>
           <%= f.submit 'Move down' %>
         <% end %>
         <%= form_for(part, 
-                     :url => otwtranslation_vote_translation_path(),
-                     :html => {:method => :put} ) do |f| %>
+                     :url => otwtranslation_confirm_destroy_assignment_part_path(part),
+                     :html => {:method => :get},
+	             :remote => true ) do |f| %>
           <%= f.submit 'Delete' %>
         <% end %>
       </li>

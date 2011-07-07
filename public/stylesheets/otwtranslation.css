@@ -24,7 +24,7 @@ span.approved {
 }
 
 
-#main li.assignment_part p.assignee {
+#main div.assignment_part p.assignee {
     font-weight: 700; 
 }
 

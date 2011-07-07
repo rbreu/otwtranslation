@@ -33,6 +33,14 @@ Rails.application.routes.draw do
   match "#{mount_at}/assignments/:id" => 'otwtranslation/assignments#update',
   :as => 'otwtranslation_update_assignment', :via => [:put]
 
+
+  # Assignment parts
+
+  get "#{mount_at}/assignment_parts/:id/confirm_destroy" => 'otwtranslation/assignment_parts#confirm_destroy',
+  :as => 'otwtranslation_confirm_destroy_assignment_part'
+
+  match "#{mount_at}/assignment_parts/:id" => 'otwtranslation/assignment_parts#destroy',
+  :as => 'otwtranslation_destroy_assignment_part', :via => [:delete]
   
   # Sources
   

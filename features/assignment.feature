@@ -112,7 +112,7 @@ Feature: Translation phrases
     And I have an assignment for Deutsch
     
     When I go to the assignment table
-    And I press "Delete"
+    And I press "Delete" within "#assignment_navigation"
     Then I should see "Are you sure"
 
     When I press "Delete"
@@ -127,7 +127,7 @@ Feature: Translation phrases
     And I have an assignment for Deutsch
     
     When I go to the assignment table
-    And I press "Delete"
+    And I press "Delete" within "#assignment_navigation"
     And I confirm the popup
     Then I should see the heading "Assignment Table"
     And I should see 0 assignments
@@ -164,6 +164,38 @@ Feature: Translation phrases
 
     Then I should see the heading "Show Assignment"
     And I should see the assignment description "My new description"
+
+
+  @bla
+  Scenario: Remove assignee from assignment
+    Given I am a translation admin
+    And I have selected the language Deutsch
+    And I have an assignment for Deutsch
+    And I have the assignee "Xena"
+
+    When I go to the assignment page
+    And I press "Delete" within ".assignment_part"
+    Then I should see "Are you sure"
+
+    When I press "Delete"
+    Then I should see the heading "Show Assignment"
+    And I should not see the assignee "Xena"
+
+
+  @bla
+  @javascript
+  Scenario: Remove assignee from assignment
+    Given I am a translation admin
+    And I have selected the language Deutsch
+    And I have an assignment for Deutsch
+    And I have the assignee "Xena"
+
+    When I go to the assignment page
+    And I press "Delete" within ".assignment_part"
+    And I confirm the popup
+    Then I should see the heading "Show Assignment"
+    And I should not see the assignee "Xena"
+
 
 
 

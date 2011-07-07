@@ -4,6 +4,12 @@ Given /^I have an assignment for ([^"]*)$/ do |language|
   @assignment = Factory.create(:assignment, :language => lang)
 end
 
+Given /^I have the assignee "([^"]*)"$/ do |login|
+  user = User.find_by_login(login) || Factory.create(:user, {:login => login})
+  @assignment.parts = []
+  Factory.create(:assignment_part, {:assignment => @assignment, :assignee => user} )
+end
+
 Then /^I should see (\d+) assignments$/ do |count|
   if count.to_i == 0
     page.should_not have_selector('tr.assignment')
@@ -26,4 +32,8 @@ end
 
 Then /^I should see the assignee "([^"]*)"$/ do |assignee|
   page.should have_selector('p.assignee', :text => assignee)
+end
+
+Then /^I should not see the assignee "([^"]*)"$/ do |assignee|
+  page.should_not have_selector('p.assignee', :text => assignee)
 end
