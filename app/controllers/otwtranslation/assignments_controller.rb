@@ -1,7 +1,22 @@
 class Otwtranslation::AssignmentsController < ApplicationController
   include Otwtranslation::CommonMethods
   before_filter :otwtranslation_only
+  before_filter :nonactivated_only, :only => [:edit, :update]
 
+
+  def nonactivated_only
+    @assignment = Otwtranslation::Assignment.find(params[:id])
+    
+    if @assignment.activated
+      flash[:error] = "You can't edit an activated assignment."
+      redirect_to otwtranslation_assignment_path(@assignment)
+      return false
+    else
+      return true
+    end
+  end
+
+  
   def new
     @assignment = Otwtranslation::Assignment.new(:source => params[:source_id])
   end
@@ -70,7 +85,6 @@ class Otwtranslation::AssignmentsController < ApplicationController
 
 
   def edit
-    @assignment = Otwtranslation::Assignment.find(params[:id])
     if @assignment.source.nil?
       @source_controller_action = ""
     else
@@ -86,8 +100,6 @@ class Otwtranslation::AssignmentsController < ApplicationController
 
 
   def update
-    @assignment = Otwtranslation::Assignment.find(params[:id])
-    
     unless params[:source_controller_action].blank?
       source = Otwtranslation::Source
         .find_by_controller_action(params[:source_controller_action])

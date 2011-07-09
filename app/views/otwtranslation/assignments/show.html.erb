@@ -40,6 +40,7 @@
       <dd class="completed"><%= part.completed ? "yes" : "no" %></dt>
     </dl>
 
+    <% unless @assignment.activated %>
     <h3 class="landmark">Assignment Part Actions</h3>
     <ul class="assignment_part navigation">
       <li>
@@ -60,7 +61,8 @@
           <%= f.submit 'Delete' %>
         <% end %>
       </li>
-    </ul>	
+    </ul>
+    <% end %>
   </div>
   </li>
 <% end %>
