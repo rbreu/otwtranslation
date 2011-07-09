@@ -6,7 +6,8 @@
       <th><%= "Source" %></th>
       <th><%= "Description" %></th>
       <th><%= "Assigned to" %></th>
-      <th><%= "Completed" %></th>
+      <th><%= "Activated?" %></th>
+      <th><%= "Completed?" %></th>
       <th><%= "Navigation" %></th>
     </tr>
   </thead>
@@ -21,7 +22,12 @@
         </th>
         <td class="description"><%= assignment.description %></td>
         <td class="assignees"><%= assignment.assignees_names %></td>
-        <td class="completed"><%= assignment.completed? %></td>
+        <td class="activated">
+          <%= assignment.activated ? "&#x2713;".html_safe : "" %>
+	</td>
+        <td class="completed">
+          <%= assignment.completed? ? "&#x2713;".html_safe : "" %>
+	</td>
         <td class="navigation">
 	  <%= render :partial => "navigation", 
                      :locals => { :assignment => assignment, :on_show => false } %>

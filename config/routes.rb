@@ -21,6 +21,9 @@ Rails.application.routes.draw do
   get "#{mount_at}/assignments/:id/confirm_destroy" => 'otwtranslation/assignments#confirm_destroy',
   :as => 'otwtranslation_confirm_destroy_assignment'
   
+  get "#{mount_at}/assignments/:id/activate" => 'otwtranslation/assignments#activate',
+  :as => 'otwtranslation_activate_assignment', :via => [:put]
+
   get "#{mount_at}/assignments/:id/edit" => 'otwtranslation/assignments#edit',
   :as => 'otwtranslation_edit_assignment'
 

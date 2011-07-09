@@ -1,0 +1,12 @@
+// Replace navigation bar in show & index
+$("ul#assignment_navigation").replaceWith(
+  "<%= escape_javascript(render :partial => "navigation", 
+           :locals => { :assignment => @assignment, :on_show => true }) %>")
+
+// Replace activated status in show
+$("dl#otwtranslation_assignment dd.activated").html(
+  "<%= @assignment.activated ? "yes" : "no" %>")
+
+// Replace activated status in index
+$("table#otwtranslation_assignments td.activated").html(
+  "<%= @assignment.activated ? "&#x2713;".html_safe : "" %>")

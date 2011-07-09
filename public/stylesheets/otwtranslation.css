@@ -46,7 +46,7 @@ table td.phrases, table td.translated, table td.approved, table td.translations 
     text-align: right
 }
 
-table td.direction, table td.visible {
+table td.direction, table td.visible, td.activated, td.completed {
     text-align: center
 }
 

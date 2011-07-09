@@ -15,6 +15,9 @@
   <dt class="description">Description:</dt>
   <dd class="description"><%= @assignment.description %></dd>
 
+  <dt class="activated">Activated:</dt>
+  <dd class="activated"><%= @assignment.activated ? "yes" : "no" %></dd>
+
   <dt class="completed">Completed:</dt>
   <dd class="completed"><%= @assignment.completed? ? "yes" : "no" %></dd>
 </dl>

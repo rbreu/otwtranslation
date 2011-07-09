@@ -210,3 +210,46 @@ Feature: Translation phrases
     And I should see "2. Xena"
 
 
+  Scenario: Move assignment part up
+    Given I am a translation admin
+    And I have selected the language Deutsch
+    And I have an assignment for Deutsch
+    And I have the assignees "Xena, Gabrielle"
+
+    When I go to the assignment page
+    Then I should see "1. Xena"
+    And I should see "2. Gabrielle"
+
+    When I press "Move down"
+    Then I should see "1. Gabrielle"
+    And I should see "2. Xena"
+
+
+  Scenario: Activate assignment
+    Given I am a translation admin
+    And I have selected the language Deutsch
+    And I have an assignment for Deutsch
+
+    When I go to the assignment page
+    Then I should see the activated status "no"
+
+    When I press "Activate"
+    Then I should see the heading "Show Assignment"
+    And I should see the activated status "yes"
+
+
+  @javacript
+  Scenario: Activate assignment with JavaScript
+    Given I am a translation admin
+    And I have selected the language Deutsch
+    And I have an assignment for Deutsch
+
+    When I go to the assignment page
+    Then I should see the activated status "no"
+
+    When I press "Activate"
+    Then I should see the heading "Show Assignment"
+    And I should see the activated status "yes"
+
+
+

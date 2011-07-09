@@ -28,11 +28,13 @@
   </li>
 
   <li>
+    <% unless assignment.activated %>
     <%= form_for(:assignment, 
-                 :url => "/", 
+                 :url => otwtranslation_activate_assignment_path(assignment), 
                  :html => { :method => :get },
                  :remote => true ) do |f| %>
       <%= f.submit 'Activate' %>
+    <% end %>
     <% end %>
   </li>
 

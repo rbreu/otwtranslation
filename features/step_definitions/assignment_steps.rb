@@ -32,6 +32,10 @@ Then /^I should see the completed status "([^"]*)"$/ do |completed|
   page.should have_selector('dd.completed', :text => completed)
 end
 
+Then /^I should see the activated status "([^"]*)"$/ do |activated|
+  page.should have_selector('dd.activated', :text => activated)
+end
+
 Then /^I should see the assignee "([^"]*)"$/ do |assignee|
   page.should have_selector('p.assignee', :text => assignee)
 end
