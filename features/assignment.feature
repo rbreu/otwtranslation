@@ -166,12 +166,11 @@ Feature: Translation phrases
     And I should see the assignment description "My new description"
 
 
-  @bla
   Scenario: Remove assignee from assignment
     Given I am a translation admin
     And I have selected the language Deutsch
     And I have an assignment for Deutsch
-    And I have the assignee "Xena"
+    And I have the assignees "Xena"
 
     When I go to the assignment page
     And I press "Delete" within ".assignment_part"
@@ -182,13 +181,12 @@ Feature: Translation phrases
     And I should not see the assignee "Xena"
 
 
-  @bla
   @javascript
   Scenario: Remove assignee from assignment
     Given I am a translation admin
     And I have selected the language Deutsch
     And I have an assignment for Deutsch
-    And I have the assignee "Xena"
+    And I have the assignees "Xena"
 
     When I go to the assignment page
     And I press "Delete" within ".assignment_part"
@@ -197,5 +195,18 @@ Feature: Translation phrases
     And I should not see the assignee "Xena"
 
 
+  Scenario: Move assignment part up
+    Given I am a translation admin
+    And I have selected the language Deutsch
+    And I have an assignment for Deutsch
+    And I have the assignees "Xena, Gabrielle"
+
+    When I go to the assignment page
+    Then I should see "1. Xena"
+    And I should see "2. Gabrielle"
+
+    When I press "Move down"
+    Then I should see "1. Gabrielle"
+    And I should see "2. Xena"
 
 

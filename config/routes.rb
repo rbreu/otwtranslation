@@ -36,6 +36,12 @@ Rails.application.routes.draw do
 
   # Assignment parts
 
+  get "#{mount_at}/assignment_parts/:id/move_down" => 'otwtranslation/assignment_parts#move_down',
+  :as => 'otwtranslation_move_down_assignment_part'
+
+  get "#{mount_at}/assignment_parts/:id/move_up" => 'otwtranslation/assignment_parts#move_up',
+  :as => 'otwtranslation_move_up_assignment_part'
+
   get "#{mount_at}/assignment_parts/:id/confirm_destroy" => 'otwtranslation/assignment_parts#confirm_destroy',
   :as => 'otwtranslation_confirm_destroy_assignment_part'
 

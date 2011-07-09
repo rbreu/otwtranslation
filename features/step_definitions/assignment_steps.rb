@@ -4,10 +4,12 @@ Given /^I have an assignment for ([^"]*)$/ do |language|
   @assignment = Factory.create(:assignment, :language => lang)
 end
 
-Given /^I have the assignee "([^"]*)"$/ do |login|
-  user = User.find_by_login(login) || Factory.create(:user, {:login => login})
+Given /^I have the assignees "([^"]*)"$/ do |logins|
   @assignment.parts = []
-  Factory.create(:assignment_part, {:assignment => @assignment, :assignee => user} )
+  Otwtranslation::ParameterParser.tokenize(logins).each do |login|
+    user = User.find_by_login(login) || Factory.create(:user, {:login => login})
+    Factory.create(:assignment_part, {:assignment => @assignment, :assignee => user} )
+  end
 end
 
 Then /^I should see (\d+) assignments$/ do |count|

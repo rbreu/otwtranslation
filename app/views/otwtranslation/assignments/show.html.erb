@@ -31,7 +31,7 @@
   <li class="assignment_part <%= part.position%2 == 0 ? "even" : "odd" %>">
   <div class="assignment_part">
     <p class="assignee"><%= part.position %>. <%= part.assignee.login %></p>
-    <p calss="notes"><%= part.notes %></p>
+    <p class="notes"><%= part.notes %></p>
     <dl class="stats">
       <dt class="completed">Completed:</dt>
       <dd class="completed"><%= part.completed ? "yes" : "no" %></dt>
@@ -41,13 +41,13 @@
     <ul class="assignment_part navigation">
       <li>
         <%= form_for(part, 
-                     :url => "",
-                     :html => {:method => :put} ) do |f| %>
+                     :url => otwtranslation_move_up_assignment_part_path(part),
+                     :html => {:method => :get} ) do |f| %>
           <%= f.submit 'Move up' %>
         <% end %>
         <%= form_for(part, 
-                     :url => "",
-                     :html => {:method => :put} ) do |f| %>
+                     :url => otwtranslation_move_down_assignment_part_path(part),
+                     :html => {:method => :get} ) do |f| %>
           <%= f.submit 'Move down' %>
         <% end %>
         <%= form_for(part, 

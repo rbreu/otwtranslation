@@ -21,5 +21,19 @@ class Otwtranslation::AssignmentPartsController < ApplicationController
   end
 
 
+  def move_up
+    part = Otwtranslation::AssignmentPart.find(params[:id])
+    part.move_higher
+    redirect_to otwtranslation_assignment_path(part.assignment)
+  end
+
+  
+  def move_down
+    part = Otwtranslation::AssignmentPart.find(params[:id])
+    part.move_lower
+    redirect_to otwtranslation_assignment_path(part.assignment)
+  end
+
+  
 end
 
