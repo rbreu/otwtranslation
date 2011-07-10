@@ -1,0 +1,11 @@
+<%= form_tag(otwtranslation_post_assignment_part_path(assignment),
+             :method => :post, :id => "otwtranslation_assignment_part",
+             :remote => true) do %>
+  <dl>
+    <dt><%= label_tag(:login, "Assignee's login:") %></dt>
+    <% value = part.assignee.nil? ? "" : part.assignee.login %>
+    <dd><%= text_field_tag(:login, value) %>
+    </dd>
+  </dl>
+  <p class="submit"><%= submit_tag "Add assignee" %></p>
+<% end %>

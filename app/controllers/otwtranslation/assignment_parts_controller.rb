@@ -45,14 +45,22 @@ class Otwtranslation::AssignmentPartsController < ApplicationController
     end
     
     if @part.errors.blank?
-      redirect_to otwtranslation_assignment_path(@assignment)
+      respond_to do |format|
+        format.html do
+          redirect_to otwtranslation_assignment_path(@assignment)
+        end
+        format.js { render "create_success" }
+      end
     else
       msg = 'There was a problem with the assignee:' +
         prettify_error_messages(@part)
       flash[:error] = msg.html_safe
-      render(:action => 'new') && return 
+      
+      respond_to do |format|
+        format.html { render(:action => 'new') }
+        format.js { render "create_fail" }
+      end
     end
-     
   end
 
    

@@ -252,8 +252,23 @@ Feature: Translation phrases
     And I should see the activated status "yes"
 
 
-  @bla
   Scenario: Add an assignee
+    Given I am a translation admin
+    And I have the user "Uhura"
+    And I have selected the language Deutsch
+    And I have an assignment for Deutsch
+
+    When I go to the assignment page
+    And I press "Add assignee"
+    And I fill in "Assignee's login:" with "Uhura"
+    And I press "Add assignee"
+
+    Then I should see the heading "Show Assignment"
+    And I should see the assignee "Uhura"
+
+
+  @javascript
+  Scenario: Add an assignee with JavaScript
     Given I am a translation admin
     And I have the user "Uhura"
     And I have selected the language Deutsch
