@@ -42,7 +42,8 @@ dl#otwtranslation_language dd {
 }
 
 
-table td.phrases, table td.translated, table td.approved, table td.translations {
+table td.phrases, table td.translated, table td.approved,
+table td.translations, table td.assignments {
     text-align: right
 }
 

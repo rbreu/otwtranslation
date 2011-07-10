@@ -18,7 +18,8 @@ class Otwtranslation::AssignmentsController < ApplicationController
 
   
   def new
-    @assignment = Otwtranslation::Assignment.new(:source => params[:source_id])
+    @source_controller_action = params[:controller_action]
+    @assignment = Otwtranslation::Assignment.new()
   end
 
   def index

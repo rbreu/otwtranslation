@@ -10,3 +10,6 @@ Then /^I should see phrase with current version "([^"]*)"$/ do |version|
   page.should have_selector('td.version, dd.version', :text => version)
 end
 
+Given /^I have the source "([^"]*)"$/ do |source|
+  @source = Factory.create(:source, :controller_action => source)
+end

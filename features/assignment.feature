@@ -283,4 +283,15 @@ Feature: Translation phrases
     And I should see the assignee "Uhura"
 
 
+  Scenario: Add an assignment from source page
+    Given I am a translation admin
+    And I have selected the language Deutsch
+    And I have the source "foo#bar"
+
+    When I go to the source page
+    And I press "Add assignment"
+    And I press "Add assignment"
+
+    Then I should see the heading "Show Assignment"
+    Then I should see the assignment source "foo#bar"
 
