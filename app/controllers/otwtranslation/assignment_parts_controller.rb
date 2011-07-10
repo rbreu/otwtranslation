@@ -1,9 +1,11 @@
 class Otwtranslation::AssignmentPartsController < ApplicationController
   include Otwtranslation::CommonMethods
   before_filter :otwtranslation_only
-  before_filter :nonactivated_only
+  before_filter :nonactivated_only_part, :only => [:confirm_destroy, :destroy,
+                                                   :move_up, :move_down]
+  before_filter :nonactivated_only_assignment, :only => [:new, :create]
 
-  def nonactivated_only
+  def nonactivated_only_part
     @part = Otwtranslation::AssignmentPart.find(params[:id])
     
     if @part.assignment.activated
@@ -15,7 +17,45 @@ class Otwtranslation::AssignmentPartsController < ApplicationController
     end
   end
 
+  def nonactivated_only_assignment
+    @assignment = Otwtranslation::Assignment.find(params[:id])
+    
+    if @assignment.activated
+      flash[:error] = "You can't edit an activated assignment."
+      redirect_to otwtranslation_assignment_path(@assignment)
+      return false
+    else
+      return true
+    end
+  end
+
   
+  def new
+    @part = Otwtranslation::AssignmentPart.new(:assignment => @assignment)
+  end
+
+  def create
+    @part = Otwtranslation::AssignmentPart.new(:assignment => @assignment)
+    user = User.find_by_login(params[:login])
+    if user.nil?
+      @part.errors[:login] = "No such user: #{params[:login]}"
+    else
+      @part.assignee = user
+      @part.save
+    end
+    
+    if @part.errors.blank?
+      redirect_to otwtranslation_assignment_path(@assignment)
+    else
+      msg = 'There was a problem with the assignee:' +
+        prettify_error_messages(@part)
+      flash[:error] = msg.html_safe
+      render(:action => 'new') && return 
+    end
+     
+  end
+
+   
   def confirm_destroy
     respond_to do |format|
       format.html do

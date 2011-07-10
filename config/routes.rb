@@ -39,6 +39,12 @@ Rails.application.routes.draw do
 
   # Assignment parts
 
+  get "#{mount_at}/assignments/:id/assignment_parts/new" => 'otwtranslation/assignment_parts#new',
+  :as => 'otwtranslation_new_assignment_part'
+
+  match "#{mount_at}/assignments/:id/assignment_parts" => 'otwtranslation/assignment_parts#create',
+  :as => 'otwtranslation_post_assignment_part', :via => [:post]
+
   get "#{mount_at}/assignment_parts/:id/move_down" => 'otwtranslation/assignment_parts#move_down',
   :as => 'otwtranslation_move_down_assignment_part'
 

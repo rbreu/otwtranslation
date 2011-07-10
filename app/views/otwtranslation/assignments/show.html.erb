@@ -29,6 +29,21 @@
 
 <h3><%= ts("Assigned to:") %></h3>
 
+<% unless @assignment.activated %>
+<ul class="assignment navigation" id="add_assignee">
+  <li>
+    <%= form_for(:part, 
+                 :url => otwtranslation_new_assignment_part_path(@assignment), 
+                 :html => { :method => :get },
+                 :remote => false ) do |f| %>
+      <%= f.submit 'Add assignee' %>
+    <% end %>
+  </li>
+</ul>
+<% end %>
+
+<div class="clear-both"></div>
+
 <ol id="otwtranslation_assignment_parts">
 <% @assignment.parts.each do |part| %>
   <li class="assignment_part <%= part.position%2 == 0 ? "even" : "odd" %>">
@@ -49,11 +64,15 @@
                      :html => {:method => :get} ) do |f| %>
           <%= f.submit 'Move up' %>
         <% end %>
+      </li>
+      <li>
         <%= form_for(part, 
                      :url => otwtranslation_move_down_assignment_part_path(part),
                      :html => {:method => :get} ) do |f| %>
           <%= f.submit 'Move down' %>
         <% end %>
+      </li>
+      <li>
         <%= form_for(part, 
                      :url => otwtranslation_confirm_destroy_assignment_part_path(part),
                      :html => {:method => :get},

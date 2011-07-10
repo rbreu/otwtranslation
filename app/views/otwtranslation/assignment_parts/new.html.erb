@@ -1,0 +1,31 @@
+<!--Descriptive page name and system messages, descriptions, and instructions.-->
+<h2>Edit Assignee</h2>
+<!--end descriptions-->
+
+<!--Subnavigation, sorting and actions.-->
+<!--end navigation-->
+
+
+<!--main content-->
+<dl id="otwtranslation_assignment">
+
+  <dt class="source">Source:</dt>
+  <dd class="source"><%= @assignment.source_controller_action %></dd>
+
+  <dt class="description">Description:</dt>
+  <dd class="description"><%= @assignment.description %></dd>
+</dl>
+
+<%= otwtranslation_post_assignment_part_path(@assignment) %>
+
+<%= form_tag(otwtranslation_post_assignment_part_path(@assignment),
+             :method => :post, :id => "otwtranslation_assignment_part",
+             :remote => false) do %>
+  <dl>
+    <dt><%= label_tag(:login, "Assignee's login:") %></dt>
+    <% value = @part.assignee.nil? ? "" : @part.assignee.login %>
+    <dd><%= text_field_tag(:login, value) %>
+    </dd>
+  </dl>
+  <p class="submit"><%= submit_tag "Add assignee" %></p>
+<% end %>
