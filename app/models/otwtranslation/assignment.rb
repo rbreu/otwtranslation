@@ -46,4 +46,32 @@ class Otwtranslation::Assignment < ActiveRecord::Base
   def source_controller_action
     source.controller_action unless source.nil?
   end
+
+  
+  def self.activated_for(assignee, language_short)
+    find_by_sql("""
+    SELECT * FROM otwtranslation_assignments
+    WHERE otwtranslation_assignments.activated = #{connection.quoted_true}
+    AND otwtranslation_assignments.language_short = '#{language_short}'
+    AND otwtranslation_assignments.id IN
+      (SELECT otwtranslation_assignment_parts.assignment_id
+       FROM otwtranslation_assignment_parts WHERE user_id = #{assignee.id})
+    """)
+  end
+
+  # list of languages where assignee as activated assignments
+  def self.assignees_language_names(assignee)
+    l = connection.select_rows("""
+    SELECT name from languages WHERE languages.short IN
+    (
+      SELECT otwtranslation_assignments.language_short FROM otwtranslation_assignments
+      WHERE otwtranslation_assignments.activated = #{connection.quoted_true}
+      AND otwtranslation_assignments.id IN
+        (SELECT otwtranslation_assignment_parts.assignment_id
+         FROM otwtranslation_assignment_parts WHERE user_id = #{assignee.id})
+    )
+    """)
+    l.flatten
+  end
+
 end

@@ -6,6 +6,51 @@
 <!--end nav-->
 
 <!--main content-->
+<h3><%= ts("My Languages") %></h3>
+
+<%= @languages.join(", ") %>
+
+<h3><%= ts("My Assignments") %></h3>
+
+<h3 class="landmark">My Assignment Table</h3>
+<table id="otwtranslation_assignments" summary="please summarise">
+  <caption><!--please briefly label--></caption>
+  <thead>
+    <tr>
+      <th><%= "Source" %></th>
+      <th><%= "Description" %></th>
+      <th><%= "Assigned to" %></th>
+      <th><%= "Completed?" %></th>
+      <th><%= "Navigation" %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @assignments.each do |assignment| %>
+      <tr class="assignment" id="otwtranslation_assignment_<%= assignment.id %>">
+        <th class="source">
+	  <% if assignment.source %>
+            <%= link_to(assignment.source.controller_action, 
+                        otwtranslation_source_path(assignment.source)) %>
+	  <% end %>
+        </th>
+        <td class="description"><%= assignment.description %></td>
+        <td class="assignees"><%= assignment.assignees_names %></td>
+        <td class="completed">
+          <%= assignment.completed? ? "&#x2713;".html_safe : "" %>
+	</td>
+        <td class="navigation">
+          <%= form_for(assignment, 
+                       :url => otwtranslation_assignment_path(assignment),
+                       :html => {:method => :get}) do |f| %>
+            <%= f.submit 'Show' %>
+          <% end %>
+	</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
 <!-- /main-->
 
 
