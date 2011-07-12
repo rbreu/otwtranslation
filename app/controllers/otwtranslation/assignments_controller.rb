@@ -136,7 +136,18 @@ class Otwtranslation::AssignmentsController < ApplicationController
     @assignment = Otwtranslation::Assignment.find(params[:id])
     @assignment.activated = true
 
-    unless @assignment.save
+    if @assignment.save
+      # notify all assignees
+      @assignment.assignees.each do |assignee|
+        Otwtranslation::AssignmentMailer
+          .assignment_notification(assignee.id, @assignment.id).deliver
+      end
+
+      # notify first assignee to start working
+      Otwtranslation::AssignmentMailer
+        .assignment_part_notification(@assignment.assignees.first.id,
+                                      @assignment.id).deliver
+    else
       msg = 'There was a problem with the assignment:' +
         prettify_error_messages(@assignment)
     end

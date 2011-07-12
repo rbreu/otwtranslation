@@ -12,7 +12,7 @@ Given /^I have the assignees "([^"]*)"$/ do |logins|
   end
 end
 
-Then /^I should see (\d+) assignments$/ do |count|
+Then /^I should see (\d+) assignments?$/ do |count|
   if count.to_i == 0
     page.should_not have_selector('tr.assignment')
   else

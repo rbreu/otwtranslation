@@ -10,7 +10,7 @@ Feature: Translation phrases
 
     When I go to the assignment table
     Then I should see the heading "Assignment Table"
-    And I should see 1 assignments
+    And I should see 1 assignment
 
     When I select the language Nederlands
     And I go to the assignment table
@@ -41,7 +41,7 @@ Feature: Translation phrases
     And I should see the assignee "Dean"
     
     When I go to the assignment table
-    Then I should see 1 assignments
+    Then I should see 1 assignment
 
 
   Scenario: Add an assignment with invalid source
@@ -72,7 +72,7 @@ Feature: Translation phrases
     And I should see the assignee "Dean"
     
     When I go to the assignment table
-    Then I should see 1 assignments
+    Then I should see 1 assignment
 
 
   Scenario: Add an assignment with invalid user
@@ -103,7 +103,7 @@ Feature: Translation phrases
     And I should see the assignee "Dean"
     
     When I go to the assignment table
-    Then I should see 1 assignments
+    Then I should see 1 assignment
 
 
   Scenario: Delete assignment
@@ -229,6 +229,8 @@ Feature: Translation phrases
     Given I am a translation admin
     And I have selected the language Deutsch
     And I have an assignment for Deutsch
+    And I have the assignees "Alice, Bob"
+    And all emails have been delivered
 
     When I go to the assignment page
     Then I should see the activated status "no"
@@ -236,6 +238,8 @@ Feature: Translation phrases
     When I press "Activate"
     Then I should see the heading "Show Assignment"
     And I should see the activated status "yes"
+    And "Alice" should get 2 mails
+    And "Bob" should get 1 mail
 
 
   @javacript
@@ -243,6 +247,8 @@ Feature: Translation phrases
     Given I am a translation admin
     And I have selected the language Deutsch
     And I have an assignment for Deutsch
+    And I have the assignees "Alice, Bob"
+    And all emails have been delivered
 
     When I go to the assignment page
     Then I should see the activated status "no"
@@ -250,6 +256,8 @@ Feature: Translation phrases
     When I press "Activate"
     Then I should see the heading "Show Assignment"
     And I should see the activated status "yes"
+    And "Alice" should get 2 mails
+    And "Bob" should get 1 mail
 
 
   Scenario: Add an assignee
