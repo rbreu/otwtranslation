@@ -3,6 +3,9 @@ class Otwtranslation::HomeController < ApplicationController
   before_filter :otwtranslation_only
 
   def index
+    @languages = Otwtranslation::Assignment.assignees_language_names(current_user)
+    @assignments = Otwtranslation::Assignment.activated_for(current_user,
+                                                            otwtranslation_language)
   end
 
   def toggle_tools

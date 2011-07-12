@@ -7,6 +7,70 @@ Rails.application.routes.draw do
   :as => 'otwtranslation_toggle_tools'
 
 
+  # Assignments
+  
+  get "#{mount_at}/assignments" => 'otwtranslation/assignments#index',
+  :as => 'otwtranslation_assignments'
+
+  get "#{mount_at}/assignments/new" => 'otwtranslation/assignments#new',
+  :as => 'otwtranslation_new_assignment'
+
+  match "#{mount_at}/assignments/" => 'otwtranslation/assignments#create',
+  :as => 'otwtranslation_post_assignment', :via => [:post]
+  
+  get "#{mount_at}/assignments/:id/confirm_destroy" => 'otwtranslation/assignments#confirm_destroy',
+  :as => 'otwtranslation_confirm_destroy_assignment'
+  
+  match "#{mount_at}/assignments/:id/activate" => 'otwtranslation/assignments#activate',
+  :as => 'otwtranslation_activate_assignment', :via => [:put]
+
+  get "#{mount_at}/assignments/:id/complete_part" => 'otwtranslation/assignments#complete_part',
+  :as => 'otwtranslation_complete_part'
+
+  get "#{mount_at}/assignments/:id/edit" => 'otwtranslation/assignments#edit',
+  :as => 'otwtranslation_edit_assignment'
+
+  match "#{mount_at}/assignments/:id" => 'otwtranslation/assignments#destroy',
+  :as => 'otwtranslation_destroy_assignment', :via => [:delete]
+  
+  get "#{mount_at}/assignments/:id" => 'otwtranslation/assignments#show',
+  :as => 'otwtranslation_assignment'
+
+  match "#{mount_at}/assignments/:id" => 'otwtranslation/assignments#update',
+  :as => 'otwtranslation_update_assignment', :via => [:put]
+
+
+  # Assignment parts
+
+  get "#{mount_at}/assignments/:id/assignment_parts/new" => 'otwtranslation/assignment_parts#new',
+  :as => 'otwtranslation_new_assignment_part'
+
+  match "#{mount_at}/assignments/:id/assignment_parts" => 'otwtranslation/assignment_parts#create',
+  :as => 'otwtranslation_post_assignment_part', :via => [:post]
+
+  get "#{mount_at}/assignment_parts/:id/move_down" => 'otwtranslation/assignment_parts#move_down',
+  :as => 'otwtranslation_move_down_assignment_part'
+
+  get "#{mount_at}/assignment_parts/:id/move_up" => 'otwtranslation/assignment_parts#move_up',
+  :as => 'otwtranslation_move_up_assignment_part'
+
+  match "#{mount_at}/assignment_parts/:id/complete" => 'otwtranslation/assignment_parts#complete',
+  :as => 'otwtranslation_complete_assignment_part', :via => [:put]
+
+  get "#{mount_at}/assignment_parts/:id/confirm_destroy" => 'otwtranslation/assignment_parts#confirm_destroy',
+  :as => 'otwtranslation_confirm_destroy_assignment_part'
+
+  match "#{mount_at}/assignment_parts/:id" => 'otwtranslation/assignment_parts#destroy',
+  :as => 'otwtranslation_destroy_assignment_part', :via => [:delete]
+  
+  # Sources
+  
+  get "#{mount_at}/sources" => 'otwtranslation/sources#index',
+  :as => 'otwtranslation_sources'
+
+  get "#{mount_at}/sources/:id" => 'otwtranslation/sources#show',
+  :as => 'otwtranslation_source'
+
   # Phrases
   
   get "#{mount_at}/phrases" => 'otwtranslation/phrases#index',

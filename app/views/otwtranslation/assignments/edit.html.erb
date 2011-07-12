@@ -1,0 +1,11 @@
+<!--Descriptive page name and system messages, descriptions, and instructions.-->
+<h2>Edit Assignment</h2>
+<!--end descriptions-->
+
+<!--Subnavigation, sorting and actions.-->
+<!--end navigation-->
+<!--main content-->
+
+<%= render :partial => "edit_form", 
+           :locals => { :assignment => @assignment,
+                        :source_controller_action => @source_controller_action } %>

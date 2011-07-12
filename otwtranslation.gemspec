@@ -24,6 +24,8 @@ Gem::Specification.new do |s|
   s.add_dependency "rails_helpers_fix"
   s.add_dependency "jquery-rails"
   s.add_dependency "sanitize"
+  s.add_dependency "resque", ">=1.14.0"
+  s.add_dependency "resque_mailer"
 
   s.add_development_dependency "rspec-rails", "~> 2.5.0"
   s.add_development_dependency "cucumber-rails", "~> 0.3.2"
@@ -32,6 +34,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency "factory_girl"
   s.add_development_dependency "webrat"
   s.add_development_dependency "database_cleaner"
-  s.add_development_dependency "akephalos"
+  s.add_development_dependency "selenium-webdriver"
+  s.add_development_dependency "pickle"
+
 end
 

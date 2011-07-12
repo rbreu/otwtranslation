@@ -1,0 +1,20 @@
+<!--Descriptive page name and system messages, descriptions, and instructions.-->
+<h2>Add Assignee</h2>
+<!--end descriptions-->
+
+<!--Subnavigation, sorting and actions.-->
+<!--end navigation-->
+
+
+<!--main content-->
+<dl id="otwtranslation_assignment">
+
+  <dt class="source">Source:</dt>
+  <dd class="source"><%= @assignment.source_controller_action %></dd>
+
+  <dt class="description">Description:</dt>
+  <dd class="description"><%= @assignment.description %></dd>
+</dl>
+
+<%= render :partial => "form", 
+           :locals => { :assignment => @assignment, :part => @part } %>

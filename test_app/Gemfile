@@ -5,6 +5,8 @@ gem 'sqlite3'
 gem 'memcache-client'
 gem 'jquery-rails'
 gem 'sanitize'
+gem 'resque', '>=1.14.0'
+gem 'resque_mailer'
 
 gem "rails_helpers_fix"
 
@@ -25,7 +27,8 @@ group :development, :test do
   gem "factory_girl"
   gem "webrat"
   gem "database_cleaner"
-  gem "akephalos"
+  #gem "akephalos"
   gem "selenium-webdriver"
+  gem "pickle"
 end
 

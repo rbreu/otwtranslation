@@ -31,7 +31,24 @@
     <%= number_to_percentage(
           @source.percentage_approved_for(otwtranslation_language), :precision => 2) %>
   </dd>
+
+  <dt class="assignments">Assignments:</dt>
+  <dd class="assignments">
+    <%= @source.assignments.size %>
+  </dd>
 </dl>
+
+<ul class="translation navigation" id="add_assignment">
+  <li>
+    <%= form_tag(otwtranslation_new_assignment_path, 
+	         :method => :get, :id => :otwtranslation_new_assignment) do |f| %>
+      <%= hidden_field_tag(:controller_action, @source.controller_action) %>
+      <%= submit_tag 'Add assignment' %>
+    <% end %>
+  </li>
+</ul>
+
+<div class="clear-both"></div>
 
 <h3><%= ts("Phrases for this source:") %></h3>
 

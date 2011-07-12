@@ -1,4 +1,4 @@
-Feature: Translation phrases
+Feature: Languages
   In order to have languages
   As a translation admin
   I want to view and manage languages

@@ -1,0 +1,4 @@
+$("#assignment_navigation").replaceWith(
+  "<%= escape_javascript(render :partial => "edit_form", 
+           :locals => { :assignment => @assignment,
+                        :source_controller_action => @source_controller_action }) %>")

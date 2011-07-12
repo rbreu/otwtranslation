@@ -1,0 +1,17 @@
+<%= form_tag(otwtranslation_update_assignment_path,
+             :method => "put", :id => "otwtranslation_assignment",
+             :remote => true) do %>
+  <dl>
+    <dt><%= label_tag(:source_controller_action, "Source:") %></dt>
+    <dd><%= text_field_tag(:source_controller_action, source_controller_action) %>
+    </dd>
+
+    <dt><%= label_tag(:description, "Description:") %></dt>
+    <dd><%= text_area_tag(:description, assignment.description,
+                          :rows => 5) %>
+    </dd>
+
+  </dl>
+  <p class="submit"><%= submit_tag "Update assignment" %></p>
+<% end %>
+

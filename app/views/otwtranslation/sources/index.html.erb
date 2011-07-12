@@ -5,8 +5,6 @@
 <!--Subnavigation, sorting and actions.-->
 <!--end navigation-->
 
-<p class="notice">Maybe we can base assignments on this.</p>
-
 <p><%= "(Statistics will update every #{OtwtranslationConfig.STATS_CACHE_EXPIRY} minutes.)" %></p>
 
 <table id="otwtranslation_sources" summary="please summarise">
@@ -19,6 +17,7 @@
     <th><%= ts("Phrases") %>
     <th><%= ts("Translated") %>
     <th><%= ts("Approved") %>
+    <th><%= ts("Assignments") %>
   </tr>
 </thead>
 <tbody>
@@ -46,7 +45,10 @@
       <%= number_to_percentage(
           source.percentage_approved_for(otwtranslation_language), :precision => 2) %>
     </td>
-  </tr>
+     <td class="approved">
+      <%= source.assignments.size %>
+    </td>
+ </tr>
 <% end %><!-- end of cache -->
 <% end %>
 </tbody>

@@ -8,7 +8,7 @@ describe "otwtranslation/home/_tools.html.erb" do
     rendered.should contain 'sources'
     rendered.should contain 'phrases'
     rendered.should contain 'translation home'
-    rendered.should have_selector("li", :count => 4)
+    rendered.should have_selector("li", :count => 5)
   end
 
 end

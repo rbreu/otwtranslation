@@ -1,0 +1,25 @@
+<h3>Complete Assignment Part</h3>
+
+<dl>
+  <dt class="type">Source:</dt>
+  <dd class="type"><%= @assignment.source_controller_action %></dd>
+
+  <dt class="description">Description:</dt>
+  <dd class="description"><%= @assignment.description %></dd>
+</dl>
+
+<h3 class="landmark">Assignment Part Form</h3>
+
+<%= form_for(@part,
+             :url => otwtranslation_complete_assignment_part_path(@part),
+             :html => {:method => :put}) do |f| %>
+  <dl>
+    <dt class="notes">
+      <%= f.label :notes, "Your notes:" %>
+    </dt>
+    <dd class="notes">
+      <%= f.text_area :notes, :rows => 5 %>
+    </dd>
+  </dl>
+  <p class="submit"><%= f.submit 'Complete assignment part' %></p>
+<% end %>

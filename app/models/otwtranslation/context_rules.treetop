@@ -17,7 +17,7 @@ grammar ContextRules
   end
 
   rule context_rule
-  "{" name:[a-zA-Z]+ "::" variable:[a-zA-Z]+ "}" {
+  "{" name:[a-zA-Z]+ "::" variable:[a-zA-Z_]+ "}" {
       def content
         [:rule, {:name => name.text_value, :variable => variable.text_value}]
       end

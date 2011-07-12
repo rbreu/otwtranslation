@@ -1,0 +1,45 @@
+<!--Descriptive page name and system messages, descriptions, and instructions.-->
+<h2>Show Assignment</h2>
+<!--end descriptions-->
+
+<!--Subnavigation, sorting and actions.-->
+<!--end navigation-->
+
+
+<!--main content-->
+<dl id="otwtranslation_assignment">
+
+  <dt class="source">Source:</dt>
+  <dd class="source"><%= @assignment.source_controller_action %></dd>
+
+  <dt class="description">Description:</dt>
+  <dd class="description"><%= @assignment.description %></dd>
+
+  <dt class="activated">Activated:</dt>
+  <dd class="activated"><%= @assignment.activated ? "yes" : "no" %></dd>
+
+  <dt class="completed">Completed:</dt>
+  <dd class="completed"><%= @assignment.completed? ? "yes" : "no" %></dd>
+</dl>
+
+<%= render :partial => "navigation", 
+           :locals => { :assignment => @assignment, :on_show => true } %>
+
+<div class="clear-both"></div>
+
+<h3><%= ts("Assigned to:") %></h3>
+
+<%= render :partial => "otwtranslation/assignment_parts/add_assignee_button", 
+           :locals => { :assignment => @assignment } %>
+
+<div class="clear-both"></div>
+
+<ol id="otwtranslation_assignment_parts">
+<% @assignment.parts.each do |part| %>
+  <%= render :partial => "otwtranslation/assignment_parts/part",
+             :locals => { :assignment => @assignment, :part => part } %>
+<% end %>
+</ol>
+<!--/main-->
+
+<!--/nav-->

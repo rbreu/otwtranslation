@@ -93,7 +93,7 @@ describe Otwtranslation::Phrase, "translation associations" do
     t = @phrase.approved_translations.for_language(@de)
     t.size.should == 1
     t.first.language_short.should == @de.short
-    t.first.approved.should == true
+    t.first.approved.should be_true
   end
 
   it "should find translations per context" do

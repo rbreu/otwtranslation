@@ -6,6 +6,10 @@ class Otwtranslation::Source < ActiveRecord::Base
                           :join_table => :otwtranslation_phrases_sources,
                           :class_name => 'Otwtranslation::Phrase')
 
+  has_many(:assignments,
+           :class_name => 'Otwtranslation::Assignment',
+           :foreign_key => 'source_id')
+
   validates_presence_of :controller_action
   validates_uniqueness_of :controller_action
 
