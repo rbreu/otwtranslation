@@ -54,7 +54,6 @@ Factory.define(:assignment_part, :class => Otwtranslation::AssignmentPart) do |f
   f.association :assignee, :factory => :user
   f.association :assignment
   f.notes "some important note"
-  f.completed false
 end
 
 Factory.define(:assignment, :class => Otwtranslation::Assignment) do |f|

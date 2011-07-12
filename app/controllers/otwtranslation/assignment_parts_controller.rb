@@ -93,5 +93,29 @@ class Otwtranslation::AssignmentPartsController < ApplicationController
   end
 
   
+  def complete
+    @part = Otwtranslation::AssignmentPart.find(params[:id])
+    @assignment = @part.assignment
+      
+    if @assignment.users_turn?(current_user)
+      @part.notes = params[:otwtranslation_assignment_part][:notes]
+      @part.status = :completed
+      if @part.save
+        next_part = @part.lower_item
+        next_part.activate unless next_part.nil?
+        redirect_to otwtranslation_assignment_path(@assignment)
+      else
+        msg = 'There was a problem with the assignment part:' +
+          prettify_error_messages(@part)
+        flash[:error] = msg.html_safe
+        render(:template => "otwtranslation/assignment/complete_part")
+      end  
+      
+    else
+      flash[:error] = "You can only complete active parts that are assigned to you."
+      redirect_to otwtranslation_assignment_path(@part.assignment)
+    end
+  end
+  
 end
 

@@ -3,10 +3,10 @@ end
 
 Given /^I am a translator$/ do
   warn "Change translation admin to translator!"
-  user = Factory(:translation_admin)
+  @user = Factory(:translation_admin)
   visit "/"
-  fill_in "User name", :with => user.login
-  fill_in "Password", :with => user.password
+  fill_in "User name", :with => @user.login
+  fill_in "Password", :with => @user.password
   click_button "Log in"
   assert UserSession.find
 end

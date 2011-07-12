@@ -7,9 +7,19 @@ end
 Given /^I have the assignees "([^"]*)"$/ do |logins|
   @assignment.parts = []
   Otwtranslation::ParameterParser.tokenize(logins).each do |login|
-    user = User.find_by_login(login) || Factory.create(:user, {:login => login})
-    Factory.create(:assignment_part, {:assignment => @assignment, :assignee => user} )
+    if login == "Me"
+      user = @user
+    else
+      user = User.find_by_login(login) || Factory.create(:user, {:login => login})
+    end
+    part = Factory.create(:assignment_part,
+                          {:assignment => @assignment, :assignee => user} )
+    @assignment.parts << part
   end
+end
+
+Given /^the assignment is activated$/ do
+  @assignment.activate
 end
 
 Then /^I should see (\d+) assignments?$/ do |count|
@@ -28,8 +38,8 @@ Then /^I should see the assignment source "([^"]*)"$/ do |source|
   page.should have_selector('dd.source', :text => source)
 end
 
-Then /^I should see the completed status "([^"]*)"$/ do |completed|
-  page.should have_selector('dd.completed', :text => completed)
+Then /^I should see the assignment part status "([^"]*)"$/ do |status|
+  page.should have_selector('dd.status', :text => status)
 end
 
 Then /^I should see the activated status "([^"]*)"$/ do |activated|

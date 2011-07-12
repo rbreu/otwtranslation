@@ -36,7 +36,7 @@ class Otwtranslation::Assignment < ActiveRecord::Base
 
   def completed?
     return false if parts.empty?
-    !(parts.where(:completed => false).exists?)
+    !parts.uncompleted.exists?
   end
 
   def assignees_names
@@ -72,6 +72,30 @@ class Otwtranslation::Assignment < ActiveRecord::Base
     )
     """)
     l.flatten
+  end
+
+
+  def activate
+    self.activated = true
+    if self.save
+      # notify all assignees
+      assignees.each do |assignee|
+        Otwtranslation::AssignmentMailer
+          .assignment_notification(assignee.id, id).deliver
+      end
+
+      # activate first part
+      parts.first.activate unless parts.first.nil?
+    end
+  end
+
+  def users_turn?(user)
+    active_part = parts.active
+    if active_part.nil?
+      return false
+    else
+      return active_part.assignee == user
+    end
   end
 
 end

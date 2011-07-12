@@ -7,6 +7,11 @@ $(".assignments-show ul#assignment_navigation").replaceWith(
 $("dl#otwtranslation_assignment dd.activated").html(
   "<%= @assignment.activated ? "yes" : "no" %>")
 
+// Replace first part's status in show
+$("li#assignment_part_<%= @assignment.parts.first.id %> dd.status").replaceWith(
+  "<%= @assignment.parts.first.status.to_s %>"
+)
+
 // Replace navigation bar in index
 $("tr#otwtranslation_assignment_<%= @assignment.id %> ul#assignment_navigation").replaceWith(
   "<%= escape_javascript(render :partial => "navigation", 

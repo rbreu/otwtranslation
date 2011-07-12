@@ -16,6 +16,11 @@ describe Otwtranslation::ContextRule, "tokenize_label" do
                   [:text, "!"]]
   end
 
+  it "should handle variable names with underscores" do
+    Otwtranslation::ContextRule.tokenize_label("{general::my_name}")
+      .should == [[:rule, {:name => "general", :variable => "my_name"}]]
+  end
+
   it "should parse phrase with two rules" do
      Otwtranslation::ContextRule.tokenize_label("You have {quantity::message} and {quantity::story}.")
       .should == [[:text, "You have "],

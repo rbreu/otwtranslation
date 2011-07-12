@@ -30,7 +30,7 @@
   <li>
     <%= form_for(:assignment, 
                  :url => otwtranslation_activate_assignment_path(assignment), 
-                 :html => { :method => :get },
+                 :html => { :method => :put },
                  :remote => true ) do |f| %>
       <%= f.submit 'Activate' %>
     <% end %>

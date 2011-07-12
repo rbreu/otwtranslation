@@ -3,7 +3,6 @@ class Otwtranslation::AssignmentsController < ApplicationController
   before_filter :otwtranslation_only
   before_filter :nonactivated_only, :only => [:edit, :update]
 
-
   def nonactivated_only
     @assignment = Otwtranslation::Assignment.find(params[:id])
     
@@ -134,20 +133,9 @@ class Otwtranslation::AssignmentsController < ApplicationController
 
   def activate
     @assignment = Otwtranslation::Assignment.find(params[:id])
-    @assignment.activated = true
+    @assignment.activate
 
-    if @assignment.save
-      # notify all assignees
-      @assignment.assignees.each do |assignee|
-        Otwtranslation::AssignmentMailer
-          .assignment_notification(assignee.id, @assignment.id).deliver
-      end
-
-      # notify first assignee to start working
-      Otwtranslation::AssignmentMailer
-        .assignment_part_notification(@assignment.assignees.first.id,
-                                      @assignment.id).deliver
-    else
+    unless @assignment.errors.blank?
       msg = 'There was a problem with the assignment:' +
         prettify_error_messages(@assignment)
     end
@@ -159,6 +147,17 @@ class Otwtranslation::AssignmentsController < ApplicationController
       format.js { render "activate" }
     end
   end
-  
+
+
+  def complete_part
+    @assignment = Otwtranslation::Assignment.find(params[:id])
+    @part = @assignment.parts.active
+    
+    unless @assignment.users_turn?(current_user)
+      flash[:error] = "You can only complete active parts that are assigned to you."
+      redirect_to otwtranslation_assignment_path(@assignment)
+    end
+  end
+
 end
 

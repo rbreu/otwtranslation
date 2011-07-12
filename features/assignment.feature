@@ -2,6 +2,8 @@ Feature: Translation phrases
   In order to manage translation work
   As a translation admin
   I want to create and edit assignments
+  As a translator
+  I want to complete assignment parts
 
   Scenario: View assignments
     Given I am a translation admin
@@ -36,7 +38,7 @@ Feature: Translation phrases
     Then I should see the heading "Show Assignment"
     And I should see the assignment description "Test description"
     And I should see the assignment source "home#index"
-    And I should see the completed status "no"
+    And I should see the assignment part status "pending"
     And I should see the assignee "Sam"
     And I should see the assignee "Dean"
     
@@ -67,7 +69,7 @@ Feature: Translation phrases
     Then I should see the heading "Show Assignment"
     And I should see the assignment description "Test description"
     And I should see the assignment source "home#index"
-    And I should see the completed status "no"
+    And I should see the assignment part status "pending"
     And I should see the assignee "Sam"
     And I should see the assignee "Dean"
     
@@ -98,7 +100,7 @@ Feature: Translation phrases
     Then I should see the heading "Show Assignment"
     And I should see the assignment description "Test description"
     And I should see the assignment source "home#index"
-    And I should see the completed status "no"
+    And I should see the assignment part status "pending"
     And I should see the assignee "Sam"
     And I should see the assignee "Dean"
     
@@ -303,3 +305,22 @@ Feature: Translation phrases
     Then I should see the heading "Show Assignment"
     Then I should see the assignment source "foo#bar"
 
+  @bla
+  Scenario: Complete assignment parts
+    Given I am a translator
+    And I have selected the language Deutsch
+    And I have an assignment for Deutsch
+    And I have the assignees "Me, JackHarkness"
+    And the assignment is activated
+    And all emails have been delivered
+
+    When I go to the translation homepage
+    Then show me the page
+    And I press "Mark my part as completed"
+    And I fill in "notes" with "All done. :)"
+    And I press "Complete assignment part"
+
+    Then I should see the heading "Show Assignment"
+    And I should see the assignment part status "completed"
+    And I should see "All done. :)"
+    And "JackHarkness" should get 1 mail

@@ -65,7 +65,7 @@ describe Otwtranslation::Assignment, "completed?" do
     assignment.set_assignees([@user1.login, @user2.login])
     assignment.save
     part = assignment.parts.first
-    part.completed = true
+    part.status = :completed
     part.save
     
     assignment.completed?.should be_false
@@ -76,11 +76,11 @@ describe Otwtranslation::Assignment, "completed?" do
     assignment.set_assignees([@user1.login, @user2.login])
     assignment.save
     part = assignment.parts.first
-    part.completed = true
+    part.status = :completed
     part.save
     
     part = assignment.parts.last
-    part.completed = true
+    part.status = :completed
     part.save
     
     assignment.completed?.should be_true
@@ -243,4 +243,71 @@ describe Otwtranslation::Assignment, "assignees_language_names" do
     l = Otwtranslation::Assignment.assignees_language_names(@user1)
     l.should =~ [@language1.name]
   end
+end
+
+
+describe Otwtranslation::Assignment, "activate" do
+
+  before(:each) do
+    @user1 = Factory.create(:user)
+    @user2 = Factory.create(:user)
+    @assignment = Factory.create(:assignment)
+    @assignment.set_assignees([@user1.login, @user2.login])
+    @assignment.save!
+   
+  end
+
+  it "should not fail" do
+    expect{ @assignment.activate }.not_to raise_error
+  end
+  
+  
+  it "should activate, notify assignees and activate first part" do
+    mail = mock
+    mail.should_receive(:deliver).twice
+    Otwtranslation::AssignmentMailer.should_receive(:assignment_notification).twice.and_return(mail)
+    @assignment.activate
+    @assignment.activated.should be_true
+  end
+
+  it "should not break when there are no assignees" do
+    assignment = Factory.create(:assignment)
+    expect{ assignment.activate }.not_to raise_error
+  end
+  
+end
+
+describe Otwtranslation::Assignment, "users_turn?" do
+
+  before(:each) do
+    @user1 = Factory.create(:user)
+    @user2 = Factory.create(:user)
+    @user3 = Factory.create(:user)
+    @assignment = Factory.create(:assignment, :activated => true)
+    @assignment.set_assignees([@user1.login, @user2.login, @user3.login])
+    p = @assignment.parts[0]
+    p.status = :completed
+    p.save!
+    p = @assignment.parts[1]
+    p.status = :active
+    p.save!
+  end
+
+  it "should return false" do
+    @assignment.users_turn?(@user1).should be_false
+    @assignment.users_turn?(@user3).should be_false
+  end
+
+  it "should return true" do
+    @assignment.users_turn?(@user2).should be_true
+  end
+
+  it "should return false if there is no active part" do
+    assignment = Factory.create(:assignment, :activated => true)
+    assignment.set_assignees([@user1.login, @user2.login, @user2.login])
+    assignment.users_turn?(@user1).should be_false
+    assignment.users_turn?(@user2).should be_false
+    assignment.users_turn?(@user3).should be_false
+  end
+
 end

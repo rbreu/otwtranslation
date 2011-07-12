@@ -21,8 +21,11 @@ Rails.application.routes.draw do
   get "#{mount_at}/assignments/:id/confirm_destroy" => 'otwtranslation/assignments#confirm_destroy',
   :as => 'otwtranslation_confirm_destroy_assignment'
   
-  get "#{mount_at}/assignments/:id/activate" => 'otwtranslation/assignments#activate',
+  match "#{mount_at}/assignments/:id/activate" => 'otwtranslation/assignments#activate',
   :as => 'otwtranslation_activate_assignment', :via => [:put]
+
+  get "#{mount_at}/assignments/:id/complete_part" => 'otwtranslation/assignments#complete_part',
+  :as => 'otwtranslation_complete_part'
 
   get "#{mount_at}/assignments/:id/edit" => 'otwtranslation/assignments#edit',
   :as => 'otwtranslation_edit_assignment'
@@ -50,6 +53,9 @@ Rails.application.routes.draw do
 
   get "#{mount_at}/assignment_parts/:id/move_up" => 'otwtranslation/assignment_parts#move_up',
   :as => 'otwtranslation_move_up_assignment_part'
+
+  match "#{mount_at}/assignment_parts/:id/complete" => 'otwtranslation/assignment_parts#complete',
+  :as => 'otwtranslation_complete_assignment_part', :via => [:put]
 
   get "#{mount_at}/assignment_parts/:id/confirm_destroy" => 'otwtranslation/assignment_parts#confirm_destroy',
   :as => 'otwtranslation_confirm_destroy_assignment_part'

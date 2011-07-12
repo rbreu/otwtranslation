@@ -1,6 +1,6 @@
 class Otwtranslation::AssignmentMailer < ActionMailer::Base
   include Resque::Mailer
-  
+
   layout 'mailer'
   default :from => ArchiveConfig.RETURN_ADDRESS
 
