@@ -26,6 +26,15 @@ Add
 to your ``application_controller.rb`` to access the helpers from
 within your views and controllers.
 
+Add 
+
+::
+
+  include OtwtranslationHelper
+  helper :otwtranslation
+
+to all of your mailers. (TODO: can we do this in one place?)
+
 Add
 
 ::
