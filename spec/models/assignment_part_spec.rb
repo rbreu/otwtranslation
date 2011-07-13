@@ -36,7 +36,7 @@ describe Otwtranslation::AssignmentPart, "activate" do
 
   it "should not fail" do
     part = Factory.create(:assignment_part)
-    expect{ part.activate }.not_to raise_error
+    part.activate
   end
 
   it "should activate and send mail" do

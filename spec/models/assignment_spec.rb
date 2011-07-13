@@ -258,7 +258,7 @@ describe Otwtranslation::Assignment, "activate" do
   end
 
   it "should not fail" do
-    expect{ @assignment.activate }.not_to raise_error
+    @assignment.activate
   end
   
   

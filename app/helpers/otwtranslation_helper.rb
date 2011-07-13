@@ -2,23 +2,7 @@ module OtwtranslationHelper
 
   def ts(phrase, description="", variables = {})
 
-    # Try to store this phrase
-    begin
-      # Maybe we got called from a view
-      source = {
-        :controller => controller.class.name.underscore.gsub("_controller", ""),
-        :action => controller.action_name,
-        :url => request.url
-      }
-    rescue NameError
-      # OK, so we got called from a controller
-      source = {
-        :controller => self.class.name.underscore.gsub("_controller", ""),
-        :action => action_name,
-        :url => request.url
-      }
-    end
-
+    source = otwtranslation_get_source
     phrase = Otwtranslation::Phrase.find_or_create(phrase, description, source)
 
     # See if we need to present a decorated or plain translation
@@ -30,6 +14,62 @@ module OtwtranslationHelper
     
   end
 
+
+  def otwtranslation_get_source
+    begin
+      # Maybe we got called from a view
+      source = {
+        :controller => controller.class.name.underscore.gsub("_controller", ""),
+        :action => controller.action_name,
+        :url => request.url
+      }
+      return source
+    rescue NameError
+    end
+      
+    begin
+      # Maybe we got called from a controller
+      source = {
+        :controller => self.class.name.underscore.gsub("_controller", ""),
+        :action => action_name,
+        :url => request.url
+      }
+      return source
+    rescue NameError
+    end
+
+    begin
+      # Maybe we got called from a mailer view
+      source = {
+        :controller => mailer.mailer_name,
+        :action => action_name,
+        :url => ""
+      }
+      return source
+    rescue NameError
+    end
+      
+    begin
+      # Maybe we got called from a mailer
+      source = {
+        :controller => mailer_name,
+        :action => action_name,
+        :url => ""
+      }
+      return source
+    rescue NameError
+    end
+      
+    # Something else. Investigate.
+    source = {
+      :controller => "unknown",
+      :action => "unknown",
+      :url => ""
+    }
+    return source
+
+  end
+  
 
   def otwtranslation_decorated_translation(phrase_key, phrase_label=nil, variables={})
     cache_key = Otwtranslation::Translation
@@ -112,7 +152,13 @@ module OtwtranslationHelper
   end
 
   def otwtranslation_tool_visible?
-    logged_in? && current_user.is_translation_admin? && session[:otwtranslation_tools]
+    begin
+      return (logged_in? && current_user.is_translation_admin? &&
+              session[:otwtranslation_tools])
+    rescue NameError
+      # This happens in emails
+      return false
+    end
   end
 
   def otwtranslation_tool_header
@@ -123,7 +169,13 @@ module OtwtranslationHelper
 
 
   def otwtranslation_language
-    session[:otwtranslation_language] || OtwtranslationConfig.DEFAULT_LANGUAGE
+    begin
+      session_language = session[:otwtranslation_language]
+    rescue NameError
+      # This happens in emails
+      session_language = nil
+    end
+    session_language || OtwtranslationConfig.DEFAULT_LANGUAGE
   end
 
 end
