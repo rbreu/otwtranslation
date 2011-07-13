@@ -16,6 +16,7 @@ module OtwtranslationHelper
 
 
   def otwtranslation_get_source
+    
     begin
       # Maybe we got called from a view
       source = {
