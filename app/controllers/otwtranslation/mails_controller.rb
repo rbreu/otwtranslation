@@ -7,31 +7,36 @@ class Otwtranslation::MailsController < ApplicationController
   before_filter :otwtranslation_only
 
   def index
+    @paths = Dir.glob("#{RAILS_ROOT}/app/views/*_mailer/*")
+
     view = "otwtranslation/assignment_mailer/assignment_notification"
-    render view
-    
-    #erb = ERB.new(File.open("#{RAILS_ROOT}/../app/views/#{view}.html.erb").read)
-    #b = binding
-    #p b.methods
-    #p instance_variable_names
-    #p instance_values
-    #html = erb.result(b)
+    @text = dummy_render("#{RAILS_ROOT}/../app/views/#{view}.html.erb")
   end
 
-  # http://www.ruby-forum.com/topic/160989
-  # :-(
+  private
   
-  def instance_variable_get(symbol)
-    p "===="
-    p symbol
-    value = super(symbol)
-    if value.nil?
-      p "nil!"
+  def method_missing(symbol, *arguments, &block)
+    if respond_to?(symbol) # || !symbol.to_s.start_with?("__")
+      return super(symbol, *arguments, &block)
+    else
+      return Otwtranslation::Dummy.new
     end
-    p "===="
+  end
 
-    return value
-      
+  def dummy_render(path)
+    raw = File.open(path).read
+    
+    # We can't just render this since we can't provide the needed
+    # instance variables, and instead of triggering whiny nils, we
+    # want some silent dummy objects. Problem: There's no way to hook
+    # into Ruby's way of accessing instance variables. 
+    # (Cf. http://www.ruby-forum.com/topic/160989 )
+    #
+    # Below follows an ugly hack to 'convert' instance variables (@foo
+    # etc.) in the original templates into instance methods (__foo
+    # etc.) because then we can hook into method_missing.
+    raw.gsub!(/(<%.*?)(@)(.*?%>)/m, '\1__\3')
+    ERB.new(raw).result(binding).html_safe
   end
   
 end
