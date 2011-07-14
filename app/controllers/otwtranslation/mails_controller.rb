@@ -3,20 +3,23 @@ require 'erb'
 class Otwtranslation::MailsController < ApplicationController
   include Otwtranslation::CommonMethods
   include OtwtranslationHelper
-
+  include ActionView::Helpers::UrlHelper
+ 
   before_filter :otwtranslation_only
 
   def index
-    @paths = Dir.glob("#{RAILS_ROOT}/app/views/*_mailer/*")
+    @paths = OtwtranslationConfig.mail_paths
+  end
 
-    view = "otwtranslation/assignment_mailer/assignment_notification"
-    @text = dummy_render("#{RAILS_ROOT}/../app/views/#{view}.html.erb")
+  def show
+    view_path = OtwtranslationConfig.mail_paths[params[:id].to_i]
+    @text = dummy_render(view_path)
   end
 
   private
   
   def method_missing(symbol, *arguments, &block)
-    if respond_to?(symbol) # || !symbol.to_s.start_with?("__")
+    if respond_to?(symbol) #|| !symbol.to_s.start_with?("__")
       return super(symbol, *arguments, &block)
     else
       return Otwtranslation::Dummy.new
@@ -38,6 +41,5 @@ class Otwtranslation::MailsController < ApplicationController
     raw.gsub!(/(<%.*?)(@)(.*?%>)/m, '\1__\3')
     ERB.new(raw).result(binding).html_safe
   end
-  
 end
 

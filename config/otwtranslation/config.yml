@@ -12,3 +12,7 @@ ALLOWED_TRANSLATIONS_HTML: ['em', 'strong', 'i', 'b']
 
 # After how many minutes to expire statistics on some of the index pages
 STATS_CACHE_EXPIRY: 5
+
+# Where to search for mails templastes to display them in the interface
+# (relative to RAILS_ROOT)
+MAILS_TEMPLATE_PATHS: ["/app/views/*_mailer/*.erb"]

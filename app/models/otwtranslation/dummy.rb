@@ -1,15 +1,17 @@
 class Otwtranslation::Dummy
 
+  NAME = "DUMMY"
+  
   def method_missing(symbol, *arguments, &block)
     return self
   end
 
   def to_s
-    "DUMMY"
+    NAME
   end
   
   def gsub(*args)
-    "DUMMY"
+    NAME
   end
   
 end
