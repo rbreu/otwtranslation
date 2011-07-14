@@ -1,0 +1,10 @@
+<h2>Mail Index</h2>
+
+<ul class="otwtranslation-mails">
+<% @paths.each_with_index do |path, i| %>
+  <li>
+    <%= link_to File.basename(path), otwtranslation_mail_path(i) %>
+  </li>
+<% end %>
+</ul>
+

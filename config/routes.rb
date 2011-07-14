@@ -9,6 +9,14 @@ Rails.application.routes.draw do
 
   # Assignments
   
+  get "#{mount_at}/mails" => 'otwtranslation/mails#index',
+  :as => 'otwtranslation_mails'
+
+  get "#{mount_at}/mails/:id" => 'otwtranslation/mails#show',
+  :as => 'otwtranslation_mail'
+
+  # Assignments
+  
   get "#{mount_at}/assignments" => 'otwtranslation/assignments#index',
   :as => 'otwtranslation_assignments'
 

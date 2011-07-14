@@ -41,6 +41,9 @@ module NavigationHelpers
     when 'the source page'
       otwtranslation_source_path(@source)
 
+     when 'the mail index'
+      otwtranslation_mails_path
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #
