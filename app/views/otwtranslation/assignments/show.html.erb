@@ -10,7 +10,12 @@
 <dl id="otwtranslation_assignment">
 
   <dt class="source">Source:</dt>
-  <dd class="source"><%= @assignment.source_controller_action %></dd>
+  <dd class="source">
+    <% unless @assignment.source_controller_action.blank? %>
+      <%= link_to(@assignment.source_controller_action,
+                  otwtranslation_source_path(@assignment.source)) %>
+    <% end %>
+  </dd>
 
   <dt class="description">Description:</dt>
   <dd class="description"><%= @assignment.description %></dd>
