@@ -8,7 +8,8 @@
 <!--main content-->
 
 <%= render :partial => "/otwtranslation/phrases/phrase", 
-           :locals => { :phrase => @phrase } %>
+           :locals => { :phrase => @phrase, :sources => @sources,
+           :params => { :controller => otwtranslation_new_translation_path, :action => "" }} %>
 
 <%= render :partial => "new_form", :locals => { :translation => @translation } %>
 

@@ -12,11 +12,13 @@
 
   <dt class="sources"><%= ts("Sources:") %></dt>
   <dd class="sources">
+    <%= will_paginate(sources, :params => params) %>
     <ul>
-      <% phrase.sources.each do |source| %>
+      <% sources.each do |source| %>
         <li><%= link_to(source.url, source.url) %> 
            (<%= link_to(source.controller_action, otwtranslation_source_path(source)) %>)</li>
       <% end %>	
     </ul>
+    <%= will_paginate(sources, :params => params) %>
   </dd>
 </dl>

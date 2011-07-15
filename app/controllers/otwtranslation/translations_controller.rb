@@ -11,6 +11,8 @@ class Otwtranslation::TranslationsController < ApplicationController
       format.html do
         @phrase = Otwtranslation::Phrase.find_by_key(params[:id])
         @existing_translations = @phrase.translations.for_language(otwtranslation_language)
+        @sources = @phrase.sources.paginate(:page => params[:page], :per_page => 10)
+
       end
         
       format.js
@@ -25,6 +27,7 @@ class Otwtranslation::TranslationsController < ApplicationController
       format.html do
         @phrase = Otwtranslation::Phrase.find_by_key(@translation.phrase_key)
         @existing_translations = @phrase.translations.for_language(otwtranslation_language)
+        @sources = @phrase.sources.paginate(:page => params[:page], :per_page => 10)
         render 'edit'
       end
         
@@ -155,6 +158,7 @@ class Otwtranslation::TranslationsController < ApplicationController
   def show
     @translation = Otwtranslation::Translation.find(params[:id])
     @phrase = Otwtranslation::Phrase.find_by_key(@translation.phrase_key)
+    @sources = @phrase.sources.paginate(:page => params[:page], :per_page => 10)
   end
   
 

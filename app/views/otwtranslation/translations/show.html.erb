@@ -18,7 +18,8 @@
 <h3>For phrase</h3>
 
 <%= render :partial => "/otwtranslation/phrases/phrase", 
-           :locals => { :phrase => @phrase } %>
+           :locals => { :phrase => @phrase, :sources => @sources,
+                        :params => { :controller => otwtranslation_translation_path(@translation), :action => "" }} %>
 
 
 <h3>Comments</h3>

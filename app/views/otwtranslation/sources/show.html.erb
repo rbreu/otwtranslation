@@ -53,7 +53,9 @@
 <h3><%= ts("Phrases for this source:") %></h3>
 
 <%= render :partial => "otwtranslation/phrases/phrase_table",
-           :locals => { :phrases => @source.phrases } %>
+           :locals => { :phrases => @phrases, 
+                        :params => {:controller => otwtranslation_source_path(@source),
+                                    :action => "" } } %>
 
 <!--/main-->
 

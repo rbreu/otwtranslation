@@ -10,7 +10,7 @@ describe Otwtranslation::SourcesController, "GET index" do
   it "should return list of sources" do
     admin_login()
     sources = mock(Array)
-    Otwtranslation::Source.should_receive(:all).and_return(sources)
+    Otwtranslation::Source.should_receive(:paginate).and_return(sources)
     get :index
     assigns[:sources].should == sources
   end
@@ -27,7 +27,9 @@ describe Otwtranslation::SourcesController, "GET show" do
     admin_login()
     source = mock_model(Otwtranslation::Source)
     Otwtranslation::Source.should_receive(:find).with(1).and_return(source)
+    source.should_receive(:phrases).and_return([])
     get :show, :id => 1
     assigns[:source].should == source
+    assigns[:phrases]
   end
 end

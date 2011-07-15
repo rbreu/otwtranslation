@@ -8,7 +8,7 @@ class Otwtranslation::MailsController < ApplicationController
   before_filter :otwtranslation_only
 
   def index
-    @paths = OtwtranslationConfig.mail_paths
+    @paths = OtwtranslationConfig.mail_paths.paginate(:page => params[:page])
   end
 
   def show

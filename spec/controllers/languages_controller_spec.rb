@@ -10,7 +10,7 @@ describe Otwtranslation::LanguagesController, "GET index" do
   it "should return list of languages" do
     admin_login()
     languages = mock(Array)
-    Otwtranslation::Language.should_receive(:all).and_return(languages)
+    Otwtranslation::Language.should_receive(:paginate).and_return(languages)
     get :index
     assigns[:languages].should == languages
   end

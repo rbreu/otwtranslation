@@ -53,6 +53,7 @@
 
 
 <h3 class="landmark">Rules Table</h3>
+<%= will_paginate(@rules, :params => {:controller => otwtranslation_language_path(@language)}) %>
 <table id="otwtranslation_rules" summary="please summarise">
   <caption><!--please briefly label--></caption>
   <thead>
@@ -100,8 +101,11 @@
 </table>
 
 
+
 <!--end main-->
 
 <!--navigation, sorting and actions-->
-<p class="navigation"><%= link_to ts('Back'), otwtranslation_languages_path %></p>
+
+<%= will_paginate(@rules, :params => {:controller => otwtranslation_language_path(@language)}) %>
+
 <!-- end nav-->

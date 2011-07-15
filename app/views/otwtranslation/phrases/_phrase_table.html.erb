@@ -1,6 +1,6 @@
 <p><%= "(Statistics will update every #{OtwtranslationConfig.STATS_CACHE_EXPIRY} minutes.)" %></p>
 
-<%= will_paginate(phrases, :params => {:controller => otwtranslation_phrases_path}) %>
+<%= will_paginate(phrases, :params => params) %>
 
 <h3 class="landmark">Phrase Table</h3>
 <table id="otwtranslation_phrases" summary="please summarise">
@@ -36,4 +36,4 @@
   </tbody>
 </table>
 
-<%= will_paginate(phrases, :params => {:controller => otwtranslation_phrases_path}) %>
+<%= will_paginate(phrases, :params => params) %>

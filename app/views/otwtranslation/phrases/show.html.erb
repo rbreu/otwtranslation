@@ -4,7 +4,8 @@
 
 
 <%= render :partial => "otwtranslation/phrases/phrase", 
-           :locals => { :phrase => @phrase } %>
+           :locals => { :phrase => @phrase, :sources => @sources,
+                        :params => {:controller => otwtranslation_phrase_path(@phrase), :action => ""} } %>
 <%= render :partial => "otwtranslation/phrases/add_translation_button", 
            :locals => { :phrase => @phrase_id } %>
 <%= render :partial => "otwtranslation/translations/translations_list", 

@@ -1,5 +1,7 @@
 <h2>Mail Index</h2>
 
+<%= will_paginate(@paths, :params => {:controller => otwtranslation_mails_path }) %>
+
 <ul class="otwtranslation-mails">
 <% @paths.each_with_index do |path, i| %>
   <li>
@@ -8,3 +10,4 @@
 <% end %>
 </ul>
 
+<%= will_paginate(@paths, :params => {:controller => otwtranslation_mails_path }) %>

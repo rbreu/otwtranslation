@@ -12,6 +12,8 @@
 
 <h3>My assignments for the current language</h3>
 
+<%= will_paginate(@assignments, :params => {:controller => otwtranslation_home_path}) %>
+
 <h3 class="landmark">My Assignment Table</h3>
 <table id="otwtranslation_assignments" summary="please summarise">
   <caption><!--please briefly label--></caption>
@@ -65,6 +67,7 @@
   </tbody>
 </table>
 
+<%= will_paginate(@assignments, :params => {:controller => otwtranslation_home_path}) %>
 
 <!-- /main-->
 

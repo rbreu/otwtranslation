@@ -9,7 +9,8 @@ class Otwtranslation::LanguagesController < ApplicationController
 
   def show
     @language = Otwtranslation::Language.find_by_short(params[:id])
-    @rules = Otwtranslation::ContextRule.rules_for(params[:id])
+    @rules = Otwtranslation::ContextRule
+      .rules_for(params[:id]).paginate(:page => params[:page])
   end
 
   def new

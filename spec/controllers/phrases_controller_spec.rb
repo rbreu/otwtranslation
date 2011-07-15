@@ -10,7 +10,7 @@ describe Otwtranslation::PhrasesController, "GET index" do
   it "should return list of phrases" do
     admin_login()
     phrases = mock(Array)
-    Otwtranslation::Phrase.should_receive(:all).and_return(phrases)
+    Otwtranslation::Phrase.should_receive(:paginate).and_return(phrases)
     get :index
     assigns[:phrases].should == phrases
   end
@@ -29,10 +29,12 @@ describe Otwtranslation::PhrasesController, "GET show" do
     translations = mock(Array)
     translations.should_receive(:for_language)
     phrase.should_receive(:translations).and_return translations
+    phrase.should_receive(:sources).and_return([])
     Otwtranslation::Phrase.should_receive(:find_by_key).with("somekey").and_return phrase
 
     get :show, :id => "somekey"
     assigns[:phrase].should == phrase
+    assigns[:sources]
   end
 
 

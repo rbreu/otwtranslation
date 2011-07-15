@@ -8,6 +8,7 @@ class Otwtranslation::SourcesController < ApplicationController
 
   def show
     @source = Otwtranslation::Source.find(params[:id])
+    @phrases = @source.phrases.paginate(:page  => params[:page])
   end
 
 end
