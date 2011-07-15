@@ -12,7 +12,7 @@ class Otwtranslation::AssignmentMailer < ActionMailer::Base
 
     mail(:to => user.email,
          :subject => "[#{ArchiveConfig.APP_NAME}] " +
-         ts("Upcoming translation assignment for {general::language}", "",
+         ts("Upcoming translation assignment for {general::language}",
             :language => @assignment.language.name))
   end
 

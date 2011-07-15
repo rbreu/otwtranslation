@@ -53,13 +53,29 @@ The translation helper can be used like this::
 
   ts("Hello!")
 
+To insert variables::
+
+  ts("Hello {general::name}, you have {quantity::message}!",
+      :name => "Alice", :message => 3)
+
 You can also pass an additional description. Note that equal phrases
 with different descriptions will result in two different translatable
-phrases in the system
+phrases in the system, so only use if you are sure that's what you
+want::
 
-::
+  ts("Hello!", :_description => "Front page greeting.")
 
-  ts("Hello!", "Front page greeting.")
+To use the ts function in a place where no CSS markup for translators
+can be used (e.g. button labels)::
+
+  ts("Submit", :_decoration_off => true)
+
+To specify a user whose language settings should be used instead of
+current_user (useful for emails where the settings of the recipient
+should be used)::
+
+  ts("Hello!", :_user => some_user)
+
 
 The t helper is currently just a dummy and is maintained for
 transitioning reasons.

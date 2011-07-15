@@ -1,15 +1,17 @@
 module OtwtranslationHelper
 
-  def ts(phrase, description="", variables = {})
-
+  def ts(phrase, variables = {})
     source = otwtranslation_get_source
-    phrase = Otwtranslation::Phrase.find_or_create(phrase, description, source)
+    phrase = Otwtranslation::Phrase.find_or_create(phrase,
+                                                   variables[:_description],
+                                                   source)
 
     # See if we need to present a decorated or plain translation
-    if otwtranslation_tool_visible? && otwtranslation_language != OtwtranslationConfig.DEFAULT_LANGUAGE
+    if (otwtranslation_tool_visible? &&
+        otwtranslation_language != OtwtranslationConfig.DEFAULT_LANGUAGE)
       return otwtranslation_decorated_translation(phrase.key, phrase.label, variables)
     else
-      return Otwtranslation::ContextRule.apply_rules(phrase.label, otwtranslation_language, variables).html_safe
+      return Otwtranslation::ContextRule.apply_rules(phrase.label, otwtranslation_language(variables[:_user]), variables).html_safe
     end
     
   end
@@ -91,9 +93,8 @@ module OtwtranslationHelper
       if all_text
         label = transl.label
       else
-        label = Otwtranslation::ContextRule.apply_rules(transl.label,
-                                                        otwtranslation_language,
-                                                        variables)
+        label = Otwtranslation::ContextRule
+          .apply_rules(transl.label, otwtranslation_language, variables)
       end
     elsif transl = Otwtranslation::Translation
         .where(:phrase_key => phrase_key)
@@ -101,11 +102,10 @@ module OtwtranslationHelper
       span_class = 'translated'
       landmark = '<span class="landmark">review</span>'
       if all_text
-        label = transl.label
+        label = "*" + transl.label
       else
-        label = Otwtranslation::ContextRule.apply_rules(transl.label,
-                                                        otwtranslation_language,
-                                                        variables)
+        label = "*" + Otwtranslation::ContextRule
+          .apply_rules(transl.label, otwtranslation_language, variables)
       end
         
     else
@@ -114,13 +114,16 @@ module OtwtranslationHelper
       if all_text
         label = "*" + phrase_label
       else
-        label = "*" + Otwtranslation::ContextRule.apply_rules(phrase_label,
-                                                              OtwtranslationConfig.DEFAULT_LANGUAGE,
-                                                              variables)
+        label = "*" + Otwtranslation::ContextRule
+          .apply_rules(phrase_label, OtwtranslationConfig.DEFAULT_LANGUAGE, variables)
       end
     end
 
-    markup = "<span id=\"otwtranslation_phrase_#{phrase_key}\" class=\"#{span_class}\">#{landmark}#{label}</span>"
+    if variables[:_decorate_off]
+      markup = label
+    else
+      markup = "<span id=\"otwtranslation_phrase_#{phrase_key}\" class=\"#{span_class}\">#{landmark}#{label}</span>"
+    end
 
     Rails.cache.write(cache_key, markup) if all_text
     return markup.html_safe
@@ -168,7 +171,10 @@ module OtwtranslationHelper
   end
 
 
-  def otwtranslation_language
+  def otwtranslation_language(user=nil)
+    # TODO: use user's settings as a possibility, too!
+    # (user or current_user)
+    
     begin
       session_language = session[:otwtranslation_language]
     rescue NameError

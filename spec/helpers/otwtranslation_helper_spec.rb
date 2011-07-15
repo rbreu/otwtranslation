@@ -10,9 +10,16 @@ describe OtwtranslationHelper do
 
     it "should substitute tokens" do
       helper.stub(:logged_in?).and_return(false)
-      helper.ts("Hello {data::name}!", "", :name => "Abby")
+      helper.ts("Hello {data::name}!", :name => "Abby")
         .should == "Hello Abby!"
     end
+
+    it "should save descriptions" do
+      helper.stub(:logged_in?).and_return(false)
+      ts("Good day!", :_description => "foo")
+      Otwtranslation::Phrase.last.description.should == "foo"
+    end
+    
   end
 
   describe "t" do
@@ -39,6 +46,12 @@ describe OtwtranslationHelper do
         .should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"untranslated\"><span class=\"landmark\">translate</span>*Good day!</span>"
     end
       
+    it "should mark the phrase untranslated for decorate_off" do
+      otwtranslation_decorated_translation(@phrase.key, @phrase.label,
+                                           :_decorate_off => true)
+        .should == "*Good day!"
+    end
+      
     it "should work when called without label and variables" do
       otwtranslation_decorated_translation(@phrase.key)
         .should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"untranslated\"><span class=\"landmark\">translate</span>*Good day!</span>"
@@ -55,7 +68,20 @@ describe OtwtranslationHelper do
                                    :phrase => @phrase)
 
       helper.otwtranslation_decorated_translation(@phrase.key, @phrase.label)
-        .should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"translated\"><span class=\"landmark\">review</span>Guten Tag!</span>"
+        .should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"translated\"><span class=\"landmark\">review</span>*Guten Tag!</span>"
+      
+    end
+    
+    it "should mark the phrase translated for decorate_off" do
+      translation = Factory.create(:translation,
+                                   :label => "Guten Tag!",
+                                   :language => @language,
+                                   :approved => false,
+                                   :phrase => @phrase)
+
+      helper.otwtranslation_decorated_translation(@phrase.key, @phrase.label,
+                                                  :_decorate_off => true)
+        .should == "*Guten Tag!"
       
     end
     
@@ -68,6 +94,18 @@ describe OtwtranslationHelper do
       
       helper.otwtranslation_decorated_translation(@phrase.key, @phrase.label)
         .should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"approved\">Moin!</span>"
+    end
+    
+    it "should mark the phrase approved for decorate_off" do
+      translation = Factory.create(:translation,
+                                   :label => "Moin!",
+                                   :language => @language,
+                                   :approved => true,
+                                   :phrase => @phrase)
+      
+      helper.otwtranslation_decorated_translation(@phrase.key, @phrase.label,
+                                                  :_decorate_off => true)
+        .should == "Moin!"
     end
     
     it "should cache all text labels" do

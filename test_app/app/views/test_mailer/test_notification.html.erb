@@ -1,5 +1,5 @@
 <p>
-<%= ts("Hello {general::name}!", "", :name => @user.login)%>
+<%= ts("Hello {general::name}!", :name => @user.login)%>
 </p>
 
 <p>Test link <%= link_to("here", otwtranslation_phrase_url(@assignment)) %>.</p>

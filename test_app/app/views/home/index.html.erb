@@ -7,7 +7,7 @@
 <%= form_tag("/home/new_user", :method => "post") do %>
   <%= label_tag(:name, ts('Name:')) %>
   <%= text_field_tag(:name) %>
-  <%= submit_tag(ts('Create')) %>
+  <%= submit_tag(ts('Create', :_decorate_off => true)) %>
 <% end %>
 </p>
 
@@ -16,11 +16,11 @@
 <%= ts("Translation admin rights for current user:")%>
 <% if current_user && current_user.is_translation_admin? %>
   <%= form_tag("/home/set_translation_admin", :method => "get") do %>
-    <%= submit_tag(ts('Remove')) %>
+    <%= submit_tag(ts('Remove', :_decorate_off => true)) %>
   <% end %>
   <% elsif  current_user && !current_user.is_translation_admin? %>
   <%= form_tag("/home/set_translation_admin", :method => "get") do %>
-    <%= submit_tag(ts('Add')) %>
+    <%= submit_tag(ts('Add', :_decorate_off => true)) %>
   <% end %>
 <% else %>
   <%= ts('Login first.') %>
@@ -31,28 +31,28 @@
 
 <h2><%= ts("Some Test cases:") %></h2>
 
-<p><%= ts("View this {general::link}!", "", 
+<p><%= ts("View this {general::link}!",
           :link => link_to(ts("interesting link"), "http://www.example.org")) %>
 </p>
 
 <% ["Spock", "Uhura", "Kirk"].each do |name| %>
-  <p><%= ts("Hello {general::name}!", "", :name => name) %></p>
+  <p><%= ts("Hello {general::name}!", :name => name) %></p>
 <% end %>
 
 <% ["Abby", "Alex", "Ales"].each do |name| %>
-  <p><%= ts("This is {possessive::name} work!", "", :name => name) %></p>
+  <p><%= ts("This is {possessive::name} work!", :name => name) %></p>
 <% end %>
 
 <% 0.upto(3) do |i| %>
-  <p><%= ts("You have {quantity::message}.", "", :message => i) %></p>
+  <p><%= ts("You have {quantity::message}.", :message => i) %></p>
 <% end %>
 
-<p><%= ts("{list::names} left kudos.", "", :names => ["Spock", "Uhura", "Kirk"]) %></p>
-<p><%= ts("{list::names} left kudos.", "", :names => ["Spock", "Kirk"]) %></p>
-<p><%= ts("{list::names} left kudos.", "", :names => ["Uhura"]) %></p>
+<p><%= ts("{list::names} left kudos.", :names => ["Spock", "Uhura", "Kirk"]) %></p>
+<p><%= ts("{list::names} left kudos.", :names => ["Spock", "Kirk"]) %></p>
+<p><%= ts("{list::names} left kudos.", :names => ["Uhura"]) %></p>
 <% 0.upto(3) do |i| %>
   <% 0.upto(3) do |j| %>
-  <p><%= ts("You have {quantity::apple} and {quantity::banana}.", "", 
+  <p><%= ts("You have {quantity::apple} and {quantity::banana}.",
           :apple => i, :banana => j ) %></p>
   <% end %>
 <% end %>
