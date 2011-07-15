@@ -7,6 +7,8 @@
 
 <p><%= "(Statistics will update every #{OtwtranslationConfig.STATS_CACHE_EXPIRY} minutes.)" %></p>
 
+<%= will_paginate(@sources, :params => {:controller => otwtranslation_sources_path}) %>
+
 <table id="otwtranslation_sources" summary="please summarise">
 	<caption><!--please briefly label--></caption>
   <thead>
@@ -31,7 +33,7 @@
     <td class="url">
       <%= link_to(truncate(source.url), source.url) %>
     </td>
-    <td class="version">
+    <td class="current_version">
       <%= source.has_phrases_with_current_verion? ? "&#x2713;".html_safe : "" %>
     </td>
     <td class="phrases">
@@ -54,4 +56,5 @@
 </tbody>
 </table>
 
+<%= will_paginate(@sources, :params => {:controller => otwtranslation_sources_path}) %>
 

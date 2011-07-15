@@ -47,7 +47,8 @@ table td.translations, table td.assignments {
     text-align: right
 }
 
-table td.direction, table td.visible, td.activated, td.completed {
+table td.direction, table td.visible, td.activated, td.completed,
+table td.current_version {
     text-align: center
 }
 

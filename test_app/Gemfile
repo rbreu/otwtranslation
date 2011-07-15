@@ -19,6 +19,13 @@ gem 'authlogic',
 
 gem 'permit_yo'
 
+#gem 'will_paginate', '3.0.pre'
+gem 'will_paginate',
+  :git     => 'git://github.com/huerlisi/will_paginate.git',
+  :branch  => 'rails3',
+  :require => 'will_paginate'
+
+
 group :development, :test do
   gem "rspec-rails", "~> 2.5.0"
   gem "cucumber-rails", "~> 0.3.2"

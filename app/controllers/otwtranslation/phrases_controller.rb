@@ -5,7 +5,7 @@ class Otwtranslation::PhrasesController < ApplicationController
   before_filter :otwtranslation_only
 
   def index
-    @phrases = Otwtranslation::Phrase.all
+    @phrases = Otwtranslation::Phrase.paginate(:page => params[:page])
   end
 
   def show

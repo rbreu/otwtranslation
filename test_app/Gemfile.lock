@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/huerlisi/will_paginate.git
+  revision: 05fbcb82299a449fc37fb9198346703740cb39cd
+  branch: rails3
+  specs:
+    will_paginate (3.0.pre3)
+
+GIT
   remote: git://github.com/odorcicd/authlogic.git
   revision: a087ad0cba3c165ba22fcf176c28b6f7517931e8
   branch: rails3
@@ -16,6 +23,7 @@ PATH
       resque (>= 1.14.0)
       resque_mailer
       sanitize
+      will_paginate
 
 GEM
   remote: http://rubygems.org/
@@ -198,3 +206,4 @@ DEPENDENCIES
   selenium-webdriver
   sqlite3
   webrat
+  will_paginate!

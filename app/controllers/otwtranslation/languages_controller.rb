@@ -4,7 +4,7 @@ class Otwtranslation::LanguagesController < ApplicationController
 
 
   def index
-    @languages = Otwtranslation::Language.all
+    @languages = Otwtranslation::Language.paginate(:page => params[:page])
   end
 
   def show

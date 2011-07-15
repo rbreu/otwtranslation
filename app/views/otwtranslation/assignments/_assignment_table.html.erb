@@ -1,4 +1,7 @@
 <h3 class="landmark">Assignment Table</h3>
+
+<%= will_paginate(assignments, :params => {:controller => otwtranslation_assignments_path}) %>
+
 <table id="otwtranslation_assignments" summary="please summarise">
   <caption><!--please briefly label--></caption>
   <thead>
@@ -36,3 +39,6 @@
     <% end %>
   </tbody>
 </table>
+
+<%= will_paginate(assignments, :params => {:controller => otwtranslation_assignments_path}) %>
+

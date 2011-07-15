@@ -3,7 +3,7 @@ class Otwtranslation::SourcesController < ApplicationController
   before_filter :otwtranslation_only
 
   def index
-    @sources = Otwtranslation::Source.all
+    @sources = Otwtranslation::Source.paginate(:page => params[:page])
   end
 
   def show

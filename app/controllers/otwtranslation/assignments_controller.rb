@@ -22,7 +22,8 @@ class Otwtranslation::AssignmentsController < ApplicationController
   end
 
   def index
-    @assignments = Otwtranslation::Assignment.where(:language_short => otwtranslation_language)
+    @assignments = Otwtranslation::Assignment
+      .where(:language_short => otwtranslation_language).paginate(:page => params[:page])
   end
 
   def show
