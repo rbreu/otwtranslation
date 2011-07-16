@@ -490,6 +490,7 @@ describe Otwtranslation::TranslationsController, "GET show" do
       @translation.stub(:phrase_key).and_return("somekey")
       
       @phrase = mock_model(Otwtranslation::Phrase)
+      @phrase.stub(:sources).and_return([])
       Otwtranslation::Phrase.stub(:find_by_key).and_return(@phrase)
     end
 
