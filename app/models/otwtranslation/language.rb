@@ -7,6 +7,8 @@ class Otwtranslation::Language < Language
            :foreign_key => 'language_short', :primary_key => 'short',
            :conditions => {:approved => true} )
 
+  after_destroy :remove_from_cache
+  after_save :add_to_cache
 
   def percentage_translated
     all = Otwtranslation::Phrase.count.to_f
@@ -24,4 +26,18 @@ class Otwtranslation::Language < Language
     
   
   scope :visible, where(:translation_visible => true)
+
+  def add_to_cache
+    $redis.sadd("otwtranslation_visible_languages", short)
+  end
+  
+  def remove_from_cache
+    $redis.srem("otwtranslation_visible_languages", short)
+  end
+
+
+  def self.translation_visible?(language_short)
+     $redis.sismember("otwtranslation_visible_languages", language_short)
+  end
+
 end

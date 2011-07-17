@@ -28,6 +28,10 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   acts_as_list :scope => 'language_short = \'#{language_short}\' AND type = \'#{type}\''
 
   validates_presence_of :language_short
+
+  after_destroy :remove_from_cache
+  after_save :add_to_cache
+
   
   @@context_parser = ContextRulesParser.new
   
@@ -196,14 +200,16 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   end
 
   def self.rules_for(language, type=nil)
-    if type.nil?
-      where(:language_short => language).order(:type, :position)
-    else
-      where(:language_short => language,
-            :type => "Otwtranslation::#{type.to_s.capitalize}Rule")
-        .order(:position)
-    end
+
+    return where(:language_short => language).order(:type, :position) if type.nil?
+    
+    return [] unless $redis.sismember("otwtranslation_rules_for_#{language}", type)
+
+    where(:language_short => language,
+          :type => "Otwtranslation::#{type.to_s.capitalize}Rule")
+      .order(:position)
   end
+  
 
   def display_type
     type.gsub(/Otwtranslation::(.*)Rule/, '\1').downcase
@@ -299,5 +305,13 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
     rules
   end
 
+  def add_to_cache
+    $redis.sadd("otwtranslation_rules_for_#{language_short}", display_type)
+  end
+  
+  def remove_from_cache
+    $redis.srem("otwtranslation_rules_for_#{language_short}", display_type)
+  end
+  
 
 end

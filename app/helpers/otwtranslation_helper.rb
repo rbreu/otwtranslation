@@ -215,8 +215,7 @@ module OtwtranslationHelper
 
 
   def otwtranslation_translation_visible?(user=nil)
-    $redis.sismember("owtranslation_visible_languages",
-                     otwtranslation_language(user))
+    Otwtranslation::Language.translation_visible?(otwtranslation_language(user))
   end
   
 end
