@@ -107,7 +107,8 @@ describe Otwtranslation::Phrase, "translation associations" do
     tbar = Factory.create(:translation, :language => @de, :phrase => @phrase,
                           :rules => [rbar.id])
 
-    t = @phrase.translations.for_context(@phrase.label, @de, {:name => "foo"})
+    t = @phrase.translations.for_context(@phrase.key, @phrase.label,
+                                         @de, {:name => "foo"})
     t.size.should == 3
     t.should include(tfoo)
   end

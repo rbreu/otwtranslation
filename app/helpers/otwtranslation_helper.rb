@@ -6,14 +6,43 @@ module OtwtranslationHelper
                                                    variables[:_description],
                                                    source)
 
-    # See if we need to present a decorated or plain translation
+    # Do we need to display a decorated translation for translators?
     if (otwtranslation_tool_visible? &&
         otwtranslation_language != OtwtranslationConfig.DEFAULT_LANGUAGE)
       return otwtranslation_decorated_translation(phrase.key, phrase.label, variables)
-    else
-      return Otwtranslation::ContextRule.apply_rules(phrase.label, otwtranslation_language(variables[:_user]), variables).html_safe
     end
-    
+
+    # Do we need to display a translation for normal users?
+    if otwtranslation_translation_visible?(variables[:_user])
+      return otwtranslation_translation(phrase.key, phrase.label, variables)
+    end
+
+    # Return the original phrase
+    return Otwtranslation::ContextRule
+        .apply_rules(phrase.label,  OtwtranslationConfig.DEFAULT_LANGUAGE, variables).html_safe
+  end
+
+
+  def otwtranslation_translation(phrase_key, phrase_label, variables)
+
+    language = otwtranslation_language(variables[:_user])
+
+    transl = Otwtranslation::Translation
+      .approved_label_for_context(phrase_key, phrase_label, language, variables)
+
+    if Otwtranslation::ContextRule.label_all_text?(phrase_label)
+      return (transl || phrase_label).html_safe
+    end
+      
+    if transl.nil?
+      return Otwtranslation::ContextRule
+        .apply_rules(phrase_label, OtwtranslationConfig.DEFAULT_LANGUAGE,
+                     variables).html_safe
+    else
+      return Otwtranslation::ContextRule
+        .apply_rules(transl, language, variables).html_safe
+    end
+      
   end
 
 
@@ -75,7 +104,7 @@ module OtwtranslationHelper
 
   def otwtranslation_decorated_translation(phrase_key, phrase_label=nil, variables={})
     cache_key = Otwtranslation::Translation
-      .cache_key(phrase_key, otwtranslation_language, [], true)
+      .cache_key(phrase_key, otwtranslation_language, [])
     markup = Rails.cache.read(cache_key)
     return markup.html_safe if markup
 
@@ -85,20 +114,20 @@ module OtwtranslationHelper
     
     all_text = Otwtranslation::ContextRule.label_all_text?(phrase_label)
 
-    if transl = Otwtranslation::Translation
-        .where(:phrase_key => phrase_key, :approved => true)
-        .for_context(phrase_label, otwtranslation_language, variables).first
+    if transl =  Otwtranslation::Translation
+      .approved_label_for_context(phrase_key, phrase_label, otwtranslation_language, variables)
       span_class = 'approved'
       landmark = ""
       if all_text
-        label = transl.label
+        label = transl
       else
         label = Otwtranslation::ContextRule
-          .apply_rules(transl.label, otwtranslation_language, variables)
+          .apply_rules(transl, otwtranslation_language, variables)
       end
     elsif transl = Otwtranslation::Translation
         .where(:phrase_key => phrase_key)
-        .for_context(phrase_label, otwtranslation_language, variables).first
+        .for_context(phrase_key, phrase_label, otwtranslation_language,
+                     variables).first
       span_class = 'translated'
       landmark = '<span class="landmark">review</span>'
       if all_text
@@ -184,5 +213,11 @@ module OtwtranslationHelper
     session_language || OtwtranslationConfig.DEFAULT_LANGUAGE
   end
 
+
+  def otwtranslation_translation_visible?(user=nil)
+    $redis.sismember("owtranslation_visible_languages",
+                     otwtranslation_language(user))
+  end
+  
 end
 

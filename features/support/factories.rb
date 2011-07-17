@@ -38,7 +38,7 @@ end
 Factory.define(:translation, :class => Otwtranslation::Translation) do |f|
   f.association :language
   f.association :phrase
-  f.label "some foreign text"
+  f.sequence(:label) { |i| "some foreign text #{i}" }
   f.approved false
 end
 

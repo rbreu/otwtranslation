@@ -29,7 +29,7 @@ class Otwtranslation::Translation < ActiveRecord::Base
 
   after_destroy :remove_from_cache
   before_validation :sanitize_label
-  after_save :remove_from_cache
+  after_save :update_in_cache
   after_initialize :init_rules
 
   def init_rules
@@ -58,9 +58,13 @@ class Otwtranslation::Translation < ActiveRecord::Base
     return true
   end
   
-  def self.cache_key(phrase_key, language, rules=[], decorated=false)
+  def self.cache_key(phrase_key, language, rules)
     rules = Otwtranslation::ParameterParser.stringify(rules, ",")
-    "otwtranslation_for_#{language}_#{phrase_key}_#{rules}#{decorated ? '_decorated' : ''}"
+    "otwtranslation_for_#{language}_#{phrase_key}_#{rules}"
+  end
+
+  def cache_key
+    self.class.cache_key(phrase_key, language_short, rules)
   end
 
   # Find translations for a specific language
@@ -73,26 +77,58 @@ class Otwtranslation::Translation < ActiveRecord::Base
     where(:language_short => language)
   end
 
+  # Find translation for a phrase
+  def self.for_phrase(key)
+    where(:phrase_key => key)
+  end
+
   # Find context-aware translations matching a specific set of variables
   # plus non-context-aware translations
-  def self.for_context(label, language, variables)
+  def self.for_context(phrase_key, label, language, variables)
     begin
       language = language.short
     rescue NoMethodError
     end
-    
-    return where(:language_short => language) if variables.blank?
+
+    if variables.blank? || Otwtranslation::ContextRule.label_all_text?(label)
+      return for_language(language).for_phrase(phrase_key) if variables.blank?
+    end
     
     rules = Otwtranslation::ContextRule
       .matching_rules(label, language, variables).map{|r| r.id}
 
-    where(:language_short => language).where("rules='#{rules.to_yaml}' OR rules='#{[].to_yaml}'")
+    for_language(language).for_phrase(phrase_key)
+      .where("rules='#{rules.to_yaml}' OR rules='#{[].to_yaml}'")
   end
 
+  def self.approved_label_for_context(phrase_key, label, language, variables)
+    begin
+      language = language.short
+    rescue NoMethodError
+    end
+
+    transl = $redis.get(self.cache_key(phrase_key, language, []))
+    return transl unless transl.nil?
+
+    rules = Otwtranslation::ContextRule
+      .matching_rules(label, language, variables).map{|r| r.id}
+
+    return transl = $redis.get(self.cache_key(phrase_key, language, rules))
+  end
+
+  
   def remove_from_cache
-    # only decorated stuff so far
-    # only non-context stuff so far
-    Rails.cache.delete(self.class.cache_key(phrase_key, language_short, [], true))
+    Rails.cache.delete(cache_key)
+    $redis.del(cache_key)
+  end
+
+  def update_in_cache
+    Rails.cache.delete(cache_key)
+    if approved
+      $redis.set(cache_key, label)
+    else
+      $redis.del(cache_key)
+    end
   end
 
 

@@ -14,13 +14,13 @@
 /* TRANSLATABLE PHRASE STATE */
 
 span.untranslated {
-    border-bottom: 3px solid red;
+    border-bottom: 3px dotted red;
 }
 span.translated {
     border-bottom: 3px solid cyan;
 }
 span.approved {
-    border-bottom: 3px dotted lime;
+    border-bottom: 3px solid lime;
 }
 
 

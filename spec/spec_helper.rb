@@ -32,6 +32,7 @@ RSpec.configure do |config|
   config.include Authlogic::TestCase, :type => :controller
 
   config.before(:each) do
+    $redis.flushall
     Rails.cache.clear
   end
 

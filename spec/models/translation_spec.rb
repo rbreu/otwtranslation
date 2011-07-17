@@ -170,10 +170,11 @@ describe Otwtranslation::Translation, "for_language" do
 end
 
 
-describe Otwtranslation::Translation, "for_variables" do
+describe Otwtranslation::Translation, "for_context" do
    before(:each) do
     @de = Factory.create(:language, :name => "Deutsch")
     @phrase = Factory.create(:phrase, :label => "{possessive::name}")
+    @phrase2 = Factory.create(:phrase, :label => "{possessive::name} apple")
     rule1 = Factory.create(:possessive_rule, :language => @de,
                            :conditions => [["is", ["foo"]]])
     rule2 = Factory.create(:possessive_rule, :language => @de,
@@ -181,6 +182,7 @@ describe Otwtranslation::Translation, "for_variables" do
     
     @t1 = Factory.create(:translation, :language => @de, :phrase => @phrase)
     @t2 = Factory.create(:translation, :language => @de, :phrase => @phrase)
+    @t3 = Factory.create(:translation, :language => @de, :phrase => @phrase2)
     @tfoo = Factory.create(:translation, :language => @de, :phrase => @phrase,
                          :rules => [rule1.id])
     @tbar = Factory.create(:translation, :language => @de, :phrase => @phrase,
@@ -188,7 +190,7 @@ describe Otwtranslation::Translation, "for_variables" do
   end
 
   it "should find translations for 'is foo'" do
-    t = Otwtranslation::Translation.for_context(@phrase.label,
+    t = Otwtranslation::Translation.for_context(@phrase.key, @phrase.label,
                                                 @de, {:name => "foo"})
     t.size.should == 3
     t.should include(@t1)
@@ -197,7 +199,7 @@ describe Otwtranslation::Translation, "for_variables" do
   end
 
   it "should find translations for 'is bar'" do
-    t = Otwtranslation::Translation.for_context(@phrase.label,
+    t = Otwtranslation::Translation.for_context(@phrase.key, @phrase.label,
                                                 @de, {:name => "bar"})
     t.size.should == 3
     t.should include(@t1)
@@ -207,20 +209,71 @@ describe Otwtranslation::Translation, "for_variables" do
 
   it "should find translations for no specific rule" do
     t = Otwtranslation::Translation
-      .for_context(@phrase.label, @de, {:name => "blah"})
+      .for_context(@phrase.key, @phrase.label, @de, {:name => "blah"})
     t.size.should == 2
     t.should include(@t1)
     t.should include(@t2)
   end
 
   it "should find all translations when no variables are given" do
-    t = Otwtranslation::Translation.for_context(@phrase.label, @de, {})
+    t = Otwtranslation::Translation.for_context(@phrase.key, @phrase.label,
+                                                @de, {})
     t.size.should == 4
     t.should include(@t1)
     t.should include(@t2)
     t.should include(@tfoo)
     t.should include(@tbar)
   end
+
+end
+
+
+describe Otwtranslation::Translation, "approved_label_for_context" do
+   before(:each) do
+    @de = Factory.create(:language, :name => "Deutsch")
+    @phrase = Factory.create(:phrase, :label => "{possessive::name}")
+    @phrase2 = Factory.create(:phrase, :label => "{possessive::name} apple")
+    @rule1 = Factory.create(:possessive_rule, :language => @de,
+                            :conditions => [["is", ["foo"]]])
+    @rule2 = Factory.create(:possessive_rule, :language => @de,
+                            :conditions => [["is", ["bar"]]])
+    
+    Factory.create(:translation, :language => @de, :phrase => @phrase2,
+                   :approved => "true")
+  end
+
+  it "should find context-unaware translations for 'is foo'" do
+    t = Factory.create(:translation, :language => @de, :phrase => @phrase,
+                       :approved => "true")
+    
+    Otwtranslation::Translation
+      .approved_label_for_context(@phrase.key, @phrase.label, @de, {:name => "foo"})
+      .should == t.label
+  end
+
+  it "should find context-aware translations for 'is foo'" do
+    tfoo = Factory.create(:translation, :language => @de, :phrase => @phrase,
+                         :approved => "true", :rules => [@rule1.id])
+    tbar = Factory.create(:translation, :language => @de, :phrase => @phrase,
+                         :approved => "true", :rules => [@rule2.id])
+    
+    Otwtranslation::Translation
+      .approved_label_for_context(@phrase.key, @phrase.label, @de, {:name => "foo"})
+      .should == tfoo.label
+  end
+
+  it "should not find translations that have been disapproved" do
+    t = Factory.create(:translation, :language => @de, :phrase => @phrase,
+                       :approved => "true")
+    t.approved = false
+    t.save
+
+    Otwtranslation::Translation
+      .approved_label_for_context(@phrase.key, @phrase.label, @de, {:name => "foo"})
+      .should be_nil
+  end
+
+
 
 end
 

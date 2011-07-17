@@ -1,3 +1,3 @@
-test: localhost:6398
-development: localhost:6379
+test: localhost:6398/1
+development: localhost:6379/0
 production: localhost:6379
