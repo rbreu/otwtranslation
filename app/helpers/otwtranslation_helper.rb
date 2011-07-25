@@ -30,9 +30,9 @@ module OtwtranslationHelper
     transl = Otwtranslation::Translation
       .approved_label_for_context(phrase_key, phrase_label, language, variables)
 
-    if Otwtranslation::ContextRule.label_all_text?(phrase_label)
-      return (transl || phrase_label).html_safe
-    end
+    #if Otwtranslation::ContextRule.label_all_text?(phrase_label)
+    #  return (transl || phrase_label).html_safe
+    #end
       
     if transl.nil?
       return Otwtranslation::ContextRule
