@@ -19,7 +19,7 @@ class Otwtranslation::Assignment < ActiveRecord::Base
 
   
   def set_assignees(user_logins)
-    parts.each { |p| p.delete }
+    parts.each { |p| p.destroy }
     
     user_logins.each do |login|
       user = User.find_by_login(login)

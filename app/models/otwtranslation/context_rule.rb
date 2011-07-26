@@ -29,7 +29,7 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
 
   validates_presence_of :language_short
 
-  after_destroy :remove_from_cache
+  after_destroy :clean_cache_and_translations
   after_save :add_to_cache
 
   
@@ -329,9 +329,20 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   def add_to_cache
     $redis.sadd("otwtranslation_rules_for_#{language_short}", display_type)
   end
-  
-  def remove_from_cache
+
+  # remove rule from redis and from all translations currently using it
+  # (i.e. set translations to not approved and context-unaware)
+  def clean_cache_and_translations
     $redis.srem("otwtranslation_rules_for_#{language_short}", display_type)
+
+    Otwtranslation::Translation.for_language(language_short)
+      .where("rules != '#{[].to_yaml}'").each do |translation|
+      if translation.rules.include?(id)
+        translation.approved = false
+        translation.rules = []
+        translation.save!
+      end
+    end
   end
   
 

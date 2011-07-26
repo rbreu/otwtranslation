@@ -8,6 +8,37 @@ describe Otwtranslation::ContextRule, "creation" do
   end
 end
 
+describe Otwtranslation::ContextRule, "deletetion" do
+
+  before(:each) do
+    @language = Factory.create(:language)
+    @rule = Factory.create(:possessive_rule, :language => @language)
+    @rule2 = Factory.create(:possessive_rule, :language => @language)
+    @translation = Factory.create(:translation,
+                                  :language => @language,
+                                  :approved => true,
+                                  :rules => [@rule.id])
+  end
+
+  it "should remove rule from translation" do
+    @rule.destroy
+    @translation.reload
+    @translation.rules.should be_empty
+    @translation.approved.should be_false
+  end
+
+  it "should leave unaffected translations untouched" do
+    @translation.rules = [@rule2.id]
+    @translation.save!
+    @rule.destroy
+    @translation.reload
+    @translation.rules.should == [@rule2.id]
+    @translation.approved.should be_true
+  end
+
+end
+
+
 describe Otwtranslation::ContextRule, "tokenize_label" do
   it "should parse phrase with one rule" do
     Otwtranslation::ContextRule.tokenize_label("Hello {general::name}!")
