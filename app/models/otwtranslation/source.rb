@@ -38,8 +38,12 @@ class Otwtranslation::Source < ActiveRecord::Base
   end
 
   
-  def has_phrases_with_current_verion?
+  def has_phrases_with_current_version?
     return phrases.where(:version => OtwtranslationConfig.VERSION).exists?
+  end
+
+  def has_new_phrases?
+    return phrases.where(:new => true).exists?
   end
 
   

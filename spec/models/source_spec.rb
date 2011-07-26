@@ -35,7 +35,7 @@ describe Otwtranslation::Source do
     phrase = Otwtranslation::Phrase.find_or_create("Hi hi", "", source)
 
     source = Otwtranslation::Source.find_by_source(source)
-    source.has_phrases_with_current_verion?.should equal true
+    source.has_phrases_with_current_version?.should be_true
   end
   
   it "should return false when there are no phrases with current version" do
@@ -45,8 +45,29 @@ describe Otwtranslation::Source do
     OtwtranslationConfig.VERSION = '1.1'
 
     source = Otwtranslation::Source.find_by_source(source)
-    source.has_phrases_with_current_verion?.should equal false
+    source.has_phrases_with_current_version?.should be_false
   end
+
+  it "should return true when there are new phrases" do
+    OtwtranslationConfig.VERSION = '1.0'
+    source = {:controller => "test", :action => "me"}
+    phrase = Otwtranslation::Phrase.find_or_create("Hello", "", source)
+
+    source = Otwtranslation::Source.find_by_source(source)
+    source.has_new_phrases?.should be_true
+  end
+  
+  it "should return false when there are no new phrases" do
+    OtwtranslationConfig.VERSION = '1.0'
+    source = {:controller => "test", :action => "me"}
+    phrase = Otwtranslation::Phrase.find_or_create("Hello", "", source)
+    OtwtranslationConfig.VERSION = '1.1'
+    phrase = Otwtranslation::Phrase.find_or_create("Hello", "", source)
+
+    source = Otwtranslation::Source.find_by_source(source)
+    source.has_new_phrases?.should be_false
+  end
+  
 
   context "when there are languages, phrases and sources" do
 

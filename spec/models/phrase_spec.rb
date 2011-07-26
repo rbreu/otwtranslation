@@ -12,6 +12,7 @@ describe Otwtranslation::Phrase, "creation" do
     phrase.sources.first.action.should == "show"
     phrase.sources.first.url.should == "works/1"
     phrase.version.should == OtwtranslationConfig.VERSION
+    phrase.new.should be_true
   end
 
   it "should add a second source" do
@@ -20,6 +21,14 @@ describe Otwtranslation::Phrase, "creation" do
     source = {:controller => "works", :action => "index", :url => "works/"}
     phrase = Otwtranslation::Phrase.find_or_create("foo", "bar", source)
     phrase.sources.count.should == 2
+  end
+
+  it "should leave new at true" do
+    source = {:controller => "works", :action => "show", :url => "works/1"}
+    phrase = Otwtranslation::Phrase.find_or_create("foo", "bar", source)
+    source = {:controller => "works", :action => "index", :url => "works/"}
+    phrase = Otwtranslation::Phrase.find_or_create("foo", "bar", source)
+    phrase.new.should be_true
   end
 
   it "should create the same phrase only once" do
@@ -46,6 +55,15 @@ describe Otwtranslation::Phrase, "update" do
     phrase = Otwtranslation::Phrase.find_or_create("foo")
     phrase.version.should == "1.1"
     Otwtranslation::Phrase.find(phrase.id).version.should == "1.1"
+  end
+
+  it "should set new to false" do
+    OtwtranslationConfig.VERSION = "1.0"
+    Otwtranslation::Phrase.find_or_create("foo")
+    OtwtranslationConfig.VERSION = "1.1"
+    phrase = Otwtranslation::Phrase.find_or_create("foo")
+    phrase.new.should be_false
+    Otwtranslation::Phrase.find(phrase.id).new.should be_false
   end
 
   it "should cache" do

@@ -42,16 +42,18 @@ class Otwtranslation::Phrase < ActiveRecord::Base
 
     phrase = find_or_create_by_key(:key => key, 
                                    :label => label, 
-                                   :description => description)
+                                   :description => description,
+                                   :version => OtwtranslationConfig.VERSION)
 
     phrase.version = OtwtranslationConfig.VERSION
+    phrase.new = false if phrase.version_changed?
 
     source = Otwtranslation::Source.find_or_create(source)
     unless phrase.sources.exists?(source.id)
       phrase.sources << source
     end
 
-    phrase.save
+    phrase.save!
     phrase = phrase.to_cachable
     Rails.cache.write(cache_key(key), phrase)
     return phrase

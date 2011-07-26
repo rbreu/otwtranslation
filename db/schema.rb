@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110712112000) do
+ActiveRecord::Schema.define(:version => 20110726163000) do
 
   create_table "languages", :force => true do |t|
     t.string  "short",               :limit => 4
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(:version => 20110712112000) do
     t.integer  "approved_translation_count"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "new",                        :default => true
   end
 
   add_index "otwtranslation_phrases", ["key"], :name => "index_otwtranslation_phrases_on_key", :unique => true

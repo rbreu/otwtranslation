@@ -10,6 +10,9 @@
   <dt class="version"><%= ts("Version:") %></dt>
   <dd class="version"><%= phrase.version %></dd>
 
+  <dt class="version"><%= ts("New:") %></dt>
+  <dd class="version"><%= phrase.new ? "yes" : "no" %></dd>
+
   <dt class="sources"><%= ts("Sources:") %></dt>
   <dd class="sources">
     <%= will_paginate(sources, :params => params) %>
