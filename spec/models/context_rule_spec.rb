@@ -293,6 +293,38 @@ describe Otwtranslation::ContextRule, "apply_rules" do
       result.should == "This is <a href=\"example.org\">foo</a> fic"
     end
 
+    it "should replace last 3 characters" do
+      @rule.actions = [["replace end", ["3", "bar"]]]
+      @rule.save
+      
+      result = Otwtranslation::ContextRule.
+        apply_rules("{general::foo}!", "en", :foo => 'foofoo')
+      result.should == "foobar!"
+
+      result = Otwtranslation::ContextRule.
+        apply_rules("{general::foo}!", "en", :foo => 'ffoo')
+      result.should == "fbar!"
+
+      result = Otwtranslation::ContextRule.
+        apply_rules("{general::foo}!", "en",
+                    :foo => '<a href="example.org">foofoo</a>')
+      result.should == "<a href=\"example.org\">foobar</a>!"
+    end
+
+    it "should replace first 3 characters" do
+      @rule.actions = [["replace beginning", ["3", "bar"]]]
+      @rule.save
+      
+      result = Otwtranslation::ContextRule.
+        apply_rules("{general::foo}!", "en", :foo => 'foof')
+      result.should == "barf!"
+
+      result = Otwtranslation::ContextRule.
+        apply_rules("{general::foo}!", "en",
+                    :foo => '<a href="example.org">foof</a>')
+      result.should == "<a href=\"example.org\">barf</a>!"
+    end
+
     it "should append" do
       @rule.actions = [["append", ["'s"]]]
       @rule.save

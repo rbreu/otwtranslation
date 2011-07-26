@@ -53,6 +53,8 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
 
   ACTIONS =  {
       "replace" => "replace",
+      "replace end" => "replace_end",
+      "replace beginning" => "replace_beginning",
       "append" => "append",
       "prepend" => "prepend",
       "auto pluralize" => "auto_pluralize"
@@ -156,22 +158,41 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
 
   ############################################################
   # Definition of actions:
+  # value may not be a string, params are always strings
 
   def self.action_replace(name, value, params)
-    stripped_value = separate_link_label(value)
-    new_value = params[0] || stripped_value.to_s
+    stripped_value = separate_link_label(value).to_s
+    new_value = params[0] || stripped_value
+    merge_link_label(value, stripped_value, new_value)
+  end
+  
+  def self.action_replace_end(name, value, params)
+    stripped_value = separate_link_label(value).to_s
+    number = params[0].to_i
+    number = [stripped_value.length - params[0].to_i, params[0].to_i].min
+    
+    new_value = stripped_value[0..number-1] + ( params[1] || stripped_value[number..-1] )
+    merge_link_label(value, stripped_value, new_value)
+  end
+  
+  def self.action_replace_beginning(name, value, params)
+    stripped_value = separate_link_label(value).to_s
+    number = params[0].to_i
+    
+    new_value = ( params[1] || stripped_value[0..number-1] ) + stripped_value[number..-1]
+    
     merge_link_label(value, stripped_value, new_value)
   end
   
   def self.action_append(name, value, params)
-    stripped_value = separate_link_label(value)
-    new_value = stripped_value.to_s + (params[0] || stripped_value)
+    stripped_value = separate_link_label(value).to_s
+    new_value = stripped_value + (params[0] || stripped_value)
     merge_link_label(value, stripped_value, new_value)
   end
   
   def self.action_prepend(name, value, params)
-    stripped_value = separate_link_label(value)
-    new_value = (params[0] || stripped_value) + stripped_value.to_s
+    stripped_value = separate_link_label(value).to_s
+    new_value = (params[0] || stripped_value) + stripped_value
     merge_link_label(value, stripped_value, new_value)
   end
   
