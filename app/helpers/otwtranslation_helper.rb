@@ -199,6 +199,13 @@ module OtwtranslationHelper
     end
   end
 
+  def otwtranslation_tool_source
+    if otwtranslation_tool_visible?
+      source = Otwtranslation::Source.find_by_source(otwtranslation_get_source)
+      render(:partial => 'otwtranslation/home/current_source',
+             :locals => {:source => source})
+    end
+  end
 
   def otwtranslation_language(user=nil)
     # TODO: use user's settings as a possibility, too!

@@ -93,6 +93,10 @@ Additional helpers:
 * ``otwtranslation_tool_header``: adds a toolbar for translators and
   translation admins when they have translation tools enabled
 
+* ``otwtranslation_tool_source``: adds link to the current source for
+  translators and translation admins when they have translation tools
+  enabled
+
 
 Notes
 -----

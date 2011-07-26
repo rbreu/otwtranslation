@@ -115,3 +115,11 @@ p.hide.inline {
 
 
 .clear-both { clear: both; }
+
+p#otwtranslation_source_link {
+    clear: right;
+    float: right;
+    text-align:left;
+    width:17.5em;
+    padding:0
+}
