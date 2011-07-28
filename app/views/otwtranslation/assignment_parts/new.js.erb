@@ -1,4 +1,3 @@
 // replace button with form
 $("ul#add_assignee").replaceWith(
-  "<%= escape_javascript(render :partial => "form", 
-           :locals => { :assignment => @assignment, :part => @part }) %>")
+  "<%= escape_javascript(render("form", :assignment => @assignment, :part => @part)) %>")

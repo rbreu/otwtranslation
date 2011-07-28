@@ -6,6 +6,6 @@
 <!--end navigation-->
 <!--main content-->
 
-<%= render :partial => "edit_form", 
-           :locals => { :assignment => @assignment,
-                        :source_controller_action => @source_controller_action } %>
+<%= render("edit_form", 
+           :assignment => @assignment,
+           :source_controller_action => @source_controller_action) %>

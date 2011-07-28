@@ -6,8 +6,8 @@
 <!--end navigation-->
 
 <!--main content-->
-<%= render :partial => "otwtranslation/phrases/phrase_table",
-           :locals => { :phrases => @phrases,
-                        :params => { :controller => otwtranslation_phrases_path }} %>
+<%= render("otwtranslation/phrases/phrase_table",
+           :phrases => @phrases,
+           :params => { :controller => otwtranslation_phrases_path }) %>
 <!-- /main-->
 

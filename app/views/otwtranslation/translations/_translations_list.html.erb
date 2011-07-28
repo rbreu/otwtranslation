@@ -14,8 +14,8 @@
       <li id="translation<%= translation.id %>" 
           class="<%= i%2 == 0 ? "even" : "odd" %>"> 
 
-        <%= render :partial => "otwtranslation/translations/translation", 
-                   :locals => { :translation => translation } %>
+        <%= render("otwtranslation/translations/translation", 
+                   :translation => translation) %>
 
       </li>
     <% end %>

@@ -16,5 +16,4 @@
   <dd class="description"><%= @assignment.description %></dd>
 </dl>
 
-<%= render :partial => "form", 
-           :locals => { :assignment => @assignment, :part => @part } %>
+<%= render("form", :assignment => @assignment, :part => @part) %>

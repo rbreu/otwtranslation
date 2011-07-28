@@ -11,15 +11,15 @@ li_class = (li_length + <%= i %> ) % 2 == 0 ? "even" : "odd"
 
 $("ol#otwtranslation_translations").append(
    '<li id="translation<%= translation.id %>" class="' + li_class + '">' + 
-   '<%= escape_javascript(render :partial => "otwtranslation/translations/translation", 
-                 :locals => { :translation => translation }) %>' + 
+   '<%= escape_javascript(render("otwtranslation/translations/translation", 
+                                 :translation => translation)) %>' + 
    '</li>')
 <% end %>
 
 // replace the form with an "add translation button"
 $("form#new_otwtranslation_translation").replaceWith(
-      "<%= escape_javascript(render :partial => "otwtranslation/phrases/add_translation_button", 
-                 :locals => { :phrase => @phrase_key }) %>")
+      "<%= escape_javascript(render("otwtranslation/phrases/add_translation_button", 
+                                    :phrase => @phrase_key)) %>")
  
 // replace phrases with appropirate translation
 $("span#otwtranslation_phrase_<%= @phrase_key %>").replaceWith(

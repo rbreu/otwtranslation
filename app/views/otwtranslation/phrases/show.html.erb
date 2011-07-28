@@ -3,12 +3,12 @@
 <!-- end descriptions-->
 
 
-<%= render :partial => "otwtranslation/phrases/phrase", 
-           :locals => { :phrase => @phrase, :sources => @sources,
-                        :params => {:controller => otwtranslation_phrase_path(@phrase), :action => ""} } %>
-<%= render :partial => "otwtranslation/phrases/add_translation_button", 
-           :locals => { :phrase => @phrase_id } %>
-<%= render :partial => "otwtranslation/translations/translations_list", 
-           :locals => { :translations => @translations } %>
+<%= render("otwtranslation/phrases/phrase", 
+           :phrase => @phrase, :sources => @sources,
+           :params => {:controller => otwtranslation_phrase_path(@phrase), :action => ""}) %>
+<%= render("otwtranslation/phrases/add_translation_button", 
+           :phrase => @phrase_id) %>
+<%= render("otwtranslation/translations/translations_list", 
+           :translations => @translations) %>
 
 

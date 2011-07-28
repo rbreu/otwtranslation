@@ -14,8 +14,7 @@
   <dd><%= f.select(:type, @rule.RULE_TYPES, :selected => @rule.display_type) %> <%= f.submit "Set type" %></dd>
 </dl>
 
-  <%= render :partial => "otwtranslation/rules/form",
-             :locals => { :rule => @rule, :f => f } %>
+  <%= render("otwtranslation/rules/form", :rule => @rule, :f => f) %>
   <p class="submit"><%= f.submit "Add rule" %></p>
 
 <% end %>

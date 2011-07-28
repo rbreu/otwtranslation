@@ -7,13 +7,13 @@
 
 <!--main content-->
 
-<%= render :partial => "/otwtranslation/phrases/phrase", 
-           :locals => { :phrase => @phrase, :sources => @sources,
-           :params => { :controller => otwtranslation_new_translation_path, :action => "" }} %>
+<%= render("/otwtranslation/phrases/phrase", 
+           :phrase => @phrase, :sources => @sources,
+           :params => { :controller => otwtranslation_new_translation_path, :action => "" }) %>
 
-<%= render :partial => "new_form", :locals => { :translation => @translation } %>
+<%= render("new_form", :translation => @translation) %>
 
 
-<%= render :partial => "otwtranslation/translations/translations_list", 
-           :locals => { :translations => @existing_translations } %>
+<%= render("otwtranslation/translations/translations_list", 
+           :translations => @existing_translations) %>
 <!--/main-->

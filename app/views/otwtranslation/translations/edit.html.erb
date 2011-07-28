@@ -6,16 +6,16 @@
 <!--end navigation-->
 
 <!--main content-->
-<%= render :partial => "/otwtranslation/phrases/phrase", 
-           :locals => { :phrase => @phrase, :sources => @sources,
-           :params => { :controller => otwtranslation_edit_translation_path(@translation), :action => "" }}
+<%= render("/otwtranslation/phrases/phrase", 
+           :phrase => @phrase, :sources => @sources,
+           :params => { :controller => otwtranslation_edit_translation_path(@translation), :action => "" })
 %>
 
-<%= render :partial => "edit_form", :locals => { :translation => @translation } %>
+<%= render("edit_form", :translation => @translation) %>
 
 
-<%= render :partial => "otwtranslation/translations/translations_list", 
-           :locals => { :translations => @existing_translations } %>
+<%= render("otwtranslation/translations/translations_list", 
+           :translations => @existing_translations) %>
 <!-- /main-->
 
 

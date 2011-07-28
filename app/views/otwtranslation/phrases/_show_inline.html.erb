@@ -1,6 +1,5 @@
 <div class="show inline">
 
-<!--BACK END: is this a heading? Please h4 if so-->
 <p><%= @phrase.label %></p>
 
 <!--BACK END: if this is a single form and not a list, let's drop the list structure-->
@@ -15,8 +14,8 @@
   </li>
 </ul>
 
-<%= render :partial => "otwtranslation/translations/translations_list", 
-           :locals => { :translations => @translations } %>
+<%= render("otwtranslation/translations/translations_list", 
+           :translations => @translations ) %>
 
 
 <p class="navigation hide inline"><!--BACK END: assuming this is function tba-->Close</p>

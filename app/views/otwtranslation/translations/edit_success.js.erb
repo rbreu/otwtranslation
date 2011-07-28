@@ -8,5 +8,5 @@ $("span#otwtranslation_phrase_<%= @translation.phrase_key %>").html(
 
 // Replace the edit form with the generic 'Add Translation' button
 $("form#edit_otwtranslation_translation_<%= @translation.id %>_form").replaceWith(
-    "<%= escape_javascript(render :partial => "otwtranslation/phrases/add_translation_button", 
-                 :locals => { :phrase => @phrase_id }) %>")
+    "<%= escape_javascript(render("otwtranslation/phrases/add_translation_button", 
+                        :phrase => @phrase_id)) %>")

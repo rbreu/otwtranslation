@@ -32,8 +32,8 @@
           <%= assignment.completed? ? "&#x2713;".html_safe : "" %>
 	</td>
         <td class="navigation">
-	  <%= render :partial => "otwtranslation/assignments/navigation", 
-                     :locals => { :assignment => assignment, :on_show => false } %>
+	  <%= render("otwtranslation/assignments/navigation", 
+                     :assignment => assignment, :on_show => false) %>
 	</td>
       </tr>
     <% end %>

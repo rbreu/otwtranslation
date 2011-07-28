@@ -10,16 +10,16 @@
 <!--main content-->
 <ol id="otwtranslation_translations">
   <li id="translation<%= @translation.id %>" class="even">
-    <%= render :partial => "otwtranslation/translations/translation", 
-               :locals => { :translation => @translation } %>
+    <%= render("otwtranslation/translations/translation", 
+               :translation => @translation) %>
   </li>
 </ol>
 
 <h3>For phrase</h3>
 
-<%= render :partial => "/otwtranslation/phrases/phrase", 
-           :locals => { :phrase => @phrase, :sources => @sources,
-                        :params => { :controller => otwtranslation_translation_path(@translation), :action => "" }} %>
+<%= render("/otwtranslation/phrases/phrase", 
+           :phrase => @phrase, :sources => @sources,
+           :params => { :controller => otwtranslation_translation_path(@translation), :action => "" }) %>
 
 
 <h3>Comments</h3>

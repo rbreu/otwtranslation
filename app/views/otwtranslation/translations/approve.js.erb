@@ -1,7 +1,7 @@
 <% if @translation.approved %>
   $("li#translation<%= @translation.id %> div").replaceWith(
-      "<%= escape_javascript(render :partial => "otwtranslation/translations/translation", 
-                 :locals => { :translation => @translation }) %>")
+      "<%= escape_javascript(render("otwtranslation/translations/translation", 
+                                    :translation => @translation)) %>")
 <% end %>
 
 $("span#otwtranslation_phrase_<%= @translation.phrase_key %>").replaceWith(

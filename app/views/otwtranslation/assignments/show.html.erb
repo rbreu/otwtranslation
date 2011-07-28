@@ -27,22 +27,21 @@
   <dd class="completed"><%= @assignment.completed? ? "yes" : "no" %></dd>
 </dl>
 
-<%= render :partial => "navigation", 
-           :locals => { :assignment => @assignment, :on_show => true } %>
+<%= render("navigation", :assignment => @assignment, :on_show => true) %>
 
 <div class="clear-both"></div>
 
 <h3><%= ts("Assigned to:") %></h3>
 
-<%= render :partial => "otwtranslation/assignment_parts/add_assignee_button", 
-           :locals => { :assignment => @assignment } %>
+<%= render("otwtranslation/assignment_parts/add_assignee_button", 
+           :assignment => @assignment) %>
 
 <div class="clear-both"></div>
 
 <ol id="otwtranslation_assignment_parts">
 <% @assignment.parts.each do |part| %>
-  <%= render :partial => "otwtranslation/assignment_parts/part",
-             :locals => { :assignment => @assignment, :part => part } %>
+  <%= render("otwtranslation/assignment_parts/part",
+             :assignment => @assignment, :part => part) %>
 <% end %>
 </ol>
 <!--/main-->

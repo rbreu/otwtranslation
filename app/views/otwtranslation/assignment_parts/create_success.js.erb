@@ -1,9 +1,10 @@
 // replace form with "add assignee" button
 $("form#otwtranslation_assignment_part").replaceWith(
-  "<%= escape_javascript(render :partial => "otwtranslation/assignment_parts/add_assignee_button", 
-           :locals => { :assignment => @assignment }) %>")
+  "<%= escape_javascript(
+         render("otwtranslation/assignment_parts/add_assignee_button", 
+                :assignment => @assignment)) %>")
 
 // append new assignee to list
 $("ol#otwtranslation_assignment_parts").append(  
-  "<%= escape_javascript(render :partial => "otwtranslation/assignment_parts/part", 
-           :locals => { :assignment => @assignment, :part => @part }) %>")
+  "<%= escape_javascript(render("otwtranslation/assignment_parts/part", 
+           :assignment => @assignment, :part => @part)) %>")
