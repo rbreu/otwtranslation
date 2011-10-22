@@ -10,7 +10,27 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110726163000) do
+ActiveRecord::Schema.define(:version => 20111022134000) do
+
+  create_table "comments", :force => true do |t|
+    t.integer  "user_id"
+    t.text     "content",                                                   :null => false
+    t.integer  "depth"
+    t.integer  "threaded_left"
+    t.integer  "threaded_right"
+    t.boolean  "is_deleted",                             :default => false, :null => false
+    t.integer  "commentable_id"
+    t.string   "commentable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "thread"
+    t.boolean  "approved",                               :default => false, :null => false
+    t.boolean  "hidden_by_admin",                        :default => false, :null => false
+    t.datetime "edited_at"
+    t.integer  "parent_id"
+    t.string   "parent_type"
+    t.integer  "content_sanitizer_version", :limit => 2, :default => 0,     :null => false
+  end
 
   create_table "languages", :force => true do |t|
     t.string  "short",               :limit => 4
