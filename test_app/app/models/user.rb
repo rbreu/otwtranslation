@@ -35,10 +35,17 @@ class User < ActiveRecord::Base
     config.validates_length_of_password_confirmation_field_options = {:on => :update, :minimum => 6, :if => :has_no_credentials?}
   end
 
-  def has_no_credentials?  acts_as_authorized_user
+  def has_no_credentials?
+    self.crypted_password.blank?
+  end
+
+  def is_translation_admin?
+    translation_admin
+  end
+
+  # Authorization plugin
+  acts_as_authorized_user
   acts_as_authorizable
-  has_many :roles_users
-  has_many :roles, :through => :roles_users
 
   # OpenID plugin
   attr_accessible :identity_url
@@ -73,6 +80,14 @@ class User < ActiveRecord::Base
     true
   end
 
+  def suspended?
+    false
+  end
+
+  def banned?
+    false
+  end
+
   def generate_password(length=8)
     chars = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ23456789'
     password = ''
@@ -87,11 +102,6 @@ class User < ActiveRecord::Base
     UserMailer.reset_password(self.id, temp_password).deliver
   end
 
-  def activate
-    return false if self.active?
-    self.update_attribute(:activated_at, Time.now.utc)
-  end
-
   def create_default_associateds
     self.pseuds << Pseud.new(:name => self.login, :is_default => true)
   end
@@ -103,28 +113,6 @@ class User < ActiveRecord::Base
 
   public
 
-  # Returns an array (of pseuds) of this user's co-authors
-  def coauthors
-     works.collect(&:pseuds).flatten.uniq - pseuds
-  end
-
-  # Gets the user's most recent unposted work
-  def unposted_work
-    return @unposted_work if @unposted_work
-    @unposted_work = works.find(:first, :conditions => {:posted => false}, :order => 'works.created_at DESC')
-  end
-
-  def unposted_works
-    return @unposted_works if @unposted_works
-    @unposted_works = works.find(:all, :conditions => {:posted => false}, :order => 'works.created_at DESC')
-  end
-
-  # removes ALL unposted works
-  def wipeout_unposted_works
-    works.find(:all, :conditions => {:posted => false}).each do |w|
-      w.destroy
-    end
-  end
 
   # Retrieve the current default pseud
   def default_pseud
@@ -146,167 +134,12 @@ class User < ActiveRecord::Base
     end
   end
 
-  # Gets the number of works by this user that the current user can see
-  def visible_work_count
-    Work.owned_by(self).visible_to_user(User.current_user).count(:id, :distinct => true)
-  end
-
-  # Gets the user account for authored objects if orphaning is enabled
-  def self.orphan_account
-    User.fetch_orphan_account if ArchiveConfig.ORPHANING_ALLOWED
-  end
-
-  # Allow admins to set roles and change email
-  def admin_update(attributes)
-    if User.current_user.is_a?(Admin)
-      success = true
-      success = set_roles(attributes[:roles])
-      if success && attributes[:email]
-        self.email = attributes[:email]
-        success = self.save(:validate => false)
-      end
-      success
-    end
-  end
-
-  private
-
-  # Set the roles for this user
-  def set_roles(role_list)
-    if role_list
-      self.roles = Role.find(role_list)
-    else
-      self.roles = []
-    end
-  end
-
   public
-
-  # Is this user an authorized translation admin?
-  def translation_admin
-    self.is_translation_admin?
-  end
-
-  def is_translation_admin?
-    has_role?(:translation_admin)
-  end
-
-  # Set translator role for this user and log change
-  def translation_admin=(should_be_translation_admin)
-    set_role('translation_admin', should_be_translation_admin == '1')
-  end
-
-  # Is this user an authorized tag wrangler?
-  def tag_wrangler
-    self.is_tag_wrangler?
-  end
-
-  def is_tag_wrangler?
-    has_role?(:tag_wrangler)
-  end
-
-  # Set tag wrangler role for this user and log change
-  def tag_wrangler=(should_be_tag_wrangler)
-    set_role('tag_wrangler', should_be_tag_wrangler == '1')
-  end
-
-  # Is this user an authorized archivist?
-  def archivist
-    self.is_archivist?
-  end
-
-  def is_archivist?
-    has_role?(:archivist)
-  end
-
-  # Set archivist role for this user and log change
-  def archivist=(should_be_archivist)
-    set_role('archivist', should_be_archivist == '1')
-  end
 
   # Creates log item tracking changes to user
   def create_log_item(options = {})
     options.reverse_merge! :note => 'System Generated', :user_id => self.id
     LogItem.create(options)
-  end
-
-  # Options can include :categories and :limit
-  def most_popular_tags(options = {})
-    all_tags = []
-    if options[:categories].blank?
-      all_tags = self.tags + self.bookmark_tags
-    else
-      type_tags = []
-      options[:categories].each do |type_name|
-        type_tags << type_name.constantize.all
-      end
-      all_tags = [self.tags + self.bookmark_tags].flatten & type_tags.flatten
-    end
-    tags_with_count = {}
-    all_tags.uniq.each do |tag|
-      tags_with_count[tag] = all_tags.find_all{|t| t == tag}.size
-    end
-    all_tags = tags_with_count.to_a.sort {|x,y| y.last <=> x.last }
-    popular_tags = options[:limit].blank? ? all_tags.collect {|pair| pair.first} : all_tags.collect {|pair| pair.first}[0..(options[:limit]-1)]
-  end
-
-  # Returns true if user is the sole author of a work
-  # Should also be true if the user has used more than one of their pseuds on a work
-  def is_sole_author_of?(item)
-   other_pseuds = item.pseuds.find(:all) - self.pseuds
-   self.is_author_of?(item) && other_pseuds.blank?
- end
-
-  # Returns array of works where the user is the sole author
-  def sole_authored_works
-    @sole_authored_works = []
-    works.find(:all, :conditions => 'posted = 1').each do |w|
-      if self.is_sole_author_of?(w)
-        @sole_authored_works << w
-      end
-    end
-    return @sole_authored_works
-  end
-
-  # Returns array of the user's co-authored works
-  def coauthored_works
-    @coauthored_works = []
-    works.find(:all, :conditions => 'posted = 1').each do |w|
-      unless self.is_sole_author_of?(w)
-        @coauthored_works << w
-      end
-    end
-    return @coauthored_works
-  end
-
-  ### BETA INVITATIONS ###
-
-  #If a new user was invited, update the invitation
-  def mark_invitation_redeemed
-    unless self.invitation_token.blank?
-      invitation = Invitation.find_by_token(self.invitation_token)
-      if invitation
-        self.update_attribute(:invitation_id, invitation.id)
-        invitation.mark_as_redeemed(self)
-      end
-    end
-  end
-
-  # Existing users should be removed from the invitations queue
-  def remove_from_queue
-    invite_request = InviteRequest.find_by_email(self.email)
-    invite_request.destroy if invite_request
-  end
-
-  private
-
-  # Create and/or return a user account for holding orphaned works
-  def self.fetch_orphan_account
-    orphan_account = User.find_or_create_by_login("orphan_account")
-    if orphan_account.new_record?
-      Rails.logger.fatal "You must have a User with the login 'orphan_account'. Please create one."
-    end
-    orphan_account
   end
 
 end
