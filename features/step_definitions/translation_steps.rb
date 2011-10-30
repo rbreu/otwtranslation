@@ -5,8 +5,9 @@ Given /^I have the (approved |)translation "([^"]*)" for "([^"]*)" in ([^"]*)$/ 
     Factory(:phrase, {:label => label})
 
   approved = !approved.blank?
-  Factory(:translation, :label => translation,
-          :language => lang, :phrase => @phrase, :approved => approved)
+  @translation = Factory(:translation, :label => translation,
+                         :language => lang, :phrase => @phrase,
+                         :approved => approved)
 end
 
 
@@ -37,6 +38,10 @@ end
 
 Then /^I should see the votes "([^"]*)"$/ do |votes|
   page.should have_selector('dd.votes', :text => votes)
+end
+
+Then /^I should see the comments "([^"]*)"$/ do |comments|
+  page.should have_selector('dd.comments', :text => comments)
 end
 
 Then /^I should see (\d+) translations$/ do |count|

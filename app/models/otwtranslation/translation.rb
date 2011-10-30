@@ -1,6 +1,7 @@
 require 'sanitize'
 
 class Otwtranslation::Translation < ActiveRecord::Base
+  acts_as_commentable
 
   set_table_name :otwtranslation_translations
 
@@ -43,7 +44,7 @@ class Otwtranslation::Translation < ActiveRecord::Base
   # * We can set approved to true if there is no approved translation for this
   #   language, phrase and ruleset
   # * We can't set approved to true if there is an approved translation for
-  # * the same ruleset or for an unspecified ruleset
+  #   the same ruleset or for an unspecified ruleset
   def self.validate_approved(translation, value)
     return true if value.blank?
     
@@ -57,6 +58,16 @@ class Otwtranslation::Translation < ActiveRecord::Base
   
     return true
   end
+
+
+  def commentable_name
+    label[0..20]
+  end
+  
+  def commentable_owners
+    []
+  end
+
   
   def self.cache_key(phrase_key, language, rules)
     rules = Otwtranslation::ParameterParser.stringify(rules, ",")

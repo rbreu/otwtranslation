@@ -1,3 +1,5 @@
+require 'html_cleaner'
+
 class Comment < ActiveRecord::Base
 
   include HtmlCleaner
@@ -11,7 +13,7 @@ class Comment < ActiveRecord::Base
   validates_presence_of :content
   validates_length_of :content,
     :maximum => ArchiveConfig.COMMENT_MAX,
-    :too_long => t('invalid_content_length', :default => "must be less than %{count} letters long.", :count => ArchiveConfig.COMMENT_MAX)
+    :too_long => 'invalid_content_length', :count => ArchiveConfig.COMMENT_MAX
 
 
   scope :recent, lambda { |*args| {:conditions => ["created_at > ?", (args.first || 1.week.ago.to_date)]} }

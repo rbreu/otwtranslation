@@ -176,6 +176,27 @@ Rails.application.routes.draw do
   
   match "#{mount_at}/translations/:id" => 'otwtranslation/translations#update',
   :as => 'otwtranslation_update_translation', :via => [:put]
+
+  # Translation comments
+
+  get  "#{mount_at}/translations/:id/comments" => 'comments#index',
+  :as => 'otwtranslation_translation_comments'
+  
+  match "#{mount_at}/translations/:translation_id/comments" => 'comments#create',
+  :as => 'otwtranslation_translation_post_comment', :via => [:post]
+
+  get "otwtranslation_translation_comments/:translation_id/comments/new" => 'comments#new',
+  :as => 'otwtranslation_translation_new_comment'
+
+#   get "otwtranslation_translation_comments/:id/comments/edit" => "comments#edit",
+#   :as otwtranslation_translation_edit_comment
+
+  
+# GET    /admin_posts/:admin_post_id/comments/:id/edit(.:format) {:action=>"edit", :controller=>"comments"}
+# GET    /admin_posts/:admin_post_id/comments/:id(.:format) {:action=>"show", :controller=>"comments"}
+# PUT    /admin_posts/:admin_post_id/comments/:id(.:format) {:action=>"update", :controller=>"comments"}
+# DELETE /admin_posts/:admin_post_id/comments/:id(.:format) {:action=>"destroy", :controller=>"comments"}
+
     
 end
 

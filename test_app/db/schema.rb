@@ -10,10 +10,9 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111022134000) do
+ActiveRecord::Schema.define(:version => 20111029185300) do
 
   create_table "comments", :force => true do |t|
-    t.integer  "user_id"
     t.text     "content",                                                   :null => false
     t.integer  "depth"
     t.integer  "threaded_left"
@@ -30,6 +29,7 @@ ActiveRecord::Schema.define(:version => 20111022134000) do
     t.integer  "parent_id"
     t.string   "parent_type"
     t.integer  "content_sanitizer_version", :limit => 2, :default => 0,     :null => false
+    t.integer  "pseud_id"
   end
 
   create_table "languages", :force => true do |t|
@@ -115,6 +115,12 @@ ActiveRecord::Schema.define(:version => 20111022134000) do
     t.integer  "votes",          :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "pseuds", :force => true do |t|
+    t.integer "user_id"
+    t.string  "name",                          :null => false
+    t.boolean "is_default", :default => false, :null => false
   end
 
   create_table "users", :force => true do |t|

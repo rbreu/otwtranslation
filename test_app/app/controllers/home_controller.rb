@@ -8,7 +8,8 @@ class HomeController < ApplicationController
     user.login = params['name']
     user.email = "#{params['name']}@example.org"
     user.password = 'test123'
-    flash[:error] = ts('Ooops.') unless user.save
+    user.password_confirmation = 'test123'
+    flash[:error] = "Ooops: #{user.errors}" unless user.save
     redirect_to :back
   end
   

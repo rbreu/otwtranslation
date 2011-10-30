@@ -39,6 +39,16 @@ Add
 
 ::
 
+  elsif params[:translation_id]
+  @commentable = Otwtranslation::Translation.find(params[:translation_id])
+
+to CommentsController.load_commentable
+
+
+Add
+
+::
+
   <%= render :partial => 'layout/otwtranslation_includes' %>
 
 to your application.html.erb

@@ -29,6 +29,9 @@ module NavigationHelpers
     when 'the phrase page'
       otwtranslation_phrase_path(@phrase)
       
+    when 'the translation page'
+      otwtranslation_translation_path(@translation)
+      
     when 'the language page'
       otwtranslation_language_path(@language)
       
