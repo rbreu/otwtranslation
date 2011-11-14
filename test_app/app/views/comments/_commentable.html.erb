@@ -33,7 +33,7 @@
         <%= link_to (@bookmark ? ts("Edit Bookmark") : ts("Bookmark")), "#bookmark-form", :class => "bookmark_form_placement_open" %>
       </li>
     <% end %>
-    <% if commentable.count_visible_comments > 0 && !commentable.is_a?(Tag) %>
+    <% if commentable.count_visible_comments > 0 %>
         <li id="show_comments_link"><%= show_hide_comments_link(commentable) %></li>
     <% end %>
   </ul>
@@ -48,7 +48,7 @@
 
   <div id="add_comment_placeholder">
     <div id="add_comment">
-      <%= render :partial => 'comments/comment_form', :locals => {:comment => Comment.new, :commentable => commentable, :button_name => ts('Comment')}%> 		
+      <%= render :partial => 'comments/comment_form', :locals => {:comment => Comment.new, :commentable => commentable, :button_name => 'Comment'}%> 		
     </div>
   </div>
 

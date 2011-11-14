@@ -13,8 +13,8 @@ Feature: Translation comments
     Then I should see the comments "0"
 
     When I press "Add Comment"
-    And I fill in "comment_form" with "This is great!"
-    And I press "Add Comment"
+    And I fill in "comment[content]" with "This is great!"
+    And I press "Comment"
     
     Then I should see the comment "This is great!"
     And I should see the comments "1"

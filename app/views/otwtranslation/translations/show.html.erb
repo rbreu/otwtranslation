@@ -23,4 +23,6 @@
 
 
 <h3>Comments</h3>
-<p class="notice">Here be place for comments</p>
+
+<%= render :partial => 'comments/commentable', :locals => {:commentable => @translation} %>
+

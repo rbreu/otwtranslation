@@ -89,11 +89,11 @@ class Comment < ActiveRecord::Base
   alias :original_ultimate_parent :ultimate_parent
   def ultimate_parent
     myparent = self.original_ultimate_parent
-    myparent.kind_of?(Chapter) ? myparent.work : myparent
+    myparent
   end
 
   def self.commentable_object(commentable)
-    commentable.kind_of?(Work) ? commentable.last_chapter : commentable
+    commentable
   end
 
   def find_all_comments

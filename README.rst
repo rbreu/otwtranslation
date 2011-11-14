@@ -44,6 +44,13 @@ Add
 
 to CommentsController.load_commentable
 
+Add
+
+::
+  when /Translation/
+  @name = "\"#{truncate(@commentable.label)}\""
+
+to CommentsController.new
 
 Add
 

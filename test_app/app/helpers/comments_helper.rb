@@ -1,15 +1,12 @@
 module CommentsHelper
   
   def value_for_comment_form(commentable, comment)
-    #commentable.is_a?(Tag) ? comment : [commentable, comment]
     [commentable, comment]
   end
   
   def title_for_comment_page(commentable)
     if commentable.commentable_name.blank?
       title = ""
-    elsif commentable.is_a?(Tag)
-      title = link_to_tag(commentable)
     else
       title = link_to(commentable.commentable_name, commentable)
     end
@@ -30,18 +27,14 @@ module CommentsHelper
   def link_to_comment_ultimate_parent(comment)
     ultimate = comment.ultimate_parent
     case ultimate.class.to_s 
-      when 'Work' then 
-        link_to ultimate.title, ultimate
-      when 'Pseud' then
-        link_to ultimate.name, ultimate
-      when 'AdminPost' then 
-          link_to ultimate.title, ultimate
-      else
-        if ultimate.is_a?(Tag)
-          link_to_tag(ultimate)
-        else
-          link_to 'Something Interesting', ultimate
-        end
+    when 'Work' then 
+      link_to ultimate.title, ultimate
+    when 'Pseud' then
+      link_to ultimate.name, ultimate
+    when 'AdminPost' then 
+      link_to ultimate.title, ultimate
+    else
+      link_to 'Something Interesting', ultimate
     end
   end
 
@@ -83,35 +76,25 @@ module CommentsHelper
   
   def show_comments_link(commentable)
     if commentable.count_visible_comments > 0
-      commentable_id = commentable.is_a?(Tag) ? 
-                          :tag_id : 
-                          "#{commentable.class.to_s.underscore}_id".to_sym
-      commentable_value = commentable.is_a?(Tag) ? 
-                            commentable.name : 
-                            commentable.id
-      link_to(
-          ts("Comments (%{comment_count})", :comment_count => commentable.count_visible_comments.to_s),
-          url_for(:controller => :comments, 
-                  :action => :show_comments, 
-                  commentable_id => commentable_value,
-                  :view_full_work => params[:view_full_work]), 
-          :remote => true)
+      commentable_id = "#{commentable.class.to_s.underscore}_id".to_sym
+      commentable_value = commentable.id
+      link_to("Comments #{commentable.count_visible_comments.to_s}",
+              url_for(:controller => :comments, 
+                      :action => :show_comments, 
+                      commentable_id => commentable_value,
+                      :view_full_work => params[:view_full_work]), 
+              :remote => true)
     end
   end
     
   def hide_comments_link(commentable)
-    commentable_id = commentable.is_a?(Tag) ? 
-                        :tag_id : 
-                        "#{commentable.class.to_s.underscore}_id".to_sym
-    commentable_value = commentable.is_a?(Tag) ? 
-                          commentable.name : 
-                          commentable.id
-    link_to(
-      ts("Hide Comments (%{comment_count})", :comment_count => commentable.count_visible_comments.to_s), 
-      url_for(:controller => :comments, 
-              :action => :hide_comments, 
-              commentable_id => commentable_value),
-      :remote => true)
+    commentable_id = "#{commentable.class.to_s.underscore}_id".to_sym
+    commentable_value = commentable.id
+    link_to("Hide Comments #{commentable.count_visible_comments.to_s}", 
+            url_for(:controller => :comments, 
+                    :action => :hide_comments, 
+                    commentable_id => commentable_value),
+            :remote => true)
   end
   
   # return the appropriate link to add or cancel adding a new comment (note: ONLY in _commentable.html.erb!)
@@ -125,12 +108,8 @@ module CommentsHelper
   
   # return html link to add new comment on a commentable object
   def add_comment_link(commentable)
-    commentable_id = commentable.is_a?(Tag) ? 
-                        :tag_id : 
-                        "#{commentable.class.to_s.underscore}_id".to_sym
-    commentable_value = commentable.is_a?(Tag) ? 
-                          commentable.name : 
-                          commentable.id
+    commentable_id = "#{commentable.class.to_s.underscore}_id".to_sym
+    commentable_value = commentable.id
     link_to(
       "Comment",
       url_for(:controller => :comments, :action => :add_comment, commentable_id => commentable_value),
@@ -138,12 +117,8 @@ module CommentsHelper
   end
       
   def cancel_comment_link(commentable)
-    commentable_id = commentable.is_a?(Tag) ? 
-                        :tag_id : 
-                        "#{commentable.class.to_s.underscore}_id".to_sym
-    commentable_value = commentable.is_a?(Tag) ? 
-                          commentable.name : 
-                          commentable.id
+    commentable_id = "#{commentable.class.to_s.underscore}_id".to_sym
+    commentable_value = commentable.id
     link_to(
       "Cancel Comment",
       url_for(:controller => :comments, 
@@ -164,12 +139,8 @@ module CommentsHelper
   
   # return link to add new reply to a comment
   def add_comment_reply_link(comment)
-    commentable_id = comment.ultimate_parent.is_a?(Tag) ? 
-                        :tag_id : 
-                        "#{comment.ultimate_parent.class.to_s.underscore}_id".to_sym
-    commentable_value = comment.ultimate_parent.is_a?(Tag) ? 
-                          comment.ultimate_parent.name : 
-                          comment.ultimate_parent.id
+    commentable_id = "#{comment.ultimate_parent.class.to_s.underscore}_id".to_sym
+    commentable_value = comment.ultimate_parent.id
     link_to( 
       "Reply", 
       url_for(:controller => :comments, 
@@ -182,12 +153,8 @@ module CommentsHelper
   
   # return link to cancel new reply to a comment
   def cancel_comment_reply_link(comment)
-    commentable_id = comment.ultimate_parent.is_a?(Tag) ? 
-                        :tag_id : 
-                        "#{comment.ultimate_parent.class.to_s.underscore}_id".to_sym
-    commentable_value = comment.ultimate_parent.is_a?(Tag) ? 
-                          comment.ultimate_parent.name : 
-                          comment.ultimate_parent.id
+    commentable_id = "#{comment.ultimate_parent.class.to_s.underscore}_id".to_sym
+    commentable_value = comment.ultimate_parent.id
     link_to( 
       "Cancel", 
       url_for(:controller => :comments, 
@@ -205,12 +172,8 @@ module CommentsHelper
     if comment.new_record?
       if commentable.class == comment.class
         # canceling a reply to a comment
-        commentable_id = commentable.ultimate_parent.is_a?(Tag) ? 
-                            :tag_id : 
-                            "#{commentable.ultimate_parent.class.to_s.underscore}_id".to_sym
-        commentable_value = commentable.ultimate_parent.is_a?(Tag) ? 
-                              commentable.ultimate_parent.name : 
-                              commentable.ultimate_parent.id
+        commentable_id = "#{commentable.ultimate_parent.class.to_s.underscore}_id".to_sym
+        commentable_value = commentable.ultimate_parent.id
         link_to( 
           "Cancel", 
           url_for(:controller => :comments, 
@@ -221,12 +184,8 @@ module CommentsHelper
           :remote => true) 
        else
         # canceling a reply to a different commentable thingy
-        commentable_id = commentable.is_a?(Tag) ? 
-                            :tag_id : 
-                            "#{commentable.class.to_s.underscore}_id".to_sym
-        commentable_value = commentable.is_a?(Tag) ? 
-                              commentable.name : 
-                              commentable.id        
+        commentable_id = "#{commentable.class.to_s.underscore}_id".to_sym
+        commentable_value = commentable.id        
         link_to(
           "Cancel", 
           url_for(:controller => :comments, 
@@ -299,15 +258,9 @@ module CommentsHelper
   
   def fallback_url_for_top_level(commentable, options = {})    
     default_options = {:anchor => "comments"}
-    if commentable.is_a?(Tag)
-      default_options[:controller] = :comments
-      default_options[:action] = :index
-      default_options[:tag_id] = commentable.name      
-    else
-      default_options[:controller] = commentable.class.to_s.underscore.pluralize
-      default_options[:action] = "show"
-      default_options[:id] = commentable.id
-    end
+    default_options[:controller] = commentable.class.to_s.underscore.pluralize
+    default_options[:action] = "show"
+    default_options[:id] = commentable.id
     default_options[:add_comment] = params[:add_comment] if params[:add_comment]
     default_options[:show_comments] = params[:show_comments] if params[:show_comments]
     
@@ -319,7 +272,6 @@ module CommentsHelper
     default_options = {:anchor => "comment_#{comment.id}"}
     default_options[:action] = "show"
     default_options[:show_comments] = true
-    default_options[:id] = comment.id if comment.ultimate_parent.is_a?(Tag)
     
     options = default_options.merge(options)
     

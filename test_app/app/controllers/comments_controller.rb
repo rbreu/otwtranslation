@@ -22,9 +22,7 @@ class CommentsController < ApplicationController
   end
 
   def check_tag_wrangler_access
-    if @commentable.is_a?(Tag)
-      logged_in_as_admin? || permit?("tag_wrangler") || access_denied
-    end
+    access_denied
   end
 
   # Must be able to delete other people's comments on owned works, not just owned comments!
@@ -105,6 +103,8 @@ class CommentsController < ApplicationController
         @name = @commentable.title
       when /Comment/
         @name = "Previous Comment"
+      when /Translation/
+        @name = "\"#{truncate(@commentable.label)}\""
       end
     end
   end
@@ -125,7 +125,6 @@ class CommentsController < ApplicationController
       redirect_back_or_default(root_path)
     else
       @comment = Comment.new(params[:comment])
-      @comment.user_agent = request.env['HTTP_USER_AGENT']
       @comment.commentable = Comment.commentable_object(@commentable)
       @controller_name = params[:controller_name]
 
@@ -336,22 +335,12 @@ class CommentsController < ApplicationController
   # if necessary to display it
   def redirect_to_comment(comment, options = {})
     if comment.depth > ArchiveConfig.COMMENT_THREAD_MAX_DEPTH
-      if comment.ultimate_parent.is_a?(Tag)
-        default_options = {
-           :controller => :comments,
-           :action => :show,
+      default_options = {
+        :controller => comment.commentable.class.to_s.underscore.pluralize,
+        :action => :show,
            :id => comment.commentable.id,
-           :tag_id => comment.ultimate_parent,
-           :anchor => "comment_#{comment.id}"
-        }
-      else
-        default_options = {
-           :controller => comment.commentable.class.to_s.underscore.pluralize,
-           :action => :show,
-           :id => comment.commentable.id,
-           :anchor => "comment_#{comment.id}"
-        }
-      end
+        :anchor => "comment_#{comment.id}"
+      }
       # display the comment's direct parent (and its associated thread)
       redirect_to(url_for(default_options.merge(options)))
     else
@@ -362,22 +351,14 @@ class CommentsController < ApplicationController
   def redirect_to_all_comments(commentable, options = {})
     default_options = {:anchor => "comments"}
     options = default_options.merge(options)
-    if commentable.is_a?(Tag)
-      redirect_to comments_path(:tag_id => commentable.name,
-      :add_comment => options[:add_comment],
-      :add_comment_reply_id => options[:add_comment_reply_id],
-      :delete_comment_id => options[:delete_comment_id],
-      :anchor => options[:anchor])
-    else
-      redirect_to :controller => commentable.class.to_s.underscore.pluralize,
-      :action => :show,
-      :id => commentable.id,
+    redirect_to :controller => commentable.class.to_s.underscore.pluralize,
+    :action => :show,
+    :id => commentable.id,
       :show_comments => options[:show_comments],
-      :add_comment => options[:add_comment],
-      :add_comment_reply_id => options[:add_comment_reply_id],
-      :delete_comment_id => options[:delete_comment_id],
-      :view_full_work => options[:view_full_work],
-      :anchor => options[:anchor]
-    end
+    :add_comment => options[:add_comment],
+    :add_comment_reply_id => options[:add_comment_reply_id],
+    :delete_comment_id => options[:delete_comment_id],
+    :view_full_work => options[:view_full_work],
+    :anchor => options[:anchor]
   end
 end
