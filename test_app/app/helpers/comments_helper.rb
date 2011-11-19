@@ -44,7 +44,7 @@ module CommentsHelper
       if comment.pseud.nil?
         'Account Deleted'
       else
-        link_to comment.pseud.byline, [comment.pseud.user, comment.pseud]
+        comment.pseud.byline
       end
     else
       comment.name
@@ -76,10 +76,15 @@ module CommentsHelper
   
   def show_comments_link(commentable)
     if commentable.count_visible_comments > 0
-      commentable_id = "#{commentable.class.to_s.underscore}_id".to_sym
-      commentable_value = commentable.id
+      if commentable.is_a?(Otwtranslation::Translation)
+        commentable_id = :translation_id
+        commentable_value = commentable.id
+      else
+        commentable_id = "#{commentable.class.to_s.underscore}_id".to_sym
+        commentable_value = commentable.id
+      end
       link_to("Comments #{commentable.count_visible_comments.to_s}",
-              url_for(:controller => :comments, 
+              url_for(:controller => "/comments", #:comments, 
                       :action => :show_comments, 
                       commentable_id => commentable_value,
                       :view_full_work => params[:view_full_work]), 
@@ -88,8 +93,13 @@ module CommentsHelper
   end
     
   def hide_comments_link(commentable)
-    commentable_id = "#{commentable.class.to_s.underscore}_id".to_sym
-    commentable_value = commentable.id
+    if commentable.is_a?(Otwtranslation::Translation)
+      commentable_id = :translation_id
+      commentable_value = commentable.id
+    else
+      commentable_id = "#{commentable.class.to_s.underscore}_id".to_sym
+      commentable_value = commentable.id
+    end
     link_to("Hide Comments #{commentable.count_visible_comments.to_s}", 
             url_for(:controller => :comments, 
                     :action => :hide_comments, 

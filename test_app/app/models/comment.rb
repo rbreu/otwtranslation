@@ -6,7 +6,7 @@ class Comment < ActiveRecord::Base
 
   attr_protected :content_sanitizer_version
 
-  belongs_to :user
+  belongs_to :pseud
   belongs_to :commentable, :polymorphic => true
   belongs_to :parent, :polymorphic => true
 

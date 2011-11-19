@@ -1,8 +1,8 @@
 <!-- START thread -->
 <ol class="thread">
-  <% for comment in comments %>
+  <% for comment in comments %>  here be comments
   <% if comment.approved? %>
-    
+    approved
       <%= render :partial => 'comments/single_comment', :object => comment %>	  
       
       <% if comment.comments && comment.comments.size > 0 %>

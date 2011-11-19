@@ -18,11 +18,6 @@
         <% # FRONT END, update this if a.user comes in %>
         <h4 class="heading byline">
           <%= get_commenter_pseud_or_name(single_comment) %>
-          <% if single_comment.parent.is_a?(Chapter) && single_comment.ultimate_parent.expected_number_of_chapters != 1 %>
-            <span class='parent'>
-              <%= ts('on Chapter %{position}', :position => single_comment.parent.position) %>
-            </span>
-          <% end %>
         </h4>
         <div class="icon">
           <% if !single_comment.pseud.nil? %>
@@ -31,13 +26,13 @@
             <span class="visitor"><!-- visitor icon holder --></span>
           <% end %>
         </div>
-        <blockquote class="userstuff"><%=raw sanitize_field(single_comment, :content) %></blockquote>
+        <blockquote class="userstuff"><%= raw sanitize_field(single_comment, :content) %></blockquote>
         <p class="datetime">
-          <%= ts("Posted") %> <%= time_in_zone(single_comment.created_at) %>
+          <%= ts("Posted") %> <%= single_comment.created_at %>
         </p>
         <% unless single_comment.edited_at.blank? %>
           <p class="datetime edited">
-            <%= ts("Last Edited") %> <%= time_in_zone(single_comment.edited_at) %>
+            <%= ts("Last Edited") %> <%= single_comment.edited_at %>
           </p>
         <% end %>
       <% end %><!-- end caching -->
@@ -51,12 +46,12 @@
             <%= edit_comment_link single_comment %>
           </li>
         <% end %>
-        <% if single_comment.pseud.nil? and (logged_in_as_admin? || is_author_of?(single_comment.ultimate_parent)) %>
+        <% if single_comment.pseud.nil? and is_author_of?(single_comment.ultimate_parent) %>
           <li id="tag_comment_as_spam_link_<%= single_comment.id %>">
             <%= tag_comment_as_spam_link single_comment %>
           </li>
         <% end %>
-        <% if logged_in_as_admin? || is_author_of?(single_comment) || is_author_of?(single_comment.ultimate_parent) %>
+        <% if is_author_of?(single_comment) || is_author_of?(single_comment.ultimate_parent) %>
           <li id="delete_comment_link_<%= single_comment.id %>">
             <%= do_cancel_delete_comment_link single_comment %>
           </li>

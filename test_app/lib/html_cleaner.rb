@@ -4,6 +4,9 @@ module HtmlCleaner
   # If we aren't sure that this field hasn't been sanitized since the last sanitizer version, 
   # we sanitize it before we allow it to pass through (and save it if possible).
   def sanitize_field(object, fieldname)
+    puts "============"
+    puts object
+    puts fieldname
     return "" if object.send(fieldname).nil?
     if object.respond_to?("#{fieldname}_sanitizer_version")
       if object.send("#{fieldname}_sanitizer_version") < ArchiveConfig.SANITIZER_VERSION

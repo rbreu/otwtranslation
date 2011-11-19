@@ -52,6 +52,16 @@ Add
 
 to CommentsController.new
 
+Add 
+
+::
+   if commentable.is_a?(Otwtranslation::Translation)
+     commentable_id = :translation_id
+     commentable_value = commentable.id
+   else
+
+to comments_helper:show_comments_link and hide_comments_link
+
 Add
 
 ::
