@@ -8,7 +8,6 @@ class CommentsController < ApplicationController
   before_filter :check_user_status, :only => [:new, :create, :edit, :update, :destroy]
   before_filter :load_comment, :only => [:show, :edit, :update, :delete_comment, :destroy]
   before_filter :check_visibility, :only => [:show]
-  before_filter :check_tag_wrangler_access, :only => [:index, :show]
   before_filter :check_ownership, :only => [:edit, :update]
   before_filter :check_permission_to_edit, :only => [:edit, :update ]
   before_filter :check_permission_to_delete, :only => [:delete_comment, :destroy]
@@ -21,13 +20,9 @@ class CommentsController < ApplicationController
     @check_visibility_of = @comment
   end
 
-  def check_tag_wrangler_access
-    access_denied
-  end
-
   # Must be able to delete other people's comments on owned works, not just owned comments!
   def check_permission_to_delete
-    access_denied(:redirect => @comment) unless logged_in_as_admin? || current_user_owns?(@comment) || current_user_owns?(@comment.ultimate_parent)
+    access_denied(:redirect => @comment) unless current_user_owns?(@comment) || current_user_owns?(@comment.ultimate_parent)
   end
 
   # Comments cannot be edited after they've been replied to
@@ -127,6 +122,7 @@ class CommentsController < ApplicationController
       @comment = Comment.new(params[:comment])
       @comment.commentable = Comment.commentable_object(@commentable)
       @controller_name = params[:controller_name]
+      @comment.approved = true
 
       # First, try saving the comment
       if @comment.save

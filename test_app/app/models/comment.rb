@@ -111,4 +111,9 @@ class Comment < ActiveRecord::Base
   def sanitized_content
     sanitize_field self, :content
   end
+
+
+  def visible?
+    true
+  end
 end

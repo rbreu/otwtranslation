@@ -71,7 +71,7 @@ public
   def access_denied(options ={})
     store_location
     if logged_in?
-      destination = home_path
+      destination = "/"
       flash[:error] = ts "Sorry, you don't have permission to access the page you were trying to reach."
       redirect_to destination
     else
@@ -219,8 +219,6 @@ public
   def check_visibility
     if @check_visibility_of.respond_to?(:restricted) && @check_visibility_of.restricted && User.current_user.nil?
       redirect_to login_path(:restricted => true)
-    elsif @check_visibility_of.is_a? Skin
-      access_denied current_user_owns?(@check_visibility_of) || @check_visibility_of.official?
     else
       is_hidden = (@check_visibility_of.respond_to?(:visible) && !@check_visibility_of.visible) || 
                   (@check_visibility_of.respond_to?(:visible?) && !@check_visibility_of.visible?) || 

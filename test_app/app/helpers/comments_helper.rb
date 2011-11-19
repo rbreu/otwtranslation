@@ -101,7 +101,7 @@ module CommentsHelper
       commentable_value = commentable.id
     end
     link_to("Hide Comments #{commentable.count_visible_comments.to_s}", 
-            url_for(:controller => :comments, 
+            url_for(:controller => "/comments", 
                     :action => :hide_comments, 
                     commentable_id => commentable_value),
             :remote => true)
