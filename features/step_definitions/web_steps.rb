@@ -30,12 +30,12 @@ When /^I don't confirm the popup$/ do
 end
 
 Then /^I should see the heading "([^"]*)"$/ do |text|
-  Then "I should see \"#{text}\" within \"h2\""
+  step "I should see \"#{text}\" within \"h2\""
 end
 
 
 Then /^I should see "([^"]*)" in the (header|footer)$/ do |text, selector|
-  Then "I should see \"#{text}\" within \"##{selector}\""
+  step "I should see \"#{text}\" within \"##{selector}\""
 end
 
 
@@ -89,7 +89,7 @@ end
 When /^(?:|I )fill in the following(?: within "([^"]*)")?:$/ do |selector, fields|
   with_scope(selector) do
     fields.rows_hash.each do |name, value|
-      When %{I fill in "#{name}" with "#{value}"}
+      step %{I fill in "#{name}" with "#{value}"}
     end
   end
 end

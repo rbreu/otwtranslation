@@ -27,9 +27,9 @@ gem 'will_paginate',
 
 
 group :development, :test do
-  gem "rspec-rails", "~> 2.5.0"
-  gem "cucumber-rails", "~> 0.3.2"
-  gem "capybara", "~> 0.4.1.2"
+  gem "rspec-rails"
+  gem "cucumber-rails"
+  gem "capybara"
   gem "launchy"
   gem "factory_girl"
   gem "webrat"
@@ -37,5 +37,6 @@ group :development, :test do
   #gem "akephalos"
   gem "selenium-webdriver"
   gem "pickle"
+  gem "escape_utils"
 end
 

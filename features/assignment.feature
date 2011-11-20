@@ -184,7 +184,7 @@ Feature: Translation phrases
 
 
   @javascript
-  Scenario: Remove assignee from assignment
+  Scenario: Remove assignee from assignment with JavaScript
     Given I am a translation admin
     And I have selected the language Deutsch
     And I have an assignment for Deutsch

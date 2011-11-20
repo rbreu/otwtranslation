@@ -28,15 +28,15 @@ Gem::Specification.new do |s|
   s.add_dependency "resque_mailer"
   s.add_dependency "will_paginate"
 
-  s.add_development_dependency "rspec-rails", "~> 2.5.0"
-  s.add_development_dependency "cucumber-rails", "~> 0.3.2"
-  s.add_development_dependency "capybara", "~> 0.4.1.2"
+  s.add_development_dependency "rspec-rails"
+  s.add_development_dependency "cucumber-rails"
+  s.add_development_dependency "capybara"
   s.add_development_dependency "launchy"
   s.add_development_dependency "factory_girl"
   s.add_development_dependency "webrat"
   s.add_development_dependency "database_cleaner"
   s.add_development_dependency "selenium-webdriver"
   s.add_development_dependency "pickle"
-
+  s.add_development_dependency "escape_utils"
 end
 
