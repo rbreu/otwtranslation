@@ -45,6 +45,7 @@ to the header of your application.html.erb
 
 TODO: db migrations; stylesheets; javasripts
 
+You'll also need to create config/otwtranslation/config.yml based off the example in the gem.
 
 Usage
 -----
