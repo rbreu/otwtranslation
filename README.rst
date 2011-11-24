@@ -13,7 +13,7 @@ Add
 
 ::
 
-  gem otwtranslation
+  gem 'otwtranslation', :git => 'git://github.com/rbreu/otwtranslation.git'
 
 to your gemfile.
 
@@ -41,10 +41,11 @@ Add
 
   <%= render :partial => 'layout/otwtranslation_includes' %>
 
-to your application.html.erb
+to the header of your application.html.erb
 
 TODO: db migrations; stylesheets; javasripts
 
+You'll also need to create config/otwtranslation/config.yml based off the example in the gem.
 
 Usage
 -----
