@@ -13,7 +13,7 @@ Add
 
 ::
 
-  gem 'otwtranslation'
+  gem 'otwtranslation', :git => 'git://github.com/rbreu/otwtranslation.git'
 
 to your gemfile.
 
