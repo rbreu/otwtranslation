@@ -41,7 +41,7 @@ Add
 
   <%= render :partial => 'layout/otwtranslation_includes' %>
 
-to your application.html.erb
+to the header of your application.html.erb
 
 TODO: db migrations; stylesheets; javasripts
 
