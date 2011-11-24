@@ -13,7 +13,7 @@ Add
 
 ::
 
-  gem otwtranslation
+  gem 'otwtranslation'
 
 to your gemfile.
 
