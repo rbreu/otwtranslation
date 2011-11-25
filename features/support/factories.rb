@@ -11,6 +11,11 @@ Factory.define(:user) do |f|
   f.password 'test123'
 end
 
+Factory.define :pseud do |f|  
+  f.name "my pseud"  
+  f.association :user  
+end
+
 Factory.define :translation_admin, :parent => :user do |f|
   f.translation_admin true
 end
@@ -40,6 +45,20 @@ Factory.define(:translation, :class => Otwtranslation::Translation) do |f|
   f.association :phrase
   f.sequence(:label) { |i| "some foreign text #{i}" }
   f.approved false
+end
+
+
+Factory.define(:comment, :class => Comment) do |f|
+  f.sequence(:content) { |i| "comment number #{i}" }
+  f.association :pseud
+  f.approved true
+  f.hidden_by_admin false
+  f.ignore { f.commentable nil }
+
+  f.after_build do |cmt|
+    cmt.commentable_type = cmt.commentable.class.name
+    cmt.commentable_id = cmt.commentable.id
+  end
 end
 
 
