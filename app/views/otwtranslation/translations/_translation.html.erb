@@ -46,14 +46,6 @@
      <%= f.submit 'Vote down' %>
     <% end %>
   </li>
-  <li>
-    <%= form_for(translation, 
-                 :url => otwtranslation_translation_new_comment_path(translation),
-                 :html => {:method => :get},
-                 :remote => false ) do |f| %>
-     <%= f.submit 'Add Comment' %>
-    <% end %>
-  </li>
 
   <% if translation.approved %>
     <li>

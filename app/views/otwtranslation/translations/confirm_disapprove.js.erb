@@ -1,9 +1,8 @@
 if ( confirm("Are you sure you want disapprove this translation?") ) {
-  $.ajax({url: '<%= otwtranslation_disapprove_translation_path(@translation) %>',
+  $.ajax({url: '<%= otwtranslation_disapprove_translation_path(@translation) + '.js'%>',
           type: 'post',
-          dataType: 'script',
+          dataType: 'html',
           async: 'false',
-          data: { '_method': 'disapprove' },
 	  success: function(html) {
 	    $("li#translation<%= @translation.id %> div").replaceWith(html)
 	    $("span#otwtranslation_phrase_<%= @translation.phrase_key %>")
@@ -13,7 +12,10 @@ if ( confirm("Are you sure you want disapprove this translation?") ) {
 	      $("span#otwtranslation_phrase_<%= @translation.phrase_key %>").rightClick(function(event) {
      	           otwtranslation_inline_translator(this)
   	       }); 
-          }
+          },
+	  error: function(XMLHttpRequest, textStatus, errorThrown){
+              alert(textStatus + ": " + errorThrown);
+          } 
         });
 }
 
