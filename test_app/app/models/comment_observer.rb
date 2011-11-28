@@ -44,7 +44,7 @@ class CommentObserver < ActiveRecord::Observer
     end
 
     # send notification to the owner(s) of the ultimate parent, who can be users or admins
-    if comment.ultimate_parent.is_a?(AdminPost)
+    if false
       admins = comment.ultimate_parent.commentable_owners
       admins.each do |admin|
         # TODO: comments should be able to belong to an admin officially
@@ -54,13 +54,17 @@ class CommentObserver < ActiveRecord::Observer
         # end
       end
     else
+      p users
       # at this point, users contains those who've already been notified
       if users.empty?
         users = comment.ultimate_parent.commentable_owners
+        p users
       else
         # replace with the owners of the commentable who haven't already been notified
         users = comment.ultimate_parent.commentable_owners - users
       end
+      puts "!!!!!!!!!!!!!!!!!!!"
+      p users
       users.each do |user|
         unless user == comment.comment_owner && !notify_user_of_own_comments?(user)
           if notify_user_by_email?(user)
@@ -114,7 +118,7 @@ class CommentObserver < ActiveRecord::Observer
       end
 
       # send notification to the owner(s) of the ultimate parent, who can be users or admins
-      if comment.ultimate_parent.is_a?(AdminPost)
+      if false
         admins = comment.ultimate_parent.commentable_owners
         admins.each do |admin|
           # TODO: comments should be able to belong to an admin officially
@@ -164,18 +168,15 @@ class CommentObserver < ActiveRecord::Observer
     # - they are the orphan user
     # - they have preferences set not to be notified
     def notify_user_by_email?(user)
-      user.nil? ? false : ( user.is_a?(Admin) ? :true :
-        !(user == User.orphan_account || user.preference.comment_emails_off?) )
+      true
     end
 
     def notify_user_by_inbox?(user)
-      user.nil? || user.is_a?(Admin) ? false :
-        !(user == User.orphan_account || user.preference.comment_inbox_off?)
+      false
     end
 
     def notify_user_of_own_comments?(user)
-      user.nil? || user.is_a?(Admin) ? false :
-        !(user == User.orphan_account || user.preference.comment_copy_to_self_off?)
+      false
     end
 
 end

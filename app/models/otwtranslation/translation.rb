@@ -147,5 +147,9 @@ class Otwtranslation::Translation < ActiveRecord::Base
   def sanitize_label
     Sanitize.clean!(label, :elements => OtwtranslationConfig.ALLOWED_TRANSLATIONS_HTML)
   end
+
+  def commentable_owners
+    return [last_editor]
+  end
   
 end

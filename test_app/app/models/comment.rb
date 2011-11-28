@@ -65,15 +65,15 @@ class Comment < ActiveRecord::Base
   end
 
   def comment_owner
-    self.user
+    self.pseud.try(:user)
   end
 
   def comment_owner_name
-    self.user.name
+    self.pseud.try(:name)
   end
 
   def comment_owner_email
-    comment_owner.email
+    comment_owner.try(:email)
   end
 
   # override this method from commentable_entity.rb

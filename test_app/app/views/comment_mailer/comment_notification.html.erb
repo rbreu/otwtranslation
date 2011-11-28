@@ -1,10 +1,10 @@
 <h4 class="heading">
 <% if @comment.comment_owner %>
-  <%= link_to @comment.comment_owner_name, polymorphic_url(@comment.comment_owner, :only_path => false) %>
+  <%= link_to @comment.comment_owner_name, "www.example.org" %>
 <% else %>
   <%= @comment.comment_owner_name %>
 <% end %>
-<% if @comment.ultimate_parent.is_a?(Tag) %>
+<% if false %>
   <%= ts("left the following comment on the tag") %> 
   <%= link_to @comment.ultimate_parent.commentable_name, {:controller => :tags, :action => :show, :id => @comment.ultimate_parent, :only_path => false} %>:
 <% else %>

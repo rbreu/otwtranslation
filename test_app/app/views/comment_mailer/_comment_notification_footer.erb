@@ -4,7 +4,7 @@
 <% end %>
 </p>
 <p>
-<% if @comment.ultimate_parent.is_a?(Tag) %>
+<% if false %>
   <%= link_to ts("Read all comments on ") + @comment.ultimate_parent.name, {:controller => :comments, :action => :index, :tag_id => @comment.ultimate_parent, :only_path => false} %><br />
   <% unless @noreply %>
     <%= link_to ts("Reply to this comment"), {:controller => :comments, :action => :index, :tag_id => @comment.ultimate_parent, :only_path => false, :add_comment_reply_id => @comment.id, :anchor => "comment_#{@comment.id}"} %><br />
