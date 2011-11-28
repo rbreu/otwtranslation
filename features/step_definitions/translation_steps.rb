@@ -10,6 +10,11 @@ Given /^I have the (approved |)translation "([^"]*)" for "([^"]*)" in ([^"]*)$/ 
                          :approved => approved)
 end
 
+Then /^the translation was last edited by "([^"]*)"$/ do |user|
+  user = User.find_by_login(user) || Factory(:user, {:login => user})
+  @translation.last_editor = user
+  @translation.save!
+end
 
 Then /^I should see the translation toolbar$/ do
   page.should have_selector('#header ul.translation.navigation')

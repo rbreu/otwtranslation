@@ -54,17 +54,13 @@ class CommentObserver < ActiveRecord::Observer
         # end
       end
     else
-      p users
       # at this point, users contains those who've already been notified
       if users.empty?
         users = comment.ultimate_parent.commentable_owners
-        p users
       else
         # replace with the owners of the commentable who haven't already been notified
         users = comment.ultimate_parent.commentable_owners - users
       end
-      puts "!!!!!!!!!!!!!!!!!!!"
-      p users
       users.each do |user|
         unless user == comment.comment_owner && !notify_user_of_own_comments?(user)
           if notify_user_by_email?(user)

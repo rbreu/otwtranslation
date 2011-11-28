@@ -72,3 +72,16 @@ Feature: Translation comments
     And I follow "Yes, delete!"
     Then I should see "Comment deleted"
     And I should see the comments "1"
+
+
+  Scenario: Send comments notification to last editor
+    Given I have the translation "Hallo Welt!" for "Hello world!" in Deutsch
+    And the translation was last edited by "batman"
+    And I am a translator
+    And all emails have been delivered
+
+    When I go to the translation page
+    And I fill in "comment[content]" with "This is great!"
+    And I press "Comment"
+
+    Then "batman" should get 1 mail

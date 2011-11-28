@@ -149,7 +149,7 @@ class Otwtranslation::Translation < ActiveRecord::Base
   end
 
   def commentable_owners
-    return [last_editor]
+    last_editor.nil? ? [] : [last_editor]
   end
   
 end
