@@ -37,6 +37,7 @@ Feature: Translations
     And I should see the translation "Hallo Welt!"
     And I should see approved set to "no"
     And I should see the translation rule "All"
+    And I should see that the translation is edited by me
 
 
   @javascript
@@ -53,6 +54,7 @@ Feature: Translations
     And I should see the phrase "Hello world!"
     And I should see the translation "Hallo Welt!"
     And I should see approved set to "no"
+    And I should see that the translation is edited by me
 
 
   Scenario: Add context-aware translations
@@ -68,6 +70,7 @@ Feature: Translations
     And I should see 2 translations
     And I should see the translation rule "is"
     And I should see the translation rule "matches all"
+    And I should see that the translation is edited by me
 
 
   Scenario: Approve translations
@@ -161,7 +164,7 @@ Feature: Translations
     And I confirm the popup
     Then I should not see "Lösch mich :("
 
-  Scenario: Edit translations
+  Scenario: Edit translations on phrase page
     Given I have the translation "Ändere mich!" for "Change me!" in Deutsch
     And I have selected the language Deutsch
     And I am a translator
@@ -174,10 +177,11 @@ Feature: Translations
     Then I should see the heading "Show Translation"
     And I should see the translation "Editiere mich!"
     And I should not see "Ändere mich!"
+    And I should see that the translation is edited by me
 
 
   @javascript  
-  Scenario: Edit translations with Javascript
+  Scenario: Edit translations on phrase page with Javascript
     Given I have the translation "Ändere mich!" for "Change me!" in Deutsch
     And I have selected the language Deutsch
     And I am a translator
@@ -189,3 +193,34 @@ Feature: Translations
 
     And I should see the translation "Editiere mich!"
     And I should not see "Ändere mich!"
+    And I should see that the translation is edited by me
+
+  Scenario: Edit translations on translation page
+    Given I have the translation "Ändere mich!" for "Change me!" in Deutsch
+    And I have selected the language Deutsch
+    And I am a translator
+ 
+    When I go to the translation page
+    And I press "Edit"
+    And I fill in "Translation:" with "Editiere mich!"
+    And I press "Update translation"
+
+    Then I should see the heading "Show Translation"
+    And I should see the translation "Editiere mich!"
+    And I should not see "Ändere mich!"
+    And I should see that the translation is edited by me
+
+  @javascript  
+  Scenario: Edit translations on translation page with Javascript
+    Given I have the translation "Ändere mich!" for "Change me!" in Deutsch
+    And I have selected the language Deutsch
+    And I am a translator
+ 
+    When I go to the translation page
+    And I press "Edit"
+    And I fill in "Translation:" with "Editiere mich!"
+    And I press "Update translation"
+
+    And I should see the translation "Editiere mich!"
+    And I should not see "Ändere mich!"
+    And I should see that the translation is edited by me

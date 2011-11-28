@@ -18,13 +18,11 @@ World(WithinHelpers)
 
 
 When /^I confirm the popup$/ do
-  sleep 1
   confirm = page.driver.browser.switch_to.alert
   confirm.accept
 end
 
 When /^I don't confirm the popup$/ do
-  sleep 1
   confirm = page.driver.browser.switch_to.alert
   confirm.dismiss
 end

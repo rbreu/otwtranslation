@@ -6,7 +6,7 @@
     z-index: 50;
 }
 
-#header ul.translation a,#header ul.translation .current {
+#header ul.translation a, #header ul.translation .current {
     border-bottom: 3px solid #111;
     float: right;
 }
@@ -57,6 +57,7 @@ table td.current_version, table td.is_new {
 div.assignment_part,
 div.translation {
     padding: 0.8575em 0.25em;
+    position: relative;
 }
 
 

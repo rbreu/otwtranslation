@@ -9,6 +9,7 @@ class Otwtranslation::Translation < ActiveRecord::Base
              :primary_key => 'short', :foreign_key => 'language_short')
   belongs_to(:phrase, :class_name => 'Otwtranslation::Phrase',
              :primary_key => 'key', :foreign_key => 'phrase_key')
+  belongs_to(:last_editor, :class_name => 'User')
   
   has_many(:votes, :class_name => 'Otwtranslation::Vote',
            :foreign_key => 'translation_id')

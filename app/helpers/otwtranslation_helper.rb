@@ -168,7 +168,7 @@ module OtwtranslationHelper
 
 
   def otwtranslation_language_selector
-    render :partial => 'otwtranslation/languages/selector'
+    render 'otwtranslation/languages/selector'
   end
   
 
@@ -195,15 +195,14 @@ module OtwtranslationHelper
 
   def otwtranslation_tool_header
     if otwtranslation_tool_visible?
-      render :partial => 'otwtranslation/home/tools'
+      render 'otwtranslation/home/tools'
     end
   end
 
   def otwtranslation_tool_source
     if otwtranslation_tool_visible?
       source = Otwtranslation::Source.find_by_source(otwtranslation_get_source)
-      render(:partial => 'otwtranslation/home/current_source',
-             :locals => {:source => source})
+      render('otwtranslation/home/current_source', :source => source)
     end
   end
 

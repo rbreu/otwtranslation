@@ -1,12 +1,8 @@
-// Replace the label
-$("li#translation<%= @translation.id %> p.label").html(
-    "<%= escape_javascript(@translation.label) %>")
+// Replace the translation form with the updated translation
+$("li#translation<%= @translation.id %> div.translation").replaceWith(
+    "<%= escape_javascript(render("translation", :translation => @translation)) %>")
 
 // Replace the inline translation marked phrase 
 $("span#otwtranslation_phrase_<%= @translation.phrase_key %>").html(
     "<%= escape_javascript(@translation.label) %>")
 
-// Replace the edit form with the generic 'Add Translation' button
-$("form#edit_otwtranslation_translation_<%= @translation.id %>_form").replaceWith(
-    "<%= escape_javascript(render("otwtranslation/phrases/add_translation_button", 
-                        :phrase => @phrase_id)) %>")

@@ -1,5 +1,3 @@
-$("#add_translation").replaceWith(
+$("li#translation<%= @translation.id %> div.translation").html(
   "<%= escape_javascript(render("otwtranslation/translations/edit_form", 
                                 :translation => @translation)) %>")
-
-

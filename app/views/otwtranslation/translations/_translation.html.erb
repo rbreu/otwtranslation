@@ -3,6 +3,8 @@
 <!-- BACK END: is this a heading: on a summary of the page contents, ought this show up?-->
 <p class="label"><%= translation.label %></p>
 
+<p class="datetime">Last edited on <%= translation.updated_at.to_date %> by <%= translation.last_editor.try(:login) %></p>
+
 <div class="rules">Rules:
   <% if translation.rules.blank? %>
     All.

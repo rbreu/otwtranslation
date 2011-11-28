@@ -36,6 +36,10 @@ Then /^I should not see the translation "([^"]*)"$/ do |translation|
   page.should_not have_selector('p.label', :text => translation)
 end
 
+Then /^I should see that the translation is edited by me$/ do
+  "I should see \"#{User.current_user.login}\" within \"p.datetime\""
+end
+
 Then /^I should see the votes "([^"]*)"$/ do |votes|
   page.should have_selector('dd.votes', :text => votes)
 end

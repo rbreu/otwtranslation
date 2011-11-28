@@ -59,7 +59,7 @@ Feature: Translation comments
     Then I should see 0 comment blurbs
 
   Scenario: Delete comments
-    When "issue 2523" is fixed
+    When "issue 2523 (deleting comments without JS" is fixed
 
   @javascript
   Scenario: Delete comments with JavaScript

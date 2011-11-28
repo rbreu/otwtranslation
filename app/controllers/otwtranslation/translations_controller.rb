@@ -52,6 +52,7 @@ class Otwtranslation::TranslationsController < ApplicationController
         translation.language_short = otwtranslation_language
         translation.phrase_key = params[:id]
         translation.rules = combination.map{|r| r.id}
+        translation.last_editor = current_user
         if translation.save
           @translations << translation
         else
@@ -65,6 +66,7 @@ class Otwtranslation::TranslationsController < ApplicationController
       translation = Otwtranslation::Translation.new(params[:otwtranslation_translation])
       translation.phrase_key = params[:id]
       translation.language_short = otwtranslation_language
+      translation.last_editor = current_user
     
       if translation.save
         @translations << translation
@@ -130,8 +132,10 @@ class Otwtranslation::TranslationsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to otwtranslation_phrase_path(@translation.phrase_key) }
-      format.js { render :partial => "translation",
-                         :locals => {:translation => @translation} }
+      # Have to spell out :partial here, no idea why:
+      format.js { render(:partial => "translation",
+                         :locals => { :translation => @translation } ) }
+
     end
   end
 
@@ -165,6 +169,7 @@ class Otwtranslation::TranslationsController < ApplicationController
   def update
     @translation = Otwtranslation::Translation.find(params[:id])
     @translation.label = params[:otwtranslation_translation][:label]
+    @translation.last_editor = current_user
     
     if @translation.save
       respond_to do |format|

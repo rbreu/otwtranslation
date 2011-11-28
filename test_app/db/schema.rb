@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111029185300) do
+ActiveRecord::Schema.define(:version => 20111128105200) do
 
   create_table "comments", :force => true do |t|
     t.text     "content",                                                   :null => false
@@ -107,6 +107,8 @@ ActiveRecord::Schema.define(:version => 20111029185300) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "rules"
+    t.integer  "last_editor"
+    t.integer  "last_editor_id"
   end
 
   create_table "otwtranslation_votes", :force => true do |t|
