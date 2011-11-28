@@ -4,7 +4,7 @@
 <% else %>
   <%= @comment.comment_owner_name %>
 <% end %>
-<% if @comment.ultimate_parent.is_a?(Tag) %>
+<% if false %>
   <%= ts("edited the following comment on the tag") %> 
   <%= link_to @comment.ultimate_parent.commentable_name, {:controller => :tags, :action => :show, :id => @comment.ultimate_parent.to_param, :only_path => false} %>:
 <% else %>

@@ -10,8 +10,16 @@ class Otwtranslation::Dummy
     NAME
   end
   
-  def gsub(*args)
+  def to_str
     NAME
   end
   
+  def gsub(*args)
+    NAME
+  end
+
+  def self.method_missing(symbol, *arguments, &block)
+    return self.new
+  end
+
 end

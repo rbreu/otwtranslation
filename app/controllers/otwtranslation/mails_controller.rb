@@ -19,11 +19,10 @@ class Otwtranslation::MailsController < ApplicationController
   private
   
   def method_missing(symbol, *arguments, &block)
-    if respond_to?(symbol) #|| !symbol.to_s.start_with?("__")
-      return super(symbol, *arguments, &block)
-    else
-      return Otwtranslation::Dummy.new
-    end
+    #if respond_to?(symbol) #|| !symbol.to_s.start_with?("__")
+    #  return super(symbol, *arguments, &block)
+    #else
+    return Otwtranslation::Dummy.new
   end
 
   def dummy_render(path)
@@ -38,7 +37,20 @@ class Otwtranslation::MailsController < ApplicationController
     # Below follows an ugly hack to 'convert' instance variables (@foo
     # etc.) in the original templates into instance methods (__foo
     # etc.) because then we can hook into method_missing.
-    raw.gsub!(/(<%.*?)(@)(.*?%>)/m, '\1__\3')
+    #
+    # Since gsub doesn't find overlapping matches and there might be
+    # more than onve instance variable per code tag, repeat the
+    # substituting until we replaced all instance variables
+    while true do
+      raw_new = raw.gsub(/(<%.*?)(@)(.*?%>)/m, '\1__\3')
+      break if raw_new == raw
+      raw = raw_new
+    end
+
+    # remove rendering of partials (they'll be listed on their own)
+    raw.gsub!(/<%=\s.*?render.*?%>/, "")
+    
+    puts raw
     ERB.new(raw).result(binding).html_safe
   end
 end
