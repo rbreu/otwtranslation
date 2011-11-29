@@ -50,7 +50,6 @@ class Otwtranslation::MailsController < ApplicationController
     # remove rendering of partials (they'll be listed on their own)
     raw.gsub!(/<%=\s.*?render.*?%>/, "")
     
-    puts raw
     ERB.new(raw).result(binding).html_safe
   end
 end

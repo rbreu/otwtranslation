@@ -98,7 +98,7 @@ Feature: Translation phrases
     And I press "Add assignment"
 
     Then I should see the heading "Show Assignment"
-    And I should see the assignment description "Test description"
+    And I should see the text with tags "<p>Test description</p>"
     And I should see the assignment source "home#index"
     And I should see the assignment part status "pending"
     And I should see the assignee "Sam"
@@ -212,7 +212,7 @@ Feature: Translation phrases
     And I should see "2. Xena"
 
 
-  Scenario: Move assignment part up
+  Scenario: Move assignment part down
     Given I am a translation admin
     And I have selected the language Deutsch
     And I have an assignment for Deutsch
@@ -305,7 +305,7 @@ Feature: Translation phrases
     Then I should see the heading "Show Assignment"
     Then I should see the assignment source "foo#bar"
 
-  @bla
+
   Scenario: Complete assignment parts
     Given I am a translator
     And I have selected the language Deutsch
@@ -315,12 +315,22 @@ Feature: Translation phrases
     And all emails have been delivered
 
     When I go to the translation homepage
-    Then show me the page
     And I press "Mark my part as completed"
-    And I fill in "notes" with "All done. :)"
+    And I fill in "notes" with "All done."
     And I press "Complete assignment part"
 
     Then I should see the heading "Show Assignment"
-    And I should see the assignment part status "completed"
-    And I should see "All done. :)"
+    And I should see the text with tags "<p>All done.</p>"
     And "JackHarkness" should get 1 mail
+
+
+  Scenario: Fill out assignment form wrongly
+    Given I am a translation admin
+    And I have selected the language Deutsch
+    
+    When I go to the assignment table
+    And I press "Add assignment"
+    And I fill in "Assign to:" with "Sam, Dean"
+    And I press "Add assignment"
+    Then I should see "No such user: Sam"
+    And I should see "No such user: Dean"

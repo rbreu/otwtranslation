@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111128105200) do
+ActiveRecord::Schema.define(:version => 20111129141900) do
 
   create_table "comments", :force => true do |t|
     t.text     "content",                                                   :null => false
@@ -48,7 +48,8 @@ ActiveRecord::Schema.define(:version => 20111128105200) do
     t.string   "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "status",        :limit => 3, :default => 0
+    t.integer  "status",                  :limit => 3, :default => 0
+    t.integer  "notes_sanitizer_version", :limit => 2, :default => 0, :null => false
   end
 
   create_table "otwtranslation_assignments", :force => true do |t|
@@ -57,7 +58,8 @@ ActiveRecord::Schema.define(:version => 20111128105200) do
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "activated",      :default => false
+    t.boolean  "activated",                                  :default => false
+    t.integer  "description_sanitizer_version", :limit => 2, :default => 0,     :null => false
   end
 
   create_table "otwtranslation_context_rules", :force => true do |t|

@@ -23,7 +23,7 @@
                         otwtranslation_source_path(assignment.source)) %>
 	  <% end %>
         </th>
-        <td class="description"><%= assignment.description %></td>
+        <td class="description"><%= raw sanitize_field(assignment, :description) %></td>
         <td class="assignees"><%= assignment.assignees_names %></td>
         <td class="activated">
           <%= assignment.activated ? "&#x2713;".html_safe : "" %>

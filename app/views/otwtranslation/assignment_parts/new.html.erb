@@ -13,7 +13,7 @@
   <dd class="source"><%= @assignment.source_controller_action %></dd>
 
   <dt class="description">Description:</dt>
-  <dd class="description"><%= @assignment.description %></dd>
+  <dd class="description"><%= raw sanitize_field(@assignment, :description) %></dd>
 </dl>
 
 <%= render("form", :assignment => @assignment, :part => @part) %>

@@ -50,6 +50,11 @@ describe Otwtranslation::ParameterParser, "tokenize" do
     Otwtranslation::ParameterParser.tokenize('" aa ","  bb"," cc "')
       .should == [" aa ", "  bb", " cc "]
   end
+
+  it "should remove HTML" do
+    Otwtranslation::ParameterParser.tokenize('<em>a</em>, b')
+      .should == ["a", "b"]
+  end
 end
 
 describe Otwtranslation::ParameterParser, "stringify" do

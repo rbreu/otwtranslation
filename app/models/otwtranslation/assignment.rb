@@ -1,4 +1,5 @@
 class Otwtranslation::Assignment < ActiveRecord::Base
+  include HtmlCleaner
 
   set_table_name :otwtranslation_assignments
 
@@ -17,6 +18,7 @@ class Otwtranslation::Assignment < ActiveRecord::Base
 
   validates_presence_of :language
 
+  attr_protected :description_sanitizer_version
   
   def set_assignees(user_logins)
     parts.each { |p| p.destroy }

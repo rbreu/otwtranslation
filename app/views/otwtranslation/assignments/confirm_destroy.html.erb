@@ -5,7 +5,7 @@
   <dd class="type"><%= @assignment.source_controller_action %></dd>
 
   <dt class="description">Description:</dt>
-  <dd class="description"><%= @assignment.description %></dd>
+  <dd class="description"><%= raw sanitize_field(@assignment, :description) %></dd>
 
   <dt class="completed">Completed:</dt>
   <dd class="completed"><%= @assignment.completed? %></dd>

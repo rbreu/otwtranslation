@@ -1,7 +1,7 @@
 <li id="assignment_part_<%=part.id %>" class="assignment_part <%= part.position%2 == 0 ? "even" : "odd" %>">
   <div class="assignment_part">
     <p class="assignee"><%= part.position %>. <%= part.assignee.login %></p>
-    <p class="notes"><%= part.notes %></p>
+    <p class="notes"><%= raw sanitize_field(part, :notes) %></p>
     <dl class="stats">
       <dt class="status">Status:</dt>
       <dd class="status"><%= part.status.to_s %></dt>

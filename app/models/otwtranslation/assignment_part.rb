@@ -1,4 +1,5 @@
 class Otwtranslation::AssignmentPart < ActiveRecord::Base
+  include HtmlCleaner
 
   set_table_name :otwtranslation_assignment_parts
 
@@ -11,6 +12,8 @@ class Otwtranslation::AssignmentPart < ActiveRecord::Base
   validates_uniqueness_of :position, :scope => :assignment_id
 
   acts_as_list :scope => 'assignment_id = \'#{assignment_id}\''
+
+  attr_protected :notes_sanitizer_version
 
   STATUSES = [:pending, :active, :completed]
   
