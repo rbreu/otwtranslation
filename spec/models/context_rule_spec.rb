@@ -1,11 +1,75 @@
+# -*- coding: utf-8 -*-
 require 'spec_helper'
 
 describe Otwtranslation::ContextRule, "creation" do
+  let (:rule) { Otwtranslation::GeneralRule.new(:language_short => "de") }
+
   it "should create empty conditions and actions lists" do
-    rule = Otwtranslation::ContextRule.new()
     rule.conditions.should == []
     rule.actions.should == []
   end
+
+  it "should not save conditions if not Array" do
+    rule.conditions = ""
+    rule.save.should be_false
+    rule.errors[:conditions].should_not be_empty
+  end
+
+  it "should not save conditions if elements not Arrays" do
+    rule.conditions = ["is"]
+    rule.save.should be_false
+    rule.errors[:conditions].should_not be_empty
+  end
+
+  it "should not save conditions if elements not Arrays of size 2" do
+    rule.conditions = [["is"]]
+    rule.save.should be_false
+    rule.errors[:conditions].should_not be_empty
+  end
+
+  it "should not save invalid condition type" do
+    rule.conditions = [["foobar", []]]
+    rule.save.should be_false
+    rule.errors[:conditions].should_not be_empty
+  end
+
+  it "should not save invalid condition parameters" do
+    rule.conditions = [["is", 1]]
+    rule.save.should be_false
+    rule.errors[:conditions].should_not be_empty
+  end
+
+  it "should not save actions if not Array" do
+    rule.actions = ""
+    rule.save.should be_false
+    rule.errors[:actions].should_not be_empty
+  end
+
+  it "should not save actions if elements not Arrays" do
+    rule.actions = ["append"]
+    rule.save.should be_false
+    rule.errors[:actions].should_not be_empty
+  end
+
+  it "should not save actions if elements not Arrays of size 2" do
+    rule.actions = [["append"]]
+    rule.save.should be_false
+    rule.errors[:actions].should_not be_empty
+  end
+
+  it "should not save invalid action type" do
+    rule.actions = [["foobar", []]]
+    rule.save.should be_false
+    rule.errors[:actions].should_not be_empty
+  end
+
+  it "should not save invalid action parameters" do
+    rule.actions = [["append", 1]]
+    rule.save.should be_false
+    rule.errors[:actions].should_not be_empty
+  end
+
+
 end
 
 describe Otwtranslation::ContextRule, "deletetion" do
@@ -94,42 +158,382 @@ describe Otwtranslation::ContextRule, "match" do
     rule.match?("Abby").should be_true
     rule.match?('<a href="example.org">label</a>').should be_true
   end
-  
-  it "should match is condition" do
-    conditions = [["is", ["foo"]]]
-    rule = Otwtranslation::ContextRule.new(:conditions => conditions)
-    rule.match?("foo").should be_true
-    rule.match?("bar").should be_false
-    rule.match?('<a href="example.org">foo</a>').should be_true
-    rule.match?('<a href="example.org">bar</a>').should be_false
+
+  describe "is" do
+    it "should handle basics" do
+      conditions = [["is", ["foo"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("foo").should be_true
+      rule.match?("bar").should be_false
+    end
+
+    it "should handle links" do
+      conditions = [["is", ["foo"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?('<a href="example.org">foo</a>').should be_true
+      rule.match?('<a href="example.org">bar</a>').should be_false
+    end
+
+    it "should not match empty params" do
+      conditions = [["is", []]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("foo").should be_false
+    end
+
+    it "should handle multiple params" do
+      conditions = [["is", ["foo", "bar"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("foo").should be_true
+      rule.match?("bar").should be_true
+      rule.match?("baz").should be_false
+    end
+
+    it "should handle non-string param" do
+      conditions = [["is", [1]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("1").should be_true
+      rule.match?("2").should be_false
+    end
+
+    it "should handle non-string value" do
+      conditions = [["is", ["1"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?(1).should be_true
+      rule.match?(2).should be_false
+    end
   end
-  
-  it "should match is condition with numbers" do
-    conditions = [["is", ["11"]]]
-    rule = Otwtranslation::ContextRule.new(:conditions => conditions)
-    rule.match?(11).should be_true
-    rule.match?(0).should be_false
+
+  describe "is not" do
+    it "should handle basics" do
+      conditions = [["is not", ["foo"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("foo").should be_false
+      rule.match?("bar").should be_true
+    end
+
+    it "should handle links" do
+      conditions = [["is not", ["foo"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?('<a href="example.org">foo</a>').should be_false
+      rule.match?('<a href="example.org">bar</a>').should be_true
+    end
+
+    it "should match empty params" do
+      conditions = [["is not", []]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("foo").should be_true
+    end
+
+    it "should handle multiple params" do
+      conditions = [["is not", ["foo", "bar"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("foo").should be_false
+      rule.match?("bar").should be_false
+      rule.match?("baz").should be_true
+    end
+
+    it "should handle non-string param" do
+      conditions = [["is not", [1]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("1").should be_false
+      rule.match?("2").should be_true
+    end
+
+    it "should handle non-string value" do
+      conditions = [["is not", ["1"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?(1).should be_false
+      rule.match?(2).should be_true
+    end
   end
-  
-  it "should match single is not rule" do
-    conditions = [["is not", ["100"]]]
-    rule = Otwtranslation::ContextRule.new(:conditions => conditions)
-    rule.match?("101").should be_true
-    rule.match?("100").should be_false
-    rule.match?('<a href="example.org">101</a>').should be_true
-    rule.match?('<a href="example.org">100</a>').should be_false
+
+
+  describe "starts with" do
+    it "should handle basics" do
+      conditions = [["starts with", ["f"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("foo").should be_true
+      rule.match?("bar").should be_false
+    end
+
+    it "should handle links" do
+      conditions = [["starts with", ["f"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?('<a href="example.org">foo</a>').should be_true
+      rule.match?('<a href="example.org">bar</a>').should be_false
+    end
+
+    it "should not match empty params" do
+      conditions = [["starts with", []]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("foo").should be_false
+    end
+
+    it "should handle multiple params" do
+      conditions = [["starts with", ["f", "d"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("foo").should be_true
+      rule.match?("doo").should be_true
+      rule.match?("baz").should be_false
+    end
+
+    it "should handle non-string param" do
+      conditions = [["starts with", [1]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("123").should be_true
+      rule.match?("234").should be_false
+    end
+
+    it "should handle non-string value" do
+      conditions = [["starts with", ["1"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?(123).should be_true
+      rule.match?(234).should be_false
+    end
   end
-  
-  it "should match single is rule with list param" do
-    conditions = [["is", ["foo", "bar"]]]
-    rule = Otwtranslation::ContextRule.new(:conditions => conditions)
-    rule.match?("foo").should be_true
-    rule.match?("bar").should be_true
-    rule.match?("baz").should be_false
-    rule.match?('<a href="example.org">foo</a>').should be_true
-    rule.match?('<a href="example.org">bar</a>').should be_true
-    rule.match?('<a href="example.org">baz</a>').should be_false
+
+  describe "does not start with" do
+    it "should handle basics" do
+      conditions = [["does not start with", ["f"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("foo").should be_false
+      rule.match?("bar").should be_true
+    end
+
+    it "should handle links" do
+      conditions = [["does not start with", ["f"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?('<a href="example.org">foo</a>').should be_false
+      rule.match?('<a href="example.org">bar</a>').should be_true
+    end
+
+    it "should match empty params" do
+      conditions = [["does not start with", []]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("foo").should be_true
+    end
+
+    it "should handle multiple params" do
+      conditions = [["does not start with", ["f", "d"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("foo").should be_false
+      rule.match?("doo").should be_false
+      rule.match?("baz").should be_true
+    end
+
+    it "should handle non-string param" do
+      conditions = [["does not start with", [1]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("123").should be_false
+      rule.match?("234").should be_true
+    end
+
+    it "should handle non-string value" do
+      conditions = [["does not start with", ["1"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?(123).should be_false
+      rule.match?(234).should be_true
+    end
   end
+
+  describe "ends with" do
+    it "should handle basics" do
+      conditions = [["ends with", ["o"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("foo").should be_true
+      rule.match?("bar").should be_false
+    end
+
+    it "should handle links" do
+      conditions = [["ends with", ["o"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?('<a href="example.org">foo</a>').should be_true
+      rule.match?('<a href="example.org">bar</a>').should be_false
+    end
+
+    it "should not match empty params" do
+      conditions = [["ends with", []]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("foo").should be_false
+    end
+
+    it "should handle multiple params" do
+      conditions = [["ends with", ["o", "r"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("foo").should be_true
+      rule.match?("bar").should be_true
+      rule.match?("baz").should be_false
+    end
+
+    it "should handle non-string param" do
+      conditions = [["ends with", [3]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("123").should be_true
+      rule.match?("234").should be_false
+    end
+
+    it "should handle non-string value" do
+      conditions = [["ends with", ["3"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?(123).should be_true
+      rule.match?(234).should be_false
+    end
+  end
+
+  describe "does not end with" do
+    it "should handle basics" do
+      conditions = [["does not end with", ["o"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("foo").should be_false
+      rule.match?("bar").should be_true
+    end
+
+    it "should handle links" do
+      conditions = [["does not end with", ["o"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?('<a href="example.org">foo</a>').should be_false
+      rule.match?('<a href="example.org">bar</a>').should be_true
+    end
+
+    it "should match empty params" do
+      conditions = [["does not end with", []]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("foo").should be_true
+    end
+
+    it "should handle multiple params" do
+      conditions = [["does not end with", ["o", "r"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("foo").should be_false
+      rule.match?("bar").should be_false
+      rule.match?("baz").should be_true
+    end
+
+    it "should handle non-string param" do
+      conditions = [["does not end with", [3]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("123").should be_false
+      rule.match?("234").should be_true
+    end
+
+    it "should handle non-string value" do
+      conditions = [["does not end with", ["3"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?(123).should be_false
+      rule.match?(234).should be_true
+    end
+  end
+
+  describe "is less than or equal" do
+    it "should handle basics" do
+      conditions = [["is less than or equal", ["2"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("1").should be_true
+      rule.match?("2").should be_true
+      rule.match?("3").should be_false
+    end
+
+    it "should handle links" do
+      conditions = [["is less than or equal", ["2"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?('<a href="example.org">1</a>').should be_true
+      rule.match?('<a href="example.org">2</a>').should be_true
+      rule.match?('<a href="example.org">3</a>').should be_false
+    end
+
+    it "should handle empty params" do
+      conditions = [["is less than or equal", []]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("2").should be_false
+    end
+
+    it "should handle multiple params" do
+      conditions = [["is less than or equal", ["1", "2"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("1").should be_true
+      rule.match?("2").should be_true
+      rule.match?("3").should be_false
+    end
+
+    it "should handle non-string param" do
+      conditions = [["is less than or equal", [2]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("1").should be_true
+      rule.match?("2").should be_true
+      rule.match?("3").should be_false
+    end
+
+    it "should handle non-string value" do
+      conditions = [["is less than or equal", ["2"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?(1).should be_true
+      rule.match?(2).should be_true
+      rule.match?(3).should be_false
+    end
+
+    it "should handle non-number param/value" do
+      conditions = [["is less than or equal", ["foo"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("aaa").should be_true
+      rule.match?("zzz").should be_true
+    end
+  end
+
+  describe "is greater than" do
+    it "should handle basics" do
+      conditions = [["is greater than", ["2"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("1").should be_false
+      rule.match?("2").should be_false
+      rule.match?("3").should be_true
+    end
+
+    it "should handle links" do
+      conditions = [["is greater than", ["2"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?('<a href="example.org">1</a>').should be_false
+      rule.match?('<a href="example.org">2</a>').should be_false
+      rule.match?('<a href="example.org">3</a>').should be_true
+    end
+
+    it "should handle empty params" do
+      conditions = [["is greater than", []]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("2").should be_false
+    end
+
+    it "should handle multiple params" do
+      conditions = [["is greater than", ["3", "2"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("1").should be_false
+      rule.match?("2").should be_false
+      rule.match?("3").should be_true
+    end
+
+    it "should handle non-string param" do
+      conditions = [["is greater than", [2]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("1").should be_false
+      rule.match?("2").should be_false
+      rule.match?("3").should be_true
+    end
+
+    it "should handle non-string value" do
+      conditions = [["is greater than", ["2"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?(1).should be_false
+      rule.match?(2).should be_false
+      rule.match?(3).should be_true
+    end
+
+    it "should handle non-number param/value" do
+      conditions = [["is greater than", ["foo"]]]
+      rule = Otwtranslation::ContextRule.new(:conditions => conditions)
+      rule.match?("aaa").should be_false
+      rule.match?("zzz").should be_false
+    end
+  end
+
   
   it "should match double ends with/starts with rule" do
     conditions = [["ends with", ["x", "s"]], ["starts with", ["A", "a"]]]
@@ -139,10 +543,6 @@ describe Otwtranslation::ContextRule, "match" do
     rule.match?("Andreas").should be_true
     rule.match?("Alex").should be_true
     
-    rule.match?('<a href="example.org">Abby</a>').should be_false
-    rule.match?('<a href="example.org">Andreas</a>').should be_true
-    rule.match?('<a href="example.org">Alex</a>').should be_true
-                  
     rule.match?("abby").should be_false
     rule.match?("andreas").should be_true
     rule.match?("alex").should be_true
@@ -152,60 +552,6 @@ describe Otwtranslation::ContextRule, "match" do
     rule.match?("Linux").should be_false
   end
 
-  it "should match does not end with rule" do
-    conditions = [["does not end with", ["x", "s"]]]
-    rule = Otwtranslation::ContextRule.new(:conditions => conditions)
-    rule.match?("Abby").should be_true
-    rule.match?("Andreas").should be_false
-    rule.match?("Alex").should be_false
-    
-    rule.match?('<a href="example.org">Abby</a>').should be_true
-    rule.match?('<a href="example.org">Andreas</a>').should be_false
-    rule.match?('<a href="example.org">Alex</a>').should be_false
-  end
-    
-  it "should match does not start with rule" do
-    conditions = [["does not start with", ["A", "a"]]]
-    rule = Otwtranslation::ContextRule.new(:conditions => conditions)
-    rule.match?("Abby").should be_false
-    rule.match?("alex").should be_false
-    rule.match?("bob").should be_true
-    rule.match?('<a href="example.org">Abby</a>').should be_false
-    rule.match?('<a href="example.org">alex</a>').should be_false
-    rule.match?('<a href="example.org">bob</a>').should be_true
-  end
-    
-  it "should match lesser/equal than" do
-    conditions = [["is lesser/equal than", ["2"]]]
-    rule = Otwtranslation::ContextRule.new(:conditions => conditions)
-    rule.match?(1).should be_true
-    rule.match?(2).should be_true
-    rule.match?(3).should be_false
-    
-    rule.match?("1").should be_true
-    rule.match?("2").should be_true
-    rule.match?("3").should be_false
-
-    rule.match?('<a href="example.org">1</a>').should be_true
-    rule.match?('<a href="example.org">2</a>').should be_true
-    rule.match?('<a href="example.org">3</a>').should be_false
-  end
-    
-  it "should match greater than" do
-    conditions = [["is greater than", ["2"]]]
-    rule = Otwtranslation::ContextRule.new(:conditions => conditions)
-    rule.match?(1).should be_false
-    rule.match?(2).should be_false
-    rule.match?(3).should be_true
-    
-    rule.match?("1").should be_false
-    rule.match?("2").should be_false
-    rule.match?("3").should be_true
-
-    rule.match?('<a href="example.org">1</a>').should be_false
-    rule.match?('<a href="example.org">2</a>').should be_false
-    rule.match?('<a href="example.org">3</a>').should be_true
-  end
 end
 
 
@@ -217,37 +563,228 @@ describe Otwtranslation::ContextRule, "perform_actions" do
     rule.perform_actions("name", "Abby").should == "Abby"
   end
 
-  it "should apply replace rule" do
-    actions = [["replace", ["Alice"]]]
-    rule = Otwtranslation::ContextRule.new(:actions => actions)
-    rule.perform_actions("name", "Abby").should == "Alice"
-  end
-
-  it "should apply append rule" do
-    actions = [["append", ["'s"]]]
-    rule = Otwtranslation::ContextRule.new(:actions => actions)
-    rule.perform_actions("name", "Abby").should == "Abby's"
-  end
-
-  it "should apply prepend rule" do
-    actions = [["prepend", ["d'"]]]
-    rule = Otwtranslation::ContextRule.new(:actions => actions)
-    rule.perform_actions("name", "Abby").should == "d'Abby"
-  end
-
-  it "should auto pluralize" do
-    actions = [["auto pluralize", []]]
-    rule = Otwtranslation::ContextRule.new(:actions => actions)
-    rule.perform_actions("message", 1).should == "1 message"
-    rule.perform_actions("message", 2).should == "2 messages"
-  end
-
   it "should handle two actions" do
     actions = [["append", ["'s"]], ["prepend", ["of "]]]
     rule = Otwtranslation::ContextRule.new(:actions => actions)
     rule.perform_actions("name", "Abby").should == "of Abby's"
   end
 
+  describe "replace rule" do
+    
+    it "should replace" do
+      actions = [["replace", ["Alice"]]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", "Abby").should == "Alice"
+    end
+
+    it "should handle missing params" do
+      actions = [["replace", []]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", "Abby").should == "Abby"
+    end
+    
+    it "should handle non-string params" do
+      actions = [["replace", [111]]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", "Abby").should == "111"
+    end
+
+    it "should handle non-string value" do
+      actions = [["replace", ["!"]]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", 111).should == "!"
+    end
+
+    it "should handle links" do
+      actions = [["replace", ["Alice"]]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", "<a href='ao3.org'>Abby</a>")
+        .should == "<a href='ao3.org'>Alice</a>"
+    end
+  end
+
+  describe "append rule" do
+    
+    it "should append" do
+      actions = [["append", ["!"]]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", "Abby").should == "Abby!"
+    end
+
+    it "should handle missing params" do
+      actions = [["append", []]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", "Abby").should == "Abby"
+    end
+    
+    it "should handle non-string params" do
+      actions = [["append", [111]]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", "Abby").should == "Abby111"
+    end
+
+    it "should handle non-string value" do
+      actions = [["append", ["!"]]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", 111).should == "111!"
+    end
+
+    it "should handle links" do
+      actions = [["append", ["!"]]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", "<a href='ao3.org'>Abby</a>")
+        .should == "<a href='ao3.org'>Abby!</a>"
+    end
+  end
+
+  describe "prepend rule" do
+    
+    it "should prepend" do
+      actions = [["prepend", ["!"]]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", "Abby").should == "!Abby"
+    end
+
+    it "should handle missing params" do
+      actions = [["prepend", []]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", "Abby").should == "Abby"
+    end
+    
+    it "should handle non-string params" do
+      actions = [["prepend", [111]]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", "Abby").should == "111Abby"
+    end
+
+    it "should handle non-string value" do
+      actions = [["prepend", ["!"]]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", 111).should == "!111"
+    end
+
+    it "should handle links" do
+      actions = [["prepend", ["!"]]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", "<a href='ao3.org'>Abby</a>")
+        .should == "<a href='ao3.org'>!Abby</a>"
+    end
+  end
+
+  describe "remove last chars rule" do
+    
+    it "should remove last chars" do
+      actions = [["remove last chars", ["1"]]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", "Abby").should == "Abb"
+    end
+
+    it "should count unicode chars correctly" do
+      actions = [["remove last chars", ["1"]]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", "daß").should == "da"
+    end
+
+    it "should handle missing params" do
+      actions = [["remove last chars", []]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", "Abby").should == "Abby"
+    end
+    
+    it "should handle int param" do
+      actions = [["remove last chars", [1]]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", "Abby").should == "Abb"
+    end
+
+    it "should handle non-number param" do
+      actions = [["remove last chars", ["foo"]]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", "Abby").should == "Abby"
+    end
+    
+    it "should handle non-string value" do
+      actions = [["remove last chars", ["1"]]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", 123).should == "12"
+    end
+
+    it "should handle links" do
+      actions = [["remove last chars", [1]]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", "<a href='ao3.org'>Abby</a>")
+        .should == "<a href='ao3.org'>Abb</a>"
+    end
+  end
+
+  describe "remove first chars rule" do
+    
+    it "should remove first chars" do
+      actions = [["remove first chars", ["1"]]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", "Abby").should == "bby"
+    end
+
+    it "should count unicode chars correctly" do
+      actions = [["remove first chars", ["1"]]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", "Émile").should == "mile"
+    end
+
+    it "should handle missing params" do
+      actions = [["remove first chars", []]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", "Abby").should == "Abby"
+    end
+    
+    it "should handle int param" do
+      actions = [["remove first chars", [1]]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", "Abby").should == "bby"
+    end
+
+    it "should handle non-number param" do
+      actions = [["remove first chars", ["foo"]]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", "Abby").should == "Abby"
+    end
+    
+    it "should handle non-string value" do
+      actions = [["remove first chars", ["1"]]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", 123).should == "23"
+    end
+
+    it "should handle links" do
+      actions = [["remove first chars", [1]]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("name", "<a href='ao3.org'>Abby</a>")
+        .should == "<a href='ao3.org'>bby</a>"
+    end
+  end
+
+  describe "auto pluralize rule" do
+    
+    it "should auto pluralize" do
+      actions = [["auto pluralize", []]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("message", 1).should == "1 message"
+      rule.perform_actions("message", 2).should == "2 messages"
+    end
+
+    it "should handle string value" do
+      actions = [["auto pluralize", []]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("message", "1").should == "1 message"
+      rule.perform_actions("message", "2").should == "2 messages"
+    end
+
+    it "should handle non-number value" do
+      actions = [["auto pluralize", []]]
+      rule = Otwtranslation::ContextRule.new(:actions => actions)
+      rule.perform_actions("message", "foo").should == "foo messages"
+    end
+  end
 end
   
 describe Otwtranslation::ContextRule, "apply_rules" do
@@ -293,7 +830,7 @@ describe Otwtranslation::ContextRule, "apply_rules" do
       result.should == "The answer is 42!"
     end
 
-    it "should handle one rule with set variables" do
+    it "should handle one rule with variables" do
       @rule.actions = [["append", ["'s"]]]
       @rule.save
       result = Otwtranslation::ContextRule.
@@ -309,95 +846,7 @@ describe Otwtranslation::ContextRule, "apply_rules" do
                     "en", :author => "Abby", :artist => "Becky")
       result.should == "This is Abby's fic and Becky's art."
     end
-    
-    it "should replace" do
-      @rule.actions = [["replace", ["foo"]]]
-      @rule.save
-      
-      result = Otwtranslation::ContextRule.
-        apply_rules("This is {general::name} fic", "en", :name => 'Abby')
-      result.should == "This is foo fic"
-
-      result = Otwtranslation::ContextRule.
-        apply_rules("This is {general::name} fic", "en",
-                    :name => '<a href="example.org">Abby</a>')
-      result.should == "This is <a href=\"example.org\">foo</a> fic"
-    end
-
-    it "should replace last 3 characters" do
-      @rule.actions = [["replace end", ["3", "bar"]]]
-      @rule.save
-      
-      result = Otwtranslation::ContextRule.
-        apply_rules("{general::foo}!", "en", :foo => 'foofoo')
-      result.should == "foobar!"
-
-      result = Otwtranslation::ContextRule.
-        apply_rules("{general::foo}!", "en", :foo => 'ffoo')
-      result.should == "fbar!"
-
-      result = Otwtranslation::ContextRule.
-        apply_rules("{general::foo}!", "en",
-                    :foo => '<a href="example.org">foofoo</a>')
-      result.should == "<a href=\"example.org\">foobar</a>!"
-    end
-
-    it "should replace first 3 characters" do
-      @rule.actions = [["replace beginning", ["3", "bar"]]]
-      @rule.save
-      
-      result = Otwtranslation::ContextRule.
-        apply_rules("{general::foo}!", "en", :foo => 'foof')
-      result.should == "barf!"
-
-      result = Otwtranslation::ContextRule.
-        apply_rules("{general::foo}!", "en",
-                    :foo => '<a href="example.org">foof</a>')
-      result.should == "<a href=\"example.org\">barf</a>!"
-    end
-
-    it "should append" do
-      @rule.actions = [["append", ["'s"]]]
-      @rule.save
-      
-      result = Otwtranslation::ContextRule.
-        apply_rules("This is {general::name} fic", "en", :name => 'Abby')
-      result.should == "This is Abby's fic"
-
-      result = Otwtranslation::ContextRule.
-        apply_rules("This is {general::name} fic", "en",
-                    :name => '<a href="example.org">Abby</a>')
-      result.should == "This is <a href=\"example.org\">Abby's</a> fic"
-    end
-
-    it "should prepend" do
-      @rule.actions = [["prepend", ["Hi "]]]
-      @rule.save
-      
-      result = Otwtranslation::ContextRule.
-        apply_rules("{general::name}.", "en", :name => 'Abby')
-      result.should == "Hi Abby."
-
-      result = Otwtranslation::ContextRule.
-        apply_rules("{general::name}.", "en",
-                    :name => '<a href="example.org">Abby</a>')
-      result.should == "<a href=\"example.org\">Hi Abby</a>."
-    end
-
-    it "should auto pluralize" do
-      @rule.actions = [["auto pluralize", []]]
-      @rule.save
-      
-      result = Otwtranslation::ContextRule.
-        apply_rules("You have {general::apple}.", "en", :apple => 2)
-      result.should == "You have 2 apples."
-
-      result = Otwtranslation::ContextRule.
-        apply_rules("You have {general::apple}.", "en",
-                    :apple => '<a href="example.org">2</a>')
-      result.should == "You have <a href=\"example.org\">2 apples</a>."
-    end
-  end
+  end    
 
 end
 

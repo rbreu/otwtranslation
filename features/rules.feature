@@ -19,7 +19,7 @@ Feature: Context Rules
     
     When I go to the language page
     And I press "Add rule" 
-    And I fill in "Description:" with "test rule"
+    And I fill in "Description:" with "test rule description"
     And I select "ends with" from "otwtranslation_context_rule[conditions][]"
     And I fill in "otwtranslation_context_rule[conditions][]" with "foobar"
     And I select "append" from "otwtranslation_context_rule[actions][]"
@@ -28,7 +28,7 @@ Feature: Context Rules
 
     Then I should see the language name "Deutsch"
     And I should see the rule type "general"
-    And I should see the rule description "test rule"
+    And I should see the text with tags "<p>test rule description</p>"
     And I should see the rule condition "ends with"
     And I should see the rule condition "foobar"
     And I should see the rule action "append"

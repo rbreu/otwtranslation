@@ -71,7 +71,7 @@
       <tr id="otwtranslation_rule_<%= rule.id %>">
         <td class="type"><%= rule.display_type %></td>
         <td class="position"><%= rule.position %></td>
-        <td class="description"><%= rule.description %></td>
+        <td class="description"><%= raw sanitize_field(rule, :description) %></td>
         <td class="conditions">
 	  <ol>
 	  <% rule.conditions.each do |condition| %>

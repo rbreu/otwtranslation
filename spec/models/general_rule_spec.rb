@@ -1,18 +1,14 @@
 require 'spec_helper'
 
 describe Otwtranslation::GeneralRule, "creation" do
-  it "should save" do
-    conditions = [["matches all", []]]
-    actions = [["replace", ["Abby"]]]
-    rule = Otwtranslation::GeneralRule.create(:conditions => conditions,
-                                              :actions => actions,
-                                              :language_short => "de",
-                                              :description => "foo")
+
+  let(:rule) do
+    Otwtranslation::GeneralRule.new(:language_short => "de")
+  end
+
+  it "should save minimalistic rule" do
+    rule.save.should be_true
     rule.reload
-    rule.language_short.should == "de"
-    rule.description.should == "foo"
-    rule.conditions.should == conditions
-    rule.actions.should == actions
     rule.type.should == "Otwtranslation::GeneralRule"
   end
 

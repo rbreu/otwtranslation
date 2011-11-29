@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111129141900) do
+ActiveRecord::Schema.define(:version => 20111129153600) do
 
   create_table "comments", :force => true do |t|
     t.text     "content",                                                   :null => false
@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(:version => 20111129141900) do
     t.string   "actions"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "description_sanitizer_version", :limit => 2, :default => 0, :null => false
   end
 
   create_table "otwtranslation_phrases", :force => true do |t|

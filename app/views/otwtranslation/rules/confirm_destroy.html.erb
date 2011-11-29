@@ -5,7 +5,7 @@
   <dd class="type"><%= @rule.display_type %></dd>
 
   <dt class="description">Description:</dt>
-  <dd class="description"><%= @rule.description %></dd>
+  <dd class="description"><%= raw sanitize_field(@rule, :description) %></dd>
 
   <dt class="conditions">Conditions:</dt>
   <dd class="conditions">

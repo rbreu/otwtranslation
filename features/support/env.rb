@@ -66,7 +66,7 @@ DatabaseCleaner.app_root = "test_app"
 # Capybara.server_boot_timeout = 50
 # Capybara.javascript_driver = :akephalos
 
-#Capybara.server_boot_timeout = 50
+Capybara.server_boot_timeout = 100
 Capybara.javascript_driver = :selenium
 
 
