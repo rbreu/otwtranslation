@@ -2,6 +2,7 @@
   <fieldset>
 	<legend>Search works</legend>
 	<p><%= text_field_tag "query[text]", nil, :class => 'text', :title => 'site search', :id => 'site_search' %>
-  <%= submit_tag ts('Search', :_decorate_off => true), :class => 'button', :name => nil %></p>
+	<span class="tip">tip: TIP! </span>
+  <span class="submit actions"><%= submit_tag t('.forms.search', :default => 'search'), :class => 'button', :name => nil %></span></p>
   </fieldset>
 <% end %>

@@ -1,18 +1,36 @@
-/*MAIN NAV spoofs admin nav */
-#header ul.translation { 
-    margin-top: 2.375em;
-    position: absolute;
-    right: 1em;
-    z-index: 50;
+/*************************************************************/
+/* zone-translation.css                                      */
+/*************************************************************/
+
+.phrase dd.sources ul li {
+    display: list-item;
 }
 
-#header ul.translation a, #header ul.translation .current {
-    border-bottom: 3px solid #111;
-    float: right;
+.translation.approved {
+    background: #cce698
 }
 
-/* TRANSLATABLE PHRASE STATE */
+.rules .heading {
+    font-weight: bold
+}
 
+/*************************************************************/
+/* role-translator.css                                       */
+/*************************************************************/
+
+/* the navigation for translators */
+#header ul.translation {
+    text-align:right;
+    float:none;
+    margin: auto;
+    background:#333;
+    border-bottom:2px solid;
+    padding:0.25em 120px;
+    box-shadow:inset 0 -5px 10px #000
+}
+
+
+/* the translatable phrases (inline) */
 span.untranslated {
     border-bottom: 3px dotted red;
 }
@@ -24,6 +42,19 @@ span.approved {
 }
 
 
+/* the inline popup for translating */
+div.show.inline {
+    display: block;
+    position: absolute; 
+    width: 50%;
+    z-index: 100;
+    border: 1px solid black;
+    background: white;
+    padding: 0.5em 0.5em 0 0.5em;
+}
+
+
+/*
 #main div.assignment_part p.assignee {
     font-weight: 700; 
 }
@@ -61,9 +92,6 @@ div.translation {
 }
 
 
-div.approved {
-    background: #cce698
-}
 
 
 li.even {
@@ -93,16 +121,6 @@ ol#otwtranslation_assignment_parts ul.navigation {
     width: 49em;
 }
 
-div.show.inline {
-    display: block;
-    position: absolute; 
-    width: 50%;
-    z-index: 100;
-    border: 1px solid black;
-    background: white;
-    padding: 0.5em 0.5em 0 0.5em;
-}
-
 
 p.hide.inline {
     border: 1px solid #BBBBBB;
@@ -124,3 +142,4 @@ p#otwtranslation_source_link {
     width:17.5em;
     padding:0
 }
+*/

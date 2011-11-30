@@ -1,13 +1,30 @@
 <div class="translation <%='approved' if translation.approved %>" >
 
 <!-- BACK END: is this a heading: on a summary of the page contents, ought this show up?-->
+
+<div class="header module">
+  <ul class="required-tags">
+    <li>
+      <a class="symbol question" title="Symbols key" rel="ibox&type=3" aria-controls="#ibox" href="/help/symbols-key.html">
+	<span class="rating-teen rating" title="Teen And Up Audiences">
+	  <span class="text">Teen And Up Audiences</span>
+	</span>
+      </a>
+    </li>
+  </ul>
+
+  <p class="datetime editor">
+    Last edited on <%= translation.updated_at.to_date %> by
+    <%= translation.last_editor.try(:login) %>
+  </p>
+</div>
+
 <p class="label"><%= translation.label %></p>
 
-<p class="datetime">Last edited on <%= translation.updated_at.to_date %> by <%= translation.last_editor.try(:login) %></p>
-
-<div class="rules">Rules:
+<div class="rules">
+  <h4 class="heading">Rules:</h6>
   <% if translation.rules.blank? %>
-    All.
+    <p class="rules">All.</p>
   <% else %>
   <ul class="rules">
     <% translation.rules.each do |rule_id| %>
@@ -29,8 +46,8 @@
 <%= render("/otwtranslation/translations/stats", :translation => translation) %>
 
 
-<h3 class="landmark">Translation Actions</h3>
-<ul class="translation navigation">
+<h6 class="landmark heading">Translator Actions</h3>
+<ul class="navigation actions" role="navigation">
   <li><%= link_to 'Show', otwtranslation_translation_path(translation) %></li>
   <li>
     <%= form_for(translation, 

@@ -1,16 +1,12 @@
 <% if logged_in? %>
-  <p id="greeting">
-      <%= ts("Hi,") %> <%= link_to current_user.login, "", :class => 'login' %>!
+  <div id="greeting">
+    <p class="icon">
+      <span class="landmark">Hi, <%= current_user.login %>!</span>
+    <%= icon_display(current_user) %>
     </p>
-  <ul id="login">
-    <li>
-      <%= link_to ts("Post New"), "" %>&nbsp;|
-    </li>
-	<li>
-	<%= link_to ts("Import"), "" %>	&nbsp;|
-	</li>
-    <li>
-      <%= link_to ts("Log out"), logout_path %>
-    </li>
-  </ul>
+    <ul class="navigation actions" role="navigation">
+	    <li><%= link_to ts("post new"), "" %></li>
+      <li> <%= link_to ts("log out"), logout_path %></li>
+    </ul>
+  </div>
 <% end %>

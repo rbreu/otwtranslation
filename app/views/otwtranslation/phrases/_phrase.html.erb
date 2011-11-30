@@ -1,27 +1,28 @@
-<h3 class="landmark">Phrase</h3>
-<dl id="otwtranslation_phrase">
-
-  <dt class="label"><%= ts("Label:") %></dt>
-  <dd class="label"><%= phrase.label %></dd>
-
-  <dt class="description"><%= ts("Description:") %></dt>
-  <dd class="description"><%= phrase.description %>&nbsp;</dd>
-
-  <dt class="version"><%= ts("Version:") %></dt>
-  <dd class="version"><%= phrase.version %></dd>
-
-  <dt class="version"><%= ts("New:") %></dt>
-  <dd class="version"><%= phrase.new ? "yes" : "no" %></dd>
-
-  <dt class="sources"><%= ts("Sources:") %></dt>
-  <dd class="sources">
-    <%= will_paginate(sources, :params => params) %>
-    <ul>
-      <% sources.each do |source| %>
-        <li><%= link_to(source.url, source.url) %> 
-           (<%= link_to(source.controller_action, otwtranslation_source_path(source)) %>)</li>
-      <% end %>	
-    </ul>
-    <%= will_paginate(sources, :params => params) %>
-  </dd>
-</dl>
+<div class="wrapper">
+  <dl class="phrase meta group">
+  
+    <dt class="label"><%= ts("Label:") %></dt>
+    <dd class="label"><%= phrase.label %></dd>
+    
+    <dt class="description"><%= ts("Description:") %></dt>
+    <dd class="description"><%= phrase.description %>&nbsp;</dd>
+    
+    <dt class="version"><%= ts("Version:") %></dt>
+    <dd class="version"><%= phrase.version %></dd>
+    
+    <dt class="version"><%= ts("New:") %></dt>
+    <dd class="version"><%= phrase.new ? "yes" : "no" %></dd>
+    
+    <dt class="sources"><%= ts("Sources:") %></dt>
+    <dd class="sources">
+      <%= will_paginate(sources, :params => params) %>
+      <ul>
+	<% sources.each do |source| %>
+	<li><%= link_to(source.url, source.url) %> 
+          (<%= link_to(source.controller_action, otwtranslation_source_path(source)) %>)</li>
+	<% end %>	
+      </ul>
+      <%= will_paginate(sources, :params => params) %>
+    </dd>
+  </dl>
+</div>

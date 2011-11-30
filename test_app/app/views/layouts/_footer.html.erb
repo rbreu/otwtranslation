@@ -1,23 +1,29 @@
 <!-- BEGIN footer -->
 <div id="footer" role="contentinfo">
-	<h3 class="landmark">Footer</h3>
+  <h3 class="landmark">Footer</h3>
   <div id="globalize"><!-- locales_menu --></div>
-  
+  <p class="beta"><span class="landmark"><abbr title="Archive Of Our Own">AO3</abbr> Beta</span></p>
+
   <%= yield :footer_js %>
   
-  <ul class="navigation" role="navigation">
+  <ul class="navigation actions" role="navigation">
+
     <li><%= link_to "Terms of Service", "" %></li>
     <li>&#8212; <%= link_to "Site Map", "" %></li>
     <li>&#8212; <%= link_to 'Report Abuse', "" %></li>
     <li>&#8212; <%= link_to 'Support and Feedback', "" %></li>
-    <li>&#8212; <%= link_to 'Archive FAQ', "" %></li>
+    <li>&#8212; <%= link_to 'Donate', "" %></li>
+    <li>&#8212; <%= link_to 'FAQ', "" %></li>
     <li>&#8212; <%= link_to 'Known Issues', "" %></li>
     <% if logged_in? && current_user.is_translation_admin? %>
       <li>&#8212; <%= otwtranslation_tool_toggler %></li>
     <% end %>
-    <li>&#8212; <a href="http://creativecommons.org/licenses/GPL/2.0/" title="View License">GPL/CC</a> by the <a href="http://transformativeworks.org/" title="The Organization for Transformative Works">OTW</a></li>
+    <% if Rails.env.development? && ArchiveConfig.DEVELOPMENT_PROFILING_ENABLED %>
+      <li>&#8212; <%= link_to 'Devmode', devmode_path %></li>
+    <% end %>
+    <li>&#8212; <a href="http://creativecommons.org/licenses/GPL/2.0/" title="View License">GPL/CC</a> <%=h t('.layout.footer.by_the_otw', :default => 'by the') %> <a href="http://transformativeworks.org/" title="The Organization for Transformative Works">OTW</a></li>
     <% unless ArchiveConfig.REVISION.blank? %>
-      <li>&#8212; <%= link_to 'OTWArchive #{ArchiveConfig.REVISION}', "http://code.google.com/p/otwarchive/source/browse/?r=#{ArchiveConfig.REVISION}#svn/trunk" %></li>
+      <li>&#8212; <%= link_to ts('otwarchive %{rev_number}', :rev_number => ArchiveConfig.REVISION), "https://github.com/otwcode/otwarchive/commits/#{ArchiveConfig.REVISION}" %></li>
     <% end %>
   </ul>
 </div>
@@ -26,18 +32,18 @@
 <div id="debug">
   <h1>Development Notice</h1>
   <p>
-    This is a development site. That means, please don't put in 
-    anything you need to keep secure or want to preserve. 
-    All the contents of this site (including user accounts) can and 
-    probably will be wiped without notice as we work. 
+    This is a development site. That means, please don't put in
+    anything you need to keep secure or want to preserve.
+    All the contents of this site (including user accounts) can and
+    probably will be wiped without notice as we work.
   </p>
   <p>
     Please <strong>do</strong>
     help us out and <a href="http://code.google.com/p/otwarchive/issues/list">report any problems</a>!
   </p>
   <p>
-    These links below here are just to provide debugging info for your friendly neighborhood coders, 
-    please ignore. 
+    These links below here are just to provide debugging info for your friendly neighborhood coders,
+    please ignore.
   </p>
   <script language="javascript">document.cookie = 'profile=No; path=/; expires=1900-01-01T00:00:00 '</script>
   <!-- <a href="#" onclick="document.cookie = 'profile=' + (new Date()).toGMTString() + '; path=/; '; return false;">Profile next request</a> -->
@@ -69,3 +75,4 @@
   </dl>
 </div>
 <% end %>
+

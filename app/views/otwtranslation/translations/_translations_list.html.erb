@@ -1,24 +1,21 @@
-<div class="clear-both"></div>
+<div class="translation listbox group">
+  <h3 class="heading">List of translations for this phrase:</h3>
+  
+  <% if translations.empty? %>
+    <p><%= ts("There are no translations for the selected language.") %></p>
 
-<h3>List of translations for this phrase:</h3>
+  <% elsif %>
 
-<% if translations.empty? %>
-  <p id="otwtranslation_notranslations">
-    <%= ts("There are no translations for the selected language.") %>
-  </p>
+    <ul class="translation index group">
+      <% translations.each.with_index do |translation, i| %>
+        <li id="translation<%= translation.id %>" 
+            class="<%= i%2 == 0 ? "even" : "odd" %> translation blurb group"> 
 
-<% elsif %>
+          <%= render("otwtranslation/translations/translation", 
+              :translation => translation) %>
 
-  <ol id="otwtranslation_translations" class="translation index">
-    <% translations.each.with_index do |translation, i| %>
-      <li id="translation<%= translation.id %>" 
-          class="<%= i%2 == 0 ? "even" : "odd" %>"> 
-
-        <%= render("otwtranslation/translations/translation", 
-                   :translation => translation) %>
-
-      </li>
-    <% end %>
-  </ol>
-
-<% end %>
+	</li>
+      <% end %>
+    </ul>
+  <% end %>
+</div>

@@ -22,7 +22,7 @@ module UsersHelper
   
   # Determine which icon to show on user pages
   def standard_icon(user=nil, pseud=nil)
-    "/images/default_icon.png"
+    "skins/iconsets/default/icon_user.png"
   end
   
   # no alt text if there isn't specific alt text
