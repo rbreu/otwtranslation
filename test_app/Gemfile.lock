@@ -23,6 +23,7 @@ PATH
       resque (>= 1.14.0)
       resque_mailer
       sanitize
+      valium
       will_paginate
 
 GEM
@@ -172,6 +173,8 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.31)
+    valium (0.2.1)
+      activerecord (>= 3.0.2)
     vegas (0.1.8)
       rack (>= 1.0.0)
     webrat (0.7.3)
@@ -205,5 +208,6 @@ DEPENDENCIES
   sanitize
   selenium-webdriver
   sqlite3
+  valium
   webrat
   will_paginate!

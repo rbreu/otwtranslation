@@ -86,7 +86,7 @@ class Otwtranslation::Phrase < ActiveRecord::Base
   
   def to_cachable
     p = OpenStruct.new(attributes)
-    p.sources = sources.select(:controller_action).map{|s| s.controller_action}
+    p.sources = sources.value_of(:controller_action)
     return p.freeze
   end
 

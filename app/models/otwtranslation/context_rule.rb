@@ -102,11 +102,11 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   ############################################################
 
   def self.conditions
-    self::CONDITIONS.keys
+    self::CONDITIONS.keys.sort
   end
   
   def self.actions
-    self::ACTIONS.keys
+    self::ACTIONS.keys.sort
   end
   
   def self.tokenize_label(label)
@@ -188,8 +188,7 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   end
 
   ############################################################
-  # Definition of actions:
-  # value may not be a string, params are always strings
+  # Definition of actions
 
   def self.action_replace(name, value, params)
     stripped_value = separate_link_label(value)
@@ -232,9 +231,9 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   
 
   ############################################################
-
   # A rule matches if all conditions match
   # A rule with no conditions doesn't match
+  
   def match?(value)
     return false if conditions.empty?
 

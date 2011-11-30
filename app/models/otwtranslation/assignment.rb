@@ -42,7 +42,7 @@ class Otwtranslation::Assignment < ActiveRecord::Base
   end
 
   def assignees_names
-    assignees.map{|a| a.login}.join(", ")
+    assignees.value_of(:login).join(", ")
   end
 
   def source_controller_action
@@ -61,7 +61,7 @@ class Otwtranslation::Assignment < ActiveRecord::Base
     """)
   end
 
-  # list of languages where assignee as activated assignments
+  # list of languages where assignee has activated assignments
   def self.assignees_language_names(assignee)
     l = connection.select_rows("""
     SELECT name from languages WHERE languages.short IN

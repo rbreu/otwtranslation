@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.add_dependency "resque", ">=1.14.0"
   s.add_dependency "resque_mailer"
   s.add_dependency "will_paginate"
+  s.add_dependency "valium"
 
   s.add_development_dependency "rspec-rails"
   s.add_development_dependency "cucumber-rails"
