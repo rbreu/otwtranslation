@@ -1,74 +1,27 @@
-<!--Descriptive page name and system messages, descriptions, and instructions.-->
-<h2>Translation Home</h2>
-<!--end descriptions-->
+<div class="translation home">
 
-<!--navigation, sorting and actions-->
-<!--end nav-->
+  <!--Descriptive page name and system messages, descriptions, and instructions.-->
+  <h2 class="heading">Translation Home</h2>
+  <!--end descriptions-->
 
-<!--main content-->
-<h3>Languages in which I have assignments</h3>
+  <!--navigation, sorting and actions-->
+  <!--end nav-->
 
-<%= @languages.join(", ") %>
+  <!--main content-->
+  <div class="languages listbox group">
+    <h3 class="heading">Languages in which I have assignments</h3>
 
-<h3>My assignments for the current language</h3>
+    <ul class="index group">
+      <% @languages.each do |language| %>
+        <li><%= language %></li>
+      <% end %>
+    </ul>
+  </div>
 
-<%= will_paginate(@assignments, :params => {:controller => otwtranslation_home_path}) %>
-
-<h3 class="landmark">My Assignment Table</h3>
-<table id="otwtranslation_assignments" summary="please summarise">
-  <caption><!--please briefly label--></caption>
-  <thead>
-    <tr>
-      <th><%= "Source" %></th>
-      <th><%= "Description" %></th>
-      <th><%= "Assigned to" %></th>
-      <th><%= "Completed?" %></th>
-      <th><%= "Navigation" %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @assignments.each do |assignment| %>
-      <tr class="assignment" id="otwtranslation_assignment_<%= assignment.id %>">
-        <th class="source">
-	  <% if assignment.source %>
-            <%= link_to(assignment.source.controller_action, 
-                        otwtranslation_source_path(assignment.source)) %>
-	  <% end %>
-        </th>
-        <td class="description"><%= raw sanitize_field(assignment, :description) %></td>
-        <td class="assignees"><%= assignment.assignees_names %></td>
-        <td class="completed">
-          <%= assignment.completed? ? "&#x2713;".html_safe : "" %>
-	</td>
-        <td class="navigation">
-	  <ul>
-	    <li>  
-            <%= form_for(assignment, 
-                         :url => otwtranslation_assignment_path(assignment),
-                         :html => {:method => :get}) do |f| %>
-              <%= f.submit 'Show' %>
-            <% end %>
-            </li>
-
-	    <% if assignment.users_turn?(current_user) %>
-	    <li>  
-            <%= form_for(assignment, 
-                         :url => otwtranslation_complete_part_path(assignment),
-                         :html => {:method => :get}) do |f| %>
-              <%= f.submit 'Mark my part as completed' %>
-            <% end %>
-            </li>
-	  
-	    <% end %>
-          </ul>
-	</td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<%= will_paginate(@assignments, :params => {:controller => otwtranslation_home_path}) %>
-
+  <div class="assignments listbox group">
+    <h3 class="heading">My assignments for the current language</h3>
+    <%= render("otwtranslation/assignments/assignments_list", :assignments => @assignments) %>
+  </div>
 <!-- /main-->
 
 

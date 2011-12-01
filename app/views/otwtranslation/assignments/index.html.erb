@@ -1,25 +1,28 @@
-<!--Descriptive page name and system messages, descriptions, and instructions.-->
-<h2><%= ts("Assignment Table") %></h2>
-<!--end descriptions-->
+<div class="assignments">
+  <!--Descriptive page name and system messages, descriptions, and instructions.-->
+  
+  <h2 class="heading"><%= ts("Assignments") %></h2>
+  <!--end descriptions-->
 
-<!--Subnavigation, sorting and actions.-->
+  <!--Subnavigation, sorting and actions.-->
 
-<!-- BACK END: if this is a single action form let's lose the list structure-->
+  <!-- BACK END: if this is a single action form let's lose the list structure-->
 
-<ul class="translation navigation" id="add_assignment">
-  <li>
-    <%= form_for(:otwtranslation_assignment, 
-                 :url => otwtranslation_new_assignment_path, 
-                 :html => { :method => :get }) do |f| %>
+  <ul class="assignment navigation actions" id="add_assignment">
+    <li>
+      <%= form_for(:otwtranslation_assignment, 
+          :url => otwtranslation_new_assignment_path, 
+      :html => { :method => :get }) do |f| %>
       <%= f.submit 'Add assignment' %>
-    <% end %>
-  </li>
-</ul>
+      <% end %>
+    </li>
+  </ul>
 
-
-<!--end navigation-->
+  <!--end navigation-->
 
 <!--main content-->
-<%= render("assignment_table", :assignments => @assignments) %>
-<!-- /main-->
 
+  <%= render("assignments_list", :assignments => @assignments) %>
+
+<!-- /main-->
+</div>

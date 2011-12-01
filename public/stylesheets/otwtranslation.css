@@ -6,13 +6,24 @@
     display: list-item;
 }
 
-.translation.approved {
-    background: #cce698
+.rules .heading {
+    font-weight: bold;
 }
 
-.rules .heading {
-    font-weight: bold
+.translation dl.rules {
+    margin-bottom: 1em;
 }
+
+.translation dt.rule {
+    font-weight: bold;
+    clear: left;
+    display: inline;
+}
+
+.translation dd.condition {
+    display: inline;
+}
+
 
 /*************************************************************/
 /* role-translator.css                                       */
@@ -29,7 +40,6 @@
     box-shadow:inset 0 -5px 10px #000
 }
 
-
 /* the translatable phrases (inline) */
 span.untranslated {
     border-bottom: 3px dotted red;
@@ -41,7 +51,6 @@ span.approved {
     border-bottom: 3px solid lime;
 }
 
-
 /* the inline popup for translating */
 div.show.inline {
     display: block;
@@ -50,7 +59,7 @@ div.show.inline {
     z-index: 100;
     border: 1px solid black;
     background: white;
-    padding: 0.5em 0.5em 0 0.5em;
+    padding: 0.5em;
 }
 
 

@@ -1,15 +1,34 @@
-<li id="assignment_part_<%=part.id %>" class="assignment_part <%= part.position%2 == 0 ? "even" : "odd" %>">
-  <div class="assignment_part">
-    <p class="assignee"><%= part.position %>. <%= part.assignee.login %></p>
-    <p class="notes"><%= raw sanitize_field(part, :notes) %></p>
-    <dl class="stats">
-      <dt class="status">Status:</dt>
-      <dd class="status"><%= part.status.to_s %></dt>
-    </dl>
+<li id="assignment_part_<%=part.id %>" class="assignment-part blurb group">
+  <div class="header module">
+    <h4 class="heading"><%= part.position %>. <%= part.assignee.login %></h4>
+    <ul class="required-tags">
+      <li><span class="category-none category"></span></li>
+      <li><span class="rating-notrated rating"></span></li>
+      <li><span class="warning-no warnings"></span></li>
 
-    <% unless assignment.activated %>
-    <h3 class="landmark">Assignment Part Actions</h3>
-    <ul class="assignment_part navigation">
+      <% if part.status == :pending || part.status == :active %>
+        <li>
+	  <span class="complete-no iswip" title="<%= part.status.to_s %>">
+            <span class="text"><%= part.status.to_s %></span>
+	  </span>
+	</li>
+      <% else %>
+        <li>
+	  <span class="complete-yes iswip" title="completed">
+            <span class="text">completed</span>
+	  </span>
+	</li>
+      <% end %>
+    </ul>
+  </div>
+
+  <blockquote class="userstuff notes" title="notes">
+    <%= raw sanitize_field(part, :notes) %>
+  </blockquote>
+  
+  <% unless assignment.activated %>
+    <h6 class="landmark heading">Assigner Actions</h3>
+    <ul class="navigation actions" role="navigation">
       <li>
         <%= form_for(part, 
                      :url => otwtranslation_move_up_assignment_part_path(part),
@@ -34,5 +53,4 @@
       </li>
     </ul>
     <% end %>
-  </div>
 </li>

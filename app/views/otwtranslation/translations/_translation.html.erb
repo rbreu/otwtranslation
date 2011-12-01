@@ -1,54 +1,73 @@
-<div class="translation <%='approved' if translation.approved %>" >
-
 <!-- BACK END: is this a heading: on a summary of the page contents, ought this show up?-->
 
 <div class="header module">
-  <ul class="required-tags">
+<ul class="required-tags">
+  <li><span class="category-none category"></span></li>
+  <li><span class="rating-notrated rating"></span></li>
+  
+  <% if translation.rules.blank? %>
     <li>
-      <a class="symbol question" title="Symbols key" rel="ibox&type=3" aria-controls="#ibox" href="/help/symbols-key.html">
-	<span class="rating-teen rating" title="Teen And Up Audiences">
-	  <span class="text">Teen And Up Audiences</span>
-	</span>
-      </a>
+      <span class="warning-no warnings" title="Translation for all Rules">
+	<span class="text">Translation for all Rules</span>
+      </span>
     </li>
-  </ul>
+  <% else %>
+    <li>
+      <span class="warning-yes warnings" title="Translation for Specific Rules">
+	<span class="text">Translation for Specific Rules</span>
+      </span>
+    </li>
+  <% end %>
 
+  <% if translation.approved %>
+    <li>
+      <span class="complete-yes iswip" title="Approved Translation">
+        <span class="text">Approved Translation</span>
+      </span>
+    </li>
+  <% else %>
+    <li><span class="complete-no iswip"></span></li>
+  <% end %>
+
+</ul>
+
+  
   <p class="datetime editor">
     Last edited on <%= translation.updated_at.to_date %> by
     <%= translation.last_editor.try(:login) %>
   </p>
 </div>
 
-<p class="label"><%= translation.label %></p>
+<a href="<%= otwtranslation_translation_path(translation) %>">
+  <p class="label"><%= translation.label %></p>
+</a>
 
 <div class="rules">
-  <h4 class="heading">Rules:</h6>
+  <!--<h4 class="heading">Rules:</h6> -->
   <% if translation.rules.blank? %>
-    <p class="rules">All.</p>
+    <p class="rules">Translation applies to all rules.</p>
   <% else %>
-  <ul class="rules">
+  <dl class="rules">
     <% translation.rules.each do |rule_id| %>
-      <li id="<%= rule_id %>">
+      <dt class="rule" id="<%= rule_id %>">
         <% rule = Otwtranslation::ContextRule.find(rule_id) %>
 	<%= rule.display_type %>
-	<ol class="conditions">
-	  <% rule.conditions.each do |condition| %>
-	  <li><%= condition[0] %> 
-              <%= Otwtranslation::ParameterParser.stringify(condition[1]) %></li>
-	  <% end %>
-	</ol>
-      </li>
+	<% rule.conditions.each do |condition| %>
+	  <dd class="condition">
+	    <%= condition[0] %> 
+            <%= Otwtranslation::ParameterParser.stringify(condition[1]) %>
+          </dd>
+	<% end %>
+      </dt>
     <% end %>  
-  </ul>
+  </dl>
   <% end %>
 </div>
 
 <%= render("/otwtranslation/translations/stats", :translation => translation) %>
 
-
-<h6 class="landmark heading">Translator Actions</h3>
+<h6 class="landmark heading">Translator Actions</h6>
 <ul class="navigation actions" role="navigation">
-  <li><%= link_to 'Show', otwtranslation_translation_path(translation) %></li>
   <li>
     <%= form_for(translation, 
                  :url => otwtranslation_vote_translation_path(translation),
@@ -103,4 +122,3 @@
   <% end %>    
 </ul>
 
-</div>

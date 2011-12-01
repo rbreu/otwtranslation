@@ -1,49 +1,47 @@
-<!--Descriptive page name and system messages, descriptions, and instructions.-->
-<h2>Show Assignment</h2>
-<!--end descriptions-->
+<div class="assignment">
+  <!--Descriptive page name and system messages, descriptions, and instructions.-->
+  <h2 class="heading">Show Assignment</h2>
+  <!--end descriptions-->
 
-<!--Subnavigation, sorting and actions.-->
-<!--end navigation-->
+  <!--Subnavigation, sorting and actions.-->
+  <!--end navigation-->
 
 
-<!--main content-->
-<dl id="otwtranslation_assignment">
+  <!--main content-->
+  <div class="wrapper">
+    <dl class="assignment meta group">
 
-  <dt class="source">Source:</dt>
-  <dd class="source">
-    <% unless @assignment.source_controller_action.blank? %>
-      <%= link_to(@assignment.source_controller_action,
-                  otwtranslation_source_path(@assignment.source)) %>
-    <% end %>
-  </dd>
+      <dt class="source">Source:</dt>
+      <dd class="source">
+	<% unless @assignment.source_controller_action.blank? %>
+	<%= link_to(@assignment.source_controller_action,
+            otwtranslation_source_path(@assignment.source)) %>
+	<% end %>
+      </dd>
+    
+      <dt class="description">Description:</dt>
+      <dd class="description"><%= raw sanitize_field(@assignment, :description) %></dd>
+    
+      <dt class="activated">Activated:</dt>
+      <dd class="activated"><%= @assignment.activated ? "yes" : "no" %></dd>
+    
+      <dt class="completed">Completed:</dt>
+      <dd class="completed"><%= @assignment.completed? ? "yes" : "no" %></dd>
+    </dl>
+  </div>
+  
+  <%= render("navigation", :assignment => @assignment, :on_show => true) %>
 
-  <dt class="description">Description:</dt>
-  <dd class="description"><%= raw sanitize_field(@assignment, :description) %></dd>
+  <div class="assignment-part listbox group">
+    <h3 class="heading"><%= ts("Assigned to:") %></h3>
 
-  <dt class="activated">Activated:</dt>
-  <dd class="activated"><%= @assignment.activated ? "yes" : "no" %></dd>
-
-  <dt class="completed">Completed:</dt>
-  <dd class="completed"><%= @assignment.completed? ? "yes" : "no" %></dd>
-</dl>
-
-<%= render("navigation", :assignment => @assignment, :on_show => true) %>
-
-<div class="clear-both"></div>
-
-<h3><%= ts("Assigned to:") %></h3>
-
-<%= render("otwtranslation/assignment_parts/add_assignee_button", 
-           :assignment => @assignment) %>
-
-<div class="clear-both"></div>
-
-<ol id="otwtranslation_assignment_parts">
-<% @assignment.parts.each do |part| %>
-  <%= render("otwtranslation/assignment_parts/part",
-             :assignment => @assignment, :part => part) %>
-<% end %>
-</ol>
+    <ol class="assignment-part index group">
+      <% @assignment.parts.each do |part| %>
+      <%= render("otwtranslation/assignment_parts/part",
+          :assignment => @assignment, :part => part) %>
+      <% end %>
+    </ol>
+  </div>
 <!--/main-->
+</div>
 
-<!--/nav-->

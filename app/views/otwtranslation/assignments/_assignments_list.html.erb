@@ -1,0 +1,48 @@
+<%= will_paginate(assignments, :params => {:controller => otwtranslation_assignments_path}) %>
+
+<% assignments.each do |assignment| %>
+   <ul class="assignment index group">
+     <li id="assignment_<%= assignment.id %>" class="assignment blurb group">
+       <div class="header module">
+	 <h4 class="heading">
+	   <% if assignment.source %>
+            <%= link_to(assignment.source.controller_action, 
+                otwtranslation_source_path(assignment.source)) %>
+	    <% end %>
+	 </h4>
+	 <h5 class="heading"><%= assignment.assignees_names %></h5>
+	 <ul class="required-tags">
+	   <li><span class="category-none category"></span></li>
+	   <li><span class="rating-notrated rating"></span></li>
+	   <li><span class="warning-no warnings"></span></li>
+
+	   <% if assignment.completed? %>
+           <li>
+	     <span class="complete-yes iswip" title="Assignment Completed">
+               <span class="text">Assignment Completed</span>
+	     </span>
+	   </li>
+	   <% else %>
+           <li>
+	     <span class="complete-no iswip" title="Assignment Not Completed">
+               <span class="text">Assignment Not Completed</span>
+	     </span>
+	   </li>
+	   <% end %>
+	 </ul>
+       </div>
+       
+       <blockquote class="userstuff notes" title="notes">
+	 <%= raw sanitize_field(assignment, :description) %>
+       </blockquote>
+      
+       <%= render("otwtranslation/assignments/navigation", 
+           :assignment => assignment, :on_show => false) %>
+
+
+     </li>
+   <% end %>
+ </ul>
+
+<%= will_paginate(assignments, :params => {:controller => otwtranslation_assignments_path}) %>
+

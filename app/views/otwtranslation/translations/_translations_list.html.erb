@@ -8,9 +8,7 @@
 
     <ul class="translation index group">
       <% translations.each.with_index do |translation, i| %>
-        <li id="translation<%= translation.id %>" 
-            class="<%= i%2 == 0 ? "even" : "odd" %> translation blurb group"> 
-
+        <li id="translation<%= translation.id %>" class="translation blurb group"> 
           <%= render("otwtranslation/translations/translation", 
               :translation => translation) %>
 

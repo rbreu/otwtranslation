@@ -1,4 +1,4 @@
-<ul class="assignment navigation" id="assignment_navigation">
+<ul class="assignment navigation actions" id="assignment_navigation">
   <li>
     <% unless on_show %>
       <%= form_for(assignment, 
@@ -19,6 +19,15 @@
   </li>
 
   <% unless assignment.activated %>
+  <li>
+    <%= form_for(:part, 
+                 :url => otwtranslation_new_assignment_part_path(assignment), 
+                 :html => { :method => :get },
+                 :remote => true ) do |f| %>
+      <%= f.submit 'Add assignee' %>
+    <% end %>
+  </li>
+
   <li>
     <%= form_for(:assignment, 
                  :url => otwtranslation_edit_assignment_path(assignment), 

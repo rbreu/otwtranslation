@@ -16,7 +16,7 @@ function otwtranslation_inline_translator(doc)
 		$('#main').append(response);
 		$('div.show.inline').css({top: ypos, left: xpos});
 		
-		$('p.hide.inline').click(function() {
+		$('div#inline-close').click(function() {
 		    $('div.show.inline').remove();
 		}); 
 		

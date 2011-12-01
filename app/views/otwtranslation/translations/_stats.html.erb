@@ -2,9 +2,9 @@
   <dt class="votes">Votes:</dt>
   <dd class="votes"><%= translation.votes.votes_sum %></dd>
 
-  <dt class="approved">Approved:</dt>
-  <dd class="approved"><%= translation.approved? ? "yes" : "no" %></dd>
-
   <dt class="comments">Comments:</dt>
-  <dd class="comments"><%= translation.count_visible_comments %></dd>    
+  <dd class="comments">
+    <%= link_to(translation.count_visible_comments, 
+	otwtranslation_translation_path(translation, :anchor => "comments", :show_comments => true)) %>
+  </dd>    
 </dl> 

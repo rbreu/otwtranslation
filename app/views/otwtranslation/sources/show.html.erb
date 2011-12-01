@@ -1,63 +1,64 @@
-<!--Descriptive page name and system messages, descriptions, and instructions.-->
-<h2><%= ts("Show Source") %></h2>
-<!--end descriptions-->
+<div class="source">
+  <!--Descriptive page name and system messages, descriptions, and instructions.-->
+  <h2 class="heading"><%= ts("Show Source") %></h2>
+  <!--end descriptions-->
 
-<!--Subnavigation, sorting and actions.-->
-<!--end navigation-->
+  <!--Subnavigation, sorting and actions.-->
+  <!--end navigation-->
 
 
-<!--main content-->
-<dl id="otwtranslation_source">
+  <!--main content-->
+  <div class="wrapper">
+    <dl class="source meta group">
 
-  <dt class="action"><%= ts("Controller#Action:") %></dt>
-  <dd class="action"><%= @source.controller_action %></dd>
+      <dt class="controller-action"><%= ts("Controller#Action:") %></dt>
+      <dd class="controller-action"><%= @source.controller_action %></dd>
 
-  <dt class="url"><%= ts("URL:") %></dt>
-  <dd class="url"><%= link_to(@source.url, @source.url) %></dd>
+      <dt class="url"><%= ts("URL:") %></dt>
+      <dd class="url"><%= link_to(@source.url, @source.url) %></dd>
 
-  <dt class="version"><%= ts("Has phrases with current version?") %></dt>
-  <dd class="version">
-    <%= @source.has_phrases_with_current_version? ? ts("yes") : ts("no") %>
-  </dd>
+      <dt class="version"><%= ts("Has phrases with current version?") %></dt>
+      <dd class="version">
+	<%= @source.has_phrases_with_current_version? ? ts("yes") : ts("no") %>
+      </dd>
 
-  <dt class="translated">Translated:</dt>
-  <dd class="translated">
-    <%= number_to_percentage(
-          @source.percentage_translated_for(otwtranslation_language), :precision => 2) %>
-  </dd>
+      <dt class="translated">Translated:</dt>
+      <dd class="translated">
+	<%= number_to_percentage(
+            @source.percentage_translated_for(otwtranslation_language), :precision => 2) %>
+      </dd>
 
-  <dt class="approved">Approved:</dt>
-  <dd class="approved">
-    <%= number_to_percentage(
-          @source.percentage_approved_for(otwtranslation_language), :precision => 2) %>
-  </dd>
+      <dt class="approved">Approved:</dt>
+      <dd class="approved">
+	<%= number_to_percentage(
+            @source.percentage_approved_for(otwtranslation_language), :precision => 2) %>
+      </dd>
 
-  <dt class="assignments">Assignments:</dt>
-  <dd class="assignments">
-    <%= @source.assignments.size %>
-  </dd>
-</dl>
-
-<ul class="translation navigation" id="add_assignment">
-  <li>
-    <%= form_tag(otwtranslation_new_assignment_path, 
-	         :method => :get, :id => :otwtranslation_new_assignment) do |f| %>
+      <dt class="assignments">Assignments:</dt>
+      <dd class="assignments">
+	<%= @source.assignments.size %>
+      </dd>
+    </dl>
+  </div>
+  
+  <ul class="translation navigation actions" id="add_assignment">
+    <li>
+      <%= form_tag(otwtranslation_new_assignment_path, 
+	  :method => :get, :id => :otwtranslation_new_assignment) do |f| %>
       <%= hidden_field_tag(:controller_action, @source.controller_action) %>
       <%= submit_tag 'Add assignment' %>
-    <% end %>
-  </li>
-</ul>
+      <% end %>
+    </li>
+  </ul>
 
-<div class="clear-both"></div>
-
-<h3><%= ts("Phrases for this source:") %></h3>
-
-<%= render("otwtranslation/phrases/phrase_table",
-           :phrases => @phrases, 
-           :params => {:controller => otwtranslation_source_path(@source), :action => "" }) %>
-
-<!--/main-->
-
-<!--secondary navigation-->
-<p class="navigation"><%= link_to ts('Back'), otwtranslation_sources_path %></p>
-<!--/nav-->
+  
+  <div class="clear"></div>
+  
+  <h3 class="heading"><%= ts("Phrases for this source:") %></h3>
+  
+  <%= render("otwtranslation/phrases/phrase_table",
+      :phrases => @phrases, 
+  :params => {:controller => otwtranslation_source_path(@source), :action => "" }) %>
+  
+  <!--/main-->
+</div>
