@@ -1,22 +1,16 @@
-// Replace navigation bar in show
-$(".assignments-show ul#assignment_navigation").replaceWith(
+// Replace navigation bar
+$("#assignment_navigation_<%= @assignment.id %>").replaceWith(
   "<%= escape_javascript(render("navigation", 
-                         :assignment => @assignment, :on_show => true)) %>")
+                         :assignment => @assignment, :on_show => false)) %>");
 
-// Replace activated status in show
-$("dl#otwtranslation_assignment dd.activated").html(
-  "<%= @assignment.activated ? "yes" : "no" %>")
+// Replace activated status on #show
+$("dl.assignment dd.activated").html(
+  "<%= @assignment.activated ? "yes" : "no" %>");
 
-// Replace first part's status in show
-$("li#assignment_part_<%= @assignment.parts.first.id %> dd.status").replaceWith(
-  "<%= @assignment.parts.first.status.to_s %>"
-)
+// Replace first part's status on #show
+$("li#assignment_part_<%= @assignment.parts.first.id %> .iswip").replaceWith(
+  "<span class=\"complete-no iswip\" title=\"active\"><span class=\"text\">active</span></span>");
 
-// Replace navigation bar in index
-$("tr#otwtranslation_assignment_<%= @assignment.id %> ul#assignment_navigation").replaceWith(
-  "<%= escape_javascript(render("navigation", 
-                         :assignment => @assignment, :on_show => false)) %>")
-
-// Replace activated status in index
-$("tr#otwtranslation_assignment_<%= @assignment.id %> td.activated").html(
-  "<%= @assignment.activated ? "&#x2713;".html_safe : "" %>")
+// Replace activated status on #index
+$("li#assignment_<%= @assignment.id %> .warnings").replaceWith(
+  "<span class=\"warning-no warnings\"></span>");

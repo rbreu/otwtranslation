@@ -160,7 +160,7 @@ module OtwtranslationHelper
  
   
   def t(id, params={})
-    warn "[DEPRECATION WARNING] 't' is deprecated. Use 'ts' instead."
+    #warn "[DEPRECATION WARNING] 't' is deprecated. Use 'ts' instead."
     phrase = params.delete(:default) || "FIXME"
     # return ts(phrase % params) # bad, might generate gazillions of phrases...
     return phrase % params
@@ -195,14 +195,8 @@ module OtwtranslationHelper
 
   def otwtranslation_tool_header
     if otwtranslation_tool_visible?
-      render 'otwtranslation/home/tools'
-    end
-  end
-
-  def otwtranslation_tool_source
-    if otwtranslation_tool_visible?
       source = Otwtranslation::Source.find_by_source(otwtranslation_get_source)
-      render('otwtranslation/home/current_source', :source => source)
+      render('otwtranslation/home/tools', :source => source)
     end
   end
 

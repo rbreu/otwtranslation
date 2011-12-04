@@ -1,13 +1,14 @@
-<!--Descriptive page name and system messages, descriptions, and instructions.-->
-<h2 class="heading"><%= ts("Phrase Table") %></h2>
-<!--end descriptions-->
-
-<!--Subnavigation, sorting and actions.-->
-<!--end navigation-->
-
-<!--main content-->
-<%= render("otwtranslation/phrases/phrase_table",
-           :phrases => @phrases,
-           :params => { :controller => otwtranslation_phrases_path }) %>
-<!-- /main-->
-
+<div class="phrases">
+  <!--Descriptive page name and system messages, descriptions, and instructions.-->
+  <h2 class="heading"><%= ts("Phrases") %></h2>
+  <!--end descriptions-->
+  
+  <!--Subnavigation, sorting and actions.-->
+  <!--end navigation-->
+  
+  <!--main content-->
+  <%= render("otwtranslation/phrases/phrase_table",
+      :phrases => @phrases,
+  :params => { :controller => otwtranslation_phrases_path }) %>
+  <!-- /main-->
+</div>

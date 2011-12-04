@@ -21,6 +21,7 @@ end
 
 describe OtwtranslationHelper, "t" do
   it "should return the original phrase" do
+    pending
     t("home.greeting", :default => "Deprecated!").should == "Deprecated!"
   end
   

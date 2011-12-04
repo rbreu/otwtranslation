@@ -1,6 +1,6 @@
 <% if @translation.approved %>
   $("li#translation<%= @translation.id %> div").replaceWith(
-      "<%= escape_javascript(render("otwtranslation/translations/translation", 
+      "<%= escape_javascript(render("otwtranslation/translations/blurb", 
                                     :translation => @translation)) %>")
 <% end %>
 

@@ -1,25 +1,27 @@
-<div class="show inline">
-
-<p><%= @phrase.label %></p>
-
-<!--BACK END: if this is a single form and not a list, let's drop the list structure-->
-<ul class="translation navigation" id="add_translation">
-  <li>
-    <%= form_for(:translation, 
+<div class="phrase show inline">
+  
+  <a href="<%= otwtranslation_phrase_path(@phrase) %>">
+    <p class="label"><%= @phrase.label %></p>
+  </a>
+  
+  <!--BACK END: if this is a single form and not a list, let's drop the list structure-->
+  <ul class="translation navigation" id="add_translation">
+    <li>
+      <%= form_for(:translation, 
                  :url => otwtranslation_new_translation_path(@phrase), 
                  :html => { :method => :get },
                  :remote => true ) do |f| %>
       <%= f.submit 'Add translation' %>
     <% end %>
-  </li>
-</ul>
+    </li>
+  </ul>
 
-<%= render("otwtranslation/translations/translations_list", 
-           :translations => @translations ) %>
+  <%= render("otwtranslation/translations/translations_list", 
+             :translations => @translations ) %>
 
 
-<div id="inline-close">
-  <a class="action" role="button" href="javascript:void(null);">Close</a>
-</div>
+  <div id="inline-close">
+    <a class="action" role="button" href="javascript:void(null);">Close</a>
+  </div>
 
 </div>

@@ -4,7 +4,7 @@
    <ul class="assignment index group">
      <li id="assignment_<%= assignment.id %>" class="assignment blurb group">
        <div class="header module">
-	 <h4 class="heading">
+	 <h4 class="heading source">
 	   <% if assignment.source %>
             <%= link_to(assignment.source.controller_action, 
                 otwtranslation_source_path(assignment.source)) %>
@@ -14,7 +14,16 @@
 	 <ul class="required-tags">
 	   <li><span class="category-none category"></span></li>
 	   <li><span class="rating-notrated rating"></span></li>
+
+	   <% if assignment.activated %>
 	   <li><span class="warning-no warnings"></span></li>
+	   <% else %>
+	   <li>
+	     <span class="warning-yes warnings" title="Not Activated Yet">
+	       <span class="text">"Not Activated Yet"</span>
+	     </span>
+	   </li>
+	   <% end %>
 
 	   <% if assignment.completed? %>
            <li>
@@ -32,7 +41,7 @@
 	 </ul>
        </div>
        
-       <blockquote class="userstuff notes" title="notes">
+       <blockquote class="userstuff description" title="notes">
 	 <%= raw sanitize_field(assignment, :description) %>
        </blockquote>
       

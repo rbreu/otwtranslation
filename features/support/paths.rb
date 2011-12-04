@@ -14,13 +14,13 @@ module NavigationHelpers
     when /the translation home\s?page/
       otwtranslation_home_path
 
-    when 'the phrase table'
+    when 'the phrases page'
       otwtranslation_phrases_path
       
-    when 'the source table'
+    when 'the sources page'
       otwtranslation_sources_path
       
-    when 'the language table'
+    when 'the languages page'
       otwtranslation_languages_path
       
     when 'the hello world page'
@@ -35,7 +35,7 @@ module NavigationHelpers
     when 'the language page'
       otwtranslation_language_path(@language)
       
-    when 'the assignment table'
+    when 'the assignments page'
       otwtranslation_assignments_path
       
     when 'the assignment page'

@@ -1,10 +1,10 @@
-// replace form with "add assignee" button
+// replace form with navigation
 $("form#otwtranslation_assignment_part").replaceWith(
   "<%= escape_javascript(
-         render("otwtranslation/assignment_parts/add_assignee_button", 
-                :assignment => @assignment)) %>")
+         render("otwtranslation/assignments/navigation", 
+                :assignment => @assignment, :on_show => false)) %>");
 
 // append new assignee to list
-$("ol#otwtranslation_assignment_parts").append(  
+$("ol.assignment-part").append(  
   "<%= escape_javascript(render("otwtranslation/assignment_parts/part", 
            :assignment => @assignment, :part => @part)) %>")

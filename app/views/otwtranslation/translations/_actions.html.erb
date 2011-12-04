@@ -1,0 +1,55 @@
+<h6 class="landmark heading">Translator Actions</h6>
+<ul class="navigation actions" role="navigation">
+  <li>
+    <%= form_for(translation, 
+                 :url => otwtranslation_vote_translation_path(translation),
+                 :html => {:method => :put},
+                 :remote => true ) do |f| %>
+     <%= f.submit 'Vote up' %>
+    <% end %>
+  </li>
+  <li>
+    <%= form_for(translation, 
+                 :url => otwtranslation_vote_translation_path(translation),
+                 :html => {:method => :put},
+                 :remote => true ) do |f| %>
+     <%= f.submit 'Vote down' %>
+    <% end %>
+  </li>
+
+  <% if translation.approved %>
+    <li>
+    <%= form_for(translation, 
+                 :url => otwtranslation_confirm_disapprove_translation_path(translation),
+                 :html => {:method => :get},
+                 :remote => true ) do |f| %>
+      <%= f.submit 'Disapprove' %>
+    <% end %>
+    </li>
+  <% else %>
+    <li>
+    <%= form_for(translation, 
+                 :url => otwtranslation_approve_translation_path(translation), 
+                 :html => { :method => :post },
+                 :remote => true ) do |f| %>
+      <%= f.submit 'Approve' %>
+    <% end %>
+    </li>
+    <li>
+    <%= form_for(translation, 
+                 :url => otwtranslation_edit_translation_path(translation), 
+                 :html => { :method => :get },
+                 :remote => true) do |f| %>
+      <%= f.submit 'Edit' %>
+    <% end %>
+    </li>
+    <li>
+    <%= form_for(translation, 
+                 :url => otwtranslation_confirm_destroy_translation_path(translation), 
+                 :html => { :method => :get },
+                 :remote => true ) do |f| %>
+      <%= f.submit 'Delete' %>
+    <% end %>
+    </li>
+  <% end %>    
+</ul>

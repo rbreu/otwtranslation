@@ -1,124 +1,27 @@
 <!-- BACK END: is this a heading: on a summary of the page contents, ought this show up?-->
 
-<div class="header module">
-<ul class="required-tags">
-  <li><span class="category-none category"></span></li>
-  <li><span class="rating-notrated rating"></span></li>
-  
-  <% if translation.rules.blank? %>
-    <li>
-      <span class="warning-no warnings" title="Translation for all Rules">
-	<span class="text">Translation for all Rules</span>
-      </span>
-    </li>
-  <% else %>
-    <li>
-      <span class="warning-yes warnings" title="Translation for Specific Rules">
-	<span class="text">Translation for Specific Rules</span>
-      </span>
-    </li>
-  <% end %>
 
-  <% if translation.approved %>
-    <li>
-      <span class="complete-yes iswip" title="Approved Translation">
-        <span class="text">Approved Translation</span>
-      </span>
-    </li>
-  <% else %>
-    <li><span class="complete-no iswip"></span></li>
-  <% end %>
-
-</ul>
-
-  
-  <p class="datetime editor">
-    Last edited on <%= translation.updated_at.to_date %> by
-    <%= translation.last_editor.try(:login) %>
-  </p>
-</div>
-
-<a href="<%= otwtranslation_translation_path(translation) %>">
-  <p class="label"><%= translation.label %></p>
-</a>
-
-<div class="rules">
-  <!--<h4 class="heading">Rules:</h6> -->
-  <% if translation.rules.blank? %>
-    <p class="rules">Translation applies to all rules.</p>
-  <% else %>
-  <dl class="rules">
-    <% translation.rules.each do |rule_id| %>
-      <dt class="rule" id="<%= rule_id %>">
-        <% rule = Otwtranslation::ContextRule.find(rule_id) %>
-	<%= rule.display_type %>
-	<% rule.conditions.each do |condition| %>
-	  <dd class="condition">
-	    <%= condition[0] %> 
-            <%= Otwtranslation::ParameterParser.stringify(condition[1]) %>
-          </dd>
-	<% end %>
-      </dt>
-    <% end %>  
+<div class="wrapper">
+  <dl class="translation meta group">
+    <dt class="label"><%= ts("Label:") %></dt>
+    <dd class="label"><%= translation.label %></dd>
+    <dt class="approved"><%= ts("Approved:") %></dt>
+    <dd class="approved"><%= translation.approved ? "Yes" : "No" %></dd>
+    <dt class="last_edited">Last edited:</dt>
+    <dd class="last_edited"><%= translation.updated_at.to_date %></dd>
+    <dt class="last_editor">Last editor:</dt>
+    <dd class="last_editor"><%= translation.last_editor.try(:login) %></dd>
+    <dt class="votes">Votes:</dt>
+    <dd class="votes"><%= translation.votes.votes_sum %></dd>
+    <dt class="comments">Comments:</dt>
+    <dd class="comments"><%= translation.count_visible_comments %></dd>
+    <dt class="rules">Rules:</dt>
+    <dd class="rules">
+      <%= render("/otwtranslation/translations/rules", :rules => translation.rules) %>
+    </dd>
+      
   </dl>
-  <% end %>
+
+  <%= render("/otwtranslation/translations/actions", :translation => translation) %>
+
 </div>
-
-<%= render("/otwtranslation/translations/stats", :translation => translation) %>
-
-<h6 class="landmark heading">Translator Actions</h6>
-<ul class="navigation actions" role="navigation">
-  <li>
-    <%= form_for(translation, 
-                 :url => otwtranslation_vote_translation_path(translation),
-                 :html => {:method => :put},
-                 :remote => true ) do |f| %>
-     <%= f.submit 'Vote up' %>
-    <% end %>
-  </li>
-  <li>
-    <%= form_for(translation, 
-                 :url => otwtranslation_vote_translation_path(translation),
-                 :html => {:method => :put},
-                 :remote => true ) do |f| %>
-     <%= f.submit 'Vote down' %>
-    <% end %>
-  </li>
-
-  <% if translation.approved %>
-    <li>
-    <%= form_for(translation, 
-                 :url => otwtranslation_confirm_disapprove_translation_path(translation),
-                 :html => {:method => :get},
-                 :remote => true ) do |f| %>
-      <%= f.submit 'Disapprove' %>
-    <% end %>
-    </li>
-  <% else %>
-    <li>
-    <%= form_for(translation, 
-                 :url => otwtranslation_approve_translation_path(translation), 
-                 :html => { :method => :post },
-                 :remote => true ) do |f| %>
-      <%= f.submit 'Approve' %>
-    <% end %>
-    </li>
-    <li>
-    <%= form_for(translation, 
-                 :url => otwtranslation_edit_translation_path(translation), 
-                 :html => { :method => :get },
-                 :remote => true) do |f| %>
-      <%= f.submit 'Edit' %>
-    <% end %>
-    </li>
-    <li>
-    <%= form_for(translation, 
-                 :url => otwtranslation_confirm_destroy_translation_path(translation), 
-                 :html => { :method => :get },
-                 :remote => true ) do |f| %>
-      <%= f.submit 'Delete' %>
-    <% end %>
-    </li>
-  <% end %>    
-</ul>
-

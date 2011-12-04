@@ -10,12 +10,12 @@ Feature: Translation phrases
     And I have selected the language Deutsch
     And I have an assignment for Deutsch
 
-    When I go to the assignment table
-    Then I should see the heading "Assignment Table"
+    When I go to the assignments page
+    Then I should see the heading "Assignments"
     And I should see 1 assignment
 
     When I select the language Nederlands
-    And I go to the assignment table
+    And I go to the assignments page
     Then I should see 0 assignments
 
 
@@ -25,7 +25,7 @@ Feature: Translation phrases
     And I have the user "Dean"
     And I have selected the language Deutsch
     
-    When I go to the assignment table
+    When I go to the assignments page
     And I press "Add assignment"
     Then I should see the heading "Add Assignment"
 
@@ -42,7 +42,7 @@ Feature: Translation phrases
     And I should see the assignee "Sam"
     And I should see the assignee "Dean"
     
-    When I go to the assignment table
+    When I go to the assignments page
     Then I should see 1 assignment
 
 
@@ -52,7 +52,7 @@ Feature: Translation phrases
     And I have the user "Dean"
     And I have selected the language Deutsch
     
-    When I go to the assignment table
+    When I go to the assignments page
     And I press "Add assignment"
     Then I should see the heading "Add Assignment"
 
@@ -73,7 +73,7 @@ Feature: Translation phrases
     And I should see the assignee "Sam"
     And I should see the assignee "Dean"
     
-    When I go to the assignment table
+    When I go to the assignments page
     Then I should see 1 assignment
 
 
@@ -83,7 +83,7 @@ Feature: Translation phrases
     And I have the user "Dean"
     And I have selected the language Deutsch
     
-    When I go to the assignment table
+    When I go to the assignments page
     And I press "Add assignment"
     Then I should see the heading "Add Assignment"
 
@@ -104,7 +104,7 @@ Feature: Translation phrases
     And I should see the assignee "Sam"
     And I should see the assignee "Dean"
     
-    When I go to the assignment table
+    When I go to the assignments page
     Then I should see 1 assignment
 
 
@@ -113,12 +113,12 @@ Feature: Translation phrases
     And I have selected the language Deutsch
     And I have an assignment for Deutsch
     
-    When I go to the assignment table
-    And I press "Delete" within "#assignment_navigation"
+    When I go to the assignments page
+    And I press "Delete" within ".assignment.blurb"
     Then I should see "Are you sure"
 
     When I press "Delete"
-    Then I should see the heading "Assignment Table"
+    Then I should see the heading "Assignments"
     And I should see 0 assignments
 
 
@@ -128,10 +128,10 @@ Feature: Translation phrases
     And I have selected the language Deutsch
     And I have an assignment for Deutsch
     
-    When I go to the assignment table
-    And I press "Delete" within "#assignment_navigation"
+    When I go to the assignments page
+    And I press "Delete" within ".assignment.blurb"
     And I confirm the popup
-    Then I should see the heading "Assignment Table"
+    Then I should see the heading "Assignments"
     And I should see 0 assignments
 
 
@@ -175,7 +175,7 @@ Feature: Translation phrases
     And I have the assignees "Xena"
 
     When I go to the assignment page
-    And I press "Delete" within ".assignment_part"
+    And I press "Delete" within ".assignment-part"
     Then I should see "Are you sure"
 
     When I press "Delete"
@@ -191,7 +191,7 @@ Feature: Translation phrases
     And I have the assignees "Xena"
 
     When I go to the assignment page
-    And I press "Delete" within ".assignment_part"
+    And I press "Delete" within ".assignment-part"
     And I confirm the popup
     Then I should see the heading "Show Assignment"
     And I should not see the assignee "Xena"
@@ -328,7 +328,7 @@ Feature: Translation phrases
     Given I am a translation admin
     And I have selected the language Deutsch
     
-    When I go to the assignment table
+    When I go to the assignments page
     And I press "Add assignment"
     And I fill in "Assign to:" with "Sam, Dean"
     And I press "Add assignment"

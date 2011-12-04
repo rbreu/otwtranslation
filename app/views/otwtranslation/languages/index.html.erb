@@ -1,58 +1,59 @@
-<!--Descriptive page name and system messages, descriptions, and instructions.-->
-<h2><%= ts("Language Table") %></h2>
-<p><%= "(Statistics will update every #{OtwtranslationConfig.STATS_CACHE_EXPIRY} minutes.)" %></p>
-<!--end descriptions-->
+<div class="languages">
+  <!--Descriptive page name and system messages, descriptions, and instructions.-->
+  <h2 class="heading"><%= ts("Languages") %></h2>
+  <!--end descriptions-->
 
-<!--navigation, sorting and actions-->
-<p class="translation navigation" id="add_language">
-    <%= link_to(ts("Add language"), otwtranslation_new_language_path) %>
-</p>
-<!--/nav-->
+  <!--navigation, sorting and actions-->
+  <p>
+    <%= link_to(ts("Add language"), otwtranslation_new_language_path, :class => "action", :role => "button") %>
+  </p>
+  <!--/nav-->
 
-<% will_paginate(@languages, :params => {:controller => otwtranslation_languages_path }) %>
+  <p><%= "(Statistics will update every #{OtwtranslationConfig.STATS_CACHE_EXPIRY} minutes.)" %></p>
 
-<!--main content-->
-<table id="otwtranslation_languages" summary="please summarise">
-	<caption><!--please briefly label--></caption>
-  <thead>
-	<tr>
-    <th scope="col"><%= ts("Short") %></th>
-    <th scope="col"><%= ts("Name") %></th>
-    <th scope="col"><%= ts("Right to left?") %>
-    <th scope="col"><%= ts("Translation visible?") %>
-    <th scope="col"><%= ts("Translated") %>
-    <th scope="col"><%= ts("Approved") %>
-  </tr>
-</thead>
- <tbody>
-	<% @languages.each do |language| %>
-	<% cache("otwtranslation-language-index-#{language.id}",
-	      :expires_in => OtwtranslationConfig.STATS_CACHE_EXPIRY.to_f.minutes) do %>
-	<tr>
-    <td class="short"><%= language.short %></td>
-    <th class="language" scope="row">
-      <%= link_to(language.name, otwtranslation_language_path(language)) %>
-    </th>
-    <td class="direction">
-      <%= language.right_to_left? ? "&#x2713;".html_safe : "" %>
-    </td>
-    <td class="visible">
-      <%= language.translation_visible? ? "&#x2713;".html_safe : "" %>
-    </td>
-    <td class="translated">
-      <%= number_to_percentage language.percentage_translated, :precision => 2 %>
-    </td>
-    <td class="approved">
-      <%= number_to_percentage language.percentage_approved, :precision => 2 %>
-    </td>
-  </tr>
+  <% will_paginate(@languages, :params => {:controller => otwtranslation_languages_path }) %>
 
-<% end %><!-- end of cache -->
-</tbody>
-<% end %>
-</table>
-
-<% will_paginate(@languages, :params => {:controller => otwtranslation_languages_path }) %>
-
-
-
+  <!--main content-->
+  <table id="otwtranslation_languages" summary="please summarise">
+    <caption><!--please briefly label--></caption>
+    <thead>
+      <tr>
+	<th scope="col"><%= ts("Short") %></th>
+	<th scope="col"><%= ts("Name") %></th>
+	<th scope="col"><%= ts("Right to left?") %>
+	<th scope="col"><%= ts("Translation visible?") %>
+	<th scope="col"><%= ts("Translated") %>
+	<th scope="col"><%= ts("Approved") %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @languages.each do |language| %>
+      <% cache("otwtranslation-language-index-#{language.id}",
+	 :expires_in => OtwtranslationConfig.STATS_CACHE_EXPIRY.to_f.minutes) do %>
+      <tr>
+	<td class="short"><%= language.short %></td>
+	<th class="language" scope="row">
+	  <%= link_to(language.name, otwtranslation_language_path(language)) %>
+	</th>
+	<td class="direction">
+	  <%= language.right_to_left? ? "&#x2713;".html_safe : "" %>
+	</td>
+	<td class="visible">
+	  <%= language.translation_visible? ? "&#x2713;".html_safe : "" %>
+	</td>
+	<td class="translated">
+	  <%= number_to_percentage language.percentage_translated, :precision => 2 %>
+	</td>
+	<td class="approved">
+	  <%= number_to_percentage language.percentage_approved, :precision => 2 %>
+	</td>
+      </tr>
+      
+      <% end %><!-- end of cache -->
+    </tbody>
+    <% end %>
+  </table>
+  
+  <% will_paginate(@languages, :params => {:controller => otwtranslation_languages_path }) %>
+  
+</div>

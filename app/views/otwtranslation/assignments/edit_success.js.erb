@@ -1,11 +1,21 @@
 // Replace edit form with navigation bar
 $("form#otwtranslation_assignment").replaceWith(
   "<%= escape_javascript(render("navigation", 
-                         :assignment => @assignment, :on_show => true)) %>")
+                         :assignment => @assignment, :on_show => false)) %>");
 
-// Replace soure and description
-<% source = @assignment.source.nil? ? "" : @assignment.source.controller_action %>
-$("dl#otwtranslation_assignment dd.source").html("<%= escape_javascript(source) %>")
+// Replace soure and description on #show
+$("dl.assignment dd.source").html("<%= escape_javascript(@assignment.source.try(:controller_action)) %>");
 
-$("dl#otwtranslation_assignment dd.description").html(
-  "<%= escape_javascript(raw sanitize_field(@assignment, :description)) %>")
+$("dl.assignment dd.description").html(
+  "<%= escape_javascript(raw sanitize_field(@assignment, :description)) %>");
+
+// Replace source and description on #index
+
+<% if @assignment.source %>
+$("li#assignment_<%= @assignment.id %> .heading.source").html(
+  "<%= escape_javascript(link_to(@assignment.source.controller_action, otwtranslation_source_path(@assignment.source)))%>");
+<% else %>
+  $("li#assignment_<%= @assignment.id %> .heading.source").html("");
+<% end %>
+
+$("li#assignment_<%= @assignment.id %> .userstuff.description").html("<%= escape_javascript(raw sanitize_field(@assignment, :description)) %>");

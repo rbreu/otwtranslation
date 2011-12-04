@@ -22,13 +22,13 @@ When /^I confirm the popup$/ do
   confirm.accept
 end
 
-When /^I don't confirm the popup$/ do
+When /^I don't confirm the popup$/ do #'
   confirm = page.driver.browser.switch_to.alert
   confirm.dismiss
 end
 
 Then /^I should see the heading "([^"]*)"$/ do |text|
-  step "I should see \"#{text}\" within \"h2\""
+  page.should have_css('.heading', :text => Regexp.new(text))
 end
 
 

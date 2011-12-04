@@ -1,6 +1,6 @@
 // Replace the translation form with the updated translation
 $("li#translation<%= @translation.id %> div.translation").replaceWith(
-    "<%= escape_javascript(render("translation", :translation => @translation)) %>")
+    "<%= escape_javascript(render("blurb", :translation => @translation)) %>")
 
 // Replace the inline translation marked phrase 
 $("span#otwtranslation_phrase_<%= @translation.phrase_key %>").html(

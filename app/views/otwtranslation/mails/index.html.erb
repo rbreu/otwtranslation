@@ -1,13 +1,16 @@
-<h2>Mail Index</h2>
+<div class="mails">
+  <h2 class="heading">Mails</h2>
 
-<%= will_paginate(@paths, :params => {:controller => otwtranslation_mails_path }) %>
+  <%= will_paginate(@paths, :params => {:controller => otwtranslation_mails_path }) %>
 
-<ul class="otwtranslation-mails">
-<% @paths.each_with_index do |path, i| %>
-  <li>
-    <%= link_to File.basename(path), otwtranslation_mail_path(i) %>
-  </li>
-<% end %>
-</ul>
+  <ul class="mail index group">
+    <% @paths.each_with_index do |path, i| %>
+    <li>
+      <%= link_to File.basename(path), otwtranslation_mail_path(i) %>
+    </li>
+    <% end %>
+  </ul>
+  
+  <%= will_paginate(@paths, :params => {:controller => otwtranslation_mails_path }) %>
 
-<%= will_paginate(@paths, :params => {:controller => otwtranslation_mails_path }) %>
+</div>

@@ -1,29 +1,19 @@
-<h3>Are you sure you want to delete the following assignment?</h3>
+<div class="assignment">
+  <h3 class="headiing">Are you sure you want to delete the following assignment?</h3>
 
-<dl>
-  <dt class="type">Source:</dt>
-  <dd class="type"><%= @assignment.source_controller_action %></dd>
+  <%= render("meta", :assignment => @assignment) %>
 
-  <dt class="description">Description:</dt>
-  <dd class="description"><%= raw sanitize_field(@assignment, :description) %></dd>
-
-  <dt class="completed">Completed:</dt>
-  <dd class="completed"><%= @assignment.completed? %></dd>
-
-  <dt class="assignees">Assigned to:</dt>
-  <dd class="assignees"><%= @assignment.assignees_names %>
-</dl>
-
-<h3 class="landmark">Assignment Actions</h3>
-<ul class="navigation">
-  <li>
-    <%= link_to 'Cancel', otwtranslation_assignment_path(@assignment) %>
-  </li>
-  <li>
-    <%= form_for(@assignment, 
-                 :url => otwtranslation_destroy_assignment_path(@assignment), 
-                 :html => { :method => :delete } ) do |f| %>
+  <h3 class="landmark">Assignment Actions</h3>
+  <ul class="assignment navigation actions">
+    <li>
+      <%= link_to 'Cancel', otwtranslation_assignment_path(@assignment) %>
+    </li>
+    <li>
+      <%= form_for(@assignment, 
+          :url => otwtranslation_destroy_assignment_path(@assignment), 
+          :html => { :method => :delete } ) do |f| %>
       <%= f.submit 'Delete' %>
-    <% end %>
-  </li>
-</ul>
+      <% end %>
+    </li>
+  </ul>
+</div>

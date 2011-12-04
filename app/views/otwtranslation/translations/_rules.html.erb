@@ -1,0 +1,21 @@
+<div class="rules">
+  <!--<h4 class="heading">Rules:</h6> -->
+  <% if rules.blank? %>
+    <p class="rules">Translation applies to all rules.</p>
+  <% else %>
+  <dl class="rules">
+    <% rules.each do |rule_id| %>
+      <dt class="rule" id="<%= rule_id %>">
+        <% rule = Otwtranslation::ContextRule.find(rule_id) %>
+	<%= rule.display_type %>
+	<% rule.conditions.each do |condition| %>
+	  <dd class="condition">
+	    <%= condition[0] %> 
+            <%= Otwtranslation::ParameterParser.stringify(condition[1]) %>
+          </dd>
+	<% end %>
+      </dt>
+    <% end %>  
+  </dl>
+  <% end %>
+</div>

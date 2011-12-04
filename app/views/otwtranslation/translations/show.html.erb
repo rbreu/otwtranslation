@@ -1,28 +1,24 @@
 <!--Descriptive page name and system messages, descriptions, and instructions.-->
-<h2><%= ts("Show Translation") %></h2>
-<!--end descriptions-->
+
+<div class="translation">
+  <h2 class="heading"><%= ts("Show Translation") %></h2>
+  <!--end descriptions-->
 
 
-<!--Subnavigation, sorting and actions.-->
-<!--end navigation-->
+  <!--Subnavigation, sorting and actions.-->
+  <!--end navigation-->
+
+  <!--main content-->
+  <%= render("otwtranslation/translations/translation", :translation => @translation) %>
+
+  <div class="clear"></div>
+
+  <h3 class="heading">For phrase</h3>
+
+  <%= render("/otwtranslation/phrases/phrase", 
+      :phrase => @phrase, :sources => @sources,
+  :params => { :controller => otwtranslation_translation_path(@translation), :action => "" }) %>
 
 
-<!--main content-->
-<ol id="otwtranslation_translations">
-  <li id="translation<%= @translation.id %>" class="even">
-    <%= render("otwtranslation/translations/translation", 
-               :translation => @translation) %>
-  </li>
-</ol>
-
-<h3>For phrase</h3>
-
-<%= render("/otwtranslation/phrases/phrase", 
-           :phrase => @phrase, :sources => @sources,
-           :params => { :controller => otwtranslation_translation_path(@translation), :action => "" }) %>
-
-
-<h3>Comments</h3>
-
-<%= render 'comments/commentable', :commentable => @translation %>
-
+  <%= render 'comments/commentable', :commentable => @translation %>
+</div>

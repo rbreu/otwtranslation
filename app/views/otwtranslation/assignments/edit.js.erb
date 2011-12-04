@@ -1,4 +1,4 @@
-$("#assignment_navigation").replaceWith(
+$("#assignment_navigation_<%= @assignment.id %>").replaceWith(
   "<%= escape_javascript(render("edit_form", 
                         :assignment => @assignment,
                         :source_controller_action => @source_controller_action)) %>")

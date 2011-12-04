@@ -8,28 +8,8 @@
 
 
   <!--main content-->
-  <div class="wrapper">
-    <dl class="assignment meta group">
+  <%= render("meta", :assignment => @assignment) %>
 
-      <dt class="source">Source:</dt>
-      <dd class="source">
-	<% unless @assignment.source_controller_action.blank? %>
-	<%= link_to(@assignment.source_controller_action,
-            otwtranslation_source_path(@assignment.source)) %>
-	<% end %>
-      </dd>
-    
-      <dt class="description">Description:</dt>
-      <dd class="description"><%= raw sanitize_field(@assignment, :description) %></dd>
-    
-      <dt class="activated">Activated:</dt>
-      <dd class="activated"><%= @assignment.activated ? "yes" : "no" %></dd>
-    
-      <dt class="completed">Completed:</dt>
-      <dd class="completed"><%= @assignment.completed? ? "yes" : "no" %></dd>
-    </dl>
-  </div>
-  
   <%= render("navigation", :assignment => @assignment, :on_show => true) %>
 
   <div class="assignment-part listbox group">

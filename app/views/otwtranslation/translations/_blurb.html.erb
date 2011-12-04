@@ -1,0 +1,49 @@
+<!-- BACK END: is this a heading: on a summary of the page contents, ought this show up?-->
+
+<div class="header module">
+<ul class="required-tags">
+  <li><span class="category-none category"></span></li>
+  <li><span class="rating-notrated rating"></span></li>
+  
+  <% if translation.rules.blank? %>
+    <li>
+      <span class="warning-no warnings" title="Translation for all Rules">
+	<span class="text">Translation for all Rules</span>
+      </span>
+    </li>
+  <% else %>
+    <li>
+      <span class="warning-yes warnings" title="Translation for Specific Rules">
+	<span class="text">Translation for Specific Rules</span>
+      </span>
+    </li>
+  <% end %>
+
+  <% if translation.approved %>
+    <li>
+      <span class="complete-yes iswip" title="Approved Translation">
+        <span class="text">Approved Translation</span>
+      </span>
+    </li>
+  <% else %>
+    <li><span class="complete-no iswip"></span></li>
+  <% end %>
+
+</ul>
+
+  
+  <p class="datetime editor">
+    Last edited on <%= translation.updated_at.to_date %> by
+    <%= translation.last_editor.try(:login) %>
+  </p>
+</div>
+
+<a href="<%= otwtranslation_translation_path(translation) %>">
+  <p class="label"><%= translation.label %></p>
+</a>
+
+<%= render("/otwtranslation/translations/rules", :rules => translation.rules) %>
+
+<%= render("/otwtranslation/translations/stats", :translation => translation) %>
+
+<%= render("/otwtranslation/translations/actions", :translation => translation) %>

@@ -24,9 +24,9 @@ end
 
 Then /^I should see (\d+) assignments?$/ do |count|
   if count.to_i == 0
-    page.should_not have_selector('tr.assignment')
+    page.should_not have_selector('li.assignment')
   else
-    page.should have_selector('tr.assignment', :count => count.to_i)
+    page.should have_selector('li.assignment', :count => count.to_i)
   end
 end
 
@@ -39,7 +39,7 @@ Then /^I should see the assignment source "([^"]*)"$/ do |source|
 end
 
 Then /^I should see the assignment part status "([^"]*)"$/ do |status|
-  page.should have_selector('dd.status', :text => status)
+  page.should have_selector(".iswip.complete-no")
 end
 
 Then /^I should see the activated status "([^"]*)"$/ do |activated|
@@ -47,7 +47,7 @@ Then /^I should see the activated status "([^"]*)"$/ do |activated|
 end
 
 Then /^I should see the assignee "([^"]*)"$/ do |assignee|
-  page.should have_selector('p.assignee', :text => assignee)
+  page.should have_selector('.heading.assignee', :text => Regexp.new(assignee))
 end
 
 Then /^I should not see the assignee "([^"]*)"$/ do |assignee|
