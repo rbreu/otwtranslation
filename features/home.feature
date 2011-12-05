@@ -29,9 +29,9 @@ Feature: Translation home page
 
     When I go to the home page
     And I follow "Enable Translation Tools"
-    Then I should see "Source: home#index" in the header
+    Then I should see "home#index" in the header
 
-    When I follow "Source: home#index"
+    When I follow "home#index"
     Then I should see the heading "Show Source"
     And I should see the source action "home#index"
 

@@ -1,5 +1,5 @@
 Then /^I should see the source action "([^"]*)"$/ do |action|
-  page.should have_selector('td.controller_action, dd.action', :text => action)
+  page.should have_selector('.controller-action', :text => action)
 end
 
 Then /^I should see the source url "([^"]*)"$/ do |url|

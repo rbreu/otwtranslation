@@ -34,7 +34,7 @@ Then /^I should not see marked phrases$/ do
 end
 
 Then /^I should see the translation "([^"]*)"$/ do |translation|
-  page.should have_selector('p.label', :text => translation)
+  page.should have_selector('p.label, dd.label', :text => translation)
 end
 
 Then /^I should not see the translation "([^"]*)"$/ do |translation|
@@ -62,12 +62,10 @@ Then /^I should see the translation rule "([^"]*)"$/ do |rule|
 end
 
 Then /^I should see approved set to "([^"]*)"$/ do |approved|
-  begin
+  if page.has_selector?('dd.approved')
     page.should have_selector('dd.approved', :text => approved)
-  rescue Selenium::WebDriver::Error::ObsoleteElementError
-    # ajax call took to long to finish, try again
-    sleep 1
-    page.should have_selector('dd.approved', :text => approved)
+  else
+    page.should have_selector(".iswip.complete-#{approved.downcase}")
   end
 end
 

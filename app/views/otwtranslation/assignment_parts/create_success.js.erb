@@ -1,5 +1,11 @@
-// replace form with navigation
-$("form#otwtranslation_assignment_part").replaceWith(
+// replace form with navigation on #show
+$("form#assignment_part_show").replaceWith(
+  "<%= escape_javascript(
+         render("otwtranslation/assignments/navigation", 
+                :assignment => @assignment, :on_show => true)) %>");
+
+// replace form with navigation on #index
+$("form#assignment_part").replaceWith(
   "<%= escape_javascript(
          render("otwtranslation/assignments/navigation", 
                 :assignment => @assignment, :on_show => false)) %>");

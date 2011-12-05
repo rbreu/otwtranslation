@@ -58,7 +58,7 @@
     <% @rules.each do |rule| %>
       <li class="rule blurb group">
 	<div class="header module">
-	  <h4 class="heading"><%= rule.display_type %> <%= rule.position %></h4>
+	  <h4 class="heading ruletype"><%= rule.display_type %> <%= rule.position %></h4>
 	</div>
 
 	<blockquote class="userstuff description" title="description">
@@ -66,7 +66,7 @@
 	</blockquote>
 
 	<h5 class="heading">Conditions:</h5>
-	<ol>
+	<ol class="rule-conditions">
 	  <% rule.conditions.each do |condition| %>
 	    <li>
 	      <%= condition[0] %> 
@@ -76,7 +76,7 @@
 	</ol>
 	
 	<h5 class="heading">Actions:</h5>
-	<ol>
+	<ol class="rule-actions">
 	  <% rule.actions.each do |action| %>
 	    <li>
 	      <%= action[0] %> 

@@ -1,26 +1,27 @@
-<!--Descriptive page name and system messages, descriptions, and instructions.-->
-<h2><%= ts("Add Language") %></h2>
-<!--end descriptions-->
-
-<!--Subnavigation, sorting and actions.-->
-<!--end navigation-->
-
-<!--main content-->
-<%= form_for(@language, :url => otwtranslation_post_language_path) do |f| %>
+<div class="language">
+  <!--Descriptive page name and system messages, descriptions, and instructions.-->
+  <h2 class="heading"><%= ts("Add Language") %></h2>
+  <!--end descriptions-->
+  
+  <!--Subnavigation, sorting and actions.-->
+  <!--end navigation-->
+  
+  <!--main content-->
+  <%= form_for(@language, :url => otwtranslation_post_language_path) do |f| %>
   <dl>
     <dt><%= f.label(:short, ts("Short:"))%></dt>
     <dd><%= f.text_field :short %></dd>
-
+    
     <dt><%= f.label(:name, ts("Name:"))%></dt>
     <dd><%= f.text_field :name %></dd>
-
+    
     <dt><%= f.label(:right_to_left, ts("Right to left?"))%></dt>
     <dd><%= f.check_box :right_to_left %></dd>
-
+    
     <dt><%= f.label(:translation_visible, ts("Translation visible?"))%></dt>
     <dd><%= f.check_box :translation_visible %></dd>
   </dl>
   <p class="submit"><%= f.submit ts("Add language") %></p>
-
-<% end %>
-    
+  
+  <% end %>
+</end>

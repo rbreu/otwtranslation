@@ -7,8 +7,8 @@ Feature: Translation sources
     Given someone has visited the hello world page
     And I am a translator
 
-    When I go to the source table
-    Then I should see the heading "Source Table"
+    When I go to the sources page
+    Then I should see the heading "Sources"
     And I should see the source action "hello#world"
 
     When I follow "hello#world"

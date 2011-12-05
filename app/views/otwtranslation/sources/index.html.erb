@@ -1,64 +1,65 @@
-<!--Descriptive page name and system messages, descriptions, and instructions.-->
-<h2><%= ts("Source Table") %></h2>
-<!--end descriptions-->
+<div class="sources">
+  <!--Descriptive page name and system messages, descriptions, and instructions.-->
+  <h2 class="heading"><%= ts("Sources") %></h2>
+  <!--end descriptions-->
 
-<!--Subnavigation, sorting and actions.-->
-<!--end navigation-->
+  <!--Subnavigation, sorting and actions.-->
+  <!--end navigation-->
 
-<p><%= "(Statistics will update every #{OtwtranslationConfig.STATS_CACHE_EXPIRY} minutes.)" %></p>
+  <p><%= "(Statistics will update every #{OtwtranslationConfig.STATS_CACHE_EXPIRY} minutes.)" %></p>
 
-<%= will_paginate(@sources, :params => {:controller => otwtranslation_sources_path}) %>
+  <%= will_paginate(@sources, :params => {:controller => otwtranslation_sources_path}) %>
 
-<table id="otwtranslation_sources" summary="please summarise">
-	<caption><!--please briefly label--></caption>
-  <thead>
-	<tr>
-    <th><%= ts("Controller#Action") %></th>
-    <th><%= ts("URL") %></th>
-    <th><%= ts("Has phrases with current version?") %>
-    <th><%= ts("Has new phrases?") %>
-    <th><%= ts("Phrases") %>
-    <th><%= ts("Translated") %>
-    <th><%= ts("Approved") %>
-    <th><%= ts("Assignments") %>
-  </tr>
-</thead>
-<tbody>
-  <% @sources.each do |source| %>
-<% cache("otwtranslation-source-index-#{otwtranslation_language}-#{source.id}",
-      :expires_in => OtwtranslationConfig.STATS_CACHE_EXPIRY.to_f.minutes) do %>
-<tr>
-    <td class="controller_action">
-      <%= link_to(source.controller_action, otwtranslation_source_path(source)) %>
-    </td>
-    <td class="url">
-      <%= link_to(truncate(source.url), source.url) %>
-    </td>
-    <td class="current_version">
-      <%= source.has_phrases_with_current_version? ? "&#x2713;".html_safe : "" %>
-    </td>
-    <td class="new_phrases">
-      <%= source.has_new_phrases? ? "&#x2713;".html_safe : "" %>
-    </td>
-    <td class="phrases">
-      <%= source.phrases.size %>
-    </td>
-    <td class="translated">
-      <%= number_to_percentage(
-          source.percentage_translated_for(otwtranslation_language), :precision => 2) %>
-    </td>
-    <td class="approved">
-      <%= number_to_percentage(
-          source.percentage_approved_for(otwtranslation_language), :precision => 2) %>
-    </td>
-     <td class="approved">
-      <%= source.assignments.size %>
-    </td>
- </tr>
-<% end %><!-- end of cache -->
-<% end %>
-</tbody>
-</table>
-
-<%= will_paginate(@sources, :params => {:controller => otwtranslation_sources_path}) %>
-
+  <table id="otwtranslation_sources" summary="please summarise">
+    <caption><!--please briefly label--></caption>
+    <thead>
+      <tr>
+	<th><%= ts("Controller#Action") %></th>
+	<th><%= ts("URL") %></th>
+	<th><%= ts("Has phrases with current version?") %>
+	<th><%= ts("Has new phrases?") %>
+	<th><%= ts("Phrases") %>
+	<th><%= ts("Translated") %>
+	<th><%= ts("Approved") %>
+	<th><%= ts("Assignments") %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @sources.each do |source| %>
+      <% cache("otwtranslation-source-index-#{otwtranslation_language}-#{source.id}",
+	 :expires_in => OtwtranslationConfig.STATS_CACHE_EXPIRY.to_f.minutes) do %>
+      <tr>
+	<td class="controller-action">
+	  <%= link_to(source.controller_action, otwtranslation_source_path(source)) %>
+	</td>
+	<td class="url">
+	  <%= link_to(truncate(source.url), source.url) %>
+	</td>
+	<td class="current_version">
+	  <%= source.has_phrases_with_current_version? ? "&#x2713;".html_safe : "" %>
+	</td>
+	<td class="new_phrases">
+	  <%= source.has_new_phrases? ? "&#x2713;".html_safe : "" %>
+	</td>
+	<td class="phrases">
+	  <%= source.phrases.size %>
+	</td>
+	<td class="translated">
+	  <%= number_to_percentage(
+              source.percentage_translated_for(otwtranslation_language), :precision => 2) %>
+	</td>
+	<td class="approved">
+	  <%= number_to_percentage(
+              source.percentage_approved_for(otwtranslation_language), :precision => 2) %>
+	</td>
+	<td class="approved">
+	  <%= source.assignments.size %>
+	</td>
+      </tr>
+      <% end %><!-- end of cache -->
+      <% end %>
+    </tbody>
+  </table>
+  
+  <%= will_paginate(@sources, :params => {:controller => otwtranslation_sources_path}) %>
+</div>

@@ -1,8 +1,14 @@
-// Replace the translation form with the updated translation
-$("li#translation<%= @translation.id %> div.translation").replaceWith(
+// Replace the edit form with the updated translation on translation list
+$("li#translation<%= @translation.id %>").html(
     "<%= escape_javascript(render("blurb", :translation => @translation)) %>")
 
 // Replace the inline translation marked phrase 
 $("span#otwtranslation_phrase_<%= @translation.phrase_key %>").html(
     "<%= escape_javascript(@translation.label) %>")
 
+// Replace the edit form on #show with navigation bar
+$(".edit_otwtranslation_translation").replaceWith(
+    "<%= escape_javascript(render("actions", :translation => @translation)) %>")
+
+//Replace the translation label on #show
+$("dl.translation dd.label").html("<%= escape_javascript(@translation.label) %>")

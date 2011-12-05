@@ -1,19 +1,21 @@
-<h3>Are you sure you want to delete the following assignee?</h3>
+<div class="assignment">
+  <h3 class="heading">Are you sure you want to delete the following assignee?</h3>
 
-<div class="assignment_part">
-  <p class="assignee"><%= @part.position %>. <%= @part.assignee.login %></p>
-</div>
+  <div class="assignment_part">
+    <p class="assignee"><%= @part.position %>. <%= @part.assignee.login %></p>
+  </div>
 
-<h3 class="landmark">Assignment Part Actions</h3>
-<ul class="navigation">
-  <li>
-    <%= link_to 'Cancel', otwtranslation_assignment_path(@part.assignment) %>
-  </li>
-  <li>
-    <%= form_for(@part, 
-                 :url => otwtranslation_destroy_assignment_part_path(@apart), 
-                 :html => { :method => :delete } ) do |f| %>
+  <h3 class="landmark">Assignment Part Actions</h3>
+  <ul class="assignment-part navigation actions">
+    <li>
+      <%= link_to 'Cancel', otwtranslation_assignment_path(@part.assignment) %>
+    </li>
+    <li>
+      <%= form_for(@part, 
+          :url => otwtranslation_destroy_assignment_part_path(@apart), 
+      :html => { :method => :delete } ) do |f| %>
       <%= f.submit 'Delete' %>
-    <% end %>
-  </li>
-</ul>
+      <% end %>
+    </li>
+  </ul>
+</div>

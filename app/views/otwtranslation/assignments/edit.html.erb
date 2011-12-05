@@ -1,11 +1,15 @@
-<!--Descriptive page name and system messages, descriptions, and instructions.-->
-<h2>Edit Assignment</h2>
-<!--end descriptions-->
+<div class="assignment">
 
-<!--Subnavigation, sorting and actions.-->
-<!--end navigation-->
-<!--main content-->
-
-<%= render("edit_form", 
-           :assignment => @assignment,
-           :source_controller_action => @source_controller_action) %>
+  <!--Descriptive page name and system messages, descriptions, and instructions.-->
+  <h2 class="heading">Edit Assignment</h2>
+  <!--end descriptions-->
+  
+  <!--Subnavigation, sorting and actions.-->
+  <!--end navigation-->
+  <!--main content-->
+  
+  <%= render("edit_form", 
+      :assignment => @assignment,
+      :source_controller_action => @source_controller_action,
+      :on_show => false) %>
+</div>

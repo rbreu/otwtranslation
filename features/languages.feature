@@ -7,8 +7,8 @@ Feature: Languages
     Given I am a translation admin
     And I have the language "Deutsch" with short "de"
 
-    When I go to the language table
-    Then I should see the heading "Language Table"
+    When I go to the languages page
+    Then I should see the heading "Languages"
     And I should see the language name "Deutsch"
     And I should see the language short "de"
 
@@ -19,7 +19,7 @@ Feature: Languages
 
   Scenario: Add a language
     Given I am a translation admin
-    And I am on the language table
+    And I am on the languages page
 
     When I follow "Add language"
     Then I should see the heading "Add Language"

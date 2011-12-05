@@ -16,4 +16,4 @@
   <dd class="description"><%= raw sanitize_field(@assignment, :description) %></dd>
 </dl>
 
-<%= render("form", :assignment => @assignment, :part => @part) %>
+<%= render("form", :assignment => @assignment, :part => @part, :on_show => false) %>

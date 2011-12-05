@@ -1,11 +1,11 @@
 <%= form_for(translation, :url => otwtranslation_post_translation_path,
                           :remote => true) do |f| %>
   <dl>
-    <dt><%= f.label(:label, ts("Translation:"))%></dt>
+    <dt><%= f.label(:label, "Translation:")%></dt>
     <dd><%= f.text_area :label, :rows => 5 %></dd>
 
   </dl>
-  <ul class="navigation">
+  <ul class="navigation actions">
     <li><%= f.submit "Add translation" %></li>
     <% if Otwtranslation::ContextRule.rule_combinations(
            translation.phrase.label, otwtranslation_language).length > 1 %>

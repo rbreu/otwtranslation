@@ -1,5 +1,5 @@
 <%= form_tag(otwtranslation_update_assignment_path,
-             :method => "put", :id => "otwtranslation_assignment",
+             :method => "put", :id => "assignment#{on_show ? '_show' : ''}",
              :remote => true) do %>
   <dl>
     <dt><%= label_tag(:source_controller_action, "Source:") %></dt>

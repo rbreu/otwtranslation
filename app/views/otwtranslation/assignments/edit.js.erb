@@ -1,4 +1,14 @@
+// replace navigation bar with edit form on #show
+$("#assignment_navigation_show_<%= @assignment.id %>").replaceWith(
+  "<%= escape_javascript(render("edit_form", 
+                        :assignment => @assignment,
+                        :source_controller_action => @source_controller_action,
+			:on_show => true)) %>");
+
+// replace navigation bar with edit form on #index
+
 $("#assignment_navigation_<%= @assignment.id %>").replaceWith(
   "<%= escape_javascript(render("edit_form", 
                         :assignment => @assignment,
-                        :source_controller_action => @source_controller_action)) %>")
+                        :source_controller_action => @source_controller_action,
+			:on_show => false)) %>");

@@ -33,7 +33,7 @@ end
 
 
 Then /^I should see "([^"]*)" in the (header|footer)$/ do |text, selector|
-  step "I should see \"#{text}\" within \"##{selector}\""
+  page.should have_css("##{selector}", :text => Regexp.new(text))
 end
 
 

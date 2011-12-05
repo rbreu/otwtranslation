@@ -15,7 +15,7 @@ Feature: Translations
     Then I should see the translation "Hallo Welt!"
     But I should not see "Hoi wereld!"
 
-    When I follow "Show" 
+    When I follow "Hallo Welt!" 
     Then I should see the heading "Show Translation"
     Then I should see the translation "Hallo Welt!"
 
@@ -35,8 +35,8 @@ Feature: Translations
     Then I should see "Show Phrase"
     And I should see the phrase "Hello world!"
     And I should see the translation "Hallo Welt!"
-    And I should see approved set to "no"
-    And I should see the translation rule "All"
+    And I should see approved set to "No"
+    And I should see "Translation applies to all rules."
     And I should see that the translation is edited by me
 
 
@@ -53,7 +53,7 @@ Feature: Translations
     Then I should see "Show Phrase"
     And I should see the phrase "Hello world!"
     And I should see the translation "Hallo Welt!"
-    And I should see approved set to "no"
+    And I should see approved set to "No"
     And I should see that the translation is edited by me
 
 
@@ -79,9 +79,9 @@ Feature: Translations
     And I am a translator
  
     When I go to the phrase page
-    Then I should see approved set to "no"
+    Then I should see approved set to "No"
     When I press "Approve"
-    Then I should see approved set to "yes"
+    Then I should see approved set to "Yes"
     
   Scenario: Can't approve translations if approved translations exist
     Given I have the approved translation "Akzeptiere mich!" for "Approve me!" in Deutsch
@@ -92,7 +92,7 @@ Feature: Translations
     When I go to the phrase page
     And I press "Approve"
     Then I should see "Another translation is already approved."
-    And I should see approved set to "no"
+    And I should see approved set to "No"
     
   @javascript
   Scenario: Approve translations with javascript
@@ -101,9 +101,9 @@ Feature: Translations
     And I am a translator
  
     When I go to the phrase page
-    Then I should see approved set to "no"
+    Then I should see approved set to "No"
     When I press "Approve"
-    Then I should see approved set to "yes"
+    Then I should see approved set to "Yes"
     
   @javascript
   Scenario: Can't approve translations if approved translations exist with javascript
@@ -115,7 +115,7 @@ Feature: Translations
     When I go to the phrase page
     And I press "Approve"
     Then I should see "Another translation is already approved."
-    And I should see approved set to "no"
+    And I should see approved set to "No"
     
     
   Scenario: Disapprove translations
@@ -124,11 +124,11 @@ Feature: Translations
     And I am a translator
  
     When I go to the phrase page
-    Then I should see approved set to "yes"
+    Then I should see approved set to "Yes"
     When I press "Disapprove"
     Then I should see "Are you sure"
     When I press "Disapprove"
-    Then I should see approved set to "no"
+    Then I should see approved set to "No"
 
   @javascript
   Scenario: Disapprove translations with javascsript
@@ -137,10 +137,10 @@ Feature: Translations
     And I am a translator
  
     When I go to the phrase page
-    Then I should see approved set to "yes"
+    Then I should see approved set to "Yes"
     When I press "Disapprove"
     And I confirm the popup
-    Then I should see approved set to "no"
+    Then I should see approved set to "No"
 
   Scenario: Delete translations
     Given I have the translation "Lösch mich :(" for "Delete me :(" in Deutsch

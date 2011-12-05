@@ -1,20 +1,17 @@
-var li_length = $("ol#otwtranslation_translations > li").length
-var li_class = ""
-
-if (li_length == 0) {
-  $('p#otwtranslation_notranslations').replaceWith('<ol id="otwtranslation_translations" class="translation index"></ol>')
+// if there are no translation yet, make an empty list
+if ($("ul.translation.index > li").length == 0) {
+  $('p.notranslations').replaceWith('<ul class="translation index group"></ul>');
 }
 
-// append new translation to the list of translations
-<% @translations.each_with_index do |translation, i| %>
-li_class = (li_length + <%= i %> ) % 2 == 0 ? "even" : "odd"
-
-$("ol#otwtranslation_translations").append(
-   '<li id="translation<%= translation.id %>" class="' + li_class + '">' + 
+// append new translations to the list of translations
+<% @translations.each do |translation| %>
+$('ul.translation.index').append(
+   '<li id="translation<%= translation.id %>" class="translation blurb group">' + 
    '<%= escape_javascript(render("otwtranslation/translations/blurb", 
                                  :translation => translation)) %>' + 
-   '</li>')
+   '</li>');
 <% end %>
+
 
 // replace the form with an "add translation button"
 $("form#new_otwtranslation_translation").replaceWith(

@@ -1,3 +1,11 @@
-// replace button with form
+// replace navigation bar with form on #show
+$("#assignment_navigation_show_<%= @assignment.id %>").replaceWith(
+  "<%= escape_javascript(render("form", :assignment => @assignment, 
+                                        :part => @part,
+					:on_show => true)) %>");
+
+// replace navigation bar with form on #index
 $("#assignment_navigation_<%= @assignment.id %>").replaceWith(
-  "<%= escape_javascript(render("form", :assignment => @assignment, :part => @part)) %>")
+  "<%= escape_javascript(render("form", :assignment => @assignment, 
+                                        :part => @part,
+					:on_show => false)) %>");
