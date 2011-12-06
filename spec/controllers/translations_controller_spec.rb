@@ -275,10 +275,9 @@ describe Otwtranslation::TranslationsController, "GET confirm_disapprove" do
       assigns(:translation).should == @translation
     end
 
-    it "should assign a translation for JS" do
-      Otwtranslation::Translation.should_receive(:find).with(1)
+    it "should assign a translation_id for JS" do
       get :confirm_disapprove, :id => 1, :format => "js"
-      assigns(:translation).should == @translation
+      assigns(:translation_id).should == 1
     end
 
     it "should render the confirmation page for HTML" do
@@ -345,7 +344,7 @@ describe Otwtranslation::TranslationsController, "POST disapprove" do
       assigns(:translation).should == @translation
     end
 
-    it "should assign @translation for JS" do
+    it "should assign @translation_id for JS" do
       post :disapprove, :id => 1, :format => "js"
       assigns(:translation).should == @translation
     end
@@ -357,7 +356,7 @@ describe Otwtranslation::TranslationsController, "POST disapprove" do
 
     it "should render disapprove for JS" do
       post :disapprove, :id => 1, :format => "js"
-      response.should render_template("_translation")
+      response.should render_template("dis_approve")
     end
 
     context "when translation fails to save" do
