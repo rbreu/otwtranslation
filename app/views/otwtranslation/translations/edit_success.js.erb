@@ -7,7 +7,7 @@ $("span#otwtranslation_phrase_<%= @translation.phrase_key %>").html(
     "<%= escape_javascript(@translation.label) %>")
 
 // Replace the edit form on #show with navigation bar
-$(".edit_otwtranslation_translation").replaceWith(
+$("#edit_otwtranslation_translation_<%= @translation.id %>_form").replaceWith(
     "<%= escape_javascript(render("actions", :translation => @translation)) %>")
 
 //Replace the translation label on #show

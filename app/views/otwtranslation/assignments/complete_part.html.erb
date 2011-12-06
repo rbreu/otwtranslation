@@ -1,16 +1,17 @@
-<h3>Complete Assignment Part</h3>
+<div class="assignment">
+  <h3 class="heading">Complete Assignment Part</h3>
 
-<dl>
-  <dt class="type">Source:</dt>
-  <dd class="type"><%= @assignment.source_controller_action %></dd>
+  <dl>
+    <dt class="type">Source:</dt>
+    <dd class="type"><%= @assignment.source_controller_action %></dd>
+    
+    <dt class="description">Description:</dt>
+    <dd class="description"><%= raw sanitize_field(@assignment, :description) %></dd>
+  </dl>
 
-  <dt class="description">Description:</dt>
-  <dd class="description"><%= raw sanitize_field(@assignment, :description) %></dd>
-</dl>
+  <h3 class="landmark">Assignment Part Form</h3>
 
-<h3 class="landmark">Assignment Part Form</h3>
-
-<%= form_for(@part,
+  <%= form_for(@part,
              :url => otwtranslation_complete_assignment_part_path(@part),
              :html => {:method => :put}) do |f| %>
   <dl>
@@ -22,4 +23,5 @@
     </dd>
   </dl>
   <p class="submit"><%= f.submit 'Complete assignment part' %></p>
-<% end %>
+  <% end %>
+</div>

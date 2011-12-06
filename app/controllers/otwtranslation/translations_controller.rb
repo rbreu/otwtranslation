@@ -104,17 +104,20 @@ class Otwtranslation::TranslationsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to :back }
-      format.js
+      format.js { render 'dis_approve' }
     end
       
   end
 
 
   def confirm_disapprove
-    @translation = Otwtranslation::Translation.find(params[:id])
     respond_to do |format|
-      format.html
-      format.js
+      format.html do
+        @translation = Otwtranslation::Translation.find(params[:id])
+      end
+      format.js do
+        @translation_id = params[:id]
+      end
     end
   end
 
@@ -132,9 +135,7 @@ class Otwtranslation::TranslationsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to otwtranslation_phrase_path(@translation.phrase_key) }
-      # Have to spell out :partial here, no idea why:
-      format.js { render(:partial => "translation",
-                         :locals => { :translation => @translation } ) }
+      format.js { render 'dis_approve' }
 
     end
   end

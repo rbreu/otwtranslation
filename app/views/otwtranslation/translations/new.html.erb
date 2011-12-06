@@ -1,19 +1,21 @@
-<!--Descriptive page name and system messages, descriptions, and instructions.-->
-<h2><%= ts("Add Translation") %></h2>
-<!--end descriptions-->
+<div class="translation">
+  <!--Descriptive page name and system messages, descriptions, and instructions.-->
+  <h2 class="heading"><%= ts("Add Translation") %></h2>
+  <!--end descriptions-->
 
-<!--Subnavigation, sorting and actions.-->
-<!--end navigation-->
+  <!--Subnavigation, sorting and actions.-->
+  <!--end navigation-->
 
-<!--main content-->
+  <!--main content-->
 
-<%= render("/otwtranslation/phrases/phrase", 
+  <%= render("/otwtranslation/phrases/phrase", 
            :phrase => @phrase, :sources => @sources,
            :params => { :controller => otwtranslation_new_translation_path, :action => "" }) %>
 
-<%= render("new_form", :translation => @translation) %>
+  <%= render("new_form", :translation => @translation) %>
 
 
-<%= render("otwtranslation/translations/translations_list", 
+  <%= render("otwtranslation/translations/translations_list", 
            :translations => @existing_translations) %>
-<!--/main-->
+  <!--/main-->
+</div<

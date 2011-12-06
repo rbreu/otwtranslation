@@ -1,22 +1,5 @@
 if ( confirm("Are you sure you want disapprove this translation?") ) {
-  $.ajax({url: '<%= otwtranslation_disapprove_translation_path(@translation) + '.js'%>',
-          type: 'post',
-          dataType: 'html',
-          async: 'false',
-	  success: function(html) {
-	    $("li#translation<%= @translation.id %> div").replaceWith(html)
-	    $("span#otwtranslation_phrase_<%= @translation.phrase_key %>")
-              .removeClass('approved')
-              .addClass('translated');
-
-	      $("span#otwtranslation_phrase_<%= @translation.phrase_key %>").rightClick(function(event) {
-     	           otwtranslation_inline_translator(this)
-  	       }); 
-          },
-	  error: function(XMLHttpRequest, textStatus, errorThrown){
-              alert(textStatus + ": " + errorThrown);
-          } 
-        });
+   var $form = $('<%= form_for(@translation_id, :url => otwtranslation_disapprove_translation_path(@translation_id), :html => { :method => :post }, :remote => true ) do |f| %> <%= f.submit 'Disapprove' %> <% end %>')
+   $form.appendTo('body')
+   $form.submit()
 }
-
-

@@ -1,20 +1,22 @@
-<!--Descriptive page name and system messages, descriptions, and instructions.-->
-<h2><%= ts("Add Rule") %></h2>
-<!--end descriptions-->
+<div class="rules">
+  <!--Descriptive page name and system messages, descriptions, and instructions.-->
+  <h2 class="heading"><%= ts("Add Rule") %></h2>
+  <!--end descriptions-->
 
-<!--Subnavigation, sorting and actions.-->
-<!--end navigation-->
+  <!--Subnavigation, sorting and actions.-->
+  <!--end navigation-->
+  
+  <!--main content-->
 
-<!--main content-->
+  <%= form_for(@rule, :as => "otwtranslation_context_rule", :url => otwtranslation_post_rule_path) do |f| %>
 
-<%= form_for(@rule, :as => "otwtranslation_context_rule", :url => otwtranslation_post_rule_path) do |f| %>
-
-<dl>
-  <dt><%= f.label(:type, "Type:")%></dt>
-  <dd><%= f.select(:type, @rule.RULE_TYPES, :selected => @rule.display_type) %> <%= f.submit "Set type" %></dd>
-</dl>
+  <dl>
+    <dt><%= f.label(:type, "Type:")%></dt>
+    <dd><%= f.select(:type, @rule.RULE_TYPES, :selected => @rule.display_type) %> <%= f.submit "Set type" %></dd>
+  </dl>
 
   <%= render("otwtranslation/rules/form", :rule => @rule, :f => f) %>
   <p class="submit"><%= f.submit "Add rule" %></p>
-
-<% end %>
+  
+  <% end %>
+</div>

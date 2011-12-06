@@ -1,18 +1,19 @@
-<h3>Are you sure you want to delete the following translation?</h3>
+<div class="translation">
+  <h3 class="heading">Are you sure you want to delete the following translation?</h3>
 
-<p><%= @translation.label %></p>
+  <%= render("otwtranslation/translations/translation", :translation => @translation) %>
 
-<h3 class="landmark">Translation Actions</h3>
-<ul class="navigation">
-  <li>
-    <%= link_to 'Cancel', otwtranslation_phrase_path(@translation.phrase_key) %>
-  </li>
-  <li>
+  <h3 class="landmark">Translation Actions</h3>
+  <ul class="translation navigation actions">
+    <li>
+      <%= link_to 'Cancel', otwtranslation_phrase_path(@translation.phrase_key) %>
+    </li>
+    <li>
     <%= form_for(@translation, 
-                 :url => otwtranslation_destroy_translation_path(@translation), 
-                 :html => { :method => :delete } ) do |f| %>
-      <%= f.submit 'Delete' %>
+        :url => otwtranslation_destroy_translation_path(@translation), 
+        :html => { :method => :delete } ) do |f| %>
+    <%= f.submit 'Delete' %>
     <% end %>
-  </li>
-</ul>
-
+    </li>
+  </ul>
+</div>

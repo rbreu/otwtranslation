@@ -1,8 +1,8 @@
-<% if @translation.approved %>
-  $("li#translation<%= @translation.id %> div").replaceWith(
-      "<%= escape_javascript(render("otwtranslation/translations/blurb", 
-                                    :translation => @translation)) %>")
-<% end %>
+//for both approving and disapproving
+
+$("li#translation<%= @translation.id %>").html(
+    "<%= escape_javascript(render("otwtranslation/translations/blurb", 
+                                  :translation => @translation)) %>")
 
 $("span#otwtranslation_phrase_<%= @translation.phrase_key %>").replaceWith(
   '<%= escape_javascript(otwtranslation_decorated_translation(@translation.phrase_key)) %>')
