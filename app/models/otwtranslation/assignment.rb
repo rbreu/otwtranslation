@@ -14,7 +14,7 @@ class Otwtranslation::Assignment < ActiveRecord::Base
              :primary_key => 'short', :foreign_key => 'language_short')
 
   has_many(:assignees, :class_name => 'User', :foreign_key => 'user_id',
-           :through => :parts, :autosave => true)
+           :through => :parts, :autosave => true, :order => 'position')
 
   validates_presence_of :language
 

@@ -122,6 +122,16 @@ describe Otwtranslation::Assignment, "assignees" do
     assignment.destroy
     Otwtranslation::AssignmentPart.all.size.should == 0
   end
+
+  it "should handle reordering" do
+    assignment = Otwtranslation::Assignment.new(:language => @language)
+    assignment.set_assignees([@user1.login, @user2.login, @user3.login])
+    assignment.save
+    assignment.parts.first.move_lower
+    assignment.reload
+    assignment.parts.map {|p| p.assignee }.should == [@user2, @user1, @user3]
+    assignment.assignees.should == [@user2, @user1, @user3]
+  end
 end
 
 
