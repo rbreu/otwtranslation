@@ -1,5 +1,5 @@
 if ( confirm("Are you sure you want disapprove this translation?") ) {
-   var $form = $('<%= form_for(@translation_id, :url => otwtranslation_disapprove_translation_path(@translation_id), :html => { :method => :post }, :remote => true ) do |f| %> <%= f.submit 'Disapprove' %> <% end %>')
+   var $form = $('<%= button_to("Disapprove", otwtranslation_disapprove_translation_path(@translation_id), :remote => true, :method => :post) %>')
    $form.appendTo('body')
    $form.submit()
 }

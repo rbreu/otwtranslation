@@ -1,36 +1,20 @@
 <h6 class="landmark heading">Rule Actions</h6>
 <ul class="navigation actions" role="navigation">
   <li>
-    <%= form_for(rule, 
-                 :url => otwtranslation_edit_rule_path(rule),
-                 :html => {:method => :get}) do |f| %>
-      <%= f.submit 'Edit' %>
-    <% end %>
+    <%= button_to("Edit", otwtranslation_edit_rule_path(rule), :method => :get) %>
   </li>
 
   <li>
-    <%= form_for(rule, 
-                 :url => otwtranslation_move_up_rule_path(rule),
-                 :html => {:method => :get}) do |f| %>
-      <%= f.submit 'Move up' %>
-    <% end %>
+    <%= button_to("Move up", otwtranslation_move_up_rule_path(rule), :method => :get) %>
   </li>
 
   <li>
-    <%= form_for(rule, 
-                 :url => otwtranslation_move_down_rule_path(rule),
-                 :html => {:method => :get}) do |f| %>
-      <%= f.submit 'Move down' %>
-    <% end %>
+    <%= button_to("Move down", otwtranslation_move_down_rule_path(rule), :method => :get) %>
   </li>
 
   <li>
-    <%= form_for(rule,
-                 :url => otwtranslation_confirm_destroy_rule_path(rule), 
-                 :html => { :method => :get },
-                 :remote => true ) do |f| %>
-      <%= f.submit 'Delete' %>
-    <% end %>
+    <%= button_to("Delete", otwtranslation_confirm_destroy_rule_path(rule), 
+                 :remote => true, :method => :get) %>
   </li>
 </ul>
 

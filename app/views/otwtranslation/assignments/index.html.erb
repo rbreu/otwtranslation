@@ -10,11 +10,8 @@
 
   <ul class="assignment navigation actions" id="add_assignment">
     <li>
-      <%= form_for(:otwtranslation_assignment, 
-          :url => otwtranslation_new_assignment_path, 
-      :html => { :method => :get }) do |f| %>
-      <%= f.submit 'Add assignment' %>
-      <% end %>
+      <%= button_to("Add assignment", otwtranslation_new_assignment_path,
+                   :method => :get) %>
     </li>
   </ul>
 

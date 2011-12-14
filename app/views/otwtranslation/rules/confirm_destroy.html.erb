@@ -36,10 +36,7 @@
     <%= link_to 'Cancel', otwtranslation_language_path(@rule.language_short) %>
   </li>
   <li>
-    <%= form_for(@rule, 
-                 :url => otwtranslation_destroy_rule_path(@rule), 
-                 :html => { :method => :delete } ) do |f| %>
-      <%= f.submit 'Delete' %>
-    <% end %>
+    <%= button_to("Delete", otwtranslation_destroy_rule_path(@rule),
+                 :method => :delete) %>
   </li>
 </ul>

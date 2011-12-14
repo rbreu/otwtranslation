@@ -1,58 +1,37 @@
 <ul class="assignment navigation actions" id="assignment_navigation<%= on_show ? "_show" : "" %>_<%= assignment.id %>">
   <li>
     <% unless on_show %>
-      <%= form_for(assignment, 
-                   :url => otwtranslation_assignment_path(assignment),
-                   :html => {:method => :get}) do |f| %>
-        <%= f.submit 'Show' %>
-      <% end %>
+      <%= button_to("Show", otwtranslation_assignment_path(assignment),
+                   :method => :get) %>
     <% end %>
   </li>
 
   <li>
-    <%= form_for(assignment, 
-                 :url => otwtranslation_confirm_destroy_assignment_path(assignment),
-                 :html => {:method => :get},
-	         :remote => !on_show) do |f| %>
-      <%= f.submit 'Delete' %>
-    <% end %>
+    <%= button_to("Delete", otwtranslation_confirm_destroy_assignment_path(assignment),
+                 :remote => !on_show, :method => :get) %>
   </li>
 
   <% if assignment.activated %>
     <% if assignment.users_turn?(current_user) %>
       <li>  
-        <%= form_for(assignment, 
-              :url => otwtranslation_complete_part_path(assignment),
-              :html => {:method => :get}) do |f| %>
-        <%= f.submit 'Mark my part as completed' %>
-        <% end %>
+        <%= button_to("Mark my part as completed",
+                     otwtranslation_complete_part_path(assignment),
+                     :method => :get) %>
       </li>
     <% end %>
   <% else %>
   <li>
-    <%= form_for(:part, 
-                 :url => otwtranslation_new_assignment_part_path(assignment), 
-                 :html => { :method => :get },
-                 :remote => true ) do |f| %>
-      <%= f.submit 'Add assignee' %>
-    <% end %>
+    <%= button_to("Add assignee", otwtranslation_new_assignment_part_path(assignment),
+                 :remote => true, :method => :get) %>
   </li>
 
   <li>
-    <%= form_for(:assignment, 
-                 :url => otwtranslation_edit_assignment_path(assignment), 
-                 :html => { :method => :get },
-                 :remote => true ) do |f| %>
-      <%= f.submit 'Edit' %>
-    <% end %>
+    <%= button_to("Edit", otwtranslation_edit_assignment_path(assignment),
+                 :remote => true, :method => :get) %>
   </li>
   <li>
-    <%= form_for(:assignment, 
-                 :url => otwtranslation_activate_assignment_path(assignment), 
-                 :html => { :method => :put },
-                 :remote => true ) do |f| %>
-      <%= f.submit 'Activate' %>
-    <% end %>
+    <%= button_to("Activate", otwtranslation_activate_assignment_path(assignment),
+                 :remote => true, :method => :put) %>
   </li>
   <% end %>
 

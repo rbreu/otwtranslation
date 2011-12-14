@@ -1,7 +1,8 @@
 <h6 class="landmark heading">Translator Actions</h6>
 <ul class="translation navigation actions" role="navigation">
+  <%# can't use button_to here because we need the param :commit for voting %>
   <li>
-    <%= form_for(translation, 
+    <%= form_for(translation,
                  :url => otwtranslation_vote_translation_path(translation),
                  :html => {:method => :put},
                  :remote => true ) do |f| %>
@@ -9,7 +10,7 @@
     <% end %>
   </li>
   <li>
-    <%= form_for(translation, 
+    <%= form_for(translation,
                  :url => otwtranslation_vote_translation_path(translation),
                  :html => {:method => :put},
                  :remote => true ) do |f| %>
@@ -19,37 +20,21 @@
 
   <% if translation.approved %>
     <li>
-    <%= form_for(translation, 
-                 :url => otwtranslation_confirm_disapprove_translation_path(translation),
-                 :html => {:method => :get},
-                 :remote => true ) do |f| %>
-      <%= f.submit 'Disapprove' %>
-    <% end %>
+      <%= button_to("Disapprove", otwtranslation_confirm_disapprove_translation_path(translation),
+                   :remote => true, :method => :get) %>
     </li>
   <% else %>
     <li>
-    <%= form_for(translation, 
-                 :url => otwtranslation_approve_translation_path(translation), 
-                 :html => { :method => :post },
-                 :remote => true ) do |f| %>
-      <%= f.submit 'Approve' %>
-    <% end %>
+      <%= button_to("Approve", otwtranslation_approve_translation_path(translation),
+                   :remote => true, :method => :post) %>
     </li>
     <li>
-    <%= form_for(translation, 
-                 :url => otwtranslation_edit_translation_path(translation), 
-                 :html => { :method => :get },
-                 :remote => true) do |f| %>
-      <%= f.submit 'Edit' %>
-    <% end %>
+      <%= button_to("Edit", otwtranslation_edit_translation_path(translation),
+                   :remote => true, :method => :get) %>
     </li>
     <li>
-    <%= form_for(translation, 
-                 :url => otwtranslation_confirm_destroy_translation_path(translation), 
-                 :html => { :method => :get },
-                 :remote => true ) do |f| %>
-      <%= f.submit 'Delete' %>
-    <% end %>
+      <%= button_to("Delete", otwtranslation_confirm_destroy_translation_path(translation),
+                   :remote => true, :method => :get) %>
     </li>
   <% end %>    
 </ul>

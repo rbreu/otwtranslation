@@ -1,5 +1,5 @@
 if ( confirm("Are you sure you want delete this assignee?") ) {
-   var $form = $('<%= form_for(@part_id, :url => otwtranslation_destroy_assignment_part_path(@part_id), :html => { :method => :delete }) do |f| %> <%= f.submit 'Delete' %> <% end %>')
+   var $form = $('<%= button_to("Delete", otwtranslation_destroy_assignment_part_path(@part_id), :method => :delete) %>')
    $form.appendTo('body')
    $form.submit()
 }

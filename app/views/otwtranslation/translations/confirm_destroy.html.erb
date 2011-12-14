@@ -9,11 +9,8 @@
       <%= link_to 'Cancel', otwtranslation_phrase_path(@translation.phrase_key) %>
     </li>
     <li>
-    <%= form_for(@translation, 
-        :url => otwtranslation_destroy_translation_path(@translation), 
-        :html => { :method => :delete } ) do |f| %>
-    <%= f.submit 'Delete' %>
-    <% end %>
+      <%= button_to("Delete", otwtranslation_destroy_translation_path(@translation),
+                  :method => :delete) %>
     </li>
   </ul>
 </div>

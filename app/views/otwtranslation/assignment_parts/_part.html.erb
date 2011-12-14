@@ -30,26 +30,16 @@
     <h6 class="landmark heading">Assigner Actions</h3>
     <ul class="navigation actions" role="navigation">
       <li>
-        <%= form_for(part, 
-                     :url => otwtranslation_move_up_assignment_part_path(part),
-                     :html => {:method => :get} ) do |f| %>
-          <%= f.submit 'Move up' %>
-        <% end %>
+	<%= button_to("Move up", otwtranslation_move_up_assignment_part_path(part), 
+                      :method => :get) %>
       </li>
       <li>
-        <%= form_for(part, 
-                     :url => otwtranslation_move_down_assignment_part_path(part),
-                     :html => {:method => :get} ) do |f| %>
-          <%= f.submit 'Move down' %>
-        <% end %>
+	<%= button_to("Move down", otwtranslation_move_down_assignment_part_path(part), 
+                      :method => :get) %>
       </li>
       <li>
-        <%= form_for(part, 
-                     :url => otwtranslation_confirm_destroy_assignment_part_path(part),
-                     :html => {:method => :get},
-	             :remote => true ) do |f| %>
-          <%= f.submit 'Delete' %>
-        <% end %>
+	<%= button_to("Delete", otwtranslation_confirm_destroy_assignment_part_path(part),
+                      :remote => true, :method => :get) %>
       </li>
     </ul>
     <% end %>

@@ -11,11 +11,9 @@
       <%= link_to 'Cancel', otwtranslation_assignment_path(@part.assignment) %>
     </li>
     <li>
-      <%= form_for(@part, 
-          :url => otwtranslation_destroy_assignment_part_path(@apart), 
-      :html => { :method => :delete } ) do |f| %>
-      <%= f.submit 'Delete' %>
-      <% end %>
+      <%= button_to("Delete", otwtranslation_destroy_assignment_part_path(@apart), 
+                    :method => :delete) %>
+      
     </li>
   </ul>
 </div>

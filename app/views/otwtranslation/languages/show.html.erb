@@ -42,12 +42,10 @@
 
 <ul class="translation navigation" id="add_rule">
   <li>
-    <%= form_for(:otwtranslation_context_rule, 
-                 :url => otwtranslation_new_rule_path(@language), 
-                 :html => { :method => :get }) do |f| %>
-      <%= f.submit 'Add rule' %>
-    <% end %>
+    <%= button_to("Add rule", otwtranslation_new_rule_path(@language), 
+                  :method => :get) %>
   </li>
+
 </ul>
 
 
