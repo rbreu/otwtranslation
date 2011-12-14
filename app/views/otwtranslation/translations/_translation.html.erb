@@ -8,7 +8,7 @@
     <dt class="approved"><%= ts("Approved:") %></dt>
     <dd class="approved"><%= translation.approved ? "Yes" : "No" %></dd>
     <dt class="last_edited">Last edited:</dt>
-    <dd class="last_edited"><%= translation.updated_at.to_date %></dd>
+    <dd class="last_edited"><%= translation.edited_at.try(:to_date) %></dd>
     <dt class="last_editor">Last editor:</dt>
     <dd class="last_editor"><%= translation.last_editor.try(:login) %></dd>
     <dt class="votes">Votes:</dt>

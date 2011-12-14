@@ -33,7 +33,7 @@
 
   
   <p class="datetime editor">
-    Last edited on <%= translation.updated_at.to_date %> by
+    Last edited on <%= translation.edited_at.try(:to_date) %> by
     <%= translation.last_editor.try(:login) %>
   </p>
 </div>

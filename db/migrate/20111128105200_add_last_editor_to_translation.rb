@@ -4,6 +4,6 @@ class AddLastEditorToTranslation < ActiveRecord::Migration
   end
 
   def self.down
-    remove_column :otwtranslation_phrases, :last_editor_id
+    remove_column :otwtranslation_translations, :last_editor_id
   end
 end
