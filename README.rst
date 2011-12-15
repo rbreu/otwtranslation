@@ -98,7 +98,7 @@ want::
 To use the ts function in a place where no CSS markup for translators
 can be used (e.g. button labels)::
 
-  ts("Submit", :_decoration_off => true)
+  ts("Submit", :_decorate_off => true)
 
 To specify a user whose language settings should be used instead of
 current_user (useful for emails where the settings of the recipient

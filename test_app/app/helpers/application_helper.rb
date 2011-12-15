@@ -287,10 +287,10 @@ module ApplicationHelper
     {      
       :class => "autocomplete",
       :autocomplete_method => (method.is_a?(Array) ? method.to_json : "/autocomplete/#{method}"),
-      :autocomplete_hint_text => ts("Start typing for suggestions!"),
-      :autocomplete_no_results_text => ts("(No suggestions found)"),
+      :autocomplete_hint_text => ts("Start typing for suggestions!", :_decorate_off => true),
+      :autocomplete_no_results_text => ts("(No suggestions found)", :_decorate_off => true),
       :autocomplete_min_chars => 1,
-      :autocomplete_searching_text => ts("Searching...")
+      :autocomplete_searching_text => ts("Searching...", :_decorate_off => true)
     }.merge(options)
   end
 

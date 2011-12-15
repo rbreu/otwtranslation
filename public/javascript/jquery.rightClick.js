@@ -45,70 +45,70 @@
 //
 if(jQuery) (function(){
 	
-	$.extend($.fn, {
+	$j.extend($j.fn, {
 		
 		rightClick: function(handler) {
-			$(this).each( function() {
-				$(this).mousedown( function(e) {
+			$j(this).each( function() {
+				$j(this).mousedown( function(e) {
 					var evt = e;
-					$(this).mouseup( function() {
-						$(this).unbind('mouseup');
+					$j(this).mouseup( function() {
+						$j(this).unbind('mouseup');
 						if( evt.button == 2 ) {
-							handler.call( $(this), evt );
+							handler.call( $j(this), evt );
 							return false;
 						} else {
 							return true;
 						}
 					});
 				});
-				$(this)[0].oncontextmenu = function() {
+				$j(this)[0].oncontextmenu = function() {
 					return false;
 				}
 			});
-			return $(this);
+			return $j(this);
 		},		
 		
 		rightMouseDown: function(handler) {
-			$(this).each( function() {
-				$(this).mousedown( function(e) {
+			$j(this).each( function() {
+				$j(this).mousedown( function(e) {
 					if( e.button == 2 ) {
-						handler.call( $(this), e );
+						handler.call( $j(this), e );
 						return false;
 					} else {
 						return true;
 					}
 				});
-				$(this)[0].oncontextmenu = function() {
+				$j(this)[0].oncontextmenu = function() {
 					return false;
 				}
 			});
-			return $(this);
+			return $j(this);
 		},
 		
 		rightMouseUp: function(handler) {
-			$(this).each( function() {
-				$(this).mouseup( function(e) {
+			$j(this).each( function() {
+				$j(this).mouseup( function(e) {
 					if( e.button == 2 ) {
-						handler.call( $(this), e );
+						handler.call( $j(this), e );
 						return false;
 					} else {
 						return true;
 					}
 				});
-				$(this)[0].oncontextmenu = function() {
+				$j(this)[0].oncontextmenu = function() {
 					return false;
 				}
 			});
-			return $(this);
+			return $j(this);
 		},
 		
 		noContext: function() {
-			$(this).each( function() {
-				$(this)[0].oncontextmenu = function() {
+			$j(this).each( function() {
+				$j(this)[0].oncontextmenu = function() {
 					return false;
 				}
 			});
-			return $(this);
+			return $j(this);
 		}
 		
 	});

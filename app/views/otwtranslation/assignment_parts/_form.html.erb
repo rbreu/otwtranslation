@@ -4,8 +4,7 @@
   <dl>
     <dt><%= label_tag(:login, "Assignee's login:") %></dt>
     <% value = part.assignee.nil? ? "" : part.assignee.login %>
-    <dd><%= text_field_tag(:login, value) %>
-    </dd>
+    <dd><%= text_field_tag(:login, value, autocomplete_options("pseud")) %></dd>
   </dl>
   <p class="submit"><%= submit_tag "Add assignee" %></p>
 <% end %>

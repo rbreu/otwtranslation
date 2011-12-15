@@ -1,9 +1,9 @@
 // replace translation navigation bar on phrase page with edit form
-$("li#translation<%= @translation.id %> .navigation").replaceWith(
+$j("li#translation<%= @translation.id %> .navigation").replaceWith(
   "<%= escape_javascript(render("otwtranslation/translations/edit_form", 
                                 :translation => @translation)) %>")
 
 // replace translation navigation bar on phrase page with edit form
-$(".translations-show .translation.navigation").replaceWith(
+$j(".translations-show .translation.navigation").replaceWith(
   "<%= escape_javascript(render("otwtranslation/translations/edit_form", 
                                 :translation => @translation)) %>")

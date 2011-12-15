@@ -3,21 +3,21 @@ Show the inline translator popup
 */
 function otwtranslation_inline_translator(doc)
 {
-    var phrase_key = $(doc).attr('id').replace("otwtranslation_phrase_", "");
-    var ypos = $(doc).offset().top + $(doc).height() 
-	- $('#main').offset().top + 10;
-    var xpos = $(window).width() / 4;
+    var phrase_key = $j(doc).attr('id').replace("otwtranslation_phrase_", "");
+    var ypos = $j(doc).offset().top + $j(doc).height() 
+	- $j('#main').offset().top + 10;
+    var xpos = $j(window).width() / 4;
     
-    $.ajax({url: '/translation/phrases/' + phrase_key + '.js', 
+    $j.ajax({url: '/translation/phrases/' + phrase_key + '.js', 
 	    type: 'get',
 	    dataType: 'html',
 	    async: 'false',
 	    success: function(response) {
-		$('#main').append(response);
-		$('div.show.inline').css({top: ypos, left: xpos});
+		$j('#main').append(response);
+		$j('div.show.inline').css({top: ypos, left: xpos});
 		
-		$('div#inline-close').click(function() {
-		    $('div.show.inline').remove();
+		$j('div#inline-close').click(function() {
+		    $j('div.show.inline').remove();
 		}); 
 		
 	    },
@@ -28,8 +28,8 @@ function otwtranslation_inline_translator(doc)
 }
 
 
-$(document).ready(function() {
-  $('span.untranslated, span.translated, span.approved').rightClick(function(event) {
+$j(document).ready(function() {
+  $j('span.untranslated, span.translated, span.approved').rightClick(function(event) {
       otwtranslation_inline_translator(this);
   });
 })

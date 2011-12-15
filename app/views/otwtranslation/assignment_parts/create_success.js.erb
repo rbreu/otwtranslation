@@ -1,16 +1,16 @@
 // replace form with navigation on #show
-$("form#assignment_part_show").replaceWith(
+$j("form#assignment_part_show").replaceWith(
   "<%= escape_javascript(
          render("otwtranslation/assignments/navigation", 
                 :assignment => @assignment, :on_show => true)) %>");
 
 // replace form with navigation on #index
-$("form#assignment_part").replaceWith(
+$j("form#assignment_part").replaceWith(
   "<%= escape_javascript(
          render("otwtranslation/assignments/navigation", 
                 :assignment => @assignment, :on_show => false)) %>");
 
 // append new assignee to list
-$("ol.assignment-part").append(  
+$j("ol.assignment-part").append(  
   "<%= escape_javascript(render("otwtranslation/assignment_parts/part", 
            :assignment => @assignment, :part => @part)) %>")

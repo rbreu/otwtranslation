@@ -1,11 +1,11 @@
 // if there are no translation yet, make an empty list
-if ($("ul.translation.index > li").length == 0) {
-  $('p.notranslations').replaceWith('<ul class="translation index group"></ul>');
+if ($j("ul.translation.index > li").length == 0) {
+  $j('p.notranslations').replaceWith('<ul class="translation index group"></ul>');
 }
 
 // append new translations to the list of translations
 <% @translations.each do |translation| %>
-$('ul.translation.index').append(
+$j('ul.translation.index').append(
    '<li id="translation<%= translation.id %>" class="translation blurb group">' + 
    '<%= escape_javascript(render("otwtranslation/translations/blurb", 
                                  :translation => translation)) %>' + 
@@ -14,19 +14,19 @@ $('ul.translation.index').append(
 
 
 // replace the form with an "add translation button"
-$("form#new_otwtranslation_translation").replaceWith(
+$j("form#new_otwtranslation_translation").replaceWith(
       "<%= escape_javascript(render("otwtranslation/phrases/add_translation_button", 
                                     :phrase => @phrase_key)) %>")
  
 // replace phrases with appropirate translation
-$("span#otwtranslation_phrase_<%= @phrase_key %>").replaceWith(
+$j("span#otwtranslation_phrase_<%= @phrase_key %>").replaceWith(
   '<%= escape_javascript(otwtranslation_decorated_translation(@phrase_key)) %>')
 
-$("span#otwtranslation_phrase_<%= @phrase_key %>").rightClick(function(event) {
+$j("span#otwtranslation_phrase_<%= @phrase_key %>").rightClick(function(event) {
       otwtranslation_inline_translator(this)
   });
 
 
 <% if flash[:notice] %>
-$("#main").prepend("<div class=\"flash notice\"><%= escape_javascript(flash.delete(:notice)) %></div>")
+$j("#main").prepend("<div class=\"flash notice\"><%= escape_javascript(flash.delete(:notice)) %></div>")
 <% end %>

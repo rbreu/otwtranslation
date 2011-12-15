@@ -1,16 +1,16 @@
 //for both approving and disapproving
 
-$("li#translation<%= @translation.id %>").html(
+$j("li#translation<%= @translation.id %>").html(
     "<%= escape_javascript(render("otwtranslation/translations/blurb", 
                                   :translation => @translation)) %>")
 
-$("span#otwtranslation_phrase_<%= @translation.phrase_key %>").replaceWith(
+$j("span#otwtranslation_phrase_<%= @translation.phrase_key %>").replaceWith(
   '<%= escape_javascript(otwtranslation_decorated_translation(@translation.phrase_key)) %>')
 
-$("span#otwtranslation_phrase_<%= @translation.phrase_key %>").rightClick(function(event) {
+$j("span#otwtranslation_phrase_<%= @translation.phrase_key %>").rightClick(function(event) {
       otwtranslation_inline_translator(this)
   });
 
 <% unless flash[:error].blank? %>
-  $("#main").prepend("<div class=\"flash error\"><%= escape_javascript(flash.delete(:error)) %></div>")
+  $j("#main").prepend("<div class=\"flash error\"><%= escape_javascript(flash.delete(:error)) %></div>")
 <% end %>

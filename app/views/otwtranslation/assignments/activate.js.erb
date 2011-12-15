@@ -1,23 +1,23 @@
 // Replace navigation bar on #show
-$("#assignment_navigation_show_<%= @assignment.id %>").replaceWith(
+$j("#assignment_navigation_show_<%= @assignment.id %>").replaceWith(
   "<%= escape_javascript(render("navigation", 
                          :assignment => @assignment, :on_show => true)) %>");
 
 // Replace activated status on #show
-$("dl.assignment dd.activated").html(
+$j("dl.assignment dd.activated").html(
   "<%= @assignment.activated ? "yes" : "no" %>");
 
 // Replace first part's status on #show
-$("li#assignment_part_<%= @assignment.parts.first.id %> .iswip").replaceWith(
+$j("li#assignment_part_<%= @assignment.parts.first.id %> .iswip").replaceWith(
   "<span class=\"complete-no iswip\" title=\"active\"><span class=\"text\">active</span></span>");
 
 
 // Replace navigation bar on #index
-$("#assignment_navigation_<%= @assignment.id %>").replaceWith(
+$j("#assignment_navigation_<%= @assignment.id %>").replaceWith(
   "<%= escape_javascript(render("navigation", 
                          :assignment => @assignment, :on_show => false)) %>");
 
 
 // Replace activated status on #index
-$("li#assignment_<%= @assignment.id %> .warnings").replaceWith(
+$j("li#assignment_<%= @assignment.id %> .warnings").replaceWith(
   "<span class=\"warning-no warnings\"></span>");
