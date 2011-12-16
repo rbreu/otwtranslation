@@ -44,7 +44,7 @@ describe "otwtranslation/assignments/_navigation.html.erb" do
   end
 
   it "should not display 'Mark my part as completed' when it's the current user's turn" do
-    @assignment.set_assignees([@user.login])
+    @assignment.set_assignees([@user])
     @assignment.save!
     @assignment.activate
     view.should_receive(:on_show).any_number_of_times.and_return(true)

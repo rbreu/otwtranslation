@@ -2,9 +2,9 @@
              :method => :post, :id => "assignment_part#{on_show ? '_show' : ''}",
              :remote => true) do %>
   <dl>
-    <dt><%= label_tag(:login, "Assignee's login:") %></dt>
+    <dt><%= label_tag(:pseud, "Assignee:") %></dt>
     <% value = part.assignee.nil? ? "" : part.assignee.login %>
-    <dd><%= text_field_tag(:login, value, autocomplete_options("pseud")) %></dd>
+    <dd><%= text_field_tag(:pseud, value, autocomplete_options("pseud")) %></dd>
   </dl>
   <p class="submit"><%= submit_tag "Add assignee" %></p>
 <% end %>

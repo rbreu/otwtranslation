@@ -66,9 +66,13 @@ class Otwtranslation::AssignmentsController < ApplicationController
         .find_by_controller_action(params[:source_controller_action])
      @assignment.errors[:source] = "Unknown source" if source.nil?
     end
-    
-    names = Otwtranslation::ParameterParser.tokenize(params[:assignees_names])
-    @assignment.set_assignees(names)
+
+    pseuds = Pseud.parse_bylines(params[:assignees_names])
+    unless pseuds[:ambiguous_pseuds].blank? && pseuds[:invalid_pseuds].blank?
+      @assignment.errors[:assignees] << "Invalid/ambiguous users."
+    end
+    #names = Otwtranslation::ParameterParser.tokenize(params[:assignees_names])
+    @assignment.set_assignees(pseuds[:pseuds])
     @assignment.source = source
     @assignment.save if @assignment.errors.blank?
     

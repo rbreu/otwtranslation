@@ -18,8 +18,8 @@
             :rows => 5) %>
     </dd>
     
-    <dt><%= label_tag(:assignees_names, "Assign to:") %></dt>
-    <dd><%= text_field_tag(:assignees_names, @assignees_names) %></dd>
+    <dt><%= label_tag(:assignees_names, "Assignees:") %></dt>
+    <dd><%= text_field_tag(:assignees_names, @assignees_names, autocomplete_options("pseud")) %></dd>
   </dl>
   
   <p class="notice">TODO: Use autocomplete for user names</p>    

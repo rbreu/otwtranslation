@@ -1,3 +1,4 @@
+require 'autocomplete_source'
 class Pseud < ActiveRecord::Base
 
   NAME_LENGTH_MIN = 1
@@ -117,6 +118,19 @@ class Pseud < ActiveRecord::Base
   def clear_icon
     self.icon = nil if delete_icon? && !icon.dirty?
   end
+
+  ## AUTOCOMPLETE
+  # set up autocomplete and override some methods
+  include AutocompleteSource
+  def autocomplete_prefixes
+    [ "autocomplete_pseud" ]
+  end
+
+  def autocomplete_value
+    "#{id}#{AUTOCOMPLETE_DELIMITER}#{byline}"
+  end
+
+  ## END AUTOCOMPLETE
 
 
 end

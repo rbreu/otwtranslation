@@ -36,9 +36,9 @@ class Otwtranslation::AssignmentPartsController < ApplicationController
 
   def create
     @part = Otwtranslation::AssignmentPart.new(:assignment => @assignment)
-    user = User.find_by_login(params[:login])
+    user = Pseud.parse_byline(params[:pseud]).first.user
     if user.nil?
-      @part.errors[:login] = "No such user: #{params[:login]}"
+      @part.errors[:pseud] = "User #{params[:pseud]} not found."
     else
       @part.assignee = user
       @part.save

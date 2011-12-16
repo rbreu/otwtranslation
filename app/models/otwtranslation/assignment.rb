@@ -20,13 +20,22 @@ class Otwtranslation::Assignment < ActiveRecord::Base
 
   attr_protected :description_sanitizer_version
   
-  def set_assignees(user_logins)
+  def set_assignees(assignees)
     parts.each { |p| p.destroy }
     
-    user_logins.each do |login|
-      user = User.find_by_login(login)
+    assignees.each do |ass|
+      if ass.is_a?(Pseud)
+        user = ass.user
+        login = ass.user.login
+      elsif ass.is_a?(User)
+        user = ass
+        login = ass.login
+      else
+        user = User.find_by_login(ass)
+        login = ass
+      end
       if user.nil?
-        errors[:parts] << "No such user: #{login}"
+        errors[:parts] << "No user #{login} found."
       else
         part = Otwtranslation::AssignmentPart.new(:assignee => user,
                                                   :assignment => self)

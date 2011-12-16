@@ -32,7 +32,7 @@ Feature: Translation phrases
     When I fill in the following:
       | Source:      | home#index       |
       | Description: | Test description |
-      | Assign to:   | Sam, Dean        |
+      | Assignees:   | Sam, Dean        |
     And I press "Add assignment"
 
     Then I should see the heading "Show Assignment"
@@ -59,7 +59,7 @@ Feature: Translation phrases
     When I fill in the following:
       | Source:      | sdf              |
       | Description: | Test description |
-      | Assign to:   | Sam, Dean        |
+      | Assignees:   | Sam, Dean        |
     And I press "Add assignment"
     Then I should see "There was a problem"
 
@@ -90,11 +90,11 @@ Feature: Translation phrases
     When I fill in the following:
       | Source:      | home#index       |
       | Description: | Test description |
-      | Assign to:   | Sam, Castiel     |
+      | Assignees:   | Sam, Castiel     |
     And I press "Add assignment"
     Then I should see "There was a problem"
 
-    When I fill in "Assign to:" with "Sam, Dean"
+    When I fill in "Assignees:" with "Sam, Dean"
     And I press "Add assignment"
 
     Then I should see the heading "Show Assignment"
@@ -270,7 +270,7 @@ Feature: Translation phrases
 
     When I go to the assignment page
     And I press "Add assignee"
-    And I fill in "Assignee's login:" with "Uhura"
+    And I fill in "Assignee:" with "Uhura"
     And I press "Add assignee"
 
     Then I should see the heading "Show Assignment"
@@ -286,7 +286,7 @@ Feature: Translation phrases
 
     When I go to the assignment page
     And I press "Add assignee"
-    And I fill in "Assignee's login:" with "Uhura"
+    And I fill in "Assignee:" with "Uhura"
     And I press "Add assignee"
 
     Then I should see the heading "Show Assignment"
@@ -330,7 +330,6 @@ Feature: Translation phrases
     
     When I go to the assignments page
     And I press "Add assignment"
-    And I fill in "Assign to:" with "Sam, Dean"
+    And I fill in "Assignees:" with "Sam, Dean"
     And I press "Add assignment"
-    Then I should see "No such user: Sam"
-    And I should see "No such user: Dean"
+    Then I should see "Invalid/ambiguous users."

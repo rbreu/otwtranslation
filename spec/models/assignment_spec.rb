@@ -5,30 +5,32 @@ describe Otwtranslation::Assignment, "creation" do
   before(:each) do
     @user1 = Factory.create(:user)
     @user2 =  Factory.create(:user)
-    @user3 =  Factory.create(:user)
+    @pseud3 =  Factory.create(:pseud)
     @language = Factory.create(:language)
   end
   
   it "should create an assignment with parts" do
     assignment = Otwtranslation::Assignment.new(:language => @language)
-    assignment.set_assignees([@user1.login, @user2.login, @user3.login])
+    assignment.set_assignees([@user1.login, @user2, @pseud3])
     Otwtranslation::AssignmentPart.all.size.should == 0
     assignment.save.should be_true
     Otwtranslation::AssignmentPart.all.size.should == 3
     
     assignment.parts.size.should == 3
-    assignment.parts.first.position.should == 1
-    assignment.parts.first.user_id.should == @user1.id
+    assignment.parts[0].position.should == 1
+    assignment.parts[0].user_id.should == @user1.id
 
-    assignment.parts.last.position.should == 3
-    assignment.parts.last.user_id.should == @user3.id
-    assignment.parts.last.id.should_not be_nil
+    assignment.parts[1].position.should == 2
+    assignment.parts[1].user_id.should == @user2.id
+
+    assignment.parts[2].position.should == 3
+    assignment.parts[2].user_id.should == @pseud3.user.id
   end
 
   it "should handle creation for non-existing user names" do
     assignment = Otwtranslation::Assignment.new(:language => @language)
-    assignment.set_assignees([@user1.login, "foo", @user3.login])
-    assignment.errors[:parts].should == ["No such user: foo"]
+    assignment.set_assignees([@user1, "foo", @pseud3])
+    assignment.errors[:parts].should == ["No user foo found."]
     assignment.parts.size.should == 2
   end
 
@@ -55,14 +57,14 @@ describe Otwtranslation::Assignment, "completed?" do
 
   it "should return false" do
     assignment = Otwtranslation::Assignment.new(:language => @language)
-    assignment.set_assignees([@user1.login, @user2.login])
+    assignment.set_assignees([@user1, @user2])
     assignment.save
     assignment.completed?.should be_false
   end
 
   it "should return false" do
     assignment = Otwtranslation::Assignment.new(:language => @language)
-    assignment.set_assignees([@user1.login, @user2.login])
+    assignment.set_assignees([@user1, @user2])
     assignment.save
     part = assignment.parts.first
     part.status = :completed
@@ -73,7 +75,7 @@ describe Otwtranslation::Assignment, "completed?" do
 
   it "should return true" do
     assignment = Otwtranslation::Assignment.new(:language => @language)
-    assignment.set_assignees([@user1.login, @user2.login])
+    assignment.set_assignees([@user1, @user2])
     assignment.save
     part = assignment.parts.first
     part.status = :completed
@@ -99,14 +101,14 @@ describe Otwtranslation::Assignment, "assignees" do
   
   it "should know assignees" do
     assignment = Otwtranslation::Assignment.new(:language => @language)
-    assignment.set_assignees([@user1.login, @user2.login, @user3.login])
+    assignment.set_assignees([@user1, @user2, @user3])
     assignment.save
     assignment.assignees.should == [@user1, @user2, @user3]
   end
 
   it "should know assignees' names" do
     assignment = Otwtranslation::Assignment.new(:language => @language)
-    assignment.set_assignees([@user1.login, @user2.login, @user3.login])
+    assignment.set_assignees([@user1, @user2, @user3])
     assignment.save
     assignment.assignees_names.should == [@user1.login, @user2.login,
                                           @user3.login].join(", ")
@@ -115,7 +117,7 @@ describe Otwtranslation::Assignment, "assignees" do
 
   it "should remove parts on assignment deletion" do
     assignment = Otwtranslation::Assignment.new(:language => @language)
-    assignment.set_assignees([@user1.login, @user2.login, @user3.login])
+    assignment.set_assignees([@user1, @user2, @user3])
     assignment.save
     Otwtranslation::AssignmentPart.all.size.should == 3
 
@@ -125,7 +127,7 @@ describe Otwtranslation::Assignment, "assignees" do
 
   it "should handle reordering" do
     assignment = Otwtranslation::Assignment.new(:language => @language)
-    assignment.set_assignees([@user1.login, @user2.login, @user3.login])
+    assignment.set_assignees([@user1, @user2, @user3])
     assignment.save
     assignment.parts.first.move_lower
     assignment.reload
@@ -147,11 +149,11 @@ describe Otwtranslation::Assignment, "activated_assignments_for" do
   it "should find user's activated assignments" do
     assnm1 = Factory.create(:assignment, :language => @language1,
                             :activated => true)
-    assnm1.set_assignees([@user1.login, @user2.login])
+    assnm1.set_assignees([@user1, @user2])
     assnm1.save!
     assnm2 = Factory.create(:assignment, :language => @language1,
                             :activated => true)
-    assnm2.set_assignees([@user2.login, @user1.login])
+    assnm2.set_assignees([@user2, @user1])
     assnm2.save!
 
     a = Otwtranslation::Assignment.activated_for(@user1, @language1.short)
@@ -161,11 +163,11 @@ describe Otwtranslation::Assignment, "activated_assignments_for" do
   it "shouldn't find not activated assignments" do
     assnm1 = Factory.create(:assignment, :language => @language1,
                             :activated => true)
-    assnm1.set_assignees([@user1.login, @user2.login])
+    assnm1.set_assignees([@user1, @user2])
     assnm1.save!
     assnm2 = Factory.create(:assignment, :language => @language1,
                             :activated => false)
-    assnm2.set_assignees([@user2.login, @user1.login])
+    assnm2.set_assignees([@user2, @user1])
     assnm2.save!
 
     a = Otwtranslation::Assignment.activated_for(@user1, @language1.short)
@@ -175,11 +177,11 @@ describe Otwtranslation::Assignment, "activated_assignments_for" do
   it "shouldn't find assignments for other languages" do
     assnm1 = Factory.create(:assignment, :language => @language1,
                             :activated => true)
-    assnm1.set_assignees([@user1.login, @user2.login])
+    assnm1.set_assignees([@user1, @user2])
     assnm1.save!
     assnm2 = Factory.create(:assignment, :language => @language2,
                             :activated => true)
-    assnm2.set_assignees([@user2.login, @user1.login])
+    assnm2.set_assignees([@user2, @user1])
     assnm2.save!
 
     a = Otwtranslation::Assignment.activated_for(@user1, @language1.short)
@@ -189,11 +191,11 @@ describe Otwtranslation::Assignment, "activated_assignments_for" do
   it "shouldn't find assignments for other users" do
     assnm1 = Factory.create(:assignment, :language => @language1,
                             :activated => true)
-    assnm1.set_assignees([@user1.login, @user2.login])
+    assnm1.set_assignees([@user1, @user2])
     assnm1.save!
     assnm2 = Factory.create(:assignment, :language => @language1,
                             :activated => true)
-    assnm2.set_assignees([@user2.login])
+    assnm2.set_assignees([@user2])
     assnm2.save!
 
     a = Otwtranslation::Assignment.activated_for(@user1, @language1.short)
@@ -215,11 +217,11 @@ describe Otwtranslation::Assignment, "assignees_language_names" do
   it "should find user's languages" do
     assnm1 = Factory.create(:assignment, :language => @language1,
                             :activated => true)
-    assnm1.set_assignees([@user1.login, @user2.login])
+    assnm1.set_assignees([@user1, @user2])
     assnm1.save!
     assnm2 = Factory.create(:assignment, :language => @language2,
                             :activated => true)
-    assnm2.set_assignees([@user2.login, @user1.login])
+    assnm2.set_assignees([@user2, @user1])
     assnm2.save!
 
     l = Otwtranslation::Assignment.assignees_language_names(@user1)
@@ -229,11 +231,11 @@ describe Otwtranslation::Assignment, "assignees_language_names" do
   it "should not find user's languages when assnm not activated" do
     assnm1 = Factory.create(:assignment, :language => @language1,
                             :activated => true)
-    assnm1.set_assignees([@user1.login, @user2.login])
+    assnm1.set_assignees([@user1, @user2])
     assnm1.save!
     assnm2 = Factory.create(:assignment, :language => @language2,
                             :activated => false)
-    assnm2.set_assignees([@user2.login, @user1.login])
+    assnm2.set_assignees([@user2, @user1])
     assnm2.save!
 
     l = Otwtranslation::Assignment.assignees_language_names(@user1)
@@ -243,11 +245,11 @@ describe Otwtranslation::Assignment, "assignees_language_names" do
   it "shouldn't find other people's languages" do
     assnm1 = Factory.create(:assignment, :language => @language1,
                             :activated => true)
-    assnm1.set_assignees([@user1.login, @user2.login])
+    assnm1.set_assignees([@user1, @user2])
     assnm1.save!
     assnm2 = Factory.create(:assignment, :language => @language2,
                             :activated => true)
-    assnm2.set_assignees([@user2.login])
+    assnm2.set_assignees([@user2])
     assnm2.save!
 
     l = Otwtranslation::Assignment.assignees_language_names(@user1)
@@ -262,7 +264,7 @@ describe Otwtranslation::Assignment, "activate" do
     @user1 = Factory.create(:user)
     @user2 = Factory.create(:user)
     @assignment = Factory.create(:assignment)
-    @assignment.set_assignees([@user1.login, @user2.login])
+    @assignment.set_assignees([@user1, @user2])
     @assignment.save!
    
   end
@@ -294,7 +296,7 @@ describe Otwtranslation::Assignment, "users_turn?" do
     @user2 = Factory.create(:user)
     @user3 = Factory.create(:user)
     @assignment = Factory.create(:assignment, :activated => true)
-    @assignment.set_assignees([@user1.login, @user2.login, @user3.login])
+    @assignment.set_assignees([@user1, @user2, @user3])
     p = @assignment.parts[0]
     p.status = :completed
     p.save!
@@ -314,7 +316,7 @@ describe Otwtranslation::Assignment, "users_turn?" do
 
   it "should return false if there is no active part" do
     assignment = Factory.create(:assignment, :activated => true)
-    assignment.set_assignees([@user1.login, @user2.login, @user2.login])
+    assignment.set_assignees([@user1, @user2, @user2])
     assignment.users_turn?(@user1).should be_false
     assignment.users_turn?(@user2).should be_false
     assignment.users_turn?(@user3).should be_false
