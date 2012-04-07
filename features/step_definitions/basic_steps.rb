@@ -3,7 +3,7 @@ end
 
 Given /^I am a translator$/ do
   warn "Change translation admin to translator!"
-  @user = Factory(:translation_admin)
+  @user = FactoryGirl.create(:translation_admin)
   visit "/"
   fill_in "User name", :with => @user.login
   fill_in "Password", :with => @user.password
@@ -12,7 +12,7 @@ Given /^I am a translator$/ do
 end
 
 Given /^I am a translation admin$/ do
-  user = Factory(:translation_admin)
+  user = FactoryGirl.create(:translation_admin)
   visit "/"
   fill_in "User name", :with => user.login
   fill_in "Password", :with => user.password
@@ -25,5 +25,5 @@ Given /^I'm on revision "([^"]*)"$/ do |version|
 end
 
 Given /^I have the user "([^"]*)"$/ do |login|
-  Factory.create(:user, :login => login)
+  FactoryGirl.create(:user, :login => login)
 end

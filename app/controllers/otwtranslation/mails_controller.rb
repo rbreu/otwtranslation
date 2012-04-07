@@ -3,7 +3,7 @@ require 'erb'
 class Otwtranslation::MailsController < ApplicationController
   include Otwtranslation::CommonMethods
   include OtwtranslationHelper
-  include ActionView::Helpers::UrlHelper
+  extend ActionView::Helpers::UrlHelper
  
   before_filter :otwtranslation_only
 

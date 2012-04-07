@@ -5,7 +5,8 @@ class Otwtranslation::TranslationsController < ApplicationController
   before_filter :otwtranslation_only
 
   def new
-    @translation = Otwtranslation::Translation.new(:phrase_key => params[:id])
+    @translation = Otwtranslation::Translation.new
+    @translation.phrase_key = params[:id]
     
     respond_to do |format|
       format.html do
@@ -64,7 +65,8 @@ class Otwtranslation::TranslationsController < ApplicationController
       flash[:notice] = "Refresh the page to see the proper effect of context-aware translations."
 
     else # create a non-context-specific translation
-      translation = Otwtranslation::Translation.new(params[:otwtranslation_translation])
+      translation = Otwtranslation::Translation.new
+      translation.label = params[:otwtranslation_translation][:label]
       translation.phrase_key = params[:id]
       translation.language_short = otwtranslation_language
       translation.last_editor = current_user

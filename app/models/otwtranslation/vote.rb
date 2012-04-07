@@ -1,16 +1,17 @@
 class Otwtranslation::Vote < ActiveRecord::Base
 
-  set_table_name :otwtranslation_votes
+  self.table_name = :otwtranslation_votes
 
   belongs_to(:translation, :class_name => 'Otwtranslation::Translation',
              :foreign_key => 'translation_id')
   
   belongs_to :owner, :class_name => 'User', :foreign_key => 'user_id'
   
-  
   validates_presence_of :translation
   validates_presence_of :owner
   validates_uniqueness_of :user_id, :scope => :translation_id
+  
+  attr_accessible :user_id, :translation_id
 
   def self.vote(translation, user, updown)
     

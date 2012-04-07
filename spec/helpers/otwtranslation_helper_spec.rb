@@ -33,8 +33,8 @@ end
 
 describe OtwtranslationHelper, "otwtranslation_decorated_translation" do
   before(:each) do
-    @phrase = Factory.create(:phrase, :label => "Good day!")
-    @language = Factory.create(:language, :name => "Deutsch")
+    @phrase = FactoryGirl.create(:phrase, :label => "Good day!")
+    @language = FactoryGirl.create(:language, :name => "Deutsch")
     session[:otwtranslation_language] = @language.short
   end
   
@@ -53,17 +53,17 @@ describe OtwtranslationHelper, "otwtranslation_decorated_translation" do
     otwtranslation_decorated_translation(@phrase.key)
       .should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"untranslated\"><span class=\"landmark\">translate</span>*Good day!</span>"
     
-    @phrase = Factory.create(:phrase, :label => "Hi {general::name}!")
+    @phrase = FactoryGirl.create(:phrase, :label => "Hi {general::name}!")
     otwtranslation_decorated_translation(@phrase.key)
       .should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"untranslated\"><span class=\"landmark\">translate</span>*Hi {general::name}!</span>"
   end
   
   it "should mark the phrase translated" do
-    translation = Factory.create(:translation,
-                                 :label => "Guten Tag!",
-                                 :language => @language,
-                                 :approved => false,
-                                 :phrase => @phrase)
+    translation = FactoryGirl.create(:translation,
+                                     :label => "Guten Tag!",
+                                     :language => @language,
+                                     :approved => false,
+                                     :phrase => @phrase)
     
     helper.otwtranslation_decorated_translation(@phrase.key, @phrase.label)
       .should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"translated\"><span class=\"landmark\">review</span>*Guten Tag!</span>"
@@ -71,11 +71,11 @@ describe OtwtranslationHelper, "otwtranslation_decorated_translation" do
   end
   
   it "should mark the phrase translated for decorate_off" do
-    translation = Factory.create(:translation,
-                                 :label => "Guten Tag!",
-                                 :language => @language,
-                                 :approved => false,
-                                 :phrase => @phrase)
+    translation = FactoryGirl.create(:translation,
+                                     :label => "Guten Tag!",
+                                     :language => @language,
+                                     :approved => false,
+                                     :phrase => @phrase)
     
     helper.otwtranslation_decorated_translation(@phrase.key, @phrase.label,
                                                 :_decorate_off => true)
@@ -84,22 +84,22 @@ describe OtwtranslationHelper, "otwtranslation_decorated_translation" do
   end
     
   it "should mark the phrase approved" do
-    translation = Factory.create(:translation,
-                                 :label => "Moin!",
-                                 :language => @language,
-                                 :approved => true,
-                                 :phrase => @phrase)
+    translation = FactoryGirl.create(:translation,
+                                     :label => "Moin!",
+                                     :language => @language,
+                                     :approved => true,
+                                     :phrase => @phrase)
     
     helper.otwtranslation_decorated_translation(@phrase.key, @phrase.label)
       .should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"approved\">Moin!</span>"
     end
   
   it "should mark the phrase approved for decorate_off" do
-    translation = Factory.create(:translation,
-                                 :label => "Moin!",
-                                 :language => @language,
-                                 :approved => true,
-                                 :phrase => @phrase)
+    translation = FactoryGirl.create(:translation,
+                                     :label => "Moin!",
+                                     :language => @language,
+                                     :approved => true,
+                                     :phrase => @phrase)
     
     helper.otwtranslation_decorated_translation(@phrase.key, @phrase.label,
                                                 :_decorate_off => true)
@@ -118,18 +118,18 @@ end
 
 describe OtwtranslationHelper, "otwtranslation_translation" do
   before(:each) do
-    @phrase = Factory.create(:phrase, :label => "Greetings!")
-    @phrase2 = Factory.create(:phrase, :label => "{possessive::foo}")
-    @de = Factory.create(:language, :name => "Deutsch")
-    @en = Factory.create(:language, :name => "English")
+    @phrase = FactoryGirl.create(:phrase, :label => "Greetings!")
+    @phrase2 = FactoryGirl.create(:phrase, :label => "{possessive::foo}")
+    @de = FactoryGirl.create(:language, :name => "Deutsch")
+    @en = FactoryGirl.create(:language, :name => "English")
     session[:otwtranslation_language] = @de.short
 
-    @rule_de = Factory.create(:possessive_rule, :language => @de,
-                              :conditions => [["matches all", []]],
-                              :actions => [["append", ["DE"]]])
-    @rule_en = Factory.create(:possessive_rule, :language => @en,
-                              :conditions => [["matches all", []]],
-                              :actions => [["append", ["EN"]]])
+    @rule_de = FactoryGirl.create(:possessive_rule, :language => @de,
+                                  :conditions => [["matches all", []]],
+                                  :actions => [["append", ["DE"]]])
+    @rule_en = FactoryGirl.create(:possessive_rule, :language => @en,
+                                  :conditions => [["matches all", []]],
+                                  :actions => [["append", ["EN"]]])
   end
   
   it "should return original phrase when no translation exists" do
@@ -138,22 +138,22 @@ describe OtwtranslationHelper, "otwtranslation_translation" do
   end
   
   it "should return approved translation" do
-    Factory.create(:translation,
-                   :label => "Grüße!",
-                   :language => @de,
-                   :approved => true,
-                   :phrase => @phrase)
+    FactoryGirl.create(:translation,
+                       :label => "Grüße!",
+                       :language => @de,
+                       :approved => true,
+                       :phrase => @phrase)
 
     otwtranslation_translation(@phrase.key, @phrase.label, {})
       .should == "Grüße!"
   end
   
   it "should not return unapproved translation" do
-    Factory.create(:translation,
-                   :label => "Grüße!",
-                   :language => @de,
-                   :approved => false,
-                   :phrase => @phrase)
+    FactoryGirl.create(:translation,
+                       :label => "Grüße!",
+                       :language => @de,
+                       :approved => false,
+                       :phrase => @phrase)
 
     otwtranslation_translation(@phrase.key, @phrase.label, {})
       .should == "Greetings!"
@@ -165,12 +165,12 @@ describe OtwtranslationHelper, "otwtranslation_translation" do
   end
   
   it "should apply german rules when translation exists" do
-    Factory.create(:translation,
-                   :label => "{possessive::foo}",
-                   :language => @de,
-                   :approved => true,
-                   :phrase => @phrase2,
-                   :rules => [@rule_de.id])
+    FactoryGirl.create(:translation,
+                       :label => "{possessive::foo}",
+                       :language => @de,
+                       :approved => true,
+                       :phrase => @phrase2,
+                       :rules => [@rule_de.id])
     
     otwtranslation_translation(@phrase2.key, @phrase2.label, {:foo => "bar"})
       .should == "barDE"

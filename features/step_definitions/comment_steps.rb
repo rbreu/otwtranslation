@@ -1,8 +1,10 @@
 Given /^I have a translation with (\d+) comments$/ do |count|
-  @translation = Factory(:translation)
-  pseud =  User.current_user.default_pseud || Factory(:pseud)
-  count.to_i.times { Factory(:comment,
-                             {:commentable => @translation, :pseud => pseud}) }
+  @translation = FactoryGirl.create(:translation)
+  pseud =  User.current_user.default_pseud || FactoryGirl.create(:pseud)
+  count.to_i.times do
+    FactoryGirl.create(:comment,
+                       {:commentable => @translation, :pseud => pseud})
+  end
 end
 
 Then /^I should see the comment "([^"]*)"$/ do |content|

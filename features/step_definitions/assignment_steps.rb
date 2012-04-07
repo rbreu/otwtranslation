@@ -1,7 +1,7 @@
 Given /^I have an assignment for ([^"]*)$/ do |language|
   lang = Otwtranslation::Language.find_by_name(language) ||
-    Factory(:language, {:name => language})
-  @assignment = Factory.create(:assignment, :language => lang)
+    FactoryGirl.create(:language, {:name => language})
+  @assignment = FactoryGirl.create(:assignment, :language => lang)
 end
 
 Given /^I have the assignees "([^"]*)"$/ do |logins|
@@ -10,10 +10,10 @@ Given /^I have the assignees "([^"]*)"$/ do |logins|
     if login == "Me"
       user = @user
     else
-      user = User.find_by_login(login) || Factory.create(:user, {:login => login})
+      user = User.find_by_login(login) || FactoryGirl.create(:user, {:login => login})
     end
-    part = Factory.create(:assignment_part,
-                          {:assignment => @assignment, :assignee => user} )
+    part = FactoryGirl.create(:assignment_part,
+                              {:assignment => @assignment, :assignee => user} )
     @assignment.parts << part
   end
 end

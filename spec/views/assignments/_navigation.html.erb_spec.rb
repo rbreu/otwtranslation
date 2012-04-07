@@ -1,10 +1,10 @@
 require 'spec_helper'
  	
-describe "otwtranslation/assignments/_navigation.html.erb" do
+describe "otwtranslation/assignments/_navigation" do
   
   before(:each) do
-    @assignment = Factory(:assignment)
-    @user = Factory(:user)
+    @assignment = FactoryGirl.create(:assignment)
+    @user = FactoryGirl.create(:user)
     view.should_receive(:assignment).any_number_of_times.and_return(@assignment)
     view.should_receive(:current_user).any_number_of_times.and_return(@user)
   end

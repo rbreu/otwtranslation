@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_dependency "rails", "~> 3.0.5"
+  s.add_dependency "rails", "~> 3.2.3"
   s.add_dependency "rails_helpers_fix"
   s.add_dependency "jquery-rails"
   s.add_dependency "sanitize"
@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
   s.add_dependency "resque_mailer"
   s.add_dependency "will_paginate"
   s.add_dependency "valium"
+  s.add_dependency "redis"
 
   s.add_development_dependency "rspec-rails"
   s.add_development_dependency "cucumber-rails"

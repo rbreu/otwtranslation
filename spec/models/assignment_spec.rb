@@ -3,17 +3,17 @@ require 'spec_helper'
 describe Otwtranslation::Assignment, "creation" do
 
   before(:each) do
-    @user1 = Factory.create(:user)
-    @user2 =  Factory.create(:user)
-    @pseud3 =  Factory.create(:pseud)
-    @language = Factory.create(:language)
+    @user1 = FactoryGirl.create(:user)
+    @user2 =  FactoryGirl.create(:user)
+    @pseud3 =  FactoryGirl.create(:pseud)
+    @language = FactoryGirl.create(:language)
   end
   
   it "should create an assignment with parts" do
     assignment = Otwtranslation::Assignment.new(:language => @language)
     assignment.set_assignees([@user1.login, @user2, @pseud3])
     Otwtranslation::AssignmentPart.all.size.should == 0
-    assignment.save.should be_true
+    assignment.save!
     Otwtranslation::AssignmentPart.all.size.should == 3
     
     assignment.parts.size.should == 3
@@ -35,7 +35,7 @@ describe Otwtranslation::Assignment, "creation" do
   end
 
   it "should create an assignment with source" do
-    source = Factory.create(:source)
+    source = FactoryGirl.create(:source)
     assignment = Otwtranslation::Assignment.new(:source => source)
     assignment.source.should == source
     assignment.source_controller_action.should == source.controller_action
@@ -45,9 +45,9 @@ end
 describe Otwtranslation::Assignment, "completed?" do
 
   before(:each) do
-    @user1 = Factory.create(:user)
-    @user2 =  Factory.create(:user)
-    @language = Factory.create(:language)
+    @user1 = FactoryGirl.create(:user)
+    @user2 =  FactoryGirl.create(:user)
+    @language = FactoryGirl.create(:language)
   end
   
   it "should return false for assignments with no parts" do
@@ -93,10 +93,10 @@ end
 describe Otwtranslation::Assignment, "assignees" do
 
   before(:each) do
-    @user1 = Factory.create(:user)
-    @user2 =  Factory.create(:user)
-    @user3 =  Factory.create(:user)
-    @language = Factory.create(:language)
+    @user1 = FactoryGirl.create(:user)
+    @user2 =  FactoryGirl.create(:user)
+    @user3 =  FactoryGirl.create(:user)
+    @language = FactoryGirl.create(:language)
   end
   
   it "should know assignees" do
@@ -140,19 +140,19 @@ end
 describe Otwtranslation::Assignment, "activated_assignments_for" do
 
   before(:each) do
-    @user1 = Factory.create(:user)
-    @user2 =  Factory.create(:user)
-    @language1 = Factory.create(:language)
-    @language2 = Factory.create(:language)
+    @user1 = FactoryGirl.create(:user)
+    @user2 =  FactoryGirl.create(:user)
+    @language1 = FactoryGirl.create(:language)
+    @language2 = FactoryGirl.create(:language)
   end
 
   it "should find user's activated assignments" do
-    assnm1 = Factory.create(:assignment, :language => @language1,
-                            :activated => true)
+    assnm1 = FactoryGirl.create(:assignment, :language => @language1,
+                                :activated => true)
     assnm1.set_assignees([@user1, @user2])
     assnm1.save!
-    assnm2 = Factory.create(:assignment, :language => @language1,
-                            :activated => true)
+    assnm2 = FactoryGirl.create(:assignment, :language => @language1,
+                                :activated => true)
     assnm2.set_assignees([@user2, @user1])
     assnm2.save!
 
@@ -161,12 +161,12 @@ describe Otwtranslation::Assignment, "activated_assignments_for" do
   end
   
   it "shouldn't find not activated assignments" do
-    assnm1 = Factory.create(:assignment, :language => @language1,
-                            :activated => true)
+    assnm1 = FactoryGirl.create(:assignment, :language => @language1,
+                                :activated => true)
     assnm1.set_assignees([@user1, @user2])
     assnm1.save!
-    assnm2 = Factory.create(:assignment, :language => @language1,
-                            :activated => false)
+    assnm2 = FactoryGirl.create(:assignment, :language => @language1,
+                                :activated => false)
     assnm2.set_assignees([@user2, @user1])
     assnm2.save!
 
@@ -175,12 +175,12 @@ describe Otwtranslation::Assignment, "activated_assignments_for" do
   end
   
   it "shouldn't find assignments for other languages" do
-    assnm1 = Factory.create(:assignment, :language => @language1,
-                            :activated => true)
+    assnm1 = FactoryGirl.create(:assignment, :language => @language1,
+                                :activated => true)
     assnm1.set_assignees([@user1, @user2])
     assnm1.save!
-    assnm2 = Factory.create(:assignment, :language => @language2,
-                            :activated => true)
+    assnm2 = FactoryGirl.create(:assignment, :language => @language2,
+                                :activated => true)
     assnm2.set_assignees([@user2, @user1])
     assnm2.save!
 
@@ -189,12 +189,12 @@ describe Otwtranslation::Assignment, "activated_assignments_for" do
   end
   
   it "shouldn't find assignments for other users" do
-    assnm1 = Factory.create(:assignment, :language => @language1,
-                            :activated => true)
+    assnm1 = FactoryGirl.create(:assignment, :language => @language1,
+                                :activated => true)
     assnm1.set_assignees([@user1, @user2])
     assnm1.save!
-    assnm2 = Factory.create(:assignment, :language => @language1,
-                            :activated => true)
+    assnm2 = FactoryGirl.create(:assignment, :language => @language1,
+                                :activated => true)
     assnm2.set_assignees([@user2])
     assnm2.save!
 
@@ -208,19 +208,19 @@ end
 describe Otwtranslation::Assignment, "assignees_language_names" do
 
   before(:each) do
-    @user1 = Factory.create(:user)
-    @user2 =  Factory.create(:user)
-    @language1 = Factory.create(:language)
-    @language2 = Factory.create(:language)
+    @user1 = FactoryGirl.create(:user)
+    @user2 =  FactoryGirl.create(:user)
+    @language1 = FactoryGirl.create(:language)
+    @language2 = FactoryGirl.create(:language)
   end
 
   it "should find user's languages" do
-    assnm1 = Factory.create(:assignment, :language => @language1,
-                            :activated => true)
+    assnm1 = FactoryGirl.create(:assignment, :language => @language1,
+                                :activated => true)
     assnm1.set_assignees([@user1, @user2])
     assnm1.save!
-    assnm2 = Factory.create(:assignment, :language => @language2,
-                            :activated => true)
+    assnm2 = FactoryGirl.create(:assignment, :language => @language2,
+                                :activated => true)
     assnm2.set_assignees([@user2, @user1])
     assnm2.save!
 
@@ -229,12 +229,12 @@ describe Otwtranslation::Assignment, "assignees_language_names" do
   end
   
   it "should not find user's languages when assnm not activated" do
-    assnm1 = Factory.create(:assignment, :language => @language1,
-                            :activated => true)
+    assnm1 = FactoryGirl.create(:assignment, :language => @language1,
+                                :activated => true)
     assnm1.set_assignees([@user1, @user2])
     assnm1.save!
-    assnm2 = Factory.create(:assignment, :language => @language2,
-                            :activated => false)
+    assnm2 = FactoryGirl.create(:assignment, :language => @language2,
+                                :activated => false)
     assnm2.set_assignees([@user2, @user1])
     assnm2.save!
 
@@ -243,12 +243,12 @@ describe Otwtranslation::Assignment, "assignees_language_names" do
   end
 
   it "shouldn't find other people's languages" do
-    assnm1 = Factory.create(:assignment, :language => @language1,
-                            :activated => true)
+    assnm1 = FactoryGirl.create(:assignment, :language => @language1,
+                                :activated => true)
     assnm1.set_assignees([@user1, @user2])
     assnm1.save!
-    assnm2 = Factory.create(:assignment, :language => @language2,
-                            :activated => true)
+    assnm2 = FactoryGirl.create(:assignment, :language => @language2,
+                                :activated => true)
     assnm2.set_assignees([@user2])
     assnm2.save!
 
@@ -261,9 +261,9 @@ end
 describe Otwtranslation::Assignment, "activate" do
 
   before(:each) do
-    @user1 = Factory.create(:user)
-    @user2 = Factory.create(:user)
-    @assignment = Factory.create(:assignment)
+    @user1 = FactoryGirl.create(:user)
+    @user2 = FactoryGirl.create(:user)
+    @assignment = FactoryGirl.create(:assignment)
     @assignment.set_assignees([@user1, @user2])
     @assignment.save!
    
@@ -283,7 +283,7 @@ describe Otwtranslation::Assignment, "activate" do
   end
 
   it "should not break when there are no assignees" do
-    assignment = Factory.create(:assignment)
+    assignment = FactoryGirl.create(:assignment)
     expect{ assignment.activate }.not_to raise_error
   end
   
@@ -292,10 +292,10 @@ end
 describe Otwtranslation::Assignment, "users_turn?" do
 
   before(:each) do
-    @user1 = Factory.create(:user)
-    @user2 = Factory.create(:user)
-    @user3 = Factory.create(:user)
-    @assignment = Factory.create(:assignment, :activated => true)
+    @user1 = FactoryGirl.create(:user)
+    @user2 = FactoryGirl.create(:user)
+    @user3 = FactoryGirl.create(:user)
+    @assignment = FactoryGirl.create(:assignment, :activated => true)
     @assignment.set_assignees([@user1, @user2, @user3])
     p = @assignment.parts[0]
     p.status = :completed
@@ -315,7 +315,7 @@ describe Otwtranslation::Assignment, "users_turn?" do
   end
 
   it "should return false if there is no active part" do
-    assignment = Factory.create(:assignment, :activated => true)
+    assignment = FactoryGirl.create(:assignment, :activated => true)
     assignment.set_assignees([@user1, @user2, @user2])
     assignment.users_turn?(@user1).should be_false
     assignment.users_turn?(@user2).should be_false

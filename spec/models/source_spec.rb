@@ -72,14 +72,14 @@ describe Otwtranslation::Source do
   context "when there are languages, phrases and sources" do
 
     before(:each) do
-      @german = Factory.create(:language, :name => "Deutsch")
-      @dutch = Factory.create(:language, :name => "Nederlands")
+      @german = FactoryGirl.create(:language, :name => "Deutsch")
+      @dutch = FactoryGirl.create(:language, :name => "Nederlands")
       
-      @source = Factory.create(:source)
+      @source = FactoryGirl.create(:source)
       
-      @phrase1 = Factory.create(:phrase)
+      @phrase1 = FactoryGirl.create(:phrase)
       @phrase1.sources << @source
-      @phrase2 = Factory.create(:phrase)
+      @phrase2 = FactoryGirl.create(:phrase)
       @phrase2.sources << @source
     end
     
@@ -92,7 +92,8 @@ describe Otwtranslation::Source do
     end
 
     it "stats should count translations in the current language" do
-      Factory.create(:translation, {:language => @german, :phrase => @phrase1})
+      FactoryGirl.create(:translation,
+                         {:language => @german, :phrase => @phrase1})
       @source.percentage_translated_for(@german.short).should \
       be_within(0.00001).of(50)
 
@@ -101,8 +102,9 @@ describe Otwtranslation::Source do
     end
     
     it "stats should count approved translations in the current language" do
-      Factory.create(:translation,
-                     {:language => @german, :phrase => @phrase1, :approved => true})
+      FactoryGirl.create(:translation,
+                         {:language => @german, :phrase => @phrase1, 
+                           :approved => true})
       @source.percentage_translated_for(@german.short).should \
       be_within(0.00001).of(50)
 
@@ -111,8 +113,9 @@ describe Otwtranslation::Source do
     end
 
     it "stats should not count translations for other languages" do
-      Factory.create(:translation,
-                     {:language => @german, :phrase => @phrase1, :approved => true})
+      FactoryGirl.create(:translation,
+                         {:language => @german, :phrase => @phrase1,
+                           :approved => true})
       @source.percentage_translated_for(@dutch.short).should \
       be_within(0.00001).of(0)
 
@@ -121,10 +124,11 @@ describe Otwtranslation::Source do
     end
 
     it "stats should not count multiple translations for one phrase" do
-       Factory.create(:translation,
-                      {:language => @german, :phrase => @phrase1, :approved => true})
-       Factory.create(:translation,
-                      {:language => @german, :phrase => @phrase1})
+      FactoryGirl.create(:translation,
+                         {:language => @german, :phrase => @phrase1,
+                           :approved => true})
+      FactoryGirl.create(:translation,
+                         {:language => @german, :phrase => @phrase1})
      
       @source.percentage_translated_for(@german.short).should \
       be_within(0.00001).of(50)
@@ -135,11 +139,13 @@ describe Otwtranslation::Source do
 
 
     it "stats should count translations of multiple phrases" do
-      Factory.create(:translation,
-                     {:language => @german, :phrase => @phrase1, :approved => true})
+      FactoryGirl.create(:translation,
+                         {:language => @german, :phrase => @phrase1,
+                           :approved => true})
    
-      Factory.create(:translation,
-                     {:language => @german, :phrase => @phrase2, :approved => true})
+      FactoryGirl.create(:translation,
+                         {:language => @german, :phrase => @phrase2,
+                           :approved => true})
       
       @source.percentage_translated_for(@german.short).should \
       be_within(0.00001).of(100)

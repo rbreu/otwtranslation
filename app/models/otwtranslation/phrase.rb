@@ -3,7 +3,7 @@ require 'ostruct'
 
 class Otwtranslation::Phrase < ActiveRecord::Base
 
-  set_table_name :otwtranslation_phrases
+  self.table_name = :otwtranslation_phrases
   has_and_belongs_to_many(:sources, 
                           :join_table => :otwtranslation_phrases_sources,
                           :class_name => 'Otwtranslation::Source')
@@ -20,6 +20,8 @@ class Otwtranslation::Phrase < ActiveRecord::Base
 
   validates_presence_of :key
   validates_uniqueness_of :key
+
+  attr_accessible :key, :label, :version
   
 
   # We want to cache the phrase but can't put it into the cache as is
@@ -40,11 +42,10 @@ class Otwtranslation::Phrase < ActiveRecord::Base
       phrase.version == OtwtranslationConfig.VERSION &&
       phrase.sources.include?(Otwtranslation::Source.key(source))
 
-    phrase = find_or_create_by_key(:key => key, 
-                                   :label => label, 
-                                   :description => description,
+    phrase = find_or_create_by_key(:key => key,
+                                   :label => label,
                                    :version => OtwtranslationConfig.VERSION)
-
+    phrase.description = description
     phrase.version = OtwtranslationConfig.VERSION
     phrase.new = false if phrase.version_changed?
 

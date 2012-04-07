@@ -3,8 +3,8 @@ require 'spec_helper'
 describe Otwtranslation::AssignmentPart, "status" do
 
   before(:each) do
-    assignment = Factory.create(:assignment)
-    user = Factory.create(:user)
+    assignment = FactoryGirl.create(:assignment)
+    user = FactoryGirl.create(:user)
     @part = part = Otwtranslation::AssignmentPart.new(:assignment => assignment,
                                                       :assignee => user)
   end
@@ -35,12 +35,12 @@ end
 describe Otwtranslation::AssignmentPart, "activate" do
 
   it "should not fail" do
-    part = Factory.create(:assignment_part)
+    part = FactoryGirl.create(:assignment_part)
     part.activate
   end
 
   it "should activate and send mail" do
-    part = Factory.create(:assignment_part)
+    part = FactoryGirl.create(:assignment_part)
     mail = mock
     mail.should_receive(:deliver)
     Otwtranslation::AssignmentMailer.should_receive(:assignment_part_notification).and_return(mail)

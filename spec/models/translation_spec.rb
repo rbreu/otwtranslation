@@ -3,112 +3,124 @@ require 'spec_helper'
 describe Otwtranslation::Translation do
 
   before(:each) do
-    @language = Factory.create(:language)
-    @phrase = Factory.create(:phrase)
-    @language2 = Factory.create(:language)
-    @phrase2 = Factory.create(:phrase)
+    @language = FactoryGirl.create(:language)
+    @phrase = FactoryGirl.create(:phrase)
+    @language2 = FactoryGirl.create(:language)
+    @phrase2 = FactoryGirl.create(:phrase)
   end
 
   it "should create a new translation" do
-    translation = Otwtranslation::Translation.new(:label => "irgendwas",
-                                                  :language => @language,
-                                                  :phrase => @phrase,
-                                                  :approved => false)
+    translation = Otwtranslation::Translation.new()
+    translation.label = "irgendwas"
+    translation.language = @language
+    translation.phrase = @phrase
+    translation.approved = false
     
-    translation.save.should be_true
-   translation.rules.should == []
+    translation.save!
+    translation.rules.should == []
   end
 
   it "should let basic inline HTML untouched" do
-    label = "<em>foo</em><strong>bar</strong>"
-    translation = Otwtranslation::Translation.new(:label => label,
-                                                  :language => @language,
-                                                  :phrase => @phrase)
-    translation.save.should be_true
-    translation.label.should == label
+    translation = Otwtranslation::Translation.new()
+    translation.label = "<em>foo</em><strong>bar</strong>"
+    translation.language = @language
+    translation.phrase = @phrase
+
+    translation.save!
+    translation.label.should == "<em>foo</em><strong>bar</strong>"
   end
 
   it "should remove unknown HTML tags" do
-    label = "<blah>foo</blah><a>bar</a>"
-    translation = Otwtranslation::Translation.new(:label => label,
-                                                  :language => @language,
-                                                  :phrase => @phrase,
-                                                  :phrase_key => "somekey")
-    translation.save.should be_true
+    translation = Otwtranslation::Translation.new()
+    translation.label = "<blah>foo</blah><a>bar</a>"
+    translation.language = @language
+    translation.phrase = @phrase
+
+    translation.save!
     translation.label.should == "foobar"
   end
   
   it "should handle wrong HTML" do
-    label = "<em>hello</i>"
-    translation = Otwtranslation::Translation.new(:label => label,
-                                                  :language_short => "de",
-                                                  :phrase_key => "somekey")
+    translation = Otwtranslation::Translation.new()
+    translation.label = "<em>hello</i>"
+    translation.language_short = "de"
     translation.language = @language
     translation.phrase = @phrase
-    translation.save.should be_true
+
+    translation.save!
     translation.label.should == "<em>hello</em>"
   end
   
   it "should handle missing end tags" do
-    label = "<em>hello"
-    translation = Otwtranslation::Translation.new(:label => label,
-                                                  :language_short => "de",
-                                                  :phrase_key => "somekey")
+    translation = Otwtranslation::Translation.new()
+    translation.label = "<em>hello"
+    translation.language_short = "de"
     translation.language = @language
     translation.phrase = @phrase
-    translation.save.should be_true
+
+    translation.save!
     translation.label.should == "<em>hello</em>"
   end
 
   
   it "should allow an approved translation" do
-    translation = Otwtranslation::Translation.new(:label => "irgendwas",
-                                                  :language => @language,
-                                                  :phrase => @phrase,
-                                                  :approved => true)
-    translation.save.should be_true
+    translation = Otwtranslation::Translation.new()
+    translation.label = "irgendwas"
+    translation.language = @language
+    translation.phrase = @phrase
+    translation.approved = true
+
+    translation.save!
   end
 
   it "should not allow approved translation if unspecific approved translation exists" do
-    Otwtranslation::Translation.create(:label => "irgendwas",
-                                       :language => @language,
-                                       :phrase => @phrase,
-                                       :approved => true)
-    translation = Otwtranslation::Translation.new(:label => "irgendwas",
-                                                  :language => @language,
-                                                  :phrase => @phrase,
-                                                  :approved => true,
-                                                  :rules => [1])
+    FactoryGirl.create(:translation,
+                       :label => "irgendwas",
+                       :language => @language,
+                       :phrase => @phrase, 
+                       :approved => true)
+    translation = Otwtranslation::Translation.new()
+    translation.label = "irgendwas"
+    translation.language = @language
+    translation.phrase = @phrase
+    translation.approved = true
+    translation.rules = [1]
+
     translation.save.should be_false
     translation.errors[:approved].should == ["Another translation is already approved."]
     
   end
 
   it "should allow two approved translations for two different rules" do
-    Otwtranslation::Translation.create(:label => "irgendwas",
-                                       :language => @language,
-                                       :phrase => @phrase,
-                                       :approved => true,
-                                       :rules => [1])
-    translation = Otwtranslation::Translation.new(:label => "irgendwas",
-                                                  :language => @language,
-                                                  :phrase => @phrase,
-                                                  :approved => true,
-                                                  :rules => [2])
-    translation.save.should be_true
+    FactoryGirl.create(:translation,
+                       :label => "irgendwas",
+                       :language => @language,
+                       :phrase => @phrase,
+                       :approved => true,
+                       :rules => [1])
+    translation = Otwtranslation::Translation.new()
+    translation.label = "irgendwas"
+    translation.language = @language
+    translation.phrase = @phrase
+    translation.approved = true
+    translation.rules = [2]
+
+    translation.save!
   end
 
   it "should not allow two approved translations for the same rules" do
-    Otwtranslation::Translation.create(:label => "irgendwas",
-                                       :language => @language,
-                                       :phrase => @phrase,
-                                       :approved => true,
-                                       :rules => [1])
-    translation = Otwtranslation::Translation.new(:label => "irgendwas",
-                                                  :language => @language,
-                                                  :phrase => @phrase,
-                                                  :approved => true,
-                                                  :rules => [1])
+    FactoryGirl.create(:translation,
+                       :label => "irgendwas",
+                       :language => @language,
+                       :phrase => @phrase,
+                       :approved => true,
+                       :rules => [1])
+    translation = Otwtranslation::Translation.new()
+    translation.label = "irgendwas"
+    translation.language = @language
+    translation.phrase = @phrase
+    translation.approved = true
+    translation.rules = [1]
 
     translation.save.should be_false
     translation.errors[:approved].should == ["Another translation is already approved."]
@@ -116,40 +128,46 @@ describe Otwtranslation::Translation do
   end
 
   it "should allow two approved translations for different languages" do
-    Otwtranslation::Translation.create(:label => "irgendwas",
-                                       :language => @language,
-                                       :phrase => @phrase,
-                                       :approved => true)
-    translation = Otwtranslation::Translation.new(:label => "irgendwas",
-                                                  :language => @language2,
-                                                  :phrase => @phrase,
-                                                  :approved => true)
-    translation.save.should be_true
+    FactoryGirl.create(:translation,
+                       :label => "irgendwas",
+                       :language => @language,
+                       :phrase => @phrase,
+                       :approved => true)
+    translation = Otwtranslation::Translation.new()
+    translation.label = "irgendwas"
+    translation.language = @language2
+    translation.phrase = @phrase
+    translation.approved = true
+
+    translation.save!
   end
 
   it "should allow two approved translations for different phrases" do
-    Otwtranslation::Translation.create(:label => "irgendwas",
-                                       :language => @language,
-                                       :phrase => @phrase,
-                                       :approved => true)
-    translation = Otwtranslation::Translation.new(:label => "irgendwas",
-                                                  :language => @language,
-                                                  :phrase => @phrase2,
-                                                  :approved => true)
-    translation.save.should be_true
+    FactoryGirl.create(:translation,
+                       :label => "irgendwas",
+                       :language => @language,
+                       :phrase => @phrase,
+                       :approved => true)
+    translation = Otwtranslation::Translation.new()
+    translation.label = "irgendwas"
+    translation.language = @language
+    translation.phrase = @phrase2
+    translation.approved = true
+
+    translation.save!
   end
 
 end
 
 describe Otwtranslation::Translation, "for_language" do
    before(:each) do
-    @de = Factory.create(:language, :name => "Deutsch")
-    @nl = Factory.create(:language, :name => "Nederlands")
-    @phrase = Factory.create(:phrase)
+    @de = FactoryGirl.create(:language, :name => "Deutsch")
+    @nl = FactoryGirl.create(:language, :name => "Nederlands")
+    @phrase = FactoryGirl.create(:phrase)
     
-    Factory.create(:translation, :language => @de, :phrase => @phrase)
-    Factory.create(:translation, :language => @de, :phrase => @phrase)
-    Factory.create(:translation, :language => @nl, :phrase => @phrase)
+    FactoryGirl.create(:translation, :language => @de, :phrase => @phrase)
+    FactoryGirl.create(:translation, :language => @de, :phrase => @phrase)
+    FactoryGirl.create(:translation, :language => @nl, :phrase => @phrase)
   end
 
   it "should find german translations" do
@@ -172,21 +190,23 @@ end
 
 describe Otwtranslation::Translation, "for_context" do
    before(:each) do
-    @de = Factory.create(:language, :name => "Deutsch")
-    @phrase = Factory.create(:phrase, :label => "{possessive::name}")
-    @phrase2 = Factory.create(:phrase, :label => "{possessive::name} apple")
-    rule1 = Factory.create(:possessive_rule, :language => @de,
-                           :conditions => [["is", ["foo"]]])
-    rule2 = Factory.create(:possessive_rule, :language => @de,
-                           :conditions => [["is", ["bar"]]])
+    @de = FactoryGirl.create(:language, :name => "Deutsch")
+    @phrase = FactoryGirl.create(:phrase, :label => "{possessive::name}")
+    @phrase2 = FactoryGirl.create(:phrase, :label => "{possessive::name} apple")
+    rule1 = FactoryGirl.create(:possessive_rule, :language => @de,
+                               :conditions => [["is", ["foo"]]])
+    rule2 = FactoryGirl.create(:possessive_rule, :language => @de,
+                               :conditions => [["is", ["bar"]]])
     
-    @t1 = Factory.create(:translation, :language => @de, :phrase => @phrase)
-    @t2 = Factory.create(:translation, :language => @de, :phrase => @phrase)
-    @t3 = Factory.create(:translation, :language => @de, :phrase => @phrase2)
-    @tfoo = Factory.create(:translation, :language => @de, :phrase => @phrase,
-                         :rules => [rule1.id])
-    @tbar = Factory.create(:translation, :language => @de, :phrase => @phrase,
-                         :rules => [rule2.id])
+    @t1 = FactoryGirl.create(:translation, :language => @de, :phrase => @phrase)
+    @t2 = FactoryGirl.create(:translation, :language => @de, :phrase => @phrase)
+    @t3 = FactoryGirl.create(:translation, :language => @de, :phrase => @phrase2)
+    @tfoo = FactoryGirl.create(:translation, :language => @de,
+                               :phrase => @phrase,
+                               :rules => [rule1.id])
+    @tbar = FactoryGirl.create(:translation, :language => @de,
+                               :phrase => @phrase,
+                               :rules => [rule2.id])
   end
 
   it "should find translations for 'is foo'" do
@@ -230,21 +250,21 @@ end
 
 describe Otwtranslation::Translation, "approved_label_for_context" do
    before(:each) do
-    @de = Factory.create(:language, :name => "Deutsch")
-    @phrase = Factory.create(:phrase, :label => "{possessive::name}")
-    @phrase2 = Factory.create(:phrase, :label => "{possessive::name} apple")
-    @rule1 = Factory.create(:possessive_rule, :language => @de,
-                            :conditions => [["is", ["foo"]]])
-    @rule2 = Factory.create(:possessive_rule, :language => @de,
-                            :conditions => [["is", ["bar"]]])
+    @de = FactoryGirl.create(:language, :name => "Deutsch")
+    @phrase = FactoryGirl.create(:phrase, :label => "{possessive::name}")
+    @phrase2 = FactoryGirl.create(:phrase, :label => "{possessive::name} apple")
+    @rule1 = FactoryGirl.create(:possessive_rule, :language => @de,
+                                :conditions => [["is", ["foo"]]])
+    @rule2 = FactoryGirl.create(:possessive_rule, :language => @de,
+                                :conditions => [["is", ["bar"]]])
     
-    Factory.create(:translation, :language => @de, :phrase => @phrase2,
-                   :approved => "true")
+    FactoryGirl.create(:translation, :language => @de, :phrase => @phrase2,
+                       :approved => "true")
   end
 
   it "should find context-unaware translations for 'is foo'" do
-    t = Factory.create(:translation, :language => @de, :phrase => @phrase,
-                       :approved => "true")
+    t = FactoryGirl.create(:translation, :language => @de, :phrase => @phrase,
+                           :approved => "true")
     
     Otwtranslation::Translation
       .approved_label_for_context(@phrase.key, @phrase.label, @de, {:name => "foo"})
@@ -252,10 +272,16 @@ describe Otwtranslation::Translation, "approved_label_for_context" do
   end
 
   it "should find context-aware translations for 'is foo'" do
-    tfoo = Factory.create(:translation, :language => @de, :phrase => @phrase,
-                         :approved => "true", :rules => [@rule1.id])
-    tbar = Factory.create(:translation, :language => @de, :phrase => @phrase,
-                         :approved => "true", :rules => [@rule2.id])
+    tfoo = FactoryGirl.create(:translation,
+                              :language => @de,
+                              :phrase => @phrase,
+                              :approved => "true",
+                              :rules => [@rule1.id])
+    tbar = FactoryGirl.create(:translation,
+                              :language => @de,
+                              :phrase => @phrase,
+                              :approved => "true",
+                              :rules => [@rule2.id])
     
     Otwtranslation::Translation
       .approved_label_for_context(@phrase.key, @phrase.label, @de, {:name => "foo"})
@@ -263,8 +289,8 @@ describe Otwtranslation::Translation, "approved_label_for_context" do
   end
 
   it "should not find translations that have been disapproved" do
-    t = Factory.create(:translation, :language => @de, :phrase => @phrase,
-                       :approved => "true")
+    t = FactoryGirl.create(:translation, :language => @de, :phrase => @phrase,
+                           :approved => "true")
     t.approved = false
     t.save
 

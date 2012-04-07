@@ -19,16 +19,16 @@ end
 describe Otwtranslation::SourcesController, "GET show" do
   
   it "should fail if we are not authenticated" do
-    get :show, :id => 1
+    get :show, :id => '1'
     response.should_not be_success
   end
 
   it "should return a source" do
     admin_login()
     source = mock_model(Otwtranslation::Source)
-    Otwtranslation::Source.should_receive(:find).with(1).and_return(source)
+    Otwtranslation::Source.should_receive(:find).with('1').and_return(source)
     source.should_receive(:phrases).and_return([])
-    get :show, :id => 1
+    get :show, :id => '1'
     assigns[:source].should == source
     assigns[:phrases]
   end

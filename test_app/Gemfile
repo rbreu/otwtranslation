@@ -1,43 +1,62 @@
-source 'http://rubygems.org'
-
-gem 'rails', '3.0.5'
-gem 'sqlite3'
-gem 'memcache-client'
-gem 'jquery-rails'
-gem 'sanitize'
-gem 'resque', '>=1.14.0'
-gem 'resque_mailer'
-gem 'valium'
-
-gem "rails_helpers_fix"
+source 'https://rubygems.org'
 
 gem 'otwtranslation', :path => '../'
 
-gem 'authlogic',
-  :git     => 'git://github.com/odorcicd/authlogic.git',
-  :branch  => 'rails3',
-  :require => 'authlogic'
-
+gem 'rails', '3.2.3'
+gem 'sqlite3'
+gem 'memcache-client'
+gem 'sanitize'
+gem 'resque'
+gem 'resque_mailer'
+gem 'valium'
+gem 'redis'
+gem 'authlogic'
 gem 'permit_yo'
+gem 'will_paginate'
 
-gem 'will_paginate', '>=3.0.2'
-#gem 'will_paginate',
-#  :git     => 'git://github.com/huerlisi/will_paginate.git',
-#  :branch  => 'rails3',
-#  :require => 'will_paginate'
+#gem 'authlogic',
+#  :git     => 'git://github.com/binarylogic/authlogic.git',
+#  :branch  => 'master',
+#  :require => 'authlogic'
 
 
-group :development, :test do
-  gem "rspec-rails"
-  gem "cucumber-rails"
-  gem "capybara"
-  gem "launchy"
-  gem "factory_girl"
-  gem "webrat"
-  gem "database_cleaner"
-  #gem "akephalos"
-  gem "selenium-webdriver"
-  gem "pickle"
-  gem "escape_utils"
+# Gems used only for assets and not required
+# in production environments by default.
+group :assets do
+  gem 'sass-rails',   '~> 3.2.3'
+  gem 'coffee-rails', '~> 3.2.1'
+
+  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
+  gem 'therubyracer', :platform => :ruby
+
+  gem 'uglifier', '>= 1.0.3'
 end
 
+gem 'jquery-rails'
+
+# To use ActiveModel has_secure_password
+# gem 'bcrypt-ruby', '~> 3.0.0'
+
+# To use Jbuilder templates for JSON
+# gem 'jbuilder'
+
+# Use unicorn as the app server
+# gem 'unicorn'
+
+# Deploy with Capistrano
+# gem 'capistrano'
+
+# To use debugger
+# gem 'ruby-debug19', :require => 'ruby-debug'
+
+group :test do
+  gem 'rspec-rails'
+  gem 'cucumber-rails'
+  gem 'capybara'
+  gem 'factory_girl'
+  gem 'webrat'
+  gem 'database_cleaner'
+  gem 'selenium-webdriver'
+  gem 'rb-readline'
+  gem 'launchy'
+end

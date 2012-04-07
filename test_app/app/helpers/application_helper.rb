@@ -9,15 +9,6 @@ module ApplicationHelper
     controller.controller_name + '-' + controller.action_name
   end
 
-  # A more gracefully degrading link_to_remote.
-  def link_to_remote(name, options = {}, html_options = {})
-    unless html_options[:href]
-      html_options[:href] = url_for(options[:url])
-    end
-    
-    link_to_function(name, remote_function(options), html_options)
-  end
-  
   def span_if_current(link_to_default_text, path)
     translation_name = "layout.header." + link_to_default_text.gsub(/\s+/, "_")
     link = link_to_unless_current(link_to_default_text, path)

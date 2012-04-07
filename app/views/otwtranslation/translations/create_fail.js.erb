@@ -1,1 +1,1 @@
-$j("#main").prepend("<div class=\"flash error\"><%= escape_javascript(flash.delete(:error)) %></div>")
+$j("#main").prepend("<div class=\"flash error\"><%= escape_javascript(flash.discard(:error)) %></div>")

@@ -3,22 +3,26 @@ require 'spec_helper'
 describe Otwtranslation::Vote do
 
   before(:each) do
-    @user = Factory.create(:user)
-    @user2 =  Factory.create(:user)
-    @translation = Factory.create(:translation)
+    @user = FactoryGirl.create(:user)
+    @user2 =  FactoryGirl.create(:user)
+    @translation = FactoryGirl.create(:translation)
   end
   
   it "should create a new vote" do
-    vote = Otwtranslation::Vote.new(:owner => @user,
-                                    :translation => @translation)
-    vote.save.should be_true
+    vote = Otwtranslation::Vote.new()
+    vote.owner = @user
+    vote.translation = @translation
+    vote.save!
   end
 
   it "should not create duplicate vote" do
-    vote1 = Otwtranslation::Vote.create(:owner => @user,
-                                        :translation => @translation)    
-    vote2 = Otwtranslation::Vote.new(:owner => @user,
-                                     :translation => @translation)
+    vote1 = Otwtranslation::Vote.new()
+    vote1.owner = @user
+    vote1.translation = @translation
+    vote1.save!
+    vote2 = Otwtranslation::Vote.new()
+    vote2.owner = @user
+    vote2.translation = @translation
     vote2.save.should be_false
   end
 

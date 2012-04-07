@@ -14,8 +14,8 @@ module Otwtranslation::CommonMethods
   
   def prettify_error_messages(obj)
     msg =  ['<ul>']
-    obj.errors.each_pair do |attribute, message|
-      msg += ["<li>#{attribute.capitalize}: #{message.join(", ")}</li>"]
+    obj.errors.each do |attribute, message|
+      msg += ["<li>#{attribute.capitalize}: #{message}</li>"]
     end
     msg += ['</ul>']
     return msg.join("\n").html_safe

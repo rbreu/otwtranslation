@@ -1,25 +1,24 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../test_app/config/environment", __FILE__)
-require File.expand_path('../../features/support/factories.rb', __FILE__)
-
 require 'rspec/rails'
+require 'rspec/autorun'
 require 'authlogic/test_case'
-
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-Dir[File.join(File.expand_path("../../", __FILE__ ), "spec", "support", "**", "*.rb")].each {|f| require f}
+Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+
+require Rails.root.join('../features/support/factories.rb')
 
 RSpec.configure do |config|
-  # == Mock Framework
+  # ## Mock Framework
   #
   # If you prefer to use mocha, flexmock or RR, uncomment the appropriate line:
   #
   # config.mock_with :mocha
   # config.mock_with :flexmock
   # config.mock_with :rr
-  config.mock_with :rspec
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -28,6 +27,11 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = true
+
+  # If true, the base class of anonymous controllers will be inferred
+  # automatically. This will be the default behavior in future versions of
+  # rspec-rails.
+  config.infer_base_class_for_anonymous_controllers = false
 
   config.include Authlogic::TestCase, :type => :controller
 
@@ -39,13 +43,11 @@ RSpec.configure do |config|
 end
 
 
-
 # For use within controllers:
 
 def admin_login()
   activate_authlogic
-  user = Factory(:translation_admin)
+  user = FactoryGirl.create(:translation_admin)
   UserSession.create user
 end
-
 

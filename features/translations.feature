@@ -114,6 +114,7 @@ Feature: Translations
 
     When I go to the phrase page
     And I press "Approve"
+
     Then I should see "Another translation is already approved."
     And I should see approved set to "No"
     

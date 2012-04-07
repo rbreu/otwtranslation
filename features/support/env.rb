@@ -4,11 +4,14 @@
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # files.
 
-ENV["RAILS_ENV"] ||= "test"
-require File.expand_path(File.dirname(__FILE__) + '/../../test_app/config/environment')
-ENV["RAILS_ROOT"] ||= File.dirname(__FILE__) + "../../../test_app"
-
+ENV["RAILS_ROOT"] = File.expand_path("test_app/")
 require 'cucumber/rails'
+
+# Capybara defaults to XPath selectors rather than Webrat's default of CSS3. In
+# order to ease the transition to Capybara we set the default here. If you'd
+# prefer to use XPath just remove this line and adjust any selectors in your
+# steps to use the XPath syntax.
+Capybara.default_selector = :css
 
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how 
@@ -27,14 +30,6 @@ require 'cucumber/rails'
 #
 ActionController::Base.allow_rescue = false
 
-
-
-# Capybara defaults to XPath selectors rather than Webrat's default of CSS3. In
-# order to ease the transition to Capybara we set the default here. If you'd
-# prefer to use XPath just remove this line and adjust any selectors in your
-# steps to use the XPath syntax.
-Capybara.default_selector = :css
-
 # Remove/comment out the lines below if your app doesn't have a database.
 # For some databases (like MongoDB and CouchDB) you may need to use :truncation instead.
 begin
@@ -47,7 +42,10 @@ end
 # See the DatabaseCleaner documentation for details. Example:
 #
 #   Before('@no-txn,@selenium,@culerity,@celerity,@javascript') do
-#     DatabaseCleaner.strategy = :truncation, {:except => %w[widgets]}
+#     # { :except => [:widgets] } may not do what you expect here
+#     # as tCucumber::Rails::Database.javascript_strategy overrides
+#     # this setting.
+#     DatabaseCleaner.strategy = :truncation
 #   end
 #
 #   Before('~@no-txn', '~@selenium', '~@culerity', '~@celerity', '~@javascript') do
@@ -58,16 +56,7 @@ end
 # Possible values are :truncation and :transaction
 # The :transaction strategy is faster, but might give you threading problems.
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
-#Cucumber::Rails::Database.javascript_strategy = :transaction #:truncation
-DatabaseCleaner.app_root = "test_app"
-
-# for headless javascript testing
-# require 'akephalos'
-# Capybara.server_boot_timeout = 50
-# Capybara.javascript_driver = :akephalos
-
-Capybara.server_boot_timeout = 100
-Capybara.javascript_driver = :selenium
+Cucumber::Rails::Database.javascript_strategy = :truncation
 
 
 Before do

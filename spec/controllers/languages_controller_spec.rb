@@ -42,15 +42,15 @@ end
 describe Otwtranslation::LanguagesController, "GET show" do
   
   it "should fail if we are not authenticated" do
-    get :show, :id => 1
+    get :show, :id => '1'
     response.should_not be_success
   end
 
   it "should return a language" do
     admin_login()
     language = mock_model(Otwtranslation::Language)
-    Otwtranslation::Language.should_receive(:find_by_short).with(1).and_return(language)
-    get :show, :id => 1
+    Otwtranslation::Language.should_receive(:find_by_short).with('1').and_return(language)
+    get :show, :id => '1'
     assigns[:language].should == language
    end
 
@@ -66,7 +66,7 @@ describe Otwtranslation::LanguagesController, "GET new" do
 
   it "should create a language" do
     admin_login()
-    Otwtranslation::Language.should_receive(:new)
+    Otwtranslation::Language.should_receive(:new).with()
     get :new
   end
 end
@@ -91,17 +91,25 @@ describe Otwtranslation::LanguagesController, "POST create" do
         @language_params = {"short" => "de", "name" => "Deutsch",
           "right_to_left" => false, "translation_visible" => true}
         @language = mock_model(Otwtranslation::Language, :save => true)
+        @language.stub(:short=)
+        @language.stub(:name=)
+        @language.stub(:right_to_left=)
+        @language.stub(:translation_visible=)
         Otwtranslation::Language.stub(:new).and_return(@language)
       end
     
       it "should create a language" do
-        Otwtranslation::Language.should_receive(:new).with(@language_params).and_return(@language)
+        Otwtranslation::Language.should_receive(:new).with().and_return(@language)
+        @language.should_receive(:short=).with("de")
+        @language.should_receive(:name=).with("Deutsch")
+        @language.should_receive(:right_to_left=).with(false)
+        @language.should_receive(:translation_visible=).with(true)
         post :create, :otwtranslation_language => @language_params
       end
       
       it "should save a language" do
         @language.should_receive(:save)
-        post :create
+        post :create, :otwtranslation_language => @language_params
       end
 
       context "when language saves successfully" do
@@ -111,12 +119,12 @@ describe Otwtranslation::LanguagesController, "POST create" do
         end
         
         it "sets a flash[:notice] message" do
-          post :create
+          post :create, :otwtranslation_language => @language_params
           flash[:notice].should == 'Language successfully created.'
         end
       
         it "redirects to the newly created language" do
-          post :create
+          post :create, :otwtranslation_language => @language_params
           response.should redirect_to(otwtranslation_language_path(@language))
         end
       end
@@ -128,17 +136,17 @@ describe Otwtranslation::LanguagesController, "POST create" do
         end
 
         it "assigns @language" do
- 	  post :create
+ 	  post :create, :otwtranslation_language => @language_params
  	  assigns[:language].should == @language
  	end
         
         it "sets a flash[:error] message" do
-          post :create
+          post :create, :otwtranslation_language => @language_params
           flash[:error].should contain 'There was a problem saving the language'
         end
       
         it "render the new form" do
-          post :create
+          post :create, :otwtranslation_language => @language_params
           response.should render_template("new")
         end
       end

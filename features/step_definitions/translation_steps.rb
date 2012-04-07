@@ -1,17 +1,17 @@
 Given /^I have the (approved |)translation "([^"]*)" for "([^"]*)" in ([^"]*)$/ do |approved, translation, label, language|
   lang = Otwtranslation::Language.find_by_name(language) ||
-    Factory(:language, {:name => language})
+    FactoryGirl.create(:language, {:name => language})
   @phrase = Otwtranslation::Phrase.find_by_label(label) ||
-    Factory(:phrase, {:label => label})
+    FactoryGirl.create(:phrase, {:label => label})
 
   approved = !approved.blank?
-  @translation = Factory(:translation, :label => translation,
-                         :language => lang, :phrase => @phrase,
-                         :approved => approved)
+  @translation = FactoryGirl.create(:translation, :label => translation,
+                                    :language => lang, :phrase => @phrase,
+                                    :approved => approved)
 end
 
 Then /^the translation was last edited by "([^"]*)"$/ do |user|
-  user = User.find_by_login(user) || Factory(:user, {:login => user})
+  user = User.find_by_login(user) || FactoryGirl.create(:user, {:login => user})
   @translation.last_editor = user
   @translation.save!
 end

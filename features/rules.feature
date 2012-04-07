@@ -25,7 +25,6 @@ Feature: Context Rules
     And I select "append" from "otwtranslation_context_rule[actions][]"
     And I fill in "otwtranslation_context_rule[actions][]" with "barbaz"
     And I press "Add rule"
-
     Then I should see the language name "Deutsch"
     And I should see the rule type "general"
     And I should see the text with tags "<p>test rule description</p>"

@@ -12,5 +12,5 @@ $j("span#otwtranslation_phrase_<%= @translation.phrase_key %>").rightClick(funct
   });
 
 <% unless flash[:error].blank? %>
-  $j("#main").prepend("<div class=\"flash error\"><%= escape_javascript(flash.delete(:error)) %></div>")
+  $j("#main").prepend("<div class=\"flash error\"><%= escape_javascript(flash.discard(:error)) %></div>")
 <% end %>

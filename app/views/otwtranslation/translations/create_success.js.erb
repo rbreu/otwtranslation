@@ -28,5 +28,5 @@ $j("span#otwtranslation_phrase_<%= @phrase_key %>").rightClick(function(event) {
 
 
 <% if flash[:notice] %>
-$j("#main").prepend("<div class=\"flash notice\"><%= escape_javascript(flash.delete(:notice)) %></div>")
+$j("#main").prepend("<div class=\"flash notice\"><%= escape_javascript(flash.discard(:notice)) %></div>")
 <% end %>

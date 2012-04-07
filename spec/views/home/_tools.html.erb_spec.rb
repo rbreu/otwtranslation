@@ -1,9 +1,9 @@
 require 'spec_helper'
  	
-describe "otwtranslation/home/_tools.html.erb" do
+describe "otwtranslation/home/_tools" do
   it "should display the translation tabs" do
     view.stub(:logged_in?).and_return(false)
-    source = Factory(:source)
+    source = FactoryGirl.create(:source)
     view.should_receive(:source).any_number_of_times.and_return(source)
     render
     rendered.should contain 'languages'

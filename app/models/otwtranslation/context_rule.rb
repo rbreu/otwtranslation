@@ -3,15 +3,14 @@ require 'treetop'
 
 Treetop.load(File.join(File.dirname(__FILE__), 'context_rules'))
 
-include ActionView::Helpers::TextHelper
-  
 class Otwtranslation::ContextRule < ActiveRecord::Base
-  include HtmlCleaner
+  extend ActionView::Helpers::TextHelper
 
-  set_table_name :otwtranslation_context_rules
+  self.table_name = :otwtranslation_context_rules
 
   belongs_to(:language, :class_name => 'Otwtranslation::Language',
              :primary_key => 'short', :foreign_key => 'language_short')
+
 
   # Condtions: Array of [condition name, param_list] pairs, e.g.
   # [["ends with", ["s", "x"], ["starts with", ["A", "a"]]]

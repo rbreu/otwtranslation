@@ -1,5 +1,5 @@
 Given /^I have the language "([^"]*)" with short "([^"]*)"$/ do |name, short|
-  @language = Factory(:language, {:name => name, :short => short})
+  @language = FactoryGirl.create(:language, {:name => name, :short => short})
 end
 
 Then /^I should see the language name "([^"]*)"$/ do |name|
@@ -21,7 +21,7 @@ end
 
 Given /^I (have selected|select) the language ([^"]*)$/ do |_, language|
   @language = Otwtranslation::Language.find_by_name(language) ||
-    Factory(:language, {:name => language})
+    FactoryGirl.create(:language, {:name => language})
   
   visit "/"
   select language, :from => 'otwtranslation_language'

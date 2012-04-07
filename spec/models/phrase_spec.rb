@@ -78,23 +78,23 @@ end
   
 describe Otwtranslation::Phrase, "translation associations" do
    before(:each) do
-    @de = Factory.create(:language, :name => "Deutsch")
-    @nl = Factory.create(:language, :name => "Nederlands")
-    @phrase = Factory.create(:phrase, :label => "{possessive::name}")
+    @de = FactoryGirl.create(:language, :name => "Deutsch")
+    @nl = FactoryGirl.create(:language, :name => "Nederlands")
+    @phrase = FactoryGirl.create(:phrase, :label => "{possessive::name}")
     
-    Factory.create(:translation, :language => @de, :phrase => @phrase)
-    Factory.create(:translation, :language => @de, :phrase => @phrase,
-                   :approved => true)
+    FactoryGirl.create(:translation, :language => @de, :phrase => @phrase)
+    FactoryGirl.create(:translation, :language => @de, :phrase => @phrase,
+                       :approved => true)
     
-    Factory.create(:translation, :language => @nl, :phrase => @phrase)
-    Factory.create(:translation, :language => @nl, :phrase => @phrase,
-                   :approved => true)
+    FactoryGirl.create(:translation, :language => @nl, :phrase => @phrase)
+    FactoryGirl.create(:translation, :language => @nl, :phrase => @phrase,
+                       :approved => true)
 
     # Throw in a few translations that shouldn't be found
-    dummy_phrase = Factory.create(:phrase)
-    Factory.create(:translation, :language => @de, :phrase => dummy_phrase)
-    Factory.create(:translation, :language => @de, :phrase => dummy_phrase,
-                   :approved => true)
+    dummy_phrase = FactoryGirl.create(:phrase)
+    FactoryGirl.create(:translation, :language => @de, :phrase => dummy_phrase)
+    FactoryGirl.create(:translation, :language => @de, :phrase => dummy_phrase,
+                       :approved => true)
   end
 
   it "should find all translations" do
@@ -115,15 +115,17 @@ describe Otwtranslation::Phrase, "translation associations" do
   end
 
   it "should find translations per context" do
-    rfoo = Factory.create(:possessive_rule, :language => @de,
-                           :conditions => [["is", ["foo"]]])
-    rbar = Factory.create(:possessive_rule, :language => @de,
-                           :conditions => [["is", ["bar"]]])
+    rfoo = FactoryGirl.create(:possessive_rule, :language => @de,
+                              :conditions => [["is", ["foo"]]])
+    rbar = FactoryGirl.create(:possessive_rule, :language => @de,
+                              :conditions => [["is", ["bar"]]])
     
-    tfoo = Factory.create(:translation, :language => @de, :phrase => @phrase,
-                          :rules => [rfoo.id])
-    tbar = Factory.create(:translation, :language => @de, :phrase => @phrase,
-                          :rules => [rbar.id])
+    tfoo = FactoryGirl.create(:translation, :language => @de,
+                              :phrase => @phrase,
+                              :rules => [rfoo.id])
+    tbar = FactoryGirl.create(:translation, :language => @de,
+                              :phrase => @phrase,
+                              :rules => [rbar.id])
 
     t = @phrase.translations.for_context(@phrase.key, @phrase.label,
                                          @de, {:name => "foo"})

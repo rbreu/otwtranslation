@@ -18,7 +18,11 @@ class Otwtranslation::LanguagesController < ApplicationController
   end
 
   def create
-    @language = Otwtranslation::Language.new(params[:otwtranslation_language])
+    @language = Otwtranslation::Language.new
+    @language.short = params[:otwtranslation_language][:short]
+    @language.name = params[:otwtranslation_language][:name]
+    @language.right_to_left = params[:otwtranslation_language][:right_to_left]
+    @language.translation_visible = params[:otwtranslation_language][:translation_visible]
 
     if @language.save
       flash[:notice] =  ts('Language successfully created.')

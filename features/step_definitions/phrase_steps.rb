@@ -1,6 +1,6 @@
 
 Given /^I have the phrase "([^"]*)"$/ do |phrase|
-  @phrase = Factory(:phrase, {:label => phrase})
+  @phrase = FactoryGirl.create(:phrase, {:label => phrase})
 end
 
 Then /^I should see the phrase "([^"]*)"$/ do |label|

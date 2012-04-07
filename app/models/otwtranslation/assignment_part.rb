@@ -1,7 +1,7 @@
 class Otwtranslation::AssignmentPart < ActiveRecord::Base
   include HtmlCleaner
 
-  set_table_name :otwtranslation_assignment_parts
+  self.table_name = :otwtranslation_assignment_parts
 
   belongs_to(:assignment, :class_name => 'Otwtranslation::Assignment',
              :foreign_key => 'assignment_id')

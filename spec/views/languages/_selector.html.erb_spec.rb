@@ -1,12 +1,15 @@
 require 'spec_helper'
  	
-describe "otwtranslation/languages/_selector.html.erb" do
+describe "otwtranslation/languages/_selector" do
 
   context "when there are visible and invisible languages" do
     before(:each) do
-      Factory(:language, :name => 'English', :translation_visible => true)
-      Factory(:language, :name => 'Deutsch', :translation_visible => true)
-      Factory(:language, :name => 'Nederlands', :translation_visible => false)
+      FactoryGirl.create(:language, :name => 'English',
+                         :translation_visible => true)
+      FactoryGirl.create(:language, :name => 'Deutsch',
+                         :translation_visible => true)
+      FactoryGirl.create(:language, :name => 'Nederlands',
+                         :translation_visible => false)
     end
 
     context "when translation tools not visible" do

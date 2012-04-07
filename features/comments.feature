@@ -39,7 +39,6 @@ Feature: Translation comments
     And I should see 0 comment blurbs
     
     When I follow "Comments 2"
-    Then show me the page
     Then I should see 2 comment blurbs
     When I follow "Hide Comments 2"
     Then I should see 0 comment blurbs

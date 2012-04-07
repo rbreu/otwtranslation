@@ -1,11 +1,11 @@
 require 'spec_helper'
  	
-describe "otwtranslation/translations/_actions.html.erb" do
+describe "otwtranslation/translations/_actions" do
 
   context "approved translation" do
     
     before(:each) do
-      translation = Factory(:translation, :approved => true)
+      translation = FactoryGirl.create(:translation, :approved => true)
       view.should_receive(:translation).any_number_of_times.and_return(translation)
     end
   
@@ -23,7 +23,7 @@ describe "otwtranslation/translations/_actions.html.erb" do
   context "not approved translation" do
 
     before(:each) do
-      translation = Factory(:translation, :approved => false)
+      translation = FactoryGirl.create(:translation, :approved => false)
       view.should_receive(:translation).any_number_of_times.and_return(translation)
     end
     

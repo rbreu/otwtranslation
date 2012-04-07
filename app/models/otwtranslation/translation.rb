@@ -3,7 +3,7 @@ require 'sanitize'
 class Otwtranslation::Translation < ActiveRecord::Base
   acts_as_commentable
 
-  set_table_name :otwtranslation_translations
+  self.table_name = :otwtranslation_translations
 
   belongs_to(:language, :class_name => 'Otwtranslation::Language',
              :primary_key => 'short', :foreign_key => 'language_short')

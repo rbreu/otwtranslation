@@ -33,14 +33,17 @@ class Otwtranslation::RulesController < ApplicationController
   def create
     type = "#{params[:otwtranslation_context_rule][:type].capitalize}Rule"
     begin
-      @rule = Otwtranslation.const_get(type).new(params[:otwtranslation_context_rule])
+      @rule = Otwtranslation.const_get(type).new
     rescue NameError
-      @rule = Otwtranslation::GeneralRule.new(params[:otwtranslation_context_rule])
+      @rule = Otwtranslation::GeneralRule.new
       @rule.errors[:type] = "No such rule type: #{params[:otwtranslation_context_rule][:type]}"
     end
+    @rule.description = params[:otwtranslation_context_rule][:description]
     @rule.language_short = params[:id]
-    @rule.conditions = trim_condition_action_params(@rule.conditions)
-    @rule.actions = trim_condition_action_params(@rule.actions)
+    @rule.conditions = trim_condition_action_params(
+                         params[:otwtranslation_context_rule][:conditions])
+    @rule.actions = trim_condition_action_params(
+                      params[:otwtranslation_context_rule][:actions])
 
     render(:action => 'new') && return if params[:commit].downcase == "set type"
 

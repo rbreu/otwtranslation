@@ -75,13 +75,13 @@ end
 describe Otwtranslation::ContextRule, "deletetion" do
 
   before(:each) do
-    @language = Factory.create(:language)
-    @rule = Factory.create(:possessive_rule, :language => @language)
-    @rule2 = Factory.create(:possessive_rule, :language => @language)
-    @translation = Factory.create(:translation,
-                                  :language => @language,
-                                  :approved => true,
-                                  :rules => [@rule.id])
+    @language = FactoryGirl.create(:language)
+    @rule = FactoryGirl.create(:possessive_rule, :language => @language)
+    @rule2 = FactoryGirl.create(:possessive_rule, :language => @language)
+    @translation = FactoryGirl.create(:translation,
+                                      :language => @language,
+                                      :approved => true,
+                                      :rules => [@rule.id])
   end
 
   it "should remove rule from translation" do

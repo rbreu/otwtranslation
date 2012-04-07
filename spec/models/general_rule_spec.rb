@@ -7,7 +7,7 @@ describe Otwtranslation::GeneralRule, "creation" do
   end
 
   it "should save minimalistic rule" do
-    rule.save.should be_true
+    rule.save!
     rule.reload
     rule.type.should == "Otwtranslation::GeneralRule"
   end

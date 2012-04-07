@@ -11,5 +11,5 @@ Then /^I should see phrase with current version "([^"]*)"$/ do |version|
 end
 
 Given /^I have the source "([^"]*)"$/ do |source|
-  @source = Factory.create(:source, :controller_action => source)
+  @source = FactoryGirl.create(:source, :controller_action => source)
 end

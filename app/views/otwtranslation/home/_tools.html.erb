@@ -2,7 +2,13 @@
 
 <h3 class="landmark heading"><acronym>OTW</acronym> Translation Navigation</h3>
 <ul class="translation navigation actions" role="navigation">
-  <li><%= link_to(source.controller_action, source) %></li>
+  <li>
+    <% if source %>
+      <%= link_to(source.controller_action, source) %>
+    <% else %>
+      ???
+    <% end %>
+  </li>
   <li><%= span_if_current "translation home", otwtranslation_home_path %></li>
   <li><%= span_if_current "phrases", otwtranslation_phrases_path %></li>
   <li><%= span_if_current "sources", otwtranslation_sources_path %></li>
