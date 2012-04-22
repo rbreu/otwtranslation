@@ -49,7 +49,7 @@ describe Otwtranslation::LanguagesController, "GET show" do
   it "should return a language" do
     admin_login()
     language = mock_model(Otwtranslation::Language)
-    Otwtranslation::Language.should_receive(:find_by_short).with('1').and_return(language)
+    Otwtranslation::Language.should_receive(:find_by_locale).with('1').and_return(language)
     get :show, :id => '1'
     assigns[:language].should == language
    end
@@ -88,10 +88,10 @@ describe Otwtranslation::LanguagesController, "POST create" do
     context "when creating a new language" do
 
       before(:each) do
-        @language_params = {"short" => "de", "name" => "Deutsch",
+        @language_params = {"locale" => "de", "name" => "Deutsch",
           "right_to_left" => false, "translation_visible" => true}
         @language = mock_model(Otwtranslation::Language, :save => true)
-        @language.stub(:short=)
+        @language.stub(:locale=)
         @language.stub(:name=)
         @language.stub(:right_to_left=)
         @language.stub(:translation_visible=)
@@ -100,7 +100,7 @@ describe Otwtranslation::LanguagesController, "POST create" do
     
       it "should create a language" do
         Otwtranslation::Language.should_receive(:new).with().and_return(@language)
-        @language.should_receive(:short=).with("de")
+        @language.should_receive(:locale=).with("de")
         @language.should_receive(:name=).with("Deutsch")
         @language.should_receive(:right_to_left=).with(false)
         @language.should_receive(:translation_visible=).with(true)

@@ -23,7 +23,7 @@ class Otwtranslation::AssignmentsController < ApplicationController
 
   def index
     @assignments = Otwtranslation::Assignment
-      .where(:language_short => otwtranslation_language).paginate(:page => params[:page])
+      .where(:locale => otwtranslation_language).paginate(:page => params[:page])
   end
 
   def show
@@ -59,7 +59,7 @@ class Otwtranslation::AssignmentsController < ApplicationController
   def create
 
     @assignment = Otwtranslation::Assignment.new(:description => params[:description],
-                                                 :language_short => otwtranslation_language)
+                                                 :locale => otwtranslation_language)
 
     unless params[:source_controller_action].blank?
       source = Otwtranslation::Source

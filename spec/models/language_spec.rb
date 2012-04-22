@@ -4,12 +4,12 @@ describe Otwtranslation::Language do
 
   it "should save a new language" do
     language = Otwtranslation::Language.new()
-    language.short = "de"
+    language.locale = "de"
     language.name = "Deutsch"
     language.right_to_left = false
     language.translation_visible = true
     language.save!
-    language.short.should == "de"
+    language.locale.should == "de"
     language.name.should == "Deutsch"
     language.right_to_left.should be_false
     language.translation_visible.should be_true

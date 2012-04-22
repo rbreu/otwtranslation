@@ -1,13 +1,13 @@
-Given /^I have the language "([^"]*)" with short "([^"]*)"$/ do |name, short|
-  @language = FactoryGirl.create(:language, {:name => name, :short => short})
+Given /^I have the language "([^"]*)" with locale "([^"]*)"$/ do |name, locale|
+  @language = FactoryGirl.create(:language, {:name => name, :locale => locale})
 end
 
 Then /^I should see the language name "([^"]*)"$/ do |name|
   page.should have_selector('th.language, dd.language', :text => name)
 end
 
-Then /^I should see the language short "([^"]*)"$/ do |short|
-  page.should have_selector('td.short, dd.short', :text => short)
+Then /^I should see the locale "([^"]*)"$/ do |locale|
+  page.should have_selector('td.locale, dd.locale', :text => locale)
 end
 
 Then /^I should see right to left set to "([^"]*)"$/ do |rtl|

@@ -9,8 +9,8 @@
   <!--main content-->
   <%= form_for(@language, :url => otwtranslation_post_language_path) do |f| %>
   <dl>
-    <dt><%= f.label(:short, ts("Short:"))%></dt>
-    <dd><%= f.text_field :short %></dd>
+    <dt><%= f.label(:locale, ts("Locale:"))%></dt>
+    <dd><%= f.text_field :locale %></dd>
     
     <dt><%= f.label(:name, ts("Name:"))%></dt>
     <dd><%= f.text_field :name %></dd>

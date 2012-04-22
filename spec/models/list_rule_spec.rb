@@ -6,10 +6,10 @@ describe Otwtranslation::ListRule, "creation" do
     actions = [["replace", ["Abby"]]]
     rule = Otwtranslation::ListRule.create(:conditions => conditions,
                                               :actions => actions,
-                                              :language_short => "de",
+                                              :locale => "de",
                                               :description => "foo")
     rule.reload
-    rule.language_short.should == "de"
+    rule.locale.should == "de"
     rule.description.should == "foo"
     rule.conditions.should == conditions
     rule.actions.should == actions

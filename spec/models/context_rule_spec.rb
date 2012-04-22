@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe Otwtranslation::ContextRule, "creation" do
-  let (:rule) { Otwtranslation::GeneralRule.new(:language_short => "de") }
+  let (:rule) { Otwtranslation::GeneralRule.new(:locale => "de") }
 
   it "should create empty conditions and actions lists" do
     rule.conditions.should == []
@@ -808,7 +808,7 @@ describe Otwtranslation::ContextRule, "apply_rules" do
     before(:each) do
       conditions = [["matches all", []]]
       @rule = Otwtranslation::GeneralRule.create(:conditions => conditions,
-                                                 :language_short => "en",
+                                                 :locale => "en",
                                                  :actions => [])
     end
     
@@ -854,11 +854,11 @@ end
 describe Otwtranslation::ContextRule, "rule_combinations" do
 
   before(:each) do
-    @gen = Otwtranslation::GeneralRule.create(:language_short => "en",
+    @gen = Otwtranslation::GeneralRule.create(:locale => "en",
                                               :conditions => [["matches all", []]])
-    @quant1 = Otwtranslation::QuantityRule.create(:language_short => "en",
+    @quant1 = Otwtranslation::QuantityRule.create(:locale => "en",
                                                   :conditions => [["is", ["1"]]])
-    @quant2 = Otwtranslation::QuantityRule.create(:language_short => "en",
+    @quant2 = Otwtranslation::QuantityRule.create(:locale => "en",
                                                   :conditions => [["matches all", []]])
   end
   
@@ -919,11 +919,11 @@ end
 describe Otwtranslation::ContextRule, "matching_rules" do
 
   before(:each) do
-    @gen = Otwtranslation::GeneralRule.create(:language_short => "en",
+    @gen = Otwtranslation::GeneralRule.create(:locale => "en",
                                               :conditions => [["matches all", []]])
-    @quant1 = Otwtranslation::QuantityRule.create(:language_short => "en",
+    @quant1 = Otwtranslation::QuantityRule.create(:locale => "en",
                                                   :conditions => [["is", ["1"]]])
-    @quant2 = Otwtranslation::QuantityRule.create(:language_short => "en",
+    @quant2 = Otwtranslation::QuantityRule.create(:locale => "en",
                                                   :conditions => [["matches all", []]])
   end
   

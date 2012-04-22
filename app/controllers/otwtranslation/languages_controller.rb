@@ -8,7 +8,7 @@ class Otwtranslation::LanguagesController < ApplicationController
   end
 
   def show
-    @language = Otwtranslation::Language.find_by_short(params[:id])
+    @language = Otwtranslation::Language.find_by_locale(params[:id])
     @rules = Otwtranslation::ContextRule
       .rules_for(params[:id]).paginate(:page => params[:page])
   end
@@ -19,7 +19,7 @@ class Otwtranslation::LanguagesController < ApplicationController
 
   def create
     @language = Otwtranslation::Language.new
-    @language.short = params[:otwtranslation_language][:short]
+    @language.locale = params[:otwtranslation_language][:locale]
     @language.name = params[:otwtranslation_language][:name]
     @language.right_to_left = params[:otwtranslation_language][:right_to_left]
     @language.translation_visible = params[:otwtranslation_language][:translation_visible]

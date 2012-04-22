@@ -103,14 +103,14 @@ describe Otwtranslation::Phrase, "translation associations" do
   
   it "should find all german translations" do
     @phrase.translations.for_language(@de).size.should == 2
-    @phrase.translations.for_language(@de).first.language_short == @de.short
-    @phrase.translations.for_language(@de).last.language_short == @de.short
+    @phrase.translations.for_language(@de).first.locale == @de.locale
+    @phrase.translations.for_language(@de).last.locale == @de.locale
   end
 
   it "should find all approved german translations" do
     t = @phrase.approved_translations.for_language(@de)
     t.size.should == 1
-    t.first.language_short.should == @de.short
+    t.first.locale.should == @de.locale
     t.first.approved.should be_true
   end
 

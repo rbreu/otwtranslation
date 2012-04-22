@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Otwtranslation::GeneralRule, "creation" do
 
   let(:rule) do
-    Otwtranslation::GeneralRule.new(:language_short => "de")
+    Otwtranslation::GeneralRule.new(:locale => "de")
   end
 
   it "should save minimalistic rule" do
@@ -17,8 +17,8 @@ end
 describe Otwtranslation::GeneralRule, "acts as list" do
 
   before(:each) do
-    @rule1 = Otwtranslation::GeneralRule.create(:language_short => "de")
-    @rule2 = Otwtranslation::GeneralRule.create(:language_short => "de")
+    @rule1 = Otwtranslation::GeneralRule.create(:locale => "de")
+    @rule2 = Otwtranslation::GeneralRule.create(:locale => "de")
   end
   
   it "should update position" do
@@ -27,13 +27,13 @@ describe Otwtranslation::GeneralRule, "acts as list" do
   end
 
   it "should count from 1 for new language" do
-    rule3 = Otwtranslation::GeneralRule.create(:language_short => "nl")
+    rule3 = Otwtranslation::GeneralRule.create(:locale => "nl")
     rule3.position.should == 1
   end
 
 
   it "should count from 1 for new type" do
-    rule3 = Otwtranslation::ListRule.create(:language_short => "de")
+    rule3 = Otwtranslation::ListRule.create(:locale => "de")
     rule3.position.should == 1
   end
 

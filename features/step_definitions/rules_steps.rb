@@ -18,7 +18,7 @@ Given /^I have singular\/plural rules for ([^"]*)$/ do |language|
   @language = Otwtranslation::Language.find_by_name(language) ||
     FactoryGirl.create(:language, {:name => language})
   rule = Otwtranslation::QuantityRule.create(:conditions => [["is", ["1"]]],
-                                             :language_short => @language.short)
+                                             :locale => @language.locale)
   rule = Otwtranslation::QuantityRule.create(:conditions => [["matches all", []]],
-                                             :language_short => @language.short)
+                                             :locale => @language.locale)
 end

@@ -18,7 +18,7 @@
     <caption><!--please briefly label--></caption>
     <thead>
       <tr>
-	<th scope="col"><%= ts("Short") %></th>
+	<th scope="col"><%= ts("Locale") %></th>
 	<th scope="col"><%= ts("Name") %></th>
 	<th scope="col"><%= ts("Right to left?") %>
 	<th scope="col"><%= ts("Translation visible?") %>
@@ -31,7 +31,7 @@
       <% cache("otwtranslation-language-index-#{language.id}",
 	 :expires_in => OtwtranslationConfig.STATS_CACHE_EXPIRY.to_f.minutes) do %>
       <tr>
-	<td class="short"><%= language.short %></td>
+	<td class="locale"><%= language.locale %></td>
 	<th class="language" scope="row">
 	  <%= link_to(language.name, otwtranslation_language_path(language)) %>
 	</th>

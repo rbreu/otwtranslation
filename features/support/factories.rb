@@ -31,7 +31,7 @@ FactoryGirl.define do
     right_to_left false
     translation_visible true
 
-    after_build {|l| l.short = l.name[0,2].downcase }
+    after_build {|l| l.locale = l.name[0,2].downcase }
   end
 
 

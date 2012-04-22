@@ -6,7 +6,7 @@ class Otwtranslation::Translation < ActiveRecord::Base
   self.table_name = :otwtranslation_translations
 
   belongs_to(:language, :class_name => 'Otwtranslation::Language',
-             :primary_key => 'short', :foreign_key => 'language_short')
+             :primary_key => 'locale', :foreign_key => 'locale')
   belongs_to(:phrase, :class_name => 'Otwtranslation::Phrase',
              :primary_key => 'key', :foreign_key => 'phrase_key')
   belongs_to(:last_editor, :class_name => 'User')
@@ -49,7 +49,7 @@ class Otwtranslation::Translation < ActiveRecord::Base
   def self.validate_approved(translation, value)
     return true if value.blank?
     
-    existing = where(:language_short => translation.language_short,
+    existing = where(:locale => translation.locale,
                      :phrase_key => translation.phrase_key,
                      :approved => translation.approved)
 
@@ -76,17 +76,17 @@ class Otwtranslation::Translation < ActiveRecord::Base
   end
 
   def cache_key
-    self.class.cache_key(phrase_key, language_short, rules)
+    self.class.cache_key(phrase_key, locale, rules)
   end
 
   # Find translations for a specific language
-  # Takes a language_short string or a language object
+  # Takes a locale string or a language object
   def self.for_language(language)
     begin
-      language = language.short
+      language = language.locale
     rescue NoMethodError
     end
-    where(:language_short => language)
+    where(:locale => language)
   end
 
   # Find translation for a phrase
@@ -98,7 +98,7 @@ class Otwtranslation::Translation < ActiveRecord::Base
   # plus non-context-aware translations
   def self.for_context(phrase_key, label, language, variables)
     begin
-      language = language.short
+      language = language.locale
     rescue NoMethodError
     end
 
@@ -115,7 +115,7 @@ class Otwtranslation::Translation < ActiveRecord::Base
 
   def self.approved_label_for_context(phrase_key, label, language, variables)
     begin
-      language = language.short
+      language = language.locale
     rescue NoMethodError
     end
 

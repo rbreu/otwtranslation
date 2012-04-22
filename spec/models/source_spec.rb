@@ -84,20 +84,20 @@ describe Otwtranslation::Source do
     end
     
     it "stats should return 0% for 0 translations" do
-      @source.percentage_translated_for(@german.short).should \
+      @source.percentage_translated_for(@german.locale).should \
       be_within(0.00001).of(0)
 
-      @source.percentage_approved_for(@german.short).should \
+      @source.percentage_approved_for(@german.locale).should \
       be_within(0.00001).of(0)
     end
 
     it "stats should count translations in the current language" do
       FactoryGirl.create(:translation,
                          {:language => @german, :phrase => @phrase1})
-      @source.percentage_translated_for(@german.short).should \
+      @source.percentage_translated_for(@german.locale).should \
       be_within(0.00001).of(50)
 
-      @source.percentage_approved_for(@german.short).should \
+      @source.percentage_approved_for(@german.locale).should \
       be_within(0.00001).of(0)
     end
     
@@ -105,10 +105,10 @@ describe Otwtranslation::Source do
       FactoryGirl.create(:translation,
                          {:language => @german, :phrase => @phrase1, 
                            :approved => true})
-      @source.percentage_translated_for(@german.short).should \
+      @source.percentage_translated_for(@german.locale).should \
       be_within(0.00001).of(50)
 
-      @source.percentage_approved_for(@german.short).should \
+      @source.percentage_approved_for(@german.locale).should \
       be_within(0.00001).of(50)
     end
 
@@ -116,10 +116,10 @@ describe Otwtranslation::Source do
       FactoryGirl.create(:translation,
                          {:language => @german, :phrase => @phrase1,
                            :approved => true})
-      @source.percentage_translated_for(@dutch.short).should \
+      @source.percentage_translated_for(@dutch.locale).should \
       be_within(0.00001).of(0)
 
-      @source.percentage_approved_for(@dutch.short).should \
+      @source.percentage_approved_for(@dutch.locale).should \
       be_within(0.00001).of(0)
     end
 
@@ -130,10 +130,10 @@ describe Otwtranslation::Source do
       FactoryGirl.create(:translation,
                          {:language => @german, :phrase => @phrase1})
      
-      @source.percentage_translated_for(@german.short).should \
+      @source.percentage_translated_for(@german.locale).should \
       be_within(0.00001).of(50)
 
-      @source.percentage_approved_for(@german.short).should \
+      @source.percentage_approved_for(@german.locale).should \
       be_within(0.00001).of(50)
     end
 
@@ -147,9 +147,9 @@ describe Otwtranslation::Source do
                          {:language => @german, :phrase => @phrase2,
                            :approved => true})
       
-      @source.percentage_translated_for(@german.short).should \
+      @source.percentage_translated_for(@german.locale).should \
       be_within(0.00001).of(100)
-      @source.percentage_approved_for(@german.short).should \
+      @source.percentage_approved_for(@german.locale).should \
       be_within(0.00001).of(100)
 
     end

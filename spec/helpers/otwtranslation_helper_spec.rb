@@ -35,7 +35,7 @@ describe OtwtranslationHelper, "otwtranslation_decorated_translation" do
   before(:each) do
     @phrase = FactoryGirl.create(:phrase, :label => "Good day!")
     @language = FactoryGirl.create(:language, :name => "Deutsch")
-    session[:otwtranslation_language] = @language.short
+    session[:otwtranslation_language] = @language.locale
   end
   
   it "should mark the phrase untranslated" do
@@ -122,7 +122,7 @@ describe OtwtranslationHelper, "otwtranslation_translation" do
     @phrase2 = FactoryGirl.create(:phrase, :label => "{possessive::foo}")
     @de = FactoryGirl.create(:language, :name => "Deutsch")
     @en = FactoryGirl.create(:language, :name => "English")
-    session[:otwtranslation_language] = @de.short
+    session[:otwtranslation_language] = @de.locale
 
     @rule_de = FactoryGirl.create(:possessive_rule, :language => @de,
                                   :conditions => [["matches all", []]],

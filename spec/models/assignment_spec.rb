@@ -156,7 +156,7 @@ describe Otwtranslation::Assignment, "activated_assignments_for" do
     assnm2.set_assignees([@user2, @user1])
     assnm2.save!
 
-    a = Otwtranslation::Assignment.activated_for(@user1, @language1.short)
+    a = Otwtranslation::Assignment.activated_for(@user1, @language1.locale)
     a.should =~ [assnm1, assnm2]
   end
   
@@ -170,7 +170,7 @@ describe Otwtranslation::Assignment, "activated_assignments_for" do
     assnm2.set_assignees([@user2, @user1])
     assnm2.save!
 
-    a = Otwtranslation::Assignment.activated_for(@user1, @language1.short)
+    a = Otwtranslation::Assignment.activated_for(@user1, @language1.locale)
     a.should =~ [assnm1]
   end
   
@@ -184,7 +184,7 @@ describe Otwtranslation::Assignment, "activated_assignments_for" do
     assnm2.set_assignees([@user2, @user1])
     assnm2.save!
 
-    a = Otwtranslation::Assignment.activated_for(@user1, @language1.short)
+    a = Otwtranslation::Assignment.activated_for(@user1, @language1.locale)
     a.should =~ [assnm1]
   end
   
@@ -198,7 +198,7 @@ describe Otwtranslation::Assignment, "activated_assignments_for" do
     assnm2.set_assignees([@user2])
     assnm2.save!
 
-    a = Otwtranslation::Assignment.activated_for(@user1, @language1.short)
+    a = Otwtranslation::Assignment.activated_for(@user1, @language1.locale)
     a.should =~ [assnm1]
   end
   

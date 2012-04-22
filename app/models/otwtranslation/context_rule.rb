@@ -9,7 +9,7 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   self.table_name = :otwtranslation_context_rules
 
   belongs_to(:language, :class_name => 'Otwtranslation::Language',
-             :primary_key => 'short', :foreign_key => 'language_short')
+             :primary_key => 'locale', :foreign_key => 'locale')
 
 
   # Condtions: Array of [condition name, param_list] pairs, e.g.
@@ -24,9 +24,9 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   # Actions are processed in order.
   serialize :actions
 
-  acts_as_list :scope => 'language_short = \'#{language_short}\' AND type = \'#{type}\''
+  acts_as_list :scope => 'locale = \'#{locale}\' AND type = \'#{type}\''
 
-  validates_presence_of :language_short
+  validates_presence_of :locale
   validate :conditions_must_be_valid, :actions_must_be_valid
 
   attr_protected :description_sanitizer_version
@@ -248,11 +248,11 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
 
   def self.rules_for(language, type=nil)
 
-    return where(:language_short => language).order(:type, :position) if type.nil?
+    return where(:locale => language).order(:type, :position) if type.nil?
     
     return [] unless $redis.sismember("otwtranslation_rules_for_#{language}", type)
 
-    where(:language_short => language,
+    where(:locale => language,
           :type => "Otwtranslation::#{type.to_s.capitalize}Rule")
       .order(:position)
   end
@@ -354,15 +354,15 @@ class Otwtranslation::ContextRule < ActiveRecord::Base
   end
 
   def add_to_cache
-    $redis.sadd("otwtranslation_rules_for_#{language_short}", display_type)
+    $redis.sadd("otwtranslation_rules_for_#{locale}", display_type)
   end
 
   # remove rule from redis and from all translations currently using it
   # (i.e. set translations to not approved and context-unaware)
   def clean_cache_and_translations
-    $redis.srem("otwtranslation_rules_for_#{language_short}", display_type)
+    $redis.srem("otwtranslation_rules_for_#{locale}", display_type)
 
-    Otwtranslation::Translation.for_language(language_short)
+    Otwtranslation::Translation.for_language(locale)
       .where("rules != '#{[].to_yaml}'").each do |translation|
       if translation.rules.include?(id)
         translation.approved = false

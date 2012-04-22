@@ -3,7 +3,7 @@ begin
     desc "Clear the cache and redis"
     task(:clear => :environment) do
       Rails.cache.clear
-      $redis.flushall
+      $redis.keys('otwtranslation_*').each{ |key| $redis.del(key) }
     end
   end
 

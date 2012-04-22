@@ -4,7 +4,7 @@ class Otwtranslation::RulesController < ApplicationController
 
 
   def new
-    @rule = Otwtranslation::GeneralRule.new(:language_short => params[:id])
+    @rule = Otwtranslation::GeneralRule.new(:locale => params[:id])
   end
 
   
@@ -21,7 +21,7 @@ class Otwtranslation::RulesController < ApplicationController
     @rule.actions = trim_condition_action_params(params[:otwtranslation_context_rule][:actions])
     
     if @rule.save
-      redirect_to otwtranslation_language_path(@rule.language_short)
+      redirect_to otwtranslation_language_path(@rule.locale)
     else
       msg = 'There was a problem saving the rule:' +
         prettify_error_messages(@rule)
@@ -39,7 +39,7 @@ class Otwtranslation::RulesController < ApplicationController
       @rule.errors[:type] = "No such rule type: #{params[:otwtranslation_context_rule][:type]}"
     end
     @rule.description = params[:otwtranslation_context_rule][:description]
-    @rule.language_short = params[:id]
+    @rule.locale = params[:id]
     @rule.conditions = trim_condition_action_params(
                          params[:otwtranslation_context_rule][:conditions])
     @rule.actions = trim_condition_action_params(
@@ -48,7 +48,7 @@ class Otwtranslation::RulesController < ApplicationController
     render(:action => 'new') && return if params[:commit].downcase == "set type"
 
     if @rule.errors.empty? && @rule.save 
-      redirect_to otwtranslation_language_path(@rule.language_short)
+      redirect_to otwtranslation_language_path(@rule.locale)
     else
       msg = 'There was a problem saving the rule:' +
         prettify_error_messages(@rule)
@@ -73,14 +73,14 @@ class Otwtranslation::RulesController < ApplicationController
   def move_up
     rule = Otwtranslation::ContextRule.find(params[:id])
     rule.move_higher
-    redirect_to otwtranslation_language_path(rule.language_short)
+    redirect_to otwtranslation_language_path(rule.locale)
   end
 
   
   def move_down
     rule = Otwtranslation::ContextRule.find(params[:id])
     rule.move_lower
-    redirect_to otwtranslation_language_path(rule.language_short)
+    redirect_to otwtranslation_language_path(rule.locale)
   end
 
   
@@ -89,7 +89,7 @@ class Otwtranslation::RulesController < ApplicationController
     @rule.destroy
     respond_to do |format|
       format.html do
-        redirect_to otwtranslation_language_path(@rule.language_short)
+        redirect_to otwtranslation_language_path(@rule.locale)
       end
       format.js do
       end

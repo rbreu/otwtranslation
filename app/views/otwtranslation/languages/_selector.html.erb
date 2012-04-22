@@ -2,6 +2,6 @@
 
 <%= form_tag(otwtranslation_select_language_path, 
              :method => "get", :id => "otwtranslation_language_select") do %>
-  <%= select_tag(:otwtranslation_language, options_from_collection_for_select(options, :short, :name, otwtranslation_language)) %>
+  <%= select_tag(:otwtranslation_language, options_from_collection_for_select(options, :locale, :name, otwtranslation_language)) %>
   <%= submit_tag("Set language") %>
 <% end %>

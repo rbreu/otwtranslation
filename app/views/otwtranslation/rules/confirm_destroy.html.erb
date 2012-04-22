@@ -33,7 +33,7 @@
 <h3 class="landmark">Rule Actions</h3>
 <ul class="navigation">
   <li>
-    <%= link_to 'Cancel', otwtranslation_language_path(@rule.language_short) %>
+    <%= link_to 'Cancel', otwtranslation_language_path(@rule.locale) %>
   </li>
   <li>
     <%= button_to("Delete", otwtranslation_destroy_rule_path(@rule),

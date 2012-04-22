@@ -58,7 +58,7 @@ class Otwtranslation::Source < ActiveRecord::Base
     translated = connection.select_value("""
     SELECT COUNT(DISTINCT(phrase_key))
     FROM otwtranslation_translations
-    WHERE (otwtranslation_translations.language_short = #{connection.quote(language)}
+    WHERE (otwtranslation_translations.locale = #{connection.quote(language)}
     AND otwtranslation_translations.phrase_key IN
       (SELECT otwtranslation_phrases.key FROM otwtranslation_phrases
        INNER JOIN otwtranslation_phrases_sources
@@ -77,7 +77,7 @@ class Otwtranslation::Source < ActiveRecord::Base
     approved = connection.select_value("""
     SELECT COUNT(DISTINCT(phrase_key))
     FROM otwtranslation_translations
-    WHERE (otwtranslation_translations.language_short = #{connection.quote(language)}
+    WHERE (otwtranslation_translations.locale = #{connection.quote(language)}
     AND otwtranslation_translations.approved = #{connection.quoted_true}
     AND otwtranslation_translations.phrase_key IN
       (SELECT otwtranslation_phrases.key FROM otwtranslation_phrases

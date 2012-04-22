@@ -50,7 +50,7 @@ class Otwtranslation::TranslationsController < ApplicationController
       combinations.each do |combination|
         translation = Otwtranslation::Translation.new()
         translation.label = phrase.label
-        translation.language_short = otwtranslation_language
+        translation.locale = otwtranslation_language
         translation.phrase_key = params[:id]
         translation.rules = combination.map{|r| r.id}
         translation.last_editor = current_user
@@ -68,7 +68,7 @@ class Otwtranslation::TranslationsController < ApplicationController
       translation = Otwtranslation::Translation.new
       translation.label = params[:otwtranslation_translation][:label]
       translation.phrase_key = params[:id]
-      translation.language_short = otwtranslation_language
+      translation.locale = otwtranslation_language
       translation.last_editor = current_user
       translation.edited_at = Time.now
     

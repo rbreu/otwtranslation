@@ -43,7 +43,7 @@ describe Otwtranslation::Translation do
   it "should handle wrong HTML" do
     translation = Otwtranslation::Translation.new()
     translation.label = "<em>hello</i>"
-    translation.language_short = "de"
+    translation.locale = "de"
     translation.language = @language
     translation.phrase = @phrase
 
@@ -54,7 +54,7 @@ describe Otwtranslation::Translation do
   it "should handle missing end tags" do
     translation = Otwtranslation::Translation.new()
     translation.label = "<em>hello"
-    translation.language_short = "de"
+    translation.locale = "de"
     translation.language = @language
     translation.phrase = @phrase
 
@@ -173,17 +173,17 @@ describe Otwtranslation::Translation, "for_language" do
   it "should find german translations" do
     t = Otwtranslation::Translation.for_language(@de)
     t.size.should == 2
-    t.first.language_short.should == @de.short
-    t.last.language_short.should == @de.short
-    t.should == Otwtranslation::Translation.for_language(@de.short)
+    t.first.locale.should == @de.locale
+    t.last.locale.should == @de.locale
+    t.should == Otwtranslation::Translation.for_language(@de.locale)
 
   end
 
   it "should find dutch translations" do
     t = Otwtranslation::Translation.for_language(@nl)
     t.size.should == 1
-    t.first.language_short.should == @nl.short
-    t.should == Otwtranslation::Translation.for_language(@nl.short)
+    t.first.locale.should == @nl.locale
+    t.should == Otwtranslation::Translation.for_language(@nl.locale)
   end
 end
 

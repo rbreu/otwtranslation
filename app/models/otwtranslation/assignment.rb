@@ -11,7 +11,7 @@ class Otwtranslation::Assignment < ActiveRecord::Base
              :foreign_key => 'source_id')
 
   belongs_to(:language, :class_name => 'Otwtranslation::Language',
-             :primary_key => 'short', :foreign_key => 'language_short')
+             :primary_key => 'locale', :foreign_key => 'locale')
 
   has_many(:assignees, :class_name => 'User', :foreign_key => 'user_id',
            :through => :parts, :autosave => true, :order => 'position')
@@ -59,11 +59,11 @@ class Otwtranslation::Assignment < ActiveRecord::Base
   end
 
   
-  def self.activated_for(assignee, language_short)
+  def self.activated_for(assignee, locale)
     find_by_sql("""
     SELECT * FROM otwtranslation_assignments
     WHERE otwtranslation_assignments.activated = #{connection.quoted_true}
-    AND otwtranslation_assignments.language_short = '#{language_short}'
+    AND otwtranslation_assignments.locale = '#{locale}'
     AND otwtranslation_assignments.id IN
       (SELECT otwtranslation_assignment_parts.assignment_id
        FROM otwtranslation_assignment_parts WHERE user_id = #{assignee.id})
@@ -73,9 +73,10 @@ class Otwtranslation::Assignment < ActiveRecord::Base
   # list of languages where assignee has activated assignments
   def self.assignees_language_names(assignee)
     l = connection.select_rows("""
-    SELECT name from languages WHERE languages.short IN
+    SELECT name from otwtranslation_languages
+    WHERE otwtranslation_languages.locale IN
     (
-      SELECT otwtranslation_assignments.language_short FROM otwtranslation_assignments
+      SELECT otwtranslation_assignments.locale FROM otwtranslation_assignments
       WHERE otwtranslation_assignments.activated = #{connection.quoted_true}
       AND otwtranslation_assignments.id IN
         (SELECT otwtranslation_assignment_parts.assignment_id
