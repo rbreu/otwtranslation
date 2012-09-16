@@ -9,7 +9,7 @@
   <!--main content-->
   <%= render("/otwtranslation/phrases/phrase", 
            :phrase => @phrase, :sources => @sources,
-           :params => { :controller => otwtranslation_edit_translation_path(@translation), :action => "" })
+           :params => { :controller => "otwtranslation/translations", :action => "edit", :id => @translation.id})
 %>
 
   <%= render("edit_form", :translation => @translation) %>

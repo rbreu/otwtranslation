@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   mount_at = OtwtranslationConfig.MOUNT_AT
   
   get mount_at => 'otwtranslation/home#index', :as => 'otwtranslation_home'
@@ -87,14 +88,6 @@ Rails.application.routes.draw do
   get "#{mount_at}/phrases/:id" => 'otwtranslation/phrases#show',
   :as => 'otwtranslation_phrase'
 
-  # Sources
-  
-  get "#{mount_at}/sources" => 'otwtranslation/sources#index',
-  :as => 'otwtranslation_sources'
-
-  get "#{mount_at}/sources/:id" => 'otwtranslation/sources#show',
-  :as => 'otwtranslation_source'
-
   # Languages
   
   get "#{mount_at}/languages" => 'otwtranslation/languages#index',
@@ -102,9 +95,6 @@ Rails.application.routes.draw do
 
   get "#{mount_at}/languages/new" => 'otwtranslation/languages#new',
   :as => 'otwtranslation_new_language'
-
-  get "#{mount_at}/languages/select" => 'otwtranslation/languages#select',
-  :as => 'otwtranslation_select_language'
 
   match "#{mount_at}/languages/" => 'otwtranslation/languages#create',
   :as => 'otwtranslation_post_language', :via => [:post]

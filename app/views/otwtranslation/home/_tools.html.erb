@@ -1,10 +1,9 @@
 <!-- head navigation for translators -->
-
 <h3 class="landmark heading"><acronym>OTW</acronym> Translation Navigation</h3>
 <ul class="translation navigation actions" role="navigation">
   <li>
     <% if source %>
-      <%= link_to(source.controller_action, source) %>
+      <%= link_to(source.controller_action, source, :locale => otwtranslation_language) %>
     <% else %>
       ???
     <% end %>

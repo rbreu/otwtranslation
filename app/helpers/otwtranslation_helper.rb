@@ -176,8 +176,8 @@ module OtwtranslationHelper
     if logged_in? && current_user.is_translation_admin?
       label = session[:otwtranslation_tools] ? 'Disable Translation Tools' :
         'Enable Translation Tools'
-      return link_to(ts(label),
-                       :controller => otwtranslation_toggle_tools_path)
+      render('otwtranslation/home/tool_toggler', :label => label)
+      #return link_to(ts(label), otwtranslation_toggle_tools_path)
     else
       return ""
     end
@@ -195,22 +195,20 @@ module OtwtranslationHelper
 
   def otwtranslation_tool_header
     if otwtranslation_tool_visible?
+      p otwtranslation_language
       source = Otwtranslation::Source.find_by_source(otwtranslation_get_source)
       render('otwtranslation/home/tools', :source => source)
     end
   end
 
   def otwtranslation_language(user=nil)
-    # TODO: use user's settings as a possibility, too!
-    # (user or current_user)
-    
     begin
-      session_language = session[:otwtranslation_language]
+      language = request.params['locale']
     rescue NameError
-      # This happens in emails
-      session_language = nil
+      # This happens in emails. TODO: Get from user config.
+      language = nil
     end
-    session_language || OtwtranslationConfig.DEFAULT_LANGUAGE
+    language || OtwtranslationConfig.DEFAULT_LANGUAGE
   end
 
 

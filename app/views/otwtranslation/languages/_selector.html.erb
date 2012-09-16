@@ -1,7 +1,8 @@
-<% options = otwtranslation_tool_visible? ? Otwtranslation::Language.all : Otwtranslation::Language.visible %>
+<% languages = otwtranslation_tool_visible? ? Otwtranslation::Language.all : Otwtranslation::Language.visible %>
 
-<%= form_tag(otwtranslation_select_language_path, 
-             :method => "get", :id => "otwtranslation_language_select") do %>
-  <%= select_tag(:otwtranslation_language, options_from_collection_for_select(options, :locale, :name, otwtranslation_language)) %>
-  <%= submit_tag("Set language") %>
-<% end %>
+<strong><%= ts("Select language:")%></strong> (Needs to be a pretty CSS dropdown)
+<ul>
+  <% for lang in languages %>
+  <li><%= link_to(lang.name, url_for(:locale => lang.locale))%></li>
+  <% end %>
+</ul>

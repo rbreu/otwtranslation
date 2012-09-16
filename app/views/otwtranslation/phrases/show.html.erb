@@ -5,7 +5,7 @@
 
   <%= render("otwtranslation/phrases/phrase", 
       :phrase => @phrase, :sources => @sources,
-  :params => {:controller => otwtranslation_phrase_path(@phrase), :action => ""}) %>
+  :params => {:controller => "otwtranslation/phrases", :id => @phrase.key}) %>
 
   <%= render("otwtranslation/phrases/add_translation_button", 
       :phrase => @phrase_id) %>

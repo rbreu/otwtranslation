@@ -1,5 +1,7 @@
 TestApp::Application.routes.draw do
 
+  filter :otw_translation
+
   match "hello/world" => "hello#world"
 
   resources :user_sessions
@@ -29,7 +31,7 @@ TestApp::Application.routes.draw do
   match 'devmode' => 'devmode#index'
 
   
-  root :to => "home#index"  
+  root :to => "home#index"
 
   match ':controller(/:action(/:id(.:format)))'
 

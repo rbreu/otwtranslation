@@ -1,4 +1,4 @@
-<%= will_paginate(assignments, :params => {:controller => otwtranslation_assignments_path}) %>
+<%= will_paginate(assignments, :params => {:controller => "otwtranslation/assignments"}) %>
 
 <% assignments.each do |assignment| %>
    <ul class="assignment index group">
@@ -53,5 +53,5 @@
    <% end %>
  </ul>
 
-<%= will_paginate(assignments, :params => {:controller => otwtranslation_assignments_path}) %>
+<%= will_paginate(assignments, :params => {:controller => "otwtranslation/assignments"}) %>
 

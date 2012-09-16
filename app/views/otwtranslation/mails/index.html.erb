@@ -1,7 +1,7 @@
 <div class="mails">
   <h2 class="heading">Mails</h2>
 
-  <%= will_paginate(@paths, :params => {:controller => otwtranslation_mails_path }) %>
+  <%= will_paginate(@paths, :params => {:controller => "otwtranslation/mails"}) %>
 
   <ul class="mail index group">
     <% @paths.each_with_index do |path, i| %>
@@ -11,6 +11,6 @@
     <% end %>
   </ul>
   
-  <%= will_paginate(@paths, :params => {:controller => otwtranslation_mails_path }) %>
+  <%= will_paginate(@paths, :params => {:controller => "otwtranslation/mails"}) %>
 
 </div>

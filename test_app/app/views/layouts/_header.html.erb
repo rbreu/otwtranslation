@@ -27,7 +27,7 @@
 
   <h3 class="landmark heading">Site Navigation</h3>
   <ul class="primary navigation actions" role="navigation">
-    <li><%= logged_in? ? span_if_current(ts('my home'), "/home") : span_if_current('home', root_path) %></li>
+    <li><%= logged_in? ? span_if_current(ts('my home'), root_path) : span_if_current('home', root_path) %></li>
     <li><%= span_if_current(ts('fandoms'), "") %></li>
     <li><%= span_if_current(ts('works'), "") %></li>
     <li><%= span_if_current(ts('people'), "") %></li>

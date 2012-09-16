@@ -58,7 +58,7 @@
   
   <%= render("otwtranslation/phrases/phrase_table",
       :phrases => @phrases, 
-  :params => {:controller => otwtranslation_source_path(@source), :action => "" }) %>
+  :params => {:controller => "otwtranslation/sources", :id => @source.id}) %>
   
   <!--/main-->
 </div>

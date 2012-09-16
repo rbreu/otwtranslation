@@ -35,11 +35,5 @@ class Otwtranslation::LanguagesController < ApplicationController
     end
   end
 
-  
-  def select
-    session[:otwtranslation_language] = params[:otwtranslation_language]
-    redirect_to :back
-  end
-  
 end
 

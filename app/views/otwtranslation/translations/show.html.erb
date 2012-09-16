@@ -21,7 +21,7 @@
 
   <%= render("/otwtranslation/phrases/phrase", 
       :phrase => @phrase, :sources => @sources,
-  :params => { :controller => otwtranslation_translation_path(@translation), :action => "" }) %>
+  :params => { :controller => "otwtranslation/translation", :id => @translation.id}) %>
 
 
   <%= render 'comments/commentable', :commentable => @translation %>

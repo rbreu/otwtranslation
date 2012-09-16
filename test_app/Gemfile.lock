@@ -144,6 +144,8 @@ GEM
     resque_mailer (2.0.3)
       actionmailer (>= 3.0.0)
       resque (>= 1.2.3)
+    routing-filter (0.3.1)
+      actionpack
     rspec (2.9.0)
       rspec-core (~> 2.9.0)
       rspec-expectations (~> 2.9.0)
@@ -223,6 +225,7 @@ DEPENDENCIES
   redis
   resque
   resque_mailer
+  routing-filter
   rspec-rails
   sanitize
   sass-rails (~> 3.2.3)

@@ -13,6 +13,7 @@ gem 'redis'
 gem 'authlogic'
 gem 'permit_yo'
 gem 'will_paginate'
+gem 'routing-filter'
 
 #gem 'authlogic',
 #  :git     => 'git://github.com/binarylogic/authlogic.git',

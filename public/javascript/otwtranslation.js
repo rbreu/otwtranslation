@@ -1,14 +1,15 @@
 /*
 Show the inline translator popup
 */
-function otwtranslation_inline_translator(doc)
+
+function otwtranslation_inline_translator(doc, locale)
 {
     var phrase_key = $j(doc).attr('id').replace("otwtranslation_phrase_", "");
     var ypos = $j(doc).offset().top + $j(doc).height() 
 	- $j('#main').offset().top + 10;
     var xpos = $j(window).width() / 4;
-    
-    $j.ajax({url: '/translation/phrases/' + phrase_key + '.js', 
+
+    $j.ajax({url: '/' + locale + '/translation/phrases/' + phrase_key + '.js', 
 	    type: 'get',
 	    dataType: 'html',
 	    async: 'false',
@@ -29,9 +30,12 @@ function otwtranslation_inline_translator(doc)
 
 
 $j(document).ready(function() {
-  $j('span.untranslated, span.translated, span.approved').rightClick(function(event) {
-      otwtranslation_inline_translator(this);
-  });
+    var locale = $j('#otwtranslation_language').val();
+    if (locale != undefined) {
+	$j('span.untranslated, span.translated, span.approved').rightClick(function(event) {
+	    otwtranslation_inline_translator(this, locale);
+	});
+    };
 })
 
 

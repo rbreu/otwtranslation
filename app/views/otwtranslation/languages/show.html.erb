@@ -94,7 +94,7 @@
 
 <!--navigation, sorting and actions-->
 
-<%= will_paginate(@rules, :params => {:controller => otwtranslation_language_path(@language)}) %>
+<%= will_paginate(@rules, :params => {:controller => "otwtranslation/languages", :id => @language.locale}) %>
 
 <!-- end nav-->
 </div>

@@ -73,7 +73,12 @@ to the header of your application.html.erb
 You'll also need to create ``config/otwtranslation/config.yml`` based
 off the example in the gem.
 
-TODO: db migrations; stylesheets; javasripts
+Add the following line to your routes file::
+
+  filter :otw_translation
+
+
+TODO: db migrations; stylesheets; javasripts, rake tasks
 
 
 Usage
@@ -134,4 +139,4 @@ Notes
 Everything the Gem provides is properly namespaced, except for:
 
 * The t and ts helpers
-* A few extra columns that are added to the languages table
+
