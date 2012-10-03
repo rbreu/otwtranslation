@@ -16,28 +16,6 @@ describe Otwtranslation::LanguagesController, "GET index" do
   end
 end
 
-describe Otwtranslation::LanguagesController, "GET select" do
-  before(:each) do
-    request.env["HTTP_REFERER"] = "/"
-  end
-  
-  it "should set the language" do
-    get :select, :otwtranslation_language => "de"
-    session[:otwtranslation_language].should == "de"
-  end
-  
-  it "should overwrite the language" do
-    session[:otwtranslation_language] = "en"
-    get :select, :otwtranslation_language => "de"
-    session[:otwtranslation_language].should == "de"
-  end
-
-  it "should redirect back" do
-    get :select, :otwtranslation_language => "de"
-    response.should redirect_to request.env["HTTP_REFERER"]
-  end
-  
-end
   
 describe Otwtranslation::LanguagesController, "GET show" do
   

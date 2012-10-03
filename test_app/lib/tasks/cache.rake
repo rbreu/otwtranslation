@@ -13,9 +13,8 @@ begin
       Otwtranslation::Translation.all.each do |t|
         $redis.set(t.cache_key, t.label) if t.approved
       end
-      Otwtranslation::Language.all.each do |l|
-        $redis.sadd("otwtranslation_visible_languages", l.locale) if l.translation_visible
-      end
+
+      Otwtranslation::Language.all.each{ |l| l.add_to_cache }
       
       Otwtranslation::ContextRule.all.each do |r|
         $redis.sadd("otwtranslation_rules_for_#{r.locale}", r.display_type)

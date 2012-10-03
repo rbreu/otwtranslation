@@ -39,7 +39,7 @@
 	  <%= language.right_to_left? ? "&#x2713;".html_safe : "" %>
 	</td>
 	<td class="visible">
-	  <%= language.translation_visible? ? "&#x2713;".html_safe : "" %>
+	  <%= language.translation_visible ? "&#x2713;".html_safe : "" %>
 	</td>
 	<td class="translated">
 	  <%= number_to_percentage language.percentage_translated, :precision => 2 %>

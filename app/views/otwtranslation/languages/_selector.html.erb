@@ -1,8 +1,6 @@
-<% languages = otwtranslation_tool_visible? ? Otwtranslation::Language.all : Otwtranslation::Language.visible %>
-
 <strong><%= ts("Select language:")%></strong> (Needs to be a pretty CSS dropdown)
 <ul>
   <% for lang in languages %>
-  <li><%= link_to(lang.name, url_for(:locale => lang.locale))%></li>
+  <li><%= link_to(lang[0], url_for(:locale => lang[1]))%></li>
   <% end %>
 </ul>

@@ -35,26 +35,26 @@ describe OtwtranslationHelper, "otwtranslation_decorated_translation" do
   before(:each) do
     @phrase = FactoryGirl.create(:phrase, :label => "Good day!")
     @language = FactoryGirl.create(:language, :name => "Deutsch")
-    session[:otwtranslation_language] = @language.locale
+    helper.stub(:params){{'locale' => @language.locale}}
   end
   
   it "should mark the phrase untranslated" do
-      otwtranslation_decorated_translation(@phrase.key, @phrase.label)
+      helper.otwtranslation_decorated_translation(@phrase.key, @phrase.label)
       .should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"untranslated\"><span class=\"landmark\">translate</span>*Good day!</span>"
   end
   
   it "should mark the phrase untranslated for decorate_off" do
-    otwtranslation_decorated_translation(@phrase.key, @phrase.label,
+    helper.otwtranslation_decorated_translation(@phrase.key, @phrase.label,
                                          :_decorate_off => true)
       .should == "*Good day!"
   end
       
   it "should work when called without label and variables" do
-    otwtranslation_decorated_translation(@phrase.key)
+    helper.otwtranslation_decorated_translation(@phrase.key)
       .should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"untranslated\"><span class=\"landmark\">translate</span>*Good day!</span>"
     
     @phrase = FactoryGirl.create(:phrase, :label => "Hi {general::name}!")
-    otwtranslation_decorated_translation(@phrase.key)
+    helper.otwtranslation_decorated_translation(@phrase.key)
       .should == "<span id=\"otwtranslation_phrase_#{@phrase.key}\" class=\"untranslated\"><span class=\"landmark\">translate</span>*Hi {general::name}!</span>"
   end
   
@@ -122,7 +122,7 @@ describe OtwtranslationHelper, "otwtranslation_translation" do
     @phrase2 = FactoryGirl.create(:phrase, :label => "{possessive::foo}")
     @de = FactoryGirl.create(:language, :name => "Deutsch")
     @en = FactoryGirl.create(:language, :name => "English")
-    session[:otwtranslation_language] = @de.locale
+    helper.stub(:params){{'locale' => @de.locale}}
 
     @rule_de = FactoryGirl.create(:possessive_rule, :language => @de,
                                   :conditions => [["matches all", []]],
@@ -133,7 +133,7 @@ describe OtwtranslationHelper, "otwtranslation_translation" do
   end
   
   it "should return original phrase when no translation exists" do
-    otwtranslation_translation(@phrase.key, @phrase.label, {})
+    helper.otwtranslation_translation(@phrase.key, @phrase.label, {})
       .should == "Greetings!"
   end
   
@@ -144,7 +144,7 @@ describe OtwtranslationHelper, "otwtranslation_translation" do
                        :approved => true,
                        :phrase => @phrase)
 
-    otwtranslation_translation(@phrase.key, @phrase.label, {})
+    helper.otwtranslation_translation(@phrase.key, @phrase.label, {})
       .should == "Grüße!"
   end
   
@@ -155,7 +155,7 @@ describe OtwtranslationHelper, "otwtranslation_translation" do
                        :approved => false,
                        :phrase => @phrase)
 
-    otwtranslation_translation(@phrase.key, @phrase.label, {})
+    helper.otwtranslation_translation(@phrase.key, @phrase.label, {})
       .should == "Greetings!"
   end
 
@@ -172,8 +172,47 @@ describe OtwtranslationHelper, "otwtranslation_translation" do
                        :phrase => @phrase2,
                        :rules => [@rule_de.id])
     
-    otwtranslation_translation(@phrase2.key, @phrase2.label, {:foo => "bar"})
+    helper.otwtranslation_translation(@phrase2.key, @phrase2.label, 
+                                      {:foo => "bar"})
       .should == "barDE"
   end
   
+end
+
+
+describe OtwtranslationHelper, "otwtranslation_language_selector" do
+  before(:each) do
+    helper.stub(:url_for){ "" }
+    @de = FactoryGirl.create(:language, :name => "Deutsch",
+                             :translation_visible => false)
+    @nl = FactoryGirl.create(:language, :name => "Nederlands")
+    @en = FactoryGirl.create(:language, :name => "English")
+  end
+  
+  it "should list visible languages for not-authenticated users" do
+    helper.stub(:current_user){ nil }
+    ret = helper.otwtranslation_language_selector()
+    ret.should contain "English"
+    ret.should contain "Nederlands"
+    ret.should_not contain "Deutsch"
+  end
+
+  it "should list visible languages for ordinary users" do
+    user = FactoryGirl.create(:user)
+    helper.stub(:current_user){ FactoryGirl.create(:user) }
+    ret = helper.otwtranslation_language_selector()
+    ret.should contain "English"
+    ret.should contain "Nederlands"
+    ret.should_not contain "Deutsch"
+  end
+
+  it "should list visible languages for translators" do
+    user = FactoryGirl.create(:user)
+    helper.stub(:current_user){ FactoryGirl.create(:user,
+                                                   :translation_admin => true) }
+    ret = helper.otwtranslation_language_selector()
+    ret.should contain "English"
+    ret.should contain "Nederlands"
+    ret.should contain "Deutsch"
+  end
 end

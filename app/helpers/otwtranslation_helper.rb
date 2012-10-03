@@ -13,7 +13,8 @@ module OtwtranslationHelper
     end
 
     # Do we need to display a translation for normal users?
-    if otwtranslation_translation_visible?(variables[:_user])
+    if Otwtranslation::Language.translation_visible_for?(variables[:_user],
+                                                         otwtranslation_language(variables[:_user]))
       return otwtranslation_translation(phrase.key, phrase.label, variables)
     end
 
@@ -24,7 +25,6 @@ module OtwtranslationHelper
 
 
   def otwtranslation_translation(phrase_key, phrase_label, variables)
-
     language = otwtranslation_language(variables[:_user])
 
     transl = Otwtranslation::Translation
@@ -103,6 +103,7 @@ module OtwtranslationHelper
   
 
   def otwtranslation_decorated_translation(phrase_key, phrase_label=nil, variables={})
+
     cache_key = Otwtranslation::Translation
       .cache_key(phrase_key, otwtranslation_language, [])
     markup = Rails.cache.read(cache_key)
@@ -168,7 +169,8 @@ module OtwtranslationHelper
 
 
   def otwtranslation_language_selector
-    render 'otwtranslation/languages/selector'
+    languages = Otwtranslation::Language.language_choices_for(current_user)
+    render('otwtranslation/languages/selector', :languages => languages)
   end
   
 
@@ -177,7 +179,6 @@ module OtwtranslationHelper
       label = session[:otwtranslation_tools] ? 'Disable Translation Tools' :
         'Enable Translation Tools'
       render('otwtranslation/home/tool_toggler', :label => label)
-      #return link_to(ts(label), otwtranslation_toggle_tools_path)
     else
       return ""
     end
@@ -195,7 +196,6 @@ module OtwtranslationHelper
 
   def otwtranslation_tool_header
     if otwtranslation_tool_visible?
-      p otwtranslation_language
       source = Otwtranslation::Source.find_by_source(otwtranslation_get_source)
       render('otwtranslation/home/tools', :source => source)
     end
@@ -203,17 +203,12 @@ module OtwtranslationHelper
 
   def otwtranslation_language(user=nil)
     begin
-      language = request.params['locale']
+      language = params['locale']
     rescue NameError
       # This happens in emails. TODO: Get from user config.
       language = nil
     end
     language || OtwtranslationConfig.DEFAULT_LANGUAGE
-  end
-
-
-  def otwtranslation_translation_visible?(user=nil)
-    Otwtranslation::Language.translation_visible?(otwtranslation_language(user))
   end
   
 end

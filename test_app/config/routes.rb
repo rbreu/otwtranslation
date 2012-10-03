@@ -1,6 +1,6 @@
 TestApp::Application.routes.draw do
 
-  filter :otw_translation
+  filter :otw_translation_locale_filter
 
   match "hello/world" => "hello#world"
 
