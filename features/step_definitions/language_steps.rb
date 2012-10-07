@@ -22,9 +22,5 @@ end
 Given /^I (have selected|select) the language ([^"]*)$/ do |_, language|
   @language = Otwtranslation::Language.find_by_name(language) ||
     FactoryGirl.create(:language, {:name => language})
-  
-  visit "/"
-  select language, :from => 'otwtranslation_language'
-  click_button "Set language"
-  
+  Otwtranslation::Language.current_locale = @language.locale
 end

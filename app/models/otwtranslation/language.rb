@@ -42,12 +42,12 @@ class Otwtranslation::Language < ActiveRecord::Base
     Thread.current[:otwarchive_locale] = locale
   end
   
-  def self.current_locale
-    Thread.current[:otwarchive_locale]
+  def self.translation_tool_enabled
+    Thread.current[:otwarchive_translation_tool_enabled]
   end
   
-  def self.current_locale=(locale)
-    Thread.current[:otwarchive_locale] = locale
+  def self.translation_tool_enabled=(enabled)
+    Thread.current[:otwarchive_translation_tool_enabled] = enabled
   end
   
   def add_to_cache

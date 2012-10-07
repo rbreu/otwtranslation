@@ -176,9 +176,13 @@ module OtwtranslationHelper
 
   def otwtranslation_tool_toggler
     if logged_in? && current_user.is_translation_admin?
-      label = session[:otwtranslation_tools] ? 'Disable Translation Tools' :
-        'Enable Translation Tools'
-      render('otwtranslation/home/tool_toggler', :label => label)
+      if otwtranslation_tool_visible?
+        return link_to('Disable Translation Tools',
+                       url_for(:translating => false))
+      else
+        return link_to('Enable Translation Tools',
+                       url_for(:translating => true))
+      end
     else
       return ""
     end
@@ -187,7 +191,7 @@ module OtwtranslationHelper
   def otwtranslation_tool_visible?
     begin
       return (logged_in? && current_user.is_translation_admin? &&
-              session[:otwtranslation_tools])
+              Otwtranslation::Language.translation_tool_enabled)
     rescue NameError
       # This happens in emails
       return false

@@ -1,8 +1,9 @@
 TestApp::Application.routes.draw do
 
   filter :otw_translation_locale_filter
+  filter :otw_translation_tool_filter
 
-  match "hello/world" => "hello#world"
+  match "hello/world" => "hello#world", :as => 'hello_world'
 
   resources :user_sessions
 

@@ -9,7 +9,7 @@ module NavigationHelpers
     case page_name
 
     when /the home\s?page/
-      '/'
+      root_path
       
     when /the translation home\s?page/
       otwtranslation_home_path
@@ -24,7 +24,7 @@ module NavigationHelpers
       otwtranslation_languages_path
       
     when 'the hello world page'
-      "/hello/world"
+      hello_world_path
 
     when 'the phrase page'
       otwtranslation_phrase_path(@phrase)

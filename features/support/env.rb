@@ -61,4 +61,5 @@ Cucumber::Rails::Database.javascript_strategy = :truncation
 
 Before do
   Rails.cache.clear
+  $redis.flushall
 end

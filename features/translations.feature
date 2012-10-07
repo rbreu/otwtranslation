@@ -25,8 +25,8 @@ Feature: Translations
 
   Scenario: Add translations
     Given I have the phrase "Hello world!"
-    And I have selected the language Deutsch
     And I am a translator
+    And I have selected the language Deutsch
 
     When I go to the phrase page
     And I press "Add translation"
@@ -43,8 +43,8 @@ Feature: Translations
   @javascript
   Scenario: Add translations with javascript
     Given I have the phrase "Hello world!"
-    And I have selected the language Deutsch
     And I am a translator
+    And I have selected the language Deutsch
 
     When I go to the phrase page
     And I press "Add translation"
@@ -60,8 +60,8 @@ Feature: Translations
   Scenario: Add context-aware translations
     Given I have the phrase "You have {quantity::msg} messages!"
     And I have singular/plural rules for Deutsch
-    And I have selected the language Deutsch
     And I am a translator
+    And I have selected the language Deutsch
 
     When I go to the phrase page
     And I press "Add translation"
@@ -75,8 +75,8 @@ Feature: Translations
 
   Scenario: Approve translations
     Given I have the translation "Akzeptiere mich!" for "Approve me!" in Deutsch
-    And I have selected the language Deutsch
     And I am a translator
+    And I have selected the language Deutsch
  
     When I go to the phrase page
     Then I should see approved set to "No"
@@ -121,9 +121,9 @@ Feature: Translations
     
   Scenario: Disapprove translations
     Given I have the approved translation "Lehne mich ab :(" for "Disapprove me :(" in Deutsch
-    And I have selected the language Deutsch
     And I am a translator
- 
+    And I have selected the language Deutsch
+  
     When I go to the phrase page
     Then I should see approved set to "Yes"
     When I press "Disapprove"
@@ -134,8 +134,8 @@ Feature: Translations
   @javascript
   Scenario: Disapprove translations with javascsript
     Given I have the approved translation "Lehne mich ab :(" for "Disapprove me :(" in Deutsch
-    And I have selected the language Deutsch
     And I am a translator
+    And I have selected the language Deutsch
  
     When I go to the phrase page
     Then I should see approved set to "Yes"
@@ -145,8 +145,8 @@ Feature: Translations
 
   Scenario: Delete translations
     Given I have the translation "Lösch mich :(" for "Delete me :(" in Deutsch
-    And I have selected the language Deutsch
     And I am a translator
+    And I have selected the language Deutsch
  
     When I go to the phrase page
     And I press "Delete"
@@ -157,8 +157,8 @@ Feature: Translations
   @javascript
   Scenario: Delete translations with javascript
     Given I have the translation "Lösch mich :(" for "Delete me :(" in Deutsch
-    And I have selected the language Deutsch
     And I am a translator
+    And I have selected the language Deutsch
  
     When I go to the phrase page
     And I press "Delete"
@@ -167,8 +167,8 @@ Feature: Translations
 
   Scenario: Edit translations on phrase page
     Given I have the translation "Ändere mich!" for "Change me!" in Deutsch
-    And I have selected the language Deutsch
     And I am a translator
+    And I have selected the language Deutsch
  
     When I go to the phrase page
     And I press "Edit"
@@ -184,8 +184,8 @@ Feature: Translations
   @javascript  
   Scenario: Edit translations on phrase page with Javascript
     Given I have the translation "Ändere mich!" for "Change me!" in Deutsch
-    And I have selected the language Deutsch
     And I am a translator
+    And I have selected the language Deutsch
  
     When I go to the phrase page
     And I press "Edit"
@@ -198,8 +198,8 @@ Feature: Translations
 
   Scenario: Edit translations on translation page
     Given I have the translation "Ändere mich!" for "Change me!" in Deutsch
-    And I have selected the language Deutsch
     And I am a translator
+    And I have selected the language Deutsch
  
     When I go to the translation page
     And I press "Edit"
@@ -214,8 +214,8 @@ Feature: Translations
   @javascript  
   Scenario: Edit translations on translation page with Javascript
     Given I have the translation "Ändere mich!" for "Change me!" in Deutsch
-    And I have selected the language Deutsch
     And I am a translator
+    And I have selected the language Deutsch
  
     When I go to the translation page
     And I press "Edit"
